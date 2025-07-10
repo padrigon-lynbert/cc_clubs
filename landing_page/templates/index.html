@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+	{% load static %}
+	<head>
+		<title>BCP Clubs -Terms</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<h1>BCP Clubs</h1>
+			</header>
+
+			<!-- Agreement Checkbox -->
+			<form id="signup-form" method="post" action="#">
+				<div>
+					<input type="checkbox" id="agree" name="agree" required />
+					<label for="agree">
+						I hereby agree to the <a href="#0">Terms and Conditions</a>.
+					</label>
+				</div>
+
+				<!-- Submit Button -->
+				<div>
+					<!-- <button type="submit">Enter</button> -->
+					<!-- <input type="submit" value="Enter" /> -->
+					<input type="submit" value="Enter" style="margin-top: -20px;">
+					<!-- <input type="submit" value="Enter" style="position: relative; top: -20px;"> -->
+				</div>
+			</form>
+			
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>
