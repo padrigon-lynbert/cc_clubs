@@ -82,7 +82,47 @@
     </div>
 
     <!-- Repeat similar structure for modules 4 to 10 -->
+    <!-- module 4 -->
+    <a href="#" class="nav-link text-center">
+      <i class="bi bi-bar-chart"></i>
+      <span class="description">Module 4</span>
+    </a>
 
+    <!-- module 5 -->
+    <a href="#" class="nav-link text-center">
+      <i class="bi bi-bar-chart"></i>
+      <span class="description">Module 5</span>
+    </a>
+
+    <!-- module 6 -->
+    <a href="#" class="nav-link text-center">
+      <i class="bi bi-bar-chart"></i>
+      <span class="description">Module 6</span>
+    </a>
+
+    <!-- module 7 -->
+    <a href="#" class="nav-link text-center">
+      <i class="bi bi-bar-chart"></i>
+      <span class="description">Module 7</span>
+    </a>
+
+    <!-- module 8 -->
+    <a href="#" class="nav-link text-center">
+      <i class="bi bi-bar-chart"></i>
+      <span class="description">Module 8</span>
+    </a>
+
+    <!-- module 9 -->
+    <a href="#" class="nav-link text-center">
+      <i class="bi bi-bar-chart"></i>
+      <span class="description">Module 9</span>
+    </a>
+
+    <!-- module 10 -->
+    <a href="#" class="nav-link text-center">
+      <i class="bi bi-bar-chart"></i>
+      <span class="description">Module 10</span>
+    </a>
     
   </nav>
   </div>
