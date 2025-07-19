@@ -1,0 +1,9 @@
++ club registration portal 
++ student club membership  
++ club officer elections 
++ event and activity logs
+attendance tracker
++ club achievement records
++ budget requests
+inter-club communication
+volunteer hour tracking
