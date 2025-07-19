@@ -57,12 +57,11 @@ MIDDLEWARE = [
 
 ]
 
-X_FRAME_OPTIONS = ''  # Empty string is safer than 'ALLOWALL'(deprecated)
-#  This will make Django embeddable in iframes from anywhere.
-SESSION_COOKIE_SAMESITE = None
-CSRF_COOKIE_SAMESITE = None
-SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+X_FRAME_OPTIONS = ''
 
 
 
