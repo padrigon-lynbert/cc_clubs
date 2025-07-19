@@ -56,6 +56,8 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",  # --------------
 
 ]
+# X_FRAME_OPTIONS = 'ALLOWALL'
+X_FRAME_OPTIONS = None
 
 ROOT_URLCONF = 'cc_clubs.urls'
 
