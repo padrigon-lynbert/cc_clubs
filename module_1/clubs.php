@@ -23,25 +23,22 @@
 </head>
 <body>
   <!-- navbar -->
- 
-<?php include '../sidenav.php'; ?>
-  <div class="main-content flex-grow-1">
-    <div class="container">
-     <h1>Body</h1>
-    </div>
+  <?php include '../sidenav.php'; ?>
+  
+    <!-- -------------
+        BODY
+    ------------------>
+    <div class="main-content flex-grow-1">
 
+  <div style="margin-left:0; padding:0;">
+    <iframe src="https://www.wikipedia.org"
+            style="height:95vh; width:100%; border:none; outline:none; box-shadow:none;">
+    </iframe>
+  </div>
 
 
   </div>
 
-  <footer class="mt-auto bg-light">
-    <div class="container text-center">
-      <p class="text-muted">© 2023 Your Company. All rights reserved.</p>
-    </div>
-  </footer>
-
-  
-  </style>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
