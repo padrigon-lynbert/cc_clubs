@@ -56,8 +56,15 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",  # --------------
 
 ]
-# X_FRAME_OPTIONS = 'ALLOWALL'
-X_FRAME_OPTIONS = 'ALLOWALL'
+
+X_FRAME_OPTIONS = ''  # Empty string is safer than 'ALLOWALL'(deprecated)
+#  This will make Django embeddable in iframes from anywhere.
+SESSION_COOKIE_SAMESITE = None
+CSRF_COOKIE_SAMESITE = None
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+
 
 ROOT_URLCONF = 'cc_clubs.urls'
 
