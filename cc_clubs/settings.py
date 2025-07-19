@@ -57,7 +57,7 @@ MIDDLEWARE = [
 
 ]
 # X_FRAME_OPTIONS = 'ALLOWALL'
-X_FRAME_OPTIONS = None
+X_FRAME_OPTIONS = ''
 
 ROOT_URLCONF = 'cc_clubs.urls'
 
