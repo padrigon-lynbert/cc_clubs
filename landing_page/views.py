@@ -1,20 +1,17 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Member
+from django.contrib import messages
 
 # Create your views here.
 def terms_and_conditions(request):
-    return render(request, 'terms.html')
+    if request.method == 'POST':
+        if request.POST.get('agree') == 'on': return redirect('home')
 
-# def home(request):
-#     if request.method == 'POST':
-#         if request.POST.get('agree') == 'on':
-#             return render(request, 'landing_page.html')
-#     return render(request, 'terms.html')
+    return render(request, 'terms.html')
 
 def home(request):
-    if request.method == 'POST':
-        if request.POST.get('agree') == 'on':
-            return render(request, 'landing_page.html')
-    return render(request, 'terms.html')
+    return render(request, 'landing_page.html')
 
 def bridge(request):
     if request.method == 'POST':
@@ -25,9 +22,39 @@ def bridge(request):
 
     return render(request, 'landing_page.html')
 
+# login and logout session, structured like this so we can edith redirect path fast
+def login_from_landing(request):
+    if request.method == 'POST':
+        acc_no = request.POST.get('member-login-number')
+        password = request.POST.get('member-login-password')
+
+        try:
+            member = Member.objects.get(acc_no=acc_no, password=password)
+            request.session['member_logged_in'] = True
+            request.session['member_id'] = member.id
+            request.session['member_name'] = member.name
+            messages.success(request, 'Login successful')
+            return redirect('home')
+        except Member.DoesNotExist:
+            messages.error(request, 'Invalid account or password')
+            return redirect('home')
+
+    return redirect('home')
+
+def logout(request):
+    request.session.flush()
+    return redirect('home')
+
+
 def register_club(request):
+    if not request.session.get('member_logged_in'):
+        messages.error(request, "You must be logged in to access this page")
+        return redirect('home')
     return render(request, 'register/register_club.html')
 
 def apply_club(request):
+    if not request.session.get('member_logged_in'):
+        messages.error(request, "You must be logged in to access this page")
+        return redirect('home')
     return render(request, 'register/apply_club.html')
 
