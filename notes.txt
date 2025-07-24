@@ -7,3 +7,7 @@ attendance tracker
 budget requests
 inter-club communication
 volunteer hour tracking
+
+acc:
+acc_no: 0001
+password: pass123
