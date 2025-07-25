@@ -17,7 +17,6 @@ class Clubs(models.Model):
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        db_table = 'clubs'
         return self.club_name
 
 
