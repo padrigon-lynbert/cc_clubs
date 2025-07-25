@@ -18,3 +18,18 @@ class Clubs(models.Model):
 
     def __str__(self):
         return f'{self.club_name} - Established: {self.created_at}'
+
+
+class Memberships(models.Model):
+    student = models.ForeignKey(Students, on_delete=models.CASCADE)
+    club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
+    date_joined = models.DateField(auto_now_add=True)
+    is_officer = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.student.name} - {self.club.club_name}'
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['student', 'club'], name='unique_membership')
+        ]
