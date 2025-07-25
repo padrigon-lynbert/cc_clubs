@@ -11,3 +11,10 @@ class Students(models.Model):
 
     class Meta:
         db_table = 'students'
+
+class Clubs(models.Model):
+    club_name = models.CharField(max_length=30)
+    created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.club_name} - Established: {self.created_at}'
