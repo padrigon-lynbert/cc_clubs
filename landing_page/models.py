@@ -18,7 +18,7 @@ class Clubs(models.Model):
 
     def __str__(self):
         db_table = 'clubs'
-        return f'{self.club_name} - Established: {self.created_at}'
+        return self.club_name
 
 
 class Memberships(models.Model):
