@@ -1,7 +1,7 @@
 from django.db import models
 
 # use accounts (used for login)
-class Member(models.Model):
+class Students(models.Model):
     acc_no = models.CharField(max_length=20, unique=True)
     password = models.CharField(max_length=128)
     name = models.CharField(max_length=100)
