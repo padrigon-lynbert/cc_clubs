@@ -58,3 +58,9 @@ def apply_club(request):
         return redirect('home')
     return render(request, 'register/apply_club.html')
 
+def individual_club(request):
+    if not request.session.get('member_logged_in'):
+        messages.error(request, "You must be logged in to access this page")
+        return redirect('home')
+    return render(request, 'individual_club/individual_club.html')
+
