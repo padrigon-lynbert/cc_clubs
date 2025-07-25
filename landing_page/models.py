@@ -17,6 +17,7 @@ class Clubs(models.Model):
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
+        db_table = 'clubs'
         return f'{self.club_name} - Established: {self.created_at}'
 
 
@@ -30,6 +31,7 @@ class Memberships(models.Model):
         return f'{self.student.name} - {self.club.club_name}'
     
     class Meta:
+        db_table = 'memberships'
         constraints = [
             models.UniqueConstraint(fields=['student', 'club'], name='unique_membership')
         ]
