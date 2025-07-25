@@ -37,7 +37,18 @@
         </div>
     </header>
 
-
+<main class="container my-5">
+        <form action="" method="POST" class="p-4 p-md-5 border rounded-3 bg-light">
+            <label for="student-name">Name:</label>
+            <input name="student-name" class="form-control" type="text" value="{{ request.session.member_name }}" aria-label="readonly input example" readonly>
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                {{ form.club.label_tag }}
+                {{ form.club }}
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </main>
     
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
