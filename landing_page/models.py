@@ -10,4 +10,4 @@ class Member(models.Model):
         return self.name
 
     class Meta:
-        db_table = 'user_account'
+        db_table = 'students'
