@@ -239,7 +239,7 @@
 
             if (file) {
                 if (file.size > limitBytes) {
-                    // File exceeds hard limit
+                    // File exceeds hrd lmiit
                     const limitMB = limitBytes / (1024 * 1024);
                     errorElement.textContent = `File size exceeds ${limitMB}MB limit. Please choose a smaller file.`;
                     errorElement.style.display = 'block';
