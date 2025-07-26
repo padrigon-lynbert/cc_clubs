@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Students
 from django.contrib import messages
+from .forms import RegisterClubForm
+from django.db import IntegrityError
 
 # Create your views here.
 def terms_and_conditions(request):
