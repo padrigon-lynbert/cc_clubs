@@ -45,7 +45,6 @@ def logout(request):
     request.session.flush()
     return redirect('home')
 
-
 def register_club(request):
     if not request.session.get('member_logged_in'):
         messages.error(request, "You must be logged in to access this page")
@@ -63,4 +62,35 @@ def individual_club(request):
         messages.error(request, "You must be logged in to access this page")
         return redirect('home')
     return render(request, 'individual_club/individual_club.html')
+
+
+def post_registration_club(request):
+    # Login status checker
+    if not request.session.get('member_logged_in'):
+        messages.error(request, "You must be logged in to access this page")
+        return redirect('home')
+    
+    # Handle user submission
+    if request.method == 'POST':
+        form = RegisterClubForm(request.POST)
+        if form.is_valid():
+            new_member = form.save(commit=False)
+            student_id = request.session.get('member_id')
+            # Save user form
+            try:
+                student_id = Students.objects.get(id=student_id)
+                new_member.student = student_id
+                new_member.save()
+                messages.success(request, 'Successfully registered in this club.')
+                return redirect('register_club')
+            except IntegrityError:
+                messages.error(request, 'You are already registered in this club.')
+                return redirect('register_club')
+        else:
+            messages.error(request, 'Invalid Form.')
+    else:
+        form = RegisterClubForm()
+    # Render the form
+    context = {'form': form}
+    return render(request, 'register/register_club.html', context)
 
