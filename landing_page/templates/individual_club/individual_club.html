@@ -1,15 +1,189 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Club</title>
-</head>
-<body>
-    <h1>
-        individual club page
-    </h1>
+    <title>Club Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'landing_page/css/bootstrap-icons.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <a href="{% url 'apply_club' %}">apply_club</a>
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            background-color: rgb(40, 39, 66);
+            color: white;
+            height: 100vh;
+            position: relative;
+        }
+
+        .sidebar .logo h1 {
+            padding: 20px;
+            font-size: 1.5rem;
+            margin: 0;
+            color: #fff;
+        }
+
+        .sidebar .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: rgb(25, 10, 59);
+            color: #fff;
+            border-left: 3px solid #9c27b0; /* Purple highlight on hover */
+        }
+
+        .sidebar .nav-link.active {
+            background-color: transparent; /* Remove background color for active state */
+            color: #ccc; /* Keep text color consistent */
+            border-left: 3px solid transparent; /* Remove border highlight */
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .stats-card {
+            background-color: rgb(32, 18, 58);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .sidebar-content {
+            height: calc(100% - 80px); /* space for button */
+            overflow-y: auto;
+        }
+
+        .apply-button-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;                            /* placce buttonb */
+            transform: translateX(-50%);
+            width: 90%;
+            text-align: center;
+        }
+
+        .btn-apply {
+            width: 20%;
+            background-color: rgb(19, 172, 55);
+            border: none;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        .btn-apply:hover {
+            background-color:rgb(16, 87, 32);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+           
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="sidebar-content">
+                    <div class="position-sticky">
+                        <div class="logo">
+                            <h1>Arnis Club</h1> 
+                        </div>
+
+                        <ul class="nav flex-column">
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span>Coach</span>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-users-cog"></i>
+                                    <span>Officer Members</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-users"></i>
+                                    <span>Club Members</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-trophy"></i>
+                                    <span>Achievements</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>Attendance Tracker</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>3##3</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>#####</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>#######</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="sidebar-footer">
+                            <div class="stats-card">
+                                <h6>Total Members</h6>
+                            </div>
+                            <div class="stats-card">
+                                <h6>Active Events</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+            <div class="apply-button-container">
+                <a href="{% url 'apply_club' %}" class="btn btn-success btn-apply">Apply Now</a>
+            </div>
+            
+    <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>
