@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 # use accounts (used for login)
 class Students(models.Model):
@@ -34,3 +35,24 @@ class Memberships(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['student', 'club'], name='unique_membership')
         ]
+
+class ClubApplication(models.Model):
+    club_name = models.CharField(max_length=255)
+    submitted_by = models.ForeignKey(Students, on_delete=models.CASCADE)
+    date_submitted = models.DateField(auto_now_add=True)
+    class Status(models.IntegerChoices):
+        PENDING = 0, _('Pending')
+        APPROVED = 1, _('Approved')
+        REJECTED = 2, _('Rejected')
+
+    status = models.IntegerField(
+        choices=Status.choices,
+        default=Status.PENDING,
+        verbose_name='Status',
+    )
+
+    def __str__(self):
+        return f'{self.club_name} is proposed by {self.submitted_by.name}'
+    
+    class Meta:
+        db_table = 'club_application'
