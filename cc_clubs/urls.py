@@ -17,9 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from landing_page.views import terms_and_conditions
+# Below is modules needed to locate media files.
+from django.conf.urls.static import static 
+from django.conf import settings
 
 urlpatterns = [
     path('', terms_and_conditions),
     path('admin/', admin.site.urls),
     path('landing_page/', include('landing_page.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
