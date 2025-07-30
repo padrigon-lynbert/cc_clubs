@@ -138,7 +138,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"  # will put all the staticfiles when auto
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Stores all uploaded images in database here.
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
