@@ -36,6 +36,15 @@ class Memberships(models.Model):
             models.UniqueConstraint(fields=['student', 'club'], name='unique_membership')
         ]
 
+class MemberApplication(models.Model):
+    student = models.ForeignKey(Students, on_delete=models.CASCADE)
+    club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
+    medical_form = models.ImageField(upload_to='membership_applications/medical_forms/', null=False)
+    certificate_of_recognition = models.ImageField(upload_to='membership_applications/cor/', null=False)
+    student_id_card = models.ImageField(upload_to='membership_applications/identification_cards', null=False)
+    date_submitted = models.DateField(auto_now_add=True)
+
+
 class ClubApplication(models.Model):
     club_name = models.CharField(max_length=255)
     submitted_by = models.ForeignKey(Students, on_delete=models.CASCADE)
