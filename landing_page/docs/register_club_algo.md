@@ -1,35 +1,32 @@
-# Registration Form for Clubs — Algorithm
+# Club Registration Flow — Algorithm
 
-## Club Registration Function
+## 1. Check Login Status
+- If the user is **not logged in**:
+  - Display an error message: `"You must be logged in to access this page."`
+  - Redirect to the home page
 
-### 1. Check Login Status
-- Call `check_login_status()`
-  - **If user is logged in:**
-    - Proceed to Step 2.
-  - **Else:**
-    - Display a login-required message (e.g., popup or alert).
-    - Redirect to the registration page.
+## 2. If Request Method is POST
+1. Bind form data to `ClubRegistrationForm`
+2. Check if the form is **valid**
+3. If **valid**:
+    - Normalize and check if the club name already exists in the `Club` table
+      - If it exists:
+        - Display an error message: `"This club is already registered."`
+        - Redirect to the registration page
+    - If it doesn't exist:
+        - Save the form instance without committing (`commit=False`)
+        - Retrieve the student ID from the session
+        - Query the `Students` table to get the corresponding student object
+        - Assign the student to the `submitted_by` field of the form
+        - Save the form to the database
+        - Display a success message: `"Successfully submitted a club registration form."`
+        - Redirect to the registration page
+4. If **invalid**:
+    - Display an error message: `"Invalid form submission."`
 
-### 2. Check Request Method
-- **If request method is `GET`:**
-  - Create an **empty registration form** instance.
-  - Add the form to the context.
-  - Render the registration page with the context.
-  - **End process.**
-- **Else if request method is `POST`:**
-  - Proceed to Step 3.
+## 3. If Request Method is GET
+- Initialize an empty `ClubRegistrationForm`
 
-### 3. Process Form Submission
-- Create a form instance using the submitted `POST` data.
-- Validate the form:
-  - **If the form is valid:**
-    1. Save the form using `commit=False` to delay saving to the database.
-    2. Assign the current logged-in user’s ID or instance to the appropriate field  
-       _(e.g., `form.instance.student = request.user`)_
-    3. Save the form to the database using `form.save()`.
-  - **If the form is invalid:**
-    - The form will retain errors to be displayed on the page.
-
-### 4. Render the Response
-- Add the form (valid or invalid) to the context.
-- Render the registration page with the context, displaying success or error messages as needed.
+## 4. Render the Template
+- Pass the form to the context
+- Render the `register_club.html` template with the form
