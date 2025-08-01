@@ -66,3 +66,5 @@ class ClubApplication(models.Model):
     
     class Meta:
         db_table = 'club_application'
+        ordering = ['-date_submitted']
+        verbose_name_plural = 'Club Applications'
