@@ -1,10 +1,19 @@
 from django import forms
-from .models import Memberships
+from .models import ClubApplication
 
-class RegisterClubForm(forms.ModelForm):
+class ClubRegistrationForm(forms.ModelForm):
     
     class Meta:
-        model = Memberships
-        fields = ['club']
-        labels = {'club': 'Choose a club'}
-        widgets = {'club': forms.Select(attrs={'class': 'form-control'})}
+        model = ClubApplication
+        fields = ['club_name', 'description']
+        labels = {
+            'club_name': 'Choose a club',
+            'description': 'Description'
+        }
+        widgets = {
+            'club_name': forms.TextInput(attrs={
+                'class': 'form-control', 
+                'maxlength': 255}),
+            'description': forms.Textarea(attrs={
+                'class': 'form-control'}),
+        }
