@@ -44,6 +44,9 @@ class MemberApplication(models.Model):
     student_id_card = models.ImageField(upload_to='membership_applications/identification_cards/', null=False)
     date_submitted = models.DateField(auto_now_add=True)
 
+    def __str__(self):
+        return f'{self.student.name} wants to apply to {self.club.club_name}'
+
 
 class ClubApplication(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
