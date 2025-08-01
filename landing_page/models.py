@@ -46,6 +46,10 @@ class MemberApplication(models.Model):
 
     def __str__(self):
         return f'{self.student.name} wants to apply to {self.club.club_name}'
+    
+    class Meta:
+        db_table = 'member_application'
+        ordering = ['-date_submitted']
 
 
 class ClubApplication(models.Model):
