@@ -7,7 +7,7 @@ class ClubRegistrationForm(forms.ModelForm):
         model = ClubApplication
         fields = ['club_name', 'description']
         labels = {
-            'club_name': 'Choose a club',
+            'club_name': 'Name of the club',
             'description': 'Description'
         }
         widgets = {
