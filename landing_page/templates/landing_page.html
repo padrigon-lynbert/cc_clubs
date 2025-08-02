@@ -24,6 +24,10 @@
         
     </head>
 
+
+
+
+
     <!-- Toast Container for err (login)-->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
         {% for message in messages %}
@@ -303,7 +307,7 @@
                             <form action="{% url 'register_club' %}">
                             {% csrf_token %}
 
-                                <h4 class="mb-4 pb-lg-2">Club Directory</h4>
+                                <h4 class="mb-4 pb-lg-2 text-center">Club Directory</h4>
     
                                     <div class="table-responsive" style="max-height: 535px; overflow-y: auto; border-radius: 10px;">
                                         <table class="table text-center">
@@ -318,161 +322,18 @@
                                                     <th style="width: 22%;">Competing?</th>
                                                 </tr>
                                             </thead>
-    
-                                            <tbody>
-                                                <!-- This is the only applicable for the next steps in this UI -->
-                                                <!-- when backend iteration in here should happen instead -->
-                                                
-                                                <tr onclick="location.href='#club_view';" style="cursor: pointer;">
-                                                    <th scope="row" class="text-start">Club Test</th>
-                                                    <td><i class="bi-check-circle-fill"></i></td>
-                                                    <td><i class="bi-check-circle-fill"></i></td>
-                                                    <td><i class="bi-check-circle-fill"></i></td>
-                                                </tr>
-    
-                                                
-    
-                                                <tr>
-                                                    <th scope="row" class="text-start">Club Name</th>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-                                                </tr>
-    
-                                                <tr>
-                                                    <th scope="row" class="text-start">Club Name</th>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-                                                </tr>
-    
-                                                <tr>
-                                                    <th scope="row" class="text-start">Club Name</th>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-                                                </tr>
-    
-                                                <tr>
-                                                    <th scope="row" class="text-start">Club Name</th>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-                                                </tr>
-                                                
-                                                <tr>
-                                                    <th scope="row" class="text-start">Club Name</th>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" class="text-start">Club Name</th>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" class="text-start">Club Name</th>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" class="text-start">Club Name</th>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" class="text-start">Club Name</th>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-x-circle-fill"></i>
-                                                    </td>
-    
-                                                    <td>
-                                                        <i class="bi-check-circle-fill"></i>
-                                                    </td>
-                                                </tr>
-                                                
+                                      
+                                            <!-- This is the only applicable for the next steps in this UI -->
+                                            <!-- when backend iteration in here should happen instead -->
+
+
+                                            <tbody id="clubs-tbody">
+                                                <tr><td colspan="4">Loading clubs...</td></tr>
                                             </tbody>
+
+                                                
+                                            
+                                         
                                         </table>
                                     </div>
                                     
@@ -480,6 +341,21 @@
 
                             </form>
                         </div>
+
+                            <script>
+                            window.addEventListener('DOMContentLoaded', () => {
+                                fetch('/clubs/ajax_fetch_all_clubs/')
+                                .then(res => res.text())
+                                .then(html => {
+                                    document.getElementById('clubs-tbody').innerHTML = html;
+                                })
+                                .catch(err => {
+                                    console.error('Failed to load clubs:', err);
+                                });
+                            });
+                            </script>
+
+
 
                         <div class="col-lg-5 col-12 mx-auto" id="club_view">
                             <h4 class="mb-4 pb-lg-2">Please join us!</h4>

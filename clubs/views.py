@@ -44,3 +44,11 @@ def post_registration_club(request):
     # Render the form
     context = {'form': form}
     return render(request, 'register/register_club.html', context)
+
+# def club_club(request):
+#     clubs = Clubs.objects.all()
+#     return render(request, "landing_page.html", {'clubs': clubs})
+
+def ajax_fetch_all_clubs(request):
+    clubs = Clubs.objects.all()
+    return render(request, 'club_repository/ajax_fetch_all_clubs.html', {'clubs': clubs})
