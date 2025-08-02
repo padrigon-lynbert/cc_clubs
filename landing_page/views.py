@@ -3,6 +3,9 @@ from django.shortcuts import render, redirect
 from .models import Students
 from django.contrib import messages
 
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 # Create your views here.
 def terms_and_conditions(request):
     if request.method == 'POST':
@@ -45,12 +48,6 @@ def logout(request):
     request.session.flush()
     return redirect('home')
 
-def register_club(request):
-    if not request.session.get('member_logged_in'):
-        messages.error(request, "You must be logged in to access this page")
-        return redirect('home')
-    return render(request, 'register/register_club.html')
-
 def apply_club(request):
     if not request.session.get('member_logged_in'):
         messages.error(request, "You must be logged in to access this page")
@@ -60,5 +57,5 @@ def apply_club(request):
 def individual_club(request):
     if not request.session.get('member_logged_in'):
         messages.error(request, "You must be logged in to access this page")
-        return redirect('home')
+        return HttpResponseRedirect(reverse('home') + '#section_3') 
     return render(request, 'individual_club/individual_club.html')
