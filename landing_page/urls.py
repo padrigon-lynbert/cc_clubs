@@ -11,7 +11,6 @@ urlpatterns =[
     path('login_from_landing', login_from_landing, name='login_from_landing'),
     path('individual_club', individual_club, name='individual_club'),
     path('logout', logout, name='logout'),
-    # path('register_club/', post_registration_club, name='register_club'),
     path('bridge', bridge, name='bridge'),
     path('apply_club', apply_club, name='apply_club'),
 ]
