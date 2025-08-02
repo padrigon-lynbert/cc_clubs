@@ -9,6 +9,9 @@ class Clubs(models.Model):
 
     def __str__(self):
         return self.club_name
+    
+    class Meta:
+        db_table = 'clubs'
 
 
 class Memberships(models.Model):
