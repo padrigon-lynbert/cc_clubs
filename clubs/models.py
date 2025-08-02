@@ -6,6 +6,10 @@ from landing_page.models import Students
 class Clubs(models.Model):
     club_name = models.CharField(max_length=30)
     created_at = models.DateField(auto_now_add=True)
+    campus = models.CharField(max_length=100, default='No campus specified')
+    # description = models.TextField(max_length=300, default='', blank=True)
+    # accepting = models.BooleanField(default=False)
+    # competing = models.BooleanField(default=False)
 
     def __str__(self):
         return self.club_name

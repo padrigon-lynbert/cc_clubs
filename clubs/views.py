@@ -50,5 +50,5 @@ def post_registration_club(request):
 #     return render(request, "landing_page.html", {'clubs': clubs})
 
 def ajax_fetch_all_clubs(request):
-    clubs = Clubs.objects.all()
+    clubs = Clubs.objects.all().order_by('id')
     return render(request, 'club_repository/ajax_fetch_all_clubs.html', {'clubs': clubs})
