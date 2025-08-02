@@ -4,6 +4,9 @@ from .forms import ClubRegistrationForm
 from django.db import IntegrityError
 from .models import Students, Clubs
 
+# redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 
@@ -12,7 +15,7 @@ def post_registration_club(request):
     # Login status checker
     if not request.session.get('member_logged_in'):
         messages.error(request, "You must be logged in to access this page")
-        return redirect('home')
+        return HttpResponseRedirect(reverse('home') +'#section_3')
     
     # Handle user submission
     if request.method == 'POST':
