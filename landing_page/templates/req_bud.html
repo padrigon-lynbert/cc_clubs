@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Budget Request | BCP Club System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f7f7fa] min-h-screen flex items-center justify-center p-6 font-sans">
+
+  <div class="w-full max-w-2xl bg-white rounded-2xl shadow-lg border border-gray-200">
+    <!-- Header -->
+    <div class="bg-[#2e2b50] text-white rounded-t-2xl px-6 py-4 flex justify-between items-center">
+      <h2 class="text-xl font-bold">Budget Request Form</h2>
+      <span class="text-sm text-yellow-400">BCP Club System</span>
+    </div>
+
+    <!-- Form -->
+    <form class="p-6 space-y-5">
+      <!-- Requester Name -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Requester Name</label>
+        <input type="text" placeholder="Juan Dela Cruz"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2b50]" />
+      </div>
+
+      <!-- Department -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+        <select
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2b50]">
+          <option disabled selected>Select department</option>
+          <option>Student Affairs</option>
+          <option>Sports Club</option>
+          <option>Academic Org</option>
+        </select>
+      </div>
+
+      <!-- Purpose -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Purpose</label>
+        <textarea rows="3" placeholder="E.g. Purchase of materials for club event"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2b50]"></textarea>
+      </div>
+
+      <!-- Amount -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Amount (₱)</label>
+        <input type="number" placeholder="Enter amount requested"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2b50]" />
+      </div>
+
+      <!-- Submit -->
+      <div class="text-right">
+        <button type="submit"
+          class="bg-yellow-400 text-[#2e2b50] font-semibold px-6 py-2 rounded-full hover:bg-yellow-500 transition">Submit Request</button>
+      </div>
+    </form>
+  </div>
+
+</body>
+</html>
