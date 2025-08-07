@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from landing_page.models import Students
+from .models import Branch
 # Create your models here.
 
 class Clubs(models.Model):
@@ -76,3 +77,9 @@ class ClubApplication(models.Model):
 
 class Branch(models.Model):
     branch_name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.branch_name
+    
+    class Meta:
+        db_table = 'school_branch'
