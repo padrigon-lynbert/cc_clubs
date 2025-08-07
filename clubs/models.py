@@ -1,13 +1,25 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from landing_page.models import Students
-from .models import Branch
+
 # Create your models here.
+
+def get_default_branch():
+    return Branch.objects.get_or_create(branch_name='Main Campus')[0].id
+
+class Branch(models.Model):
+    branch_name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.branch_name
+    
+    class Meta:
+        db_table = 'school_branch'
 
 class Clubs(models.Model):
     club_name = models.CharField(max_length=30)
     created_at = models.DateField(auto_now_add=True)
-    location = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    location = models.ForeignKey(Branch, on_delete=models.CASCADE, default=get_default_branch)
     # accepting = models.BooleanField(default=False)
     # competing = models.BooleanField(default=False)
 
@@ -74,12 +86,3 @@ class ClubApplication(models.Model):
         db_table = 'club_application'
         ordering = ['-date_submitted']
         verbose_name_plural = 'Club Applications'
-
-class Branch(models.Model):
-    branch_name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.branch_name
-    
-    class Meta:
-        db_table = 'school_branch'
