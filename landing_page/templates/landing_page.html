@@ -343,22 +343,23 @@
                         </div>
 
                             <script>
-                            window.addEventListener('DOMContentLoaded', () => {
-                                fetch('/clubs/ajax_fetch_all_clubs/')
-                                .then(res => res.text())
-                                .then(html => {
-                                    document.getElementById('clubs-tbody').innerHTML = html;
-                                })
-                                .catch(err => {
-                                    console.error('Failed to load clubs:', err);
+                                window.addEventListener('DOMContentLoaded', () => {
+                                    fetch('/clubs/ajax_fetch_all_clubs/')
+                                    .then(res => res.text())
+                                    .then(html => {
+                                        document.getElementById('clubs-tbody').innerHTML = html;
+                                    })
+                                    .catch(err => {
+                                        console.error('Failed to load clubs:', err);
+                                    });
                                 });
-                            });
                             </script>
+                            
 
 
 
                         <div class="col-lg-5 col-12 mx-auto" id="club_view">
-                            <h4 class="mb-4 pb-lg-2">Please join us!</h4>
+                            <h4 class="mb-4 pb-lg-2 text-center">Please join us!</h4>
                         
                             <form action="{% url 'individual_club' %}" method="post" class="custom-form membership-form shadow-lg" role="form">
                                 {% csrf_token %}
