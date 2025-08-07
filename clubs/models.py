@@ -72,3 +72,6 @@ class ClubApplication(models.Model):
         db_table = 'club_application'
         ordering = ['-date_submitted']
         verbose_name_plural = 'Club Applications'
+
+class Branch(models.Model):
+    branch_name = models.CharField(max_length=30)
