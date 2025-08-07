@@ -53,6 +53,7 @@ class ClubApplication(models.Model):
     submitted_by = models.ForeignKey(Students, on_delete=models.CASCADE)
     date_submitted = models.DateField(auto_now_add=True)
     description = models.TextField(blank=True, null=True, help_text='Enter a description about this club')
+    location = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
     class Status(models.IntegerChoices):
         PENDING = 0, _('Pending')
