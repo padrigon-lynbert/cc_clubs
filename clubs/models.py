@@ -20,6 +20,7 @@ class Clubs(models.Model):
     club_name = models.CharField(max_length=30)
     created_at = models.DateField(auto_now_add=True)
     location = models.ForeignKey(Branch, on_delete=models.CASCADE, default=get_default_branch)
+    description = models.TextField(max_length=255, null=True)
     # accepting = models.BooleanField(default=False)
     # competing = models.BooleanField(default=False)
 
