@@ -293,8 +293,8 @@
 
               
 
-
-
+            
+            <!-- club repository -->
             <section class="membership-section section-padding" id="section_3">
                 <div class="container">
                     <div class="row">
@@ -324,15 +324,11 @@
                                             </thead>
                                       
                                             <!-- This is the only applicable for the next steps in this UI -->
-                                            <!-- when backend iteration in here should happen instead -->
-
+                                            <!-- backend iteration in here should happen instead -->
 
                                             <tbody id="clubs-tbody">
                                                 <tr><td colspan="4">Loading clubs...</td></tr>
                                             </tbody>
-
-                                                
-                                            
                                          
                                         </table>
                                     </div>
@@ -342,28 +338,47 @@
                             </form>
                         </div>
 
-                            <script>
-                                window.addEventListener('DOMContentLoaded', () => {
-                                    fetch('/clubs/ajax_fetch_all_clubs/')
-                                    .then(res => res.text())
-                                    .then(html => {
-                                        document.getElementById('clubs-tbody').innerHTML = html;
-                                    })
-                                    .catch(err => {
-                                        console.error('Failed to load clubs:', err);
-                                    });
-                                });
-                            </script>
-                            
-
-
-
+                        <!-- club view -->
                         <div class="col-lg-5 col-12 mx-auto" id="club_view">
                             <h4 class="mb-4 pb-lg-2 text-center">Please join us!</h4>
                         
                             <form action="{% url 'individual_club' %}" method="post" class="custom-form membership-form shadow-lg" role="form">
                                 {% csrf_token %}
-                                <!-- <h4 class="text-white mb-4">Become a member</h4> -->
+                           
+                                    
+                                <div class="card border-0 mb-4">
+                                        <img src="{% static 'landing_page/images/members/portrait-young-handsome-businessman-wearing-suit-standing-with-crossed-arms-with-isolated-studio-white-background.jpg' %}"
+                                            class="card-img-top rounded-4 shadow" alt="Club Image"
+                                            style="height: 250px; width: 100%; object-fit: cover;">
+
+                                        <div class="card-body">
+                                            <!-- <h5 class="card-title fw-bold text-center">Club Name</h5> -->
+                                            <h5 id="club-name" class="card-title fw-bold text-center">Club Name</h5>
+
+                                            <p class="card-text text-muted" style="max-height: 7em; overflow-y: auto;">
+                                                This is a brief description about the selected club, including its purpose and activities.
+                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati voluptatum iste facere nisi dolorum doloribus atque assumenda expedita, voluptatibus consequuntur hic ut necessitatibus rerum placeat alias, temporibus asperiores odit dolore sit aliquam. Quisquam nihil cum deleniti fugiat atque sapiente vel ducimus nam! Totam perferendis, quas suscipit cumque odit fuga quis?
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                
+                                    <!-- <button type="submit" class="form-control">Visit</button> -->
+                                    <button type="submit" name="action" value="visit" class="form-control">Visit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+              
+                <script src="{% static 'clubs/static/js/fetch_and_change.js' %}"></script>
+
+
+
+            </section>
+
+
+                 <!-- <h4 class="text-white mb-4">Become a member</h4> -->
         
                                     <!-- <div class="form-floating">
                                         <input type="text" name="full-name" id="full-name" class="form-control" placeholder="Full Name" required="">
@@ -382,35 +397,9 @@
                                         
                                         <label for="floatingTextarea"> Comments</label>
                                     </div> -->
-                                    
-                                <div class="card border-0 mb-4">
-                                        <img src="{% static 'landing_page/images/members/portrait-young-handsome-businessman-wearing-suit-standing-with-crossed-arms-with-isolated-studio-white-background.jpg' %}"
-                                            class="card-img-top rounded-4 shadow" alt="Club Image"
-                                            style="height: 250px; width: 100%; object-fit: cover;">
-
-                                        <div class="card-body">
-                                            <h5 class="card-title fw-bold text-center">Club Name</h5>
-                                            <p class="card-text text-muted" style="max-height: 7em; overflow-y: auto;">
-                                                This is a brief description about the selected club, including its purpose and activities.
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati voluptatum iste facere nisi dolorum doloribus atque assumenda expedita, voluptatibus consequuntur hic ut necessitatibus rerum placeat alias, temporibus asperiores odit dolore sit aliquam. Quisquam nihil cum deleniti fugiat atque sapiente vel ducimus nam! Totam perferendis, quas suscipit cumque odit fuga quis?
-                                            </p>
-
-                                        </div>
-                                    </div>
-
                                 
-        
-                                    
-        
-                                    
-                                    <!-- <button type="submit" class="form-control">Visit</button> -->
-                                    <button type="submit" name="action" value="visit" class="form-control">Visit</button>
-                                </div>
-                            </form>
-                            
-                        
-                    </div>
-                    
+
+                  
                     <!-- <form action="#" method="post" class="custom-form membership-form shadow-lg" role="form">
                         <h4 class="text-white mb-4">Become a member</h4>
 
@@ -435,11 +424,6 @@
                             <button type="submit" class="form-control">Submit</button>
                         </div>
                     </form> -->
-                        
-
-                    </div>
-                </div>
-            </section>
 
 
             <section class="events-section section-bg section-padding" id="section_4">

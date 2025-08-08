@@ -8,4 +8,3 @@ window.addEventListener('DOMContentLoaded', () => {
         console.error('Failed to load clubs:', err);
     });
 });
-                    

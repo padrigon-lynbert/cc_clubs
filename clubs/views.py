@@ -52,6 +52,21 @@ def post_registration_club(request):
 #     clubs = Clubs.objects.all()
 #     return render(request, "landing_page.html", {'clubs': clubs})
 
+# this is about club repository and club detail fetch for the right box
 def ajax_fetch_all_clubs(request):
     clubs = Clubs.objects.all().order_by('id')
     return render(request, 'club_repository/ajax_fetch_all_clubs.html', {'clubs': clubs})
+
+from django.http import JsonResponse
+from .models import Clubs
+
+def get_club_details(request, club_id):
+    try:
+        club = Clubs.objects.get(id=club_id)
+        data = {
+            'name': club.club_name,
+            # add more fields here
+        }
+        return JsonResponse(data)
+    except Clubs.DoesNotExist:
+        return JsonResponse({'error': 'Club not found'}, status=404)
