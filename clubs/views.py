@@ -42,7 +42,7 @@ def post_registration_club(request):
                 messages.error(request, 'The club name is already applied, try a different name.')
                 return redirect('register_club')
         else:
-            messages.error(request, 'Invalid')
+            messages.error(request, 'The club name is already applied, try a different name.')
     else:
         form = ClubRegistrationForm()
     # Render the form
