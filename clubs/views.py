@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import ClubRegistrationForm
 from django.db import IntegrityError
-from .models import Students, Clubs
+from .models import Students, Clubs, ClubApplication
 
 # redirect
 from django.http import HttpResponseRedirect
@@ -19,12 +19,13 @@ def post_registration_club(request):
     
     # Handle user submission
     if request.method == 'POST':
-        form = ClubRegistrationForm(request.POST)
+        form = ClubRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             club_name = form.cleaned_data['club_name'].strip().lower()
 
             # Check if the club is already officially registered
-            if Clubs.objects.filter(club_name__iexact=club_name).exists():
+            if Clubs.objects.filter(club_name__iexact=club_name).exists() or \
+               ClubApplication.objects.filter(club_name__iexact=club_name).exists():
                 messages.error(request, 'This club is already registered. Please choose a different name.')
                 return redirect('register_club')
 
@@ -41,7 +42,7 @@ def post_registration_club(request):
                 messages.error(request, 'The club name is already applied, try a different name.')
                 return redirect('register_club')
         else:
-            messages.error(request, 'The club name is already applied, try a different name.')
+            messages.error(request, 'Invalid')
     else:
         form = ClubRegistrationForm()
     # Render the form
