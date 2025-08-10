@@ -1,9 +1,10 @@
 {% for club in clubs %}
-<tr>
-  <th scope="row" class="text-start">{{ club.club_name }}</th>
-  <!-- <td><i class="bi-check-circle-fill"></i></td> -->
-  <th scope="row" class="text-center">{{ club.campus }}</th>
-  <td><i class="bi-check-circle-fill"></i></td>
-  <td><i class="bi-x-circle-fill"></i></td>
+<tr onclick="selectClub('{{ club.id }}', '{{ club.club_name }}')" style="cursor: pointer;" class="club-row" data-id="{{ club.id }}">
+    <td class="text-start">{{ club.club_name }}</td>
+    <td class="text-center">{{ club.location.branch_name }}</td>
+    <td><i class="bi-check-circle-fill"></i></td>
+    <td><i class="bi-x-circle-fill"></i></td>
 </tr>
 {% endfor %}
+
+

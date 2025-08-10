@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import ClubRegistrationForm
 from django.db import IntegrityError
-from .models import Students, Clubs
+from .models import Students, Clubs, ClubApplication
 
 # redirect
 from django.http import HttpResponseRedirect
@@ -19,12 +19,13 @@ def post_registration_club(request):
     
     # Handle user submission
     if request.method == 'POST':
-        form = ClubRegistrationForm(request.POST)
+        form = ClubRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             club_name = form.cleaned_data['club_name'].strip().lower()
 
             # Check if the club is already officially registered
-            if Clubs.objects.filter(club_name__iexact=club_name).exists():
+            if Clubs.objects.filter(club_name__iexact=club_name).exists() or \
+               ClubApplication.objects.filter(club_name__iexact=club_name).exists():
                 messages.error(request, 'This club is already registered. Please choose a different name.')
                 return redirect('register_club')
 
@@ -52,6 +53,21 @@ def post_registration_club(request):
 #     clubs = Clubs.objects.all()
 #     return render(request, "landing_page.html", {'clubs': clubs})
 
+# this is about club repository and club detail fetch for the right box
 def ajax_fetch_all_clubs(request):
     clubs = Clubs.objects.all().order_by('id')
     return render(request, 'club_repository/ajax_fetch_all_clubs.html', {'clubs': clubs})
+
+from django.http import JsonResponse
+from .models import Clubs
+
+def get_club_details(request, club_id):
+    try:
+        club = Clubs.objects.get(id=club_id)
+        data = {
+            'name': club.club_name,
+            # add more fields here
+        }
+        return JsonResponse(data)
+    except Clubs.DoesNotExist:
+        return JsonResponse({'error': 'Club not found'}, status=404)

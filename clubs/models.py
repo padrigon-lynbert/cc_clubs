@@ -1,13 +1,26 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from landing_page.models import Students
+
 # Create your models here.
+
+def get_default_branch():
+    return Branch.objects.get_or_create(branch_name='Main Campus')[0].id
+
+class Branch(models.Model):
+    branch_name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.branch_name
+    
+    class Meta:
+        db_table = 'school_branch'
 
 class Clubs(models.Model):
     club_name = models.CharField(max_length=30)
     created_at = models.DateField(auto_now_add=True)
-    campus = models.CharField(max_length=100, default='No campus specified')
-    # description = models.TextField(max_length=300, default='', blank=True)
+    location = models.ForeignKey(Branch, on_delete=models.CASCADE, default=get_default_branch)
+    description = models.TextField(max_length=255, null=True)
     # accepting = models.BooleanField(default=False)
     # competing = models.BooleanField(default=False)
 
@@ -51,19 +64,11 @@ class MemberApplication(models.Model):
 
 class ClubApplication(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
+    banner = models.ImageField(upload_to='club_applications/banners/', null=True)
     submitted_by = models.ForeignKey(Students, on_delete=models.CASCADE)
     date_submitted = models.DateField(auto_now_add=True)
     description = models.TextField(blank=True, null=True, help_text='Enter a description about this club')
-    class Location(models.IntegerChoices):
-        MAIN = 0, _('Main')
-        MV = 1, _('Millionaire\'s Village')
-        BULACAN = 2, _('Bulacan')
-
-    location = models.IntegerField(
-        choices=Location.choices,
-        default=Location.MAIN,
-        verbose_name='Location',
-    )
+    location = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
     class Status(models.IntegerChoices):
         PENDING = 0, _('Pending')
