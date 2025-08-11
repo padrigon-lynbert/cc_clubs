@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from landing_page.models import Students
+from landing_page.models import Users
 
 # Create your models here.
 
@@ -32,7 +32,7 @@ class Clubs(models.Model):
 
 
 class Memberships(models.Model):
-    student = models.ForeignKey(Students, on_delete=models.CASCADE)
+    student = models.ForeignKey(Users, on_delete=models.CASCADE)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
     date_joined = models.DateField(auto_now_add=True)
     is_officer = models.BooleanField(default=False)
@@ -47,7 +47,7 @@ class Memberships(models.Model):
         ]
 
 class MemberApplication(models.Model):
-    student = models.ForeignKey(Students, on_delete=models.CASCADE)
+    student = models.ForeignKey(Users, on_delete=models.CASCADE)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
     medical_form = models.ImageField(upload_to='membership_applications/medical_forms/', null=False)
     certificate_of_recognition = models.ImageField(upload_to='membership_applications/cor/', null=False)
@@ -65,7 +65,7 @@ class MemberApplication(models.Model):
 class ClubApplication(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
     banner = models.ImageField(upload_to='club_applications/banners/', null=True)
-    submitted_by = models.ForeignKey(Students, on_delete=models.CASCADE)
+    submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE)
     date_submitted = models.DateField(auto_now_add=True)
     description = models.TextField(blank=True, null=True, help_text='Enter a description about this club')
     location = models.ForeignKey(Branch, on_delete=models.CASCADE)
