@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 # from django.contrib.auth.decorators import login_required
-from .models import Students
+from .models import Users
 from django.contrib import messages
 
 from django.http import HttpResponseRedirect
@@ -32,13 +32,13 @@ def login_from_landing(request):
         password = request.POST.get('member-login-password')
 
         try:
-            member = Students.objects.get(acc_no=acc_no, password=password)
+            member = Users.objects.get(acc_no=acc_no, password=password)
             request.session['member_logged_in'] = True
             request.session['member_id'] = member.id
             request.session['member_name'] = member.name
             messages.success(request, 'Login successful')
             return redirect('home')
-        except Students.DoesNotExist:
+        except Users.DoesNotExist:
             messages.error(request, 'Invalid account or password')
             return redirect('home')
 

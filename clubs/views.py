@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import ClubRegistrationForm
 from django.db import IntegrityError
-from .models import Students, Clubs, ClubApplication
+from .models import Users, Clubs, ClubApplication
 
 # redirect
 from django.http import HttpResponseRedirect
@@ -30,11 +30,11 @@ def post_registration_club(request):
                 return redirect('register_club')
 
             new_club_registration = form.save(commit=False)
-            student_id = request.session.get('member_id')
+            instructor_id = request.session.get('member_id')
             # Save user form
             try:
-                student = Students.objects.get(id=student_id)
-                new_club_registration.submitted_by = student
+                instructor = Users.objects.get(id=instructor_id)
+                new_club_registration.submitted_by = instructor
                 new_club_registration.save()
                 messages.success(request, 'Successfully submitted a club registration form.')
                 return redirect('register_club')
