@@ -1,10 +1,11 @@
 {% for club in clubs %}
-<tr onclick="selectClub('{{ club.id }}', '{{ club.club_name }}')" style="cursor: pointer;" class="club-row" data-id="{{ club.id }}">
+<tr>
     <td class="text-start">{{ club.club_name }}</td>
     <td class="text-center">{{ club.location.branch_name }}</td>
     <td><i class="bi-check-circle-fill"></i></td>
     <td><i class="bi-x-circle-fill"></i></td>
 </tr>
+{% empty %}
+<tr><td colspan="4">No clubs available.</td></tr>
 {% endfor %}
-
 
