@@ -343,23 +343,7 @@
                             </form>
                         </div>
 
-                        <script>
-                            window.addEventListener('DOMContentLoaded', () => {
-                                const tbody = document.getElementById('clubs-tbody');
-                                tbody.innerHTML = '<tr><td colspan="4">Loading clubs...</td></tr>';
-
-                                fetch("{% url 'ajax_fetch_all_clubs' %}")
-                                    .then(response => response.text())
-                                    .then(html => {
-                                        tbody.innerHTML = html;
-                                    })
-                                    .catch(err => {
-                                        console.error('Failed to load clubs:', err);
-                                        tbody.innerHTML = '<tr><td colspan="4">Failed to load clubs.</td></tr>';
-                                    });
-                            });
-                        </script>
-
+                     
 
                         <!-- club view -->
                         <div class="col-lg-5 col-12 mx-auto" id="club_view">
@@ -378,7 +362,7 @@
                                             <!-- <h5 class="card-title fw-bold text-center">Club Name</h5> -->
                                             <h5 id="club-name" class="card-title fw-bold text-center">Club Name</h5>
 
-                                            <p class="card-text text-muted" style="max-height: 7em; overflow-y: auto;">
+                                            <p id="club-description" class="card-text text-muted" style="max-height: 7em; overflow-y: auto;">
                                                 This is a brief description about the selected club, including its purpose and activities.
                                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati voluptatum iste facere nisi dolorum doloribus atque assumenda expedita, voluptatibus consequuntur hic ut necessitatibus rerum placeat alias, temporibus asperiores odit dolore sit aliquam. Quisquam nihil cum deleniti fugiat atque sapiente vel ducimus nam! Totam perferendis, quas suscipit cumque odit fuga quis?
                                             </p>
@@ -395,6 +379,36 @@
                 </div>
               
                 <!-- <script src="{% static 'clubs/js/fetch_and_change.js' %}"></script> -->
+                    <script>
+                        window.addEventListener('DOMContentLoaded', () => {
+                            const tbody = document.getElementById('clubs-tbody');
+                            tbody.innerHTML = '<tr><td colspan="4">Loading clubs...</td></tr>';
+
+                            fetch("{% url 'ajax_fetch_all_clubs' %}")
+                                .then(response => response.text())
+                                .then(html => {
+                                    tbody.innerHTML = html;
+                                })
+                                .catch(err => {
+                                    console.error('Failed to load clubs:', err);
+                                    tbody.innerHTML = '<tr><td colspan="4">Failed to load clubs.</td></tr>';
+                                });
+                        });
+
+                        // handle clicks
+
+                        document.addEventListener("click", function(e) {
+                            const row = e.target.closest(".club-row");
+                            if (!row) return;
+                        
+                            const name = row.getAttribute("data-name");
+                            const description = row.getAttribute("data-description");
+                        
+                            document.getElementById("club-name").textContent = name;
+                            document.getElementById("club-description").textContent = description;
+                        });
+                    </script>
+
                 
 
 

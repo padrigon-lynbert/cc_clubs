@@ -1,4 +1,4 @@
-{% for club in clubs %}
+<!-- {% for club in clubs %}
 <tr>
     <td class="text-start">{{ club.club_name }}</td>
     <td class="text-center">{{ club.location.branch_name }}</td>
@@ -7,5 +7,15 @@
 </tr>
 {% empty %}
 <tr><td colspan="4">No clubs available.</td></tr>
-{% endfor %}
+{% endfor %} -->
 
+{% for club in clubs %}
+<tr class="club-row" 
+    data-name="{{ club.club_name }}" 
+    data-description="{{ club.description|default:'No description yet.' }}">
+    <td>{{ club.club_name }}</td>
+    <td>{{ club.location }}</td>
+    <td>Yes</td>
+    <td>No</td>
+</tr>
+{% endfor %}
