@@ -11,6 +11,7 @@
 
 {% for club in clubs %}
 <tr class="club-row" 
+    data-id="{{ club.id }}"
     data-name="{{ club.club_name }}" 
     data-description="{{ club.description|default:'No description yet.' }}">
     <td>{{ club.club_name }}</td>

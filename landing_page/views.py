@@ -54,8 +54,26 @@ def apply_club(request):
         return redirect('home')
     return render(request, 'register/apply_club.html')
 
+# def individual_club(request):
+#     if not request.session.get('member_logged_in'):
+#         messages.error(request, "You must be logged in to access this page")
+#         return HttpResponseRedirect(reverse('home') + '#section_3') 
+#     return render(request, 'individual_club/individual_club.html')
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.urls import reverse
+from clubs.models import Clubs
+
 def individual_club(request):
     if not request.session.get('member_logged_in'):
         messages.error(request, "You must be logged in to access this page")
-        return HttpResponseRedirect(reverse('home') + '#section_3') 
-    return render(request, 'individual_club/individual_club.html')
+        return redirect(reverse('home') + '#section_3')
+
+    if request.method == "POST":
+        club_id = request.POST.get("club_id")
+        club = get_object_or_404(Clubs, id=club_id)
+        return render(request, 'individual_club/individual_club.html', {"club": club})
+
+    # if someone goes here directly
+    return redirect(reverse('home') + '#section_3')

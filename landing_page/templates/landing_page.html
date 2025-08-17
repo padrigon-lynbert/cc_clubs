@@ -371,15 +371,18 @@
                                     </div>
                                 
                                     <!-- <button type="submit" class="form-control">Visit</button> -->
-                                    <button type="submit" name="action" value="visit" class="form-control">Visit</button>
+                                    <!-- <button type="submit" name="action" value="visit" class="form-control">Visit</button> -->
+                                    <input type="hidden" id="selected-club-id" name="club_id" value="">
+                                    <button type="submit" class="form-control">Visit</button>
+
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
               
-                <!-- <script src="{% static 'clubs/js/fetch_and_change.js' %}"></script> -->
                     <script>
+                        // list all available club in db
                         window.addEventListener('DOMContentLoaded', () => {
                             const tbody = document.getElementById('clubs-tbody');
                             tbody.innerHTML = '<tr><td colspan="4">Loading clubs...</td></tr>';
@@ -396,17 +399,22 @@
                         });
 
                         // handle clicks
-
                         document.addEventListener("click", function(e) {
                             const row = e.target.closest(".club-row");
                             if (!row) return;
-                        
+                    
+                            const id = row.getAttribute("data-id");
                             const name = row.getAttribute("data-name");
                             const description = row.getAttribute("data-description");
-                        
+                    
+                            // update preview box
                             document.getElementById("club-name").textContent = name;
                             document.getElementById("club-description").textContent = description;
+                    
+                            // update hidden input for form
+                            document.getElementById("selected-club-id").value = id;
                         });
+                        
                     </script>
 
                 
