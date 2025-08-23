@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import ClubRegistrationForm
 from django.db import IntegrityError
-from .models import Users, Clubs, ClubApplication
+from .models import Clubs, ClubApplication
+from landing_page.models import Users
 
 # redirect
 from django.http import HttpResponseRedirect
@@ -12,11 +13,29 @@ from django.urls import reverse
 
 
 def post_registration_club(request):
-    # Login status checker
-    if not request.session.get('member_logged_in'):
+    # Login status checker (original just session checker)
+    # if not request.session.get('member_logged_in'):
+    #     messages.error(request, "You must be logged in to access this page")
+    #     return HttpResponseRedirect(reverse('home') +'#section_3')
+
+
+
+
+
+    member_id = request.session.get('member_id')
+    if not member_id:
         messages.error(request, "You must be logged in to access this page")
-        return HttpResponseRedirect(reverse('home') +'#section_3')
-    
+        return redirect(reverse('home') + '#section_3')
+
+    user = get_object_or_404(Users, id=member_id)
+
+    # ---- Role Restriction ----
+    if user.role in [Users.Role.STUDENT, Users.Role.OFFICER]:
+        messages.error(request, "Students are not allowed to access this page")
+        return redirect(reverse('home') + '#section_3')
+
+
+        
     # Handle user submission
     if request.method == 'POST':
         form = ClubRegistrationForm(request.POST, request.FILES)
