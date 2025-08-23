@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'cc_clubs.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.parse(
-        'postgresql://clubs_db_v54v_user:6nZ7jhQVHIexIRrUJSowP3o6LBJ33iBj@dpg-d20qo06mcj7s73e26prg-a.oregon-postgres.render.com/clubs_db_v54v',
+        'postgresql://clubs_database_85om_user:3wPWZBahlYjBsq7FVnA005Wd6IBw0u7s@dpg-d2kkst75r7bs73cnloj0-a.oregon-postgres.render.com/clubs_database_85om',
         conn_max_age=600,
         ssl_require=True
     )
