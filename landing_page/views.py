@@ -72,6 +72,10 @@ def individual_club(request):
 
     if request.method == "POST":
         club_id = request.POST.get("club_id")
+
+        if not club_id:  # nothing selected
+            return redirect(reverse('home') + '#section_3')
+
         club = get_object_or_404(Clubs, id=club_id)
         return render(request, 'individual_club/individual_club.html', {"club": club})
 
