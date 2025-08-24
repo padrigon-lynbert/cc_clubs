@@ -169,28 +169,28 @@
                     <h1>Arnis Club</h1>
                 </div> -->
                 <div class="logo">
-                    <h1>{{ club.club_name }}</h1>
+                    <h1>{{ club.acronym }}</h1>
                 </div>
 
 
                 <div class="sidebar-content">
                     <ul class="nav flex-column">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-user-tie"></i>
                                 <span>Coach</span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">
-                                <i class="fas fa-users-cog"></i>
-                                <span>Club Officer Election</span>
+                        </li> -->
+                         <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-users"></i>
+                                <span>Member List</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                <i class="fas fa-users"></i>
-                                <span>Student Club Membership</span>
+                                <i class="fas fa-users-cog"></i>
+                                <span>Club Officer Election</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -199,30 +199,31 @@
                                 <span>Club Achievement Record</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-calendar-check"></i>
                                 <span>Attendance Tracker</span>
                             </a>
-                        </li>
-                        <li class="nav-item">
+                        </li> -->
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-handshake"></i>
                                 <span>Volunteer Hour Tracking</span>
                             </a>
-                        </li>
-                        <li class="nav-item">
+                        </li> -->
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-calendar-alt"></i>
                                 <span>Event and Activity Logs</span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
+                        </li> -->
+                       <li class="nav-item">
+                            <a class="nav-link" href="{% url 'budget_request' %}" target="_blank">
                                 <i class="fas fa-wallet"></i>
                                 <span>Budget Request</span>
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-bullhorn"></i>
