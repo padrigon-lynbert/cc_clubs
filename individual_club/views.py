@@ -29,3 +29,6 @@ def individual_club(request):
 
 def budget_request(request):
     return render(request, 'budget_request.html')
+
+def election_club(request):
+    return render(request, 'election_club.html')
