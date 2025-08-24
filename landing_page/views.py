@@ -20,7 +20,7 @@ def bridge(request):
     if request.method == 'POST':
         action = request.POST.get('action')
 
-        if action == 'visit': return render(request, 'individual_club/individual_club.html')
+        if action == 'visit': return render(request, 'individual_club.html')
         elif action == 'club_directory': return render(request, 'club_directory.html')
 
     return render(request, 'landing_page.html')
@@ -47,37 +47,3 @@ def login_from_landing(request):
 def logout(request):
     request.session.flush()
     return redirect('home')
-
-def apply_club(request):
-    if not request.session.get('member_logged_in'):
-        messages.error(request, "You must be logged in to access this page")
-        return redirect('home')
-    return render(request, 'register/apply_club.html')
-
-# def individual_club(request):
-#     if not request.session.get('member_logged_in'):
-#         messages.error(request, "You must be logged in to access this page")
-#         return HttpResponseRedirect(reverse('home') + '#section_3') 
-#     return render(request, 'individual_club/individual_club.html')
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from django.urls import reverse
-from clubs.models import Clubs
-
-def individual_club(request):
-    if not request.session.get('member_logged_in'):
-        messages.error(request, "You must be logged in to access this page")
-        return redirect(reverse('home') + '#section_3')
-
-    if request.method == "POST":
-        club_id = request.POST.get("club_id")
-
-        if not club_id:  # nothing selected
-            return redirect(reverse('home') + '#section_3')
-
-        club = get_object_or_404(Clubs, id=club_id)
-        return render(request, 'individual_club/individual_club.html', {"club": club})
-
-    # if someone goes here directly
-    return redirect(reverse('home') + '#section_3')

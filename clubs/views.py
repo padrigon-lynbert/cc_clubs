@@ -17,11 +17,7 @@ def post_registration_club(request):
     # if not request.session.get('member_logged_in'):
     #     messages.error(request, "You must be logged in to access this page")
     #     return HttpResponseRedirect(reverse('home') +'#section_3')
-
-
-
-
-
+    
     member_id = request.session.get('member_id')
     if not member_id:
         messages.error(request, "You must be logged in to access this page")

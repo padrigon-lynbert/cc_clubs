@@ -1,0 +1,3 @@
+this app is for:
+
+modules outside individual_club (what we see inside 'visit' button on the right side of club directory)
