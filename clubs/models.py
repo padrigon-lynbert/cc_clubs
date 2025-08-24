@@ -72,10 +72,14 @@ class MemberApplication(models.Model):
 
 class ClubApplication(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
-    banner = models.ImageField(upload_to='club_applications/banners/', null=True)
-    submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE)
-    date_submitted = models.DateField(auto_now_add=True)
-    description = models.TextField(blank=True, null=True, help_text='Enter a description about this club')
+    acronym = models.CharField(max_length=8, null=True, unique=True, blank=True)
+    adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='application_adviser', null=True)
+    banner = models.ImageField(upload_to='club_applications/banners/', null=True, blank=True)
+    submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='submitted_application', null=True, blank=True)
+    year_level = models.CharField(max_length=10, null=True, blank=True)
+    email = models.EmailField(max_length=255, null=True, blank=True)
+    date_submitted = models.DateTimeField(auto_now_add=True)
+    description = models.TextField(null=True, blank=True, help_text='Enter a description about this club')
     location = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
     class Status(models.IntegerChoices):
