@@ -17,10 +17,18 @@ class Branch(models.Model):
         db_table = 'school_branch'
 
 class Clubs(models.Model):
-    club_name = models.CharField(max_length=30)
-    created_at = models.DateField(auto_now_add=True)
+    club_name = models.CharField(max_length=255, unique=True)
+    acronym = models.CharField(max_length=8, unique=True, null=True, blank=True)
+    description = models.TextField(max_length=255, null=True, blank=True)
+    chairperson = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='chaired_clubs', null=True, blank=True)
+    adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='advised_clubs', null=True, blank=True)
+    year_level = models.CharField(max_length=10, null=True, blank=True)
+    email = models.EmailField(max_length=255, null=True, blank=True)
     location = models.ForeignKey(Branch, on_delete=models.CASCADE, default=get_default_branch)
-    description = models.TextField(max_length=255, null=True)
+    banner = models.ImageField(upload_to='club_applications/banners/', null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     # accepting = models.BooleanField(default=False)
     # competing = models.BooleanField(default=False)
 
