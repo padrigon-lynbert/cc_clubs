@@ -78,6 +78,7 @@ def get_club_details(request, club_id):
         club = Clubs.objects.get(id=club_id)
         data = {
             'name': club.club_name,
+            'id': club.id,
             # add more fields here
         }
         return JsonResponse(data)
