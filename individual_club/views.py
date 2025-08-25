@@ -31,4 +31,10 @@ def budget_request(request):
     return render(request, 'budget_request.html')
 
 def election_club(request):
-    return render(request, 'election_club.html')
+    return render(request, 'election_club.html', context)
+
+    
+def get_club_achievement(request, club_id):
+    club = Clubs.objects.get(id=club_id)
+    context = {'club': club}
+    return render(request, 'club-achievement.html', context)
