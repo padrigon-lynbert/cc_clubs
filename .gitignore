@@ -2,3 +2,4 @@
 **/__pycache__/
 /tplt
 clubs_env/
+model_script.py
