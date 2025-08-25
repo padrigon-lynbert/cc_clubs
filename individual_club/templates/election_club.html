@@ -157,6 +157,36 @@
             transform: scale(1.5);
             margin: 0px 30px;
         }
+
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #cardWrapper {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 1rem;
+            padding: 10px;
+        }
+
+        .profile-card {
+            min-width: 260px;
+            max-width: 300px;
+            flex: 0 0 auto;
+        }
+
+        .modal-header {
+            background-color: #1e3a8a;
+            color: white;
+        }
+
+        .chart-container {
+            width: 100%;
+            max-width: 700px;
+            margin: auto;
+        }
     </style>
 </head>
 
@@ -181,7 +211,7 @@
                                 <span>Coach</span>
                             </a>
                         </li> -->
-                         <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-users"></i>
                                 <span>Member List</span>
@@ -217,7 +247,7 @@
                                 <span>Event and Activity Logs</span>
                             </a>
                         </li> -->
-                       <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'budget_request' %}" target="_blank">
                                 <i class="fas fa-wallet"></i>
                                 <span>Budget Request</span>
@@ -249,10 +279,45 @@
                     <h1>Club Officer Elections <span class="text-success">- for students ui(remove)</span></h1>
                     <hr>
                 </header>
+                <div class="container mb-3 p-3 border rounded bg-white">
+                    <h3 class="text-center">Election Results</h3>
+                    <div class="chart-container" style="width: 100%; max-width: 600px; height: 400px; margin: auto;">
+                        <canvas id="electionChart"></canvas>
+                    </div>
+                </div>
+
+
+                <div class="p-3 border rounded mb-3">
+                    <h4>Results for <span class="text-success">Presidential Election 2025 (remove the color, db)</span>
+                    </h4>
+                    <div class="tableresults">
+                        <table class="table table-bordered bg-white rounded">
+                            <tr>
+                                <th>Election Title</th>
+                                <td>Presidential Elections 2025</td>
+                            </tr>
+                            <tr>
+                                <th>Elected Candidate</th>
+                                <td>John Doe</td>
+                            </tr>
+                            <tr>
+                                <th>Assigned Role</th>
+                                <td>President of <span class="text-success">CESC Club (remove the color, db)</span></td>
+                            </tr>
+                            <tr>
+                                <th>Statistics Results</th>
+                                <td>78% rate of votes or something <span class="text-success">(remove) suggestions:
+                                        analytical or summarized powered ai</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+
                 <div class="p-3 border rounded">
+                    <h4>Ongoing Elections</h4>
                     <div>
                         <!-- lalabas lahat ng available na elections based sa club kung saan kasali isang student -->
-                        <h4>Ongoing Elections</h4>
                         <table class="table table-hover table-striped text-center">
                             <tr>
                                 <th>Election Title</th>
@@ -273,73 +338,177 @@
                                 <td>Computer Engineering Sports Club</td>
                                 <td>Ongoing</td>
                                 <td>August 27, 2025, 10:00 A.M. <br>August 30, 2025, 12:00 P.M.</td>
-                                <td><button class="btn btn-primary">Vote Now</button></td>
+                                <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#votemodal">
+                                        Vote Now
+                                    </button></td>
                             </tr>
                         </table>
-                    </div>
-                    <hr>
-                    <div>
-                        <h4>Presidential Candidates</h4>
-                        <!-- suggestions: lalabas mga candidates kapag naclick yung vote button sa mga available elections sa taas -->
-                        <form action="">
-                            <div class="d-flex justify-content-between col-md-8">
-                                <div class="card border rounded col-md-6 p-2">
-                                    <div class="d-flex">
-                                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                            alt="default profile" class="w-25">
-                                        <div class="px-3">
-                                            <h4 class="m-0 mt-1 pt-2">John Doe</h4>
-                                            <p style="color:#696666;" class="m-0">Vice President</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center mt-2">
-                                        <input type="radio" name="position" id="" class="me-2 custom-radio">
-                                        <label for="">Some Implementation Description</label>
-                                    </div>
-                                </div>
 
-                                <div class="card border rounded col-md-6 p-2">
-                                    <div class="d-flex">
-                                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                            alt="default profile" class="w-25">
-                                        <div class="px-3">
-                                            <h4 class="m-0 mt-1 pt-2">Jane Doe</h4>
-                                            <p style="color:#696666;" class="m-0">President</p>
-                                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="votemodal" tabindex="-1" aria-labelledby="votemodalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-3 text-center" id="votemodalLabel">Presidential
+                                            Elections 2025 <span class="text-success"> - Election Title (remove)</span>
+                                        </h1>
+                                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
-                                    <div class="d-flex align-items-center mt-2">
-                                        <input type="radio" name="position" id="" class="me-2 custom-radio">
-                                        <label for="">Some Implementation Description</label>
-                                    </div>
-                                </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <form action="">
+                                                <div class="container">
+                                                    <div class="carousel-container">
+                                                        <h4>Candidates for President</h4>
+                                                        <div id="cardWrapper">
+                                                            <div class="card profile-card border rounded p-2">
+                                                                <div class="d-flex">
+                                                                    <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
+                                                                        alt="default profile" class="w-25">
+                                                                    <div class="px-3">
+                                                                        <h4 class="m-0 mt-1 pt-2">John Doe</h4>
+                                                                        <p style="color:#696666;" class="m-0">Vice
+                                                                            President</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex align-items-center mt-2">
+                                                                    <input type="radio" name="position"
+                                                                        class="me-2 custom-radio">
+                                                                    <label>Some Implementation Description</label>
+                                                                </div>
+                                                            </div>
 
-                                <div class="card border rounded col-md-6 p-2">
-                                    <div class="d-flex">
-                                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                            alt="default profile" class="w-25">
-                                        <div class="px-3">
-                                            <h4 class="m-0 mt-1 pt-2">Peter Smith</h4>
-                                            <p style="color:#696666;" class="m-0">Secretary</p>
+                                                            <div class="card profile-card border rounded p-2">
+                                                                <div class="d-flex">
+                                                                    <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
+                                                                        alt="default profile" class="w-25">
+                                                                    <div class="px-3">
+                                                                        <h4 class="m-0 mt-1 pt-2">Jane Doe</h4>
+                                                                        <p style="color:#696666;" class="m-0">President
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex align-items-center mt-2">
+                                                                    <input type="radio" name="position"
+                                                                        class="me-2 custom-radio">
+                                                                    <label>Some Implementation Description</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="card profile-card border rounded p-2">
+                                                                <div class="d-flex">
+                                                                    <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
+                                                                        alt="default profile" class="w-25">
+                                                                    <div class="px-3">
+                                                                        <h4 class="m-0 mt-1 pt-2">Peter Smith</h4>
+                                                                        <p style="color:#696666;" class="m-0">Secretary
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex align-items-center mt-2">
+                                                                    <input type="radio" name="position"
+                                                                        class="me-2 custom-radio">
+                                                                    <label>Some Implementation Description</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="card profile-card border rounded p-2">
+                                                                <div class="d-flex">
+                                                                    <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
+                                                                        alt="default profile" class="w-25">
+                                                                    <div class="px-3">
+                                                                        <h4 class="m-0 mt-1 pt-2">Alice Johnson</h4>
+                                                                        <p style="color:#696666;" class="m-0">Treasurer
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex align-items-center mt-2">
+                                                                    <input type="radio" name="position"
+                                                                        class="me-2 custom-radio">
+                                                                    <label>Some Implementation Description</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <input type="submit" value="Submit Vote"
+                                                            class="btn btn-primary">
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-center mt-2">
-                                        <input type="radio" name="position" id="" class="me-2 custom-radio">
-                                        <label for="">Some Implementation Description</label>
+                                    <div class="modal-footer">
+                                        <h6 class="text-warning">NOTE: </h6>
+                                        <h6>Please Vote Wisely.</h6>
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-center m-3">
-                                <input type="submit" value="Submit Vote" class="btn btn-primary">
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </main>
         </div>
     </div>
 
-
     <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+  const ctx = document.getElementById('electionChart').getContext('2d');
+
+  const electionChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['John Doe', 'Jane Doe', 'Peter Smith', 'Alice Johnson'],
+      datasets: [{
+        label: '% of Votes',
+        data: [55, 30, 10, 5],
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(255, 99, 132, 0.7)'
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(255, 99, 132, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y', // Makes it a horizontal bar chart
+      responsive: true,
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: 100,
+          title: {
+            display: true,
+            text: 'Vote Percentage (%)'
+          }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.parsed.x + '% of votes';
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
 </body>
 
 </html>
