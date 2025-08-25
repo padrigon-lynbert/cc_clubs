@@ -9,5 +9,5 @@ urlpatterns =[
     path('individual_club', individual_club, name='individual_club'),
     path('apply_club', apply_club, name='apply_club'),
     path('budget_request', budget_request, name='budget_request'),
-    path('election_club', election_club, name='election_club'),
+    path('achievements/<int:club_id>', get_club_achievement, name='club_achievement'),
 ]
