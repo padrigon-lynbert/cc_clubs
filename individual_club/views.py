@@ -40,3 +40,8 @@ def get_club_achievement(request, club_id):
     club = Clubs.objects.get(id=club_id)
     context = {'club': club}
     return render(request, 'club-achievement.html', context)
+
+def dashboard(request, club_id):
+    club = Clubs.objects.get(id=club_id)
+    context = {'club': club}
+    return render(request, 'individual_club.html', context)

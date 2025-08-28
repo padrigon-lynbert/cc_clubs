@@ -4,6 +4,7 @@ from .views import apply_club # no backend yet
 from .views import budget_request # no backend, no acceptance page
 from .views import election_club # only for linking the page
 from .views import get_club_achievement
+from .views import dashboard
 
 
 urlpatterns =[
@@ -12,4 +13,5 @@ urlpatterns =[
     path('budget_request', budget_request, name='budget_request'),
     path('election_club/<int:club_id>', election_club, name='election_club'),
     path('achievements/<int:club_id>', get_club_achievement, name='club_achievement'),
+    path('individual_club/<int:club_id>', dashboard, name='dashboard'),
 ]

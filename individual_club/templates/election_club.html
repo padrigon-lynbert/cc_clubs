@@ -187,6 +187,27 @@
             max-width: 700px;
             margin: auto;
         }
+        
+        .sidebar-footer .stats-card-return .return {
+            text-decoration: none;
+            color: white;
+            padding: 0;
+        }
+
+        .sidebar-footer .stats-card-return:hover {
+            background: #3355eb;
+        }
+
+        .sidebar-footer .stats-card-return {
+            background-color: #1a4b8c;
+            padding: 10px 20px 6px 10px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
@@ -211,6 +232,12 @@
                                 <span>Coach</span>
                             </a>
                         </li> -->
+                        <li class="nav-item mt-2">
+                            <a class="nav-link" href="{% url 'dashboard' club.id %}">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-users"></i>
@@ -248,7 +275,7 @@
                             </a>
                         </li> -->
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'budget_request' %}" target="_blank">
+                            <a class="nav-link" href="{% url 'budget_request' %}">
                                 <i class="fas fa-wallet"></i>
                                 <span>Budget Request</span>
                             </a>
@@ -261,13 +288,19 @@
                             </a>
                         </li>
                     </ul>
-
+                    <hr class="my-4">
                     <div class="sidebar-footer">
                         <div class="stats-card">
                             <h6>Total Members:</h6>
                         </div>
                         <div class="stats-card">
                             <h6>Active Events:</h6>
+                        </div>
+                        <hr class="my-4">
+                        <div class="stats-card-return">
+                            <a class="return text-center" href="{% url 'home' %}">
+                                <h6>Return</h6>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -459,56 +492,56 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-  const ctx = document.getElementById('electionChart').getContext('2d');
+        const ctx = document.getElementById('electionChart').getContext('2d');
 
-  const electionChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['John Doe', 'Jane Doe', 'Peter Smith', 'Alice Johnson'],
-      datasets: [{
-        label: '% of Votes',
-        data: [55, 30, 10, 5],
-        backgroundColor: [
-          'rgba(75, 192, 192, 0.7)',
-          'rgba(54, 162, 235, 0.7)',
-          'rgba(255, 206, 86, 0.7)',
-          'rgba(255, 99, 132, 0.7)'
-        ],
-        borderColor: [
-          'rgba(75, 192, 192, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(255, 99, 132, 1)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      indexAxis: 'y', // Makes it a horizontal bar chart
-      responsive: true,
-      scales: {
-        x: {
-          beginAtZero: true,
-          max: 100,
-          title: {
-            display: true,
-            text: 'Vote Percentage (%)'
-          }
-        }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              return context.parsed.x + '% of votes';
+        const electionChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['John Doe', 'Jane Doe', 'Peter Smith', 'Alice Johnson'],
+                datasets: [{
+                    label: '% of Votes',
+                    data: [55, 30, 10, 5],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(255, 99, 132, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Makes it a horizontal bar chart
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Vote Percentage (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.parsed.x + '% of votes';
+                            }
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
-    }
-  });
-</script>
+        });
+    </script>
 </body>
 
 </html>

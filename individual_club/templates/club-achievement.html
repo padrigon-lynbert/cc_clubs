@@ -157,6 +157,27 @@
             transform: scale(1.5);
             margin: 0px 30px;
         }
+        
+        .sidebar-footer .stats-card-return .return {
+            text-decoration: none;
+            color: white;
+            padding: 0;
+        }
+
+        .sidebar-footer .stats-card-return:hover {
+            background: #3355eb;
+        }
+
+        .sidebar-footer .stats-card-return {
+            background-color: #1a4b8c;
+            padding: 10px 20px 6px 10px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
@@ -181,6 +202,12 @@
                                 <span>Coach</span>
                             </a>
                         </li> -->
+                        <li class="nav-item mt-2">
+                            <a class="nav-link" href="{% url 'dashboard' club.id %}">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
                          <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-users"></i>
@@ -218,7 +245,7 @@
                             </a>
                         </li> -->
                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'budget_request' %}" target="_blank">
+                            <a class="nav-link" href="{% url 'budget_request' %}">
                                 <i class="fas fa-wallet"></i>
                                 <span>Budget Request</span>
                             </a>
@@ -231,13 +258,19 @@
                             </a>
                         </li>
                     </ul>
-
+                    <hr class="my-4">
                     <div class="sidebar-footer">
                         <div class="stats-card">
                             <h6>Total Members:</h6>
                         </div>
                         <div class="stats-card">
                             <h6>Active Events:</h6>
+                        </div>
+                        <hr class="my-4">
+                        <div class="stats-card-return">
+                            <a class="return text-center" href="{% url 'home' %}">
+                                <h6>Return</h6>
+                            </a>
                         </div>
                     </div>
                 </div>
