@@ -18,7 +18,7 @@ class Branch(models.Model):
 
 class Clubs(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
-    acronym = models.CharField(max_length=8, unique=True, null=True, blank=True)
+    acronym = models.CharField(max_length=30, unique=True, null=True, blank=True)
     description = models.TextField(max_length=255, null=True, blank=True)
     chairperson = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='chaired_clubs', null=True, blank=True)
     adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='advised_clubs', null=True, blank=True)
@@ -72,7 +72,7 @@ class MemberApplication(models.Model):
 
 class ClubApplication(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
-    acronym = models.CharField(max_length=8, null=True, unique=True, blank=True)
+    acronym = models.CharField(max_length=30, null=True, unique=True, blank=True)
     adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='application_adviser', null=True)
     banner = models.ImageField(upload_to='club_applications/banners/', null=True, blank=True)
     submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='submitted_application', null=True, blank=True)
