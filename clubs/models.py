@@ -69,7 +69,6 @@ class MemberApplication(models.Model):
         db_table = 'member_application'
         ordering = ['-date_submitted']
 
-
 class ClubApplication(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
     acronym = models.CharField(max_length=30, null=True, unique=True, blank=True)
@@ -114,3 +113,23 @@ class Event(models.Model):
     class Meta:
         db_table = 'events'
 
+class BudgetRequest(models.Model):
+    purpose = models.CharField(max_length=255, blank=False, null=False)
+    details = models.CharField(max_length=255)
+    club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
+    class Status(models.IntegerChoices):
+        PENDING = 0, _('Pending')
+        APPROVED = 1, _('Approved')
+        REJECTED = 2, _('Rejected')
+
+    status = models.IntegerField(
+        choices=Status.choices,
+        default=Status.PENDING,
+    )
+
+    def __str__(self):
+        return f'{self.club.club_name} is requesting budget for {self.purpose}'
+    
+    class Meta:
+        db_table = 'budget_requests'
