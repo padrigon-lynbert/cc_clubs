@@ -187,7 +187,7 @@
             max-width: 700px;
             margin: auto;
         }
-        
+
         .sidebar-footer .stats-card-return .return {
             text-decoration: none;
             color: white;
@@ -207,6 +207,35 @@
             font-size: 0.9rem;
             color: #fff;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        #calendar {
+            max-width: 350px;
+            height: 350px;
+            margin: 0 auto;
+        }
+
+        /* Title */
+        .fc .fc-toolbar-title {
+            font-size: 1rem;
+        }
+
+        /* Toolbar buttons */
+        .fc .fc-button {
+            font-size: 1rem;
+            padding: 5px;
+        }
+
+        /* Day numbers */
+        .fc .fc-daygrid-day-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Event titles */
+        .fc .fc-event-title {
+            font-size: 1rem;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -312,10 +341,17 @@
                     <h1>Club Officer Elections <span class="text-success">- for students ui(remove)</span></h1>
                     <hr>
                 </header>
-                <div class="container mb-3 p-3 border rounded bg-white">
-                    <h3 class="text-center">Election Results</h3>
-                    <div class="chart-container" style="width: 100%; max-width: 600px; height: 400px; margin: auto;">
-                        <canvas id="electionChart"></canvas>
+                <div class="d-flex">
+                    <div class="container col-md-5 p-3 border rounded bg-white">
+                        <h4 class="text-center">Election Results</h4>
+                        <div class="chart-container"
+                            style="width: 100%; max-width: 600px; height: 200px; margin: auto;">
+                            <canvas id="electionChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="container col-md-5 p-3 border rounded bg-white">
+                        <h4 class="text-center mb-4">My Event Calendar</h4>
+                        <div id="calendar"></div>
                     </div>
                 </div>
 
@@ -490,6 +526,7 @@
 
     <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 
     <script>
         const ctx = document.getElementById('electionChart').getContext('2d');
@@ -540,6 +577,29 @@
                     }
                 }
             }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const calendarEl = document.getElementById('calendar');
+
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                events: [
+                    { title: 'Meeting', start: '2025-09-03' },
+                    { title: 'Conference', start: '2025-09-10', end: '2025-09-12' },
+                    { title: 'Lunch', start: '2025-09-14T12:00:00' },
+                    { title: 'Birthday Party', start: '2025-09-21' }
+                ],
+                initialView: 'dayGridMonth',
+                themeSystem: 'bootstrap5', 
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: ''
+                }
+            });
+
+            calendar.render();
         });
     </script>
 </body>
