@@ -8,7 +8,11 @@
 {% empty %}
 <tr><td colspan="4">No clubs available.</td></tr>
 {% endfor %} -->
-
+<style>
+    .club-row:hover {
+        cursor:pointer;
+    }
+</style>
 {% for club in clubs %}
 <tr class="club-row" 
     data-id="{{ club.id }}"
