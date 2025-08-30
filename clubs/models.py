@@ -100,3 +100,17 @@ class ClubApplication(models.Model):
         db_table = 'club_application'
         ordering = ['-date_submitted']
         verbose_name_plural = 'Club Applications'
+
+class Event(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False)
+    club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+
+    def __str__(self):
+        return f'{self.club.club_name} Event - {self.name}'
+    
+    class Meta:
+        db_table = 'events'
+
