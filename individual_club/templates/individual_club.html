@@ -12,226 +12,349 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-        }
+    body {
+        font-family: 'DM Sans', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        color: #495057;
+    }
 
-        /* Sidebar - Fixed Width, Sticky */
+    /* Sidebar - Fixed Width, Sticky */
+    .sidebar {
+        background: linear-gradient(135deg, #29306f, #1e255a);
+        color: white;
+        width: 240px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 1000;
+        box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar .logo h1 {
+        padding: 20px;
+        font-size: 1.4rem;
+        margin: 0;
+        color: #ffea00;
+        text-align: center;
+        font-weight: 700;
+        border-bottom: 2px solid #ffd60a;
+        letter-spacing: 0.5px;
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Nav Links - No Hover Effects */
+    .sidebar .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        color: #ddd;
+        text-decoration: none;
+        border-left: 3px solid transparent;
+        font-size: 0.95rem;
+    }
+
+    .sidebar .nav-link.active {
+        background-color: rgba(255, 234, 0, 0.15);
+        color: #ffea00;
+        border-left-color: #ffea00;
+        font-weight: bold;
+    }
+
+    .sidebar .nav-link i {
+        margin-right: 12px;
+        font-size: 18px;
+        width: 24px;
+        text-align: center;
+        opacity: 0.9;
+    }
+
+    /* Stats Cards */
+    .stats-card {
+        background: linear-gradient(135deg, #314270, #27345a);
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-size: 0.95rem;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    .stats-card h6 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    /* Sidebar Footer */
+    .sidebar-footer {
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .sidebar-footer .stats-card-return {
+        background: linear-gradient(135deg, #3355eb, #2a48d0);
+        padding: 10px 20px 6px 10px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        text-align: center;
+    }
+
+    .sidebar-footer .return {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    /* Main Content */
+    main {
+        margin-left: 240px;
+        padding: 30px;
+        min-height: 100vh;
+        background-color: #f8f9fa;
+    }
+
+    /* Club Card */
+    .club-card {
+        position: relative;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        background-color: white;
+        margin-bottom:20px;
+    }
+
+    .club-banner {
+        height: 325px;
+        background: url("{% static 'images/bg01.jpg' %}") center/cover no-repeat;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .club-header {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .club-logo {
+        width: 135px;
+        height: 135px;
+        background: url("{% static 'images/bg03.jpg' %}") center/cover no-repeat;
+        border-radius: 50%;
+        border: 4px solid white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .club-info h4 {
+        font-weight: 700;
+        color: white;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        margin: 0;
+    }
+
+    .club-info p {
+        margin: 4px 0 0 0;
+        font-size: 0.95rem;
+        opacity: 0.9;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Uploader & Member Photo */
+    .uploader, .memberphoto {
+        border-radius: 50%;
+        background-color: #314270;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .uploader {
+        width: 30px;
+        height: 30px;
+    }
+
+    .memberphoto {
+        width: 4rem;
+        height: 4rem;
+    }
+
+    /* Member Card */
+    .member {
+        border: 1px solid #e9ecef;
+        padding: 15px;
+        border-radius: 10px;
+        background-color: #fdfdfd;
+        min-width: 125px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .member:hover {
+        cursor: pointer;
+        background-color: #f1f3f5;
+        border-color: #314270;
+        transform: translateY(-2x);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .member h6 {
+        font-weight: 600;
+        color: #212529;
+    }
+
+    .member .text-muted {
+        font-size: 13px;
+    }
+
+    /* Announcements */
+    .announcements {
+        background-color: #f8f9ff;
+        border-left: 4px solid #314270;
+        border-radius: 8px;
+
+    }
+
+    .announcements:hover {
+        background-color: #f1f3ff;
+        border-left-color: #29306f;
+    }
+
+    .announcements h6 {
+        font-weight: 600;
+        color: #212529;
+    }
+
+    .announcements .text-muted {
+        font-size: 0.85rem;
+    }
+
+    .announcements a {
+        color: #29306f;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .announcements a:hover {
+        color:rgb(71, 66, 9);
+    }
+
+    /* Search Input */
+    .m {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .m input {
+        border: 1px solid #ced4da;
+        border-radius: 20px;
+        padding: 6px 12px 6px 32px;
+        font-size: 0.9rem;
+        width: 180px;
+        outline: none;
+    }
+
+    .m input:focus {
+        border-color: #29306f;
+        box-shadow: 0 0 0 3px rgba(41, 48, 111, 0.15);
+    }
+
+    .m .fa-magnifying-glass {
+        position: absolute;
+        left: 10px;
+        top: 9px;
+        color: #6c757d;
+        font-size: 0.85rem;
+    }
+
+    /* Upcoming Events Panel */
+    .col-md-4.border {
+        border: 1px solid #e9ecef !important;
+        border-radius: 30px;
+        height: 425px;
+        background-color: #fdfdfe;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    h5 {
+        color: #212529;
+        font-weight: 700;
+    }
+
+    /* Apply Button */
+    .apply-button-container {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        width: 200px;
+    }
+
+    .btn-apply {
+        width: 100%;
+        background: linear-gradient(135deg, #0c994b, #0a7a3c);
+        color: white;
+        border: none;
+        font-weight: bold;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 1rem;
+        box-shadow: 0 4px 12px rgba(12, 153, 75, 0.25);
+    }
+
+    .btn-apply:hover {
+        background: linear-gradient(135deg, #0b4722, #093a1c);
+        color: #ffea00;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(11, 71, 34, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 767.98px) {
         .sidebar {
-            background-color: #1e3a8a;
-            /* Deep blue */
-            color: white;
-            width: 240px;
-            position: fixed;
-            /* Keep it fixed in place */
-            top: 0;
-            left: 0;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 1000;
-        }
-
-        .sidebar .logo h1 {
-            padding: 20px;
-            font-size: 1.3rem;
-            margin: 0;
-            color: #ffea00;
-            text-align: center;
-            font-weight: 700;
-            border-bottom: 2px solid #ffd60a;
-        }
-
-        /* Nav Links */
-        .sidebar .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: #ddd;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-            font-size: 0.95rem;
-        }
-
-        .sidebar .nav-link:hover {
-            background-color: #3355eb;
-            color: #fff;
-        }
-
-        .sidebar .nav-link.active {
-            background-color: rgba(255, 234, 0, 0.2);
-            color: #ffea00;
-            border-left-color: #ffea00;
-            font-weight: bold;
-        }
-
-        .sidebar .nav-link i {
-            margin-right: 12px;
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-        }
-
-        /* Stats Cards */
-        .stats-card {
-            background-color: #1a4b8c;
-            padding: 10px 15px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            color: #fff;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .stats-card h6 {
-            margin: 0;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        /* Sidebar Footer */
-        .sidebar-footer {
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        /* Main Content */
-        main {
-            margin-left: 240px;
-            /* Matches sidebar width */
-            padding: 30px;
-            min-height: 100vh;
-        }
-
-        /* Apply Button - Floating at Bottom Center */
-        .apply-button-container {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            width: 200px;
-        }
-
-        .btn-apply {
             width: 100%;
-            background-color: #0c994b;
-            color: white;
-            border: none;
-            font-weight: bold;
-            padding: 12px;
-            border-radius: 6px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .btn-apply:hover {
-            background-color: #0b4722;
-            color: #ffea00;
-        }
-
-        /* Responsive: Collapse sidebar on small screens */
-        @media (max-width: 767.98px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                z-index: 1000;
-            }
-
-            main {
-                margin-left: 0;
-                padding: 15px;
-            }
-
-            .apply-button-container {
-                left: 50%;
-            }
-        }
-
-        .sidebar-footer .stats-card-return .return {
-            text-decoration: none;
-            color: white;
-            padding: 0;
-        }
-
-        .sidebar-footer .stats-card-return:hover {
-            background: #3355eb;
-        }
-
-        .sidebar-footer .stats-card-return {
-            background-color: #1a4b8c;
-            padding: 10px 20px 6px 10px;
-            text-decoration: none;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            color: #fff;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .club-card {
+            height: auto;
             position: relative;
-            border: 1px solid #ddd;
-            border-radius: 10px 10px 0 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        main {
+            margin-left: 0;
+            padding: 15px;
+        }
+
+        .apply-button-container {
+            left: 50%;
         }
 
         .club-banner {
-            height: 325px;
-            background: url("{% static 'images/bg01.jpg' %}") center/cover no-repeat;
-        }
-
-        .club-header {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            display: flex;
-            align-items: center;
-            gap: 30px;
+            height: 200px;
         }
 
         .club-logo {
-            width: 135px;
-            height: 135px;
-            background: url("{% static 'images/bg03.jpg' %}") center/cover no-repeat;
-            border-radius: 50%;
-            border: 4px solid white;
+            width: 90px;
+            height: 90px;
         }
 
-        .club-info {
-            color: white;
-            margin-top: 50px;
+        .club-header {
+            gap: 15px;
+            bottom: 15px;
         }
 
-        .uploader {
-            width: 30px;
-            height: 30px;
-            background-color: #0c994b;
-            border-radius: 50%;
+        .memberslist {
+            gap: 12px;    
         }
-
-        .memberphoto {
-            width: 4rem;
-            height: 4rem;
-            background-color: #0c994b;
-            border-radius: 50%;
-        }
-
-        .member {
-            border: 1px solid rgb(199, 199, 199);
-            padding: 10px;
-        }
-
-        .member:hover {
-            cursor: pointer;
-        }
-    </style>
+    }
+</style>
 
     
 </head>
