@@ -427,14 +427,14 @@
                             // scroll goto view when club is clicked in the repository
                             const clubView = document.getElementById("club_view");
 
-if (window.innerWidth <= 768) {
-    // Mobile
-    clubView.scrollIntoView({ behavior: "smooth", block: "end" });
-} else {
-    // Desktop
-    document.getElementById("section_3")
-            .scrollIntoView({ behavior: "smooth", block: "center" });
-}
+                            if (window.innerWidth <= 768) {
+                                // Mobile
+                                clubView.scrollIntoView({ behavior: "smooth", block: "end" });
+                            } else {
+                                // Desktop
+                                document.getElementById("section_3")
+                                        .scrollIntoView({ behavior: "smooth", block: "center" });
+                            }
 
 
 
