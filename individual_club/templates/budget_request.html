@@ -3,22 +3,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Budget Request | BCP Club System</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
   <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'DM Sans', Arial, sans-serif;
-      background-color: rgb(242, 248, 253);
+      background-color: #f2f8fd;
       margin: 0;
       padding: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
+      line-height: 1.5;
     }
 
     .form-container {
@@ -31,7 +36,7 @@
     }
 
     .form-header {
-      background-color: rgb(83, 67, 253);
+      background-color: #5343fd;
       color: white;
       padding: 20px 24px;
       display: flex;
@@ -43,12 +48,15 @@
     .form-header h2 {
       margin: 0;
       font-size: 1.25rem;
-      font-weight: bold;
+      font-weight: 700;
     }
 
-    .form-header .system-label {
+    .system-label {
       font-size: 0.875rem;
       color: #ffeb3b;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 4px 8px;
+      border-radius: 4px;
     }
 
     .form-body {
@@ -62,6 +70,7 @@
     label {
       display: block;
       font-size: 0.875rem;
+      font-weight: 500;
       color: #333;
       margin-bottom: 6px;
     }
@@ -75,7 +84,15 @@
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 1rem;
-      box-sizing: border-box;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #5343fd;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(83, 67, 253, 0.2);
     }
 
     textarea {
@@ -85,6 +102,12 @@
 
     select {
       background: white;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+      padding-right: 30px;
     }
 
     .helper-text {
@@ -95,6 +118,7 @@
 
     .submit-group {
       text-align: right;
+      margin-top: 24px;
     }
 
     .btn {
@@ -102,9 +126,10 @@
       border: none;
       border-radius: 30px;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 600;
       transition: background-color 0.3s ease;
       margin-left: 12px;
+      font-size: 1rem;
     }
 
     .btn-return {
@@ -113,16 +138,93 @@
     }
 
     .btn-return:hover {
-      background-color:rgb(103, 113, 121);
+      background-color: #5a6268;
     }
 
     .btn-submit {
-      background-color: rgb(83, 67, 253);
+      background-color: #5343fd;
       color: white;
     }
 
     .btn-submit:hover {
-      background-color: #084713;
+      background-color: #4236c9; /* Fixed: was green, now darker blue */
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 767.98px) {
+      body {
+        padding: 10px;
+      }
+
+      .form-container {
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .form-header {
+        padding: 16px 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .form-header h2 {
+        font-size: 1.1rem;
+      }
+
+      .system-label {
+        font-size: 0.8rem;
+      }
+
+      .form-body {
+        padding: 16px;
+      }
+
+      .form-group {
+        margin-bottom: 14px;
+      }
+
+      label {
+        font-size: 0.85rem;
+      }
+
+      input, select, textarea {
+        font-size: 1rem;
+        padding: 10px;
+      }
+
+      .submit-group {
+        text-align: right;
+        margin-top: 20px;
+      }
+
+      .btn {
+        padding: 10px 16px;
+        font-size: 0.95rem;
+      }
+
+      .btn-return, .btn-submit {
+        margin-left: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .btn {
+        padding: 9px 14px;
+        font-size: 0.9rem;
+      }
+
+      .submit-group {
+        text-align: center;
+      }
+
+      .btn-return, .btn-submit {
+        margin-left: 0;
+        margin-top: 8px;
+        display: inline-block;
+        width: 100%;
+        max-width: 200px;
+      }
     }
   </style>
 </head>
@@ -133,7 +235,6 @@
       <span class="system-label">BCP Club System</span>
     </div>
 
-    <!-- Form -->
     <form class="form-body" novalidate>
       <!-- Requester Name -->
       <div class="form-group">
@@ -141,6 +242,7 @@
         <input type="text" id="requester-name" placeholder="Juan Dela Cruz" required />
       </div>
 
+      <!-- Club Name -->
       <div class="form-group">
         <label for="club-name">Club Name</label>
         <select id="club-name" required>
@@ -171,11 +273,13 @@
         </select>
       </div>
 
+      <!-- Purpose -->
       <div class="form-group">
         <label for="purpose">Purpose</label>
         <textarea id="purpose" rows="3" placeholder="E.g. Purchase of materials for club event" required></textarea>
       </div>
 
+      <!-- Amount -->
       <div class="form-group">
         <label for="amount">Amount (₱)</label>
         <input 
@@ -187,9 +291,10 @@
         />
       </div>
 
+      <!-- Amount in Words -->
       <div class="form-group">
         <label for="amount-words">Amount in Words</label>
-        <input type="text" id="amount-words" placeholder="e.g. One thousand two hundred fifty pesos only" readonly required />
+        <input type="text" id="amount-words" placeholder="e.g. One thousand two hundred fifty pesos only" readonly />
         <p class="helper-text">The amount will be auto-filled. Edit if needed.</p>
       </div>
 
@@ -206,45 +311,47 @@
   </div>
 
   <script>
+    // Converts number to words (e.g. 1250 → "One Thousand Two Hundred Fifty Pesos Only")
     function numberToWords(num) {
-      const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
-        'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-      const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+      const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+        'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+      const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
 
       function convertLessThanThousand(n) {
         if (n === 0) return '';
         else if (n < 20) return ones[n];
         else if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + ones[n % 10] : '');
-        else return ones[Math.floor(n / 100)] + ' hundred ' + convertLessThanThousand(n % 100);
+        else return ones[Math.floor(n / 100)] + ' Hundred ' + convertLessThanThousand(n % 100);
       }
 
-      if (num === 0) return 'zero pesos only';
+      if (num === 0) return 'Zero Pesos Only';
 
       let integerPart = Math.floor(num);
       let decimalPart = Math.round((num - integerPart) * 100);
 
       let words = '';
       if (integerPart >= 1000000) {
-        words += convertLessThanThousand(Math.floor(integerPart / 1000000)) + ' million ';
+        words += convertLessThanThousand(Math.floor(integerPart / 1000000)) + ' Million ';
         integerPart %= 1000000;
       }
       if (integerPart >= 1000) {
-        words += convertLessThanThousand(Math.floor(integerPart / 1000)) + ' thousand ';
+        words += convertLessThanThousand(Math.floor(integerPart / 1000)) + ' Thousand ';
         integerPart %= 1000;
       }
       if (integerPart > 0 || words === '') {
         words += convertLessThanThousand(integerPart);
       }
 
-      words = words.trim() + ' pesos';
+      words = words.trim() + ' Pesos';
       if (decimalPart > 0) {
-        words += ' and ' + convertLessThanThousand(decimalPart) + ' centavos';
+        words += ' and ' + convertLessThanThousand(decimalPart) + ' Centavos';
       }
-      words += ' only';
+      words += ' Only';
 
-      return words.replace(/\s+/g, ' ').trim().toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase());
+      return words.replace(/\s+/g, ' ').trim();
     }
 
+    // Format number with commas (e.g. 1234567 → "1,234,567")
     function formatNumberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
@@ -253,23 +360,25 @@
     const wordsInput = document.getElementById('amount-words');
 
     amountInput.addEventListener('input', function () {
+      // Remove invalid characters
       let value = this.value.replace(/[^0-9.]/g, '');
       const parts = value.split('.');
 
+      // Limit to two decimal places
       if (parts.length > 2) {
-        value = parts[0] + '.' + parts[1];
+        value = parts[0] + '.' + parts.slice(1).join('');
       }
-
       if (parts[1] && parts[1].length > 2) {
         value = parts[0] + '.' + parts[1].substring(0, 2);
       }
 
-      this.value = value;
-
+      // Reformat with commas
       const num = parseFloat(value);
       if (!isNaN(num) && value !== '') {
+        this.value = formatNumberWithCommas(num.toFixed(2));
         wordsInput.value = numberToWords(num);
       } else {
+        this.value = value;
         wordsInput.value = '';
       }
     });
