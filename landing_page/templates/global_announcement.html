@@ -4,9 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>global announcements</title>
+    <style>
+        .return-button {
+            margin: 10px;
+            padding: 8px 16px;
+            background-color: #001f3f; /* Navy blue color */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+        
+        .return-button:hover {
+            background-color: #001427; /* Darker navy blue on hover */
+        }
+        
+        .return-button:active {
+            transform: translateY(1px);
+        }
+    </style>
 </head>
 <body>
     <p>global announcements</p>
     
+    <button class="return-button" onclick="window.history.back()">Return</button>
 </body>
 </html>
