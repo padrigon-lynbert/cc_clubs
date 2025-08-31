@@ -3,3 +3,5 @@
 /tplt
 clubs_env/
 model_script.py
+img_adder.py
+images/
