@@ -482,7 +482,11 @@
             <div class="club-card">
                 <div class="club-banner"></div>
                 <div class="club-header">
-                    <img src="{{ club.banner.url }}" alt="Club logo" class="club-logo">
+                    {% if club.banner %}
+                        <img src="{{ club.banner.url }}" alt="Club logo" class="club-logo">
+                    {% else %}
+                        <img class="club-logo">
+                    {% endif %}
                     <div class="club-info">
                         <h4><b>{{ club.club_name }}</b></h4>
                         <p class="text-muted mb-0">{{ club.members_count }} Members</p>
