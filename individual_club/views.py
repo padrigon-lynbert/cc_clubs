@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
 from clubs.models import Clubs
+from landing_page.models import Users
+
 
 
 def apply_club(request):
@@ -9,6 +11,9 @@ def apply_club(request):
         messages.error(request, "You must be logged in to access this page")
         return redirect('home')
     return render(request, 'register/apply_club.html')
+
+def member_list(request):
+    return render(request, 'member_list.html')
 
 def individual_club(request):
     if not request.session.get('member_logged_in'):
@@ -22,13 +27,43 @@ def individual_club(request):
             return redirect(reverse('home') + '#section_3')
 
         club = get_object_or_404(Clubs, id=club_id)
+
+        # ! store selected club in session
+        request.session['club_id'] = club.id
+
         return render(request, 'individual_club.html', {"club": club})
 
     # if someone goes here directly
     return redirect(reverse('home') + '#section_3')
 
+
 def budget_request(request):
-    return render(request, 'budget_request.html')
+    member_id = request.session.get('member_id')
+    if not member_id:
+        messages.error(request, "You must be logged in to access this page")
+        return redirect(reverse('home') + '#section_3')
+
+    user = get_object_or_404(Users, id=member_id)
+
+    club_id = request.session.get('club_id')
+    club = get_object_or_404(Clubs, id=club_id)
+
+    # ---- Role Restriction ----
+    if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.INSTRUCTOR]:
+        messages.error(request, "You are not allowed to access this page")
+        return render(request, 'individual_club.html', {"club": club})
+
+    # ! retrieve selected club from session
+    if not club_id:
+        messages.error(request, "No club selected")
+        return redirect(reverse('home') + '#section_3')
+    
+    if user.role == Users.Role.ACTIVITY_COORDINATOR:
+        return render(request, 'budget_request_review.html', {"club": club}) # if activity coordinator: view budget request
+
+    return render(request, 'budget_request.html', {"club": club}) # go to budget_request (instructor only)
+
+
 
 def election_club(request, club_id):
     club = Clubs.objects.get(id=club_id)

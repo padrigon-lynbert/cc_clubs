@@ -6,6 +6,8 @@
 
         <meta name="description" content="">
         <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=0.8">
+
         {% load static %}
         <title>BCP Clubs - Home</title>
 
@@ -23,6 +25,8 @@
         <link href="{% static 'landing_page/css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
 
         <link rel="stylesheet" href="">
+
+  
 
 
         
@@ -91,6 +95,11 @@
 
                             <li class="nav-item">
                                 <a class="nav-link click-scroll" href="#section_4">Events</a>
+                            </li>
+                            
+                            <li>
+                                <a class="nav-link"><i class="bi bi-chat-dots"></i></a>
+
                             </li>
                             <!-- dont remove this comment -->
                             <!-- <li class="nav-item">
@@ -189,16 +198,16 @@
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-lg-6 col-12 mb-5 mb-lg-0">
+                        <div class="col-lg-6 col-12" style="padding-top: 75px;">
                             <h2 class="text-white">Welcome to BCP Clubs</h2>
 
-                            <h1 class="cd-headline rotate-1 text-white mb-4 pb-2">
+                            <h1 class="cd-headline rotate-1  text-center">
                                 <!-- <span>Tiya is</span> -->
                                 <span class="cd-words-wrapper">
-                                    <b class="is-visible">Join a Club</b>
-                                    <b>Participate in Activities</b>
-                                    <b>Learn New Lifestyle</b>
-                                    <b>Find New Friends</b>
+                                    <b class="is-visible">Join</b>
+                                    <b>Participate</b>
+                                    <b>Learn</b>
+                                    <b>Discover</b>
                                     <b>Train</b>
                                     <b>Compete</b>
                                 </span>
@@ -248,9 +257,12 @@
                         <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0 mb-md-0">
                             <div class="member-block">
                                 <div class="member-block-image-wrap">
-                                    <img src="{% static 'landing_page/images/members/portrait-young-handsome-businessman-wearing-suit-standing-with-crossed-arms-with-isolated-studio-white-background.jpg' %}" class="member-block-image img-fluid" alt="">
+                                    <!-- <img src="{% static 'landing_page/images/members/sir_ian.jpeg' %}" 
+                                        class="member-block-image img-fluid" 
+                                        alt=""
+                                        style="height:300px; width:270px; object-fit:cover; border-radius:5%; padding:5px; text-align: center;">                                     -->
 
-                                    <ul class="social-icon">
+                                    <!-- <ul class="social-icon">
                                         <li class="social-icon-item">
                                             <a href="#" class="social-icon-link bi-twitter"></a>
                                         </li>
@@ -258,37 +270,31 @@
                                         <li class="social-icon-item">
                                             <a href="#" class="social-icon-link bi-whatsapp"></a>
                                         </li>
-                                    </ul>
+                                    </ul> -->
+
+                                        <div class="member-block-image-wrap d-flex justify-content-center">
+                                            <img src="{% static 'landing_page/images/members/sir_ian.jpeg' %}" 
+                                                 style="height:300px; width:270px; object-fit:cover; border-radius:5%;"></div>
+                                            
                                 </div>
 
-                                <div class="member-block-info d-flex align-items-center">
+                                <div class="member-block-info d-flex flex-column text-center">
                                     <h4>Mr. Ian Erguiza</h4>
-
-                                    <p class="ms-auto"> Activity Coordinator</p>
-                                </div>
+                                    <p>Activity Coordinator</p></div>
+                                    
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-md-6 col-12">
                             <div class="member-block">
-                                <div class="member-block-image-wrap">
-                                    <img src="{% static 'landing_page/images/members/successful-asian-lady-boss-red-blazer-holding-clipboard-with-documens-pen-working-looking-happy-white-background.jpg' %}" class="member-block-image img-fluid" alt="">
+                                <div class="member-block-image-wrap d-flex justify-content-center">
+                                    <img src="{% static 'landing_page/images/members/sir_ian.jpeg' %}" 
+                                            style="height:300px; width:270px; object-fit:cover; border-radius:5%;"></div>
+                                
 
-                                    <ul class="social-icon">
-                                        <li class="social-icon-item">
-                                            <a href="#" class="social-icon-link bi-linkedin"></a>
-                                        </li>
-                                        <li class="social-icon-item">
-                                            <a href="#" class="social-icon-link bi-twitter"></a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="member-block-info d-flex align-items-center">
+                                <div class="member-block-info d-flex flex-column text-center">
                                     <h4>Dr. Maria M. Vicente</h4>
-
-                                    <p class="ms-auto">Founder BCP</p>
-                                </div>
+                                    <p>Founder BCP</p></div>
                             </div>
                         </div>
 
@@ -368,7 +374,7 @@
                                             class="card-img-top rounded-4 shadow" alt="Club Image"
                                             style="height: 200px; width: 100%; object-fit: cover;">
 
-                                        <div class="card-body" style="height: 150px; overflow-y: auto;">
+                                        <div class="card-body" style="height: 150px; overflow-y: auto; scrollbar-width:none; -ms-overflow-style:none;">
                                             <!-- <h5 class="card-title fw-bold text-center">Club Name</h5> -->
                                             <h5 id="club-name" class="card-title fw-bold text-center">Select Club</h5>
 
@@ -538,14 +544,14 @@
                                                 </div>
                                                 <div class="d-flex align-items-center">
                                                     <span class="text-muted me-2">🎟️</span>
-                                                    <span class="fw-medium">Ticket:</span>
-                                                    <p class="mb-0 ms-1">₱200</p>
+                                                    <span class="fw-medium">Date:</span>
+                                                    <p class="mb-0 ms-1">Feb-2-2003</p>
                                                 </div>
                                             </div>
                     
-                                            <div class="ms-auto">
+                                            <!-- <div class="ms-auto">
                                                 <a href="event-detail.html" class="btn btn-primary custom-btn">Buy Ticket</a>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -585,117 +591,25 @@
                                                 </div>
                                                 <div class="d-flex align-items-center">
                                                     <span class="text-muted me-2">🎟️</span>
-                                                    <span class="fw-medium">Ticket:</span>
-                                                    <p class="mb-0 ms-1">₱200</p>
+                                                    <span class="fw-medium">Date:</span>
+                                                    <p class="mb-0 ms-1">Jun-20-2004</p>
                                                 </div>
                                             </div>
                     
-                                            <div class="ms-auto">
+                                            <!-- <div class="ms-auto">
                                                 <a href="event-detail.html" class="btn btn-primary custom-btn">Buy Ticket</a>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                     
-                            <!-- Event 3: Yoga Workshop -->
-                            <div class="row custom-block mb-4 align-items-center">
-                                <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
-                                    <div class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
-                                        <h6 class="custom-block-date mb-1 mb-lg-1 mb-0">15</h6>
-                                        <strong class="text-white">September 2025</strong>
-                                    </div>
-                                </div>
-                    
-                                <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
-                                    <div class="custom-block-image-wrap position-relative">
-                                        <a href="event-detail.html">
-                                            <img src="{% static 'landing_page/images/professional-golf-player.jpg' %}" class="custom-block-image img-fluid rounded" alt="Private Golf Activity">
-                                            <i class="custom-block-icon bi bi-link position-absolute top-50 start-50 translate-middle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                    
-                                <div class="col-lg-6 col-12 order-3 order-lg-0">
-                                    <div class="custom-block-info mt-2 mt-lg-0">
-                                        <h5 class="events-title mb-3">
-                                            <a href="event-detail.html" class="text-decoration-none">Sunrise Yoga & Wellness</a>
-                                        </h5>
-                                        <p>Start your day with peace and energy. Join our outdoor yoga session on the greens, followed by a light healthy breakfast and mindfulness talk.</p>
-                    
-                                        <div class="d-flex flex-wrap border-top pt-3 mt-4">
-                                            <div class="me-lg-5 mb-3 mb-lg-0">
-                                                <div class="d-flex align-items-center mb-1">
-                                                    <span class="text-muted me-2">📍</span>
-                                                    <span class="fw-medium">Location:</span>
-                                                    <p class="mb-0 ms-1">Luneta Park Lawn</p>
-                                                </div>
-                                                <div class="d-flex align-items-center">
-                                                    <span class="text-muted me-2">🎟️</span>
-                                                    <span class="fw-medium">Ticket:</span>
-                                                    <p class="mb-0 ms-1">Free (Registration Required)</p>
-                                                </div>
-                                            </div>
-                    
-                                            <div class="ms-auto">
-                                                <a href="event-detail.html" class="btn btn-outline-primary custom-btn">Register Now</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                    
-                            <!-- Event 4: Kids Golf Clinic -->
-                            <div class="row custom-block custom-block-bg mb-4 align-items-center">
-                                <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
-                                    <div class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
-                                        <h6 class="custom-block-date mb-1 mb-lg-1 mb-0">22</h6>
-                                        <strong class="text-white">September 2025</strong>
-                                    </div>
-                                </div>
-                    
-                                <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
-                                    <div class="custom-block-image-wrap position-relative">
-                                        <a href="event-detail.html">
-                                            <img src="{% static 'landing_page/images/girl-taking-selfie-with-friends-golf-field.jpg' %}" class="custom-block-image img-fluid rounded" alt="Group Tournament">
-                                            <i class="custom-block-icon bi bi-link position-absolute top-50 start-50 translate-middle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                    
-                                <div class="col-lg-6 col-12 order-3 order-lg-0">
-                                    <div class="custom-block-info mt-2 mt-lg-0">
-                                        <h5 class="events-title mb-3">
-                                            <a href="event-detail.html" class="text-decoration-none">Kids Golf Clinic (Ages 8–14)</a>
-                                        </h5>
-                                        <p>Introduce your child to the sport of golf! Fun, safe, and educational clinic focused on basics, etiquette, and confidence-building.</p>
-                    
-                                        <div class="d-flex flex-wrap border-top pt-3 mt-4">
-                                            <div class="me-lg-5 mb-3 mb-lg-0">
-                                                <div class="d-flex align-items-center mb-1">
-                                                    <span class="text-muted me-2">📍</span>
-                                                    <span class="fw-medium">Location:</span>
-                                                    <p class="mb-0 ms-1">Manila Golf Club – Junior Range</p>
-                                                </div>
-                                                <div class="d-flex align-items-center">
-                                                    <span class="text-muted me-2">🎟️</span>
-                                                    <span class="fw-medium">Ticket:</span>
-                                                    <p class="mb-0 ms-1">₱150 per child</p>
-                                                </div>
-                                            </div>
-                    
-                                            <div class="ms-auto">
-                                                <a href="event-detail.html" class="btn btn-primary custom-btn">Enroll Now</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                     
                             <!-- Optional: View All Button -->
                             <div class="row mt-4">
                                 <div class="col-12 text-center">
-                                    <a href="events.html" class="btn btn-outline-dark">View All Events</a> <!--naka black lng yan.mms-->
+                                    <a href="{% url 'global_announcements' %}" class="btn btn-outline-dark">View All Events</a> <!--naka black lng yan.mms-->
                                 </div>
                             </div>
                             </div>

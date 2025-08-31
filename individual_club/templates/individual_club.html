@@ -232,7 +232,30 @@
             cursor: pointer;
         }
     </style>
+
+    
 </head>
+
+  <!-- Toast Container for err (login)-->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+        {% for message in messages %}
+        <div class="toast align-items-center text-white bg-{{ message.tags }} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" style="color: black;">
+                    {{ message }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Toast JS (requires Bootstrap 5) -->
+    <script>
+        document.querySelectorAll('.toast').forEach(toastEl => {
+            new bootstrap.Toast(toastEl).show();
+        });
+    </script>
 
 <body>
     <div class="container-fluid" style="padding-left: 50px;">
@@ -262,7 +285,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{% url 'member_list' %}">
                                 <i class="fas fa-users"></i>
                                 <span>Member List</span>
                             </a>
@@ -297,6 +320,7 @@
                                 <span>Event and Activity Logs</span>
                             </a>
                         </li> -->
+
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'budget_request' %}">
                                 <i class="fas fa-wallet"></i>
@@ -307,7 +331,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-bullhorn"></i>
-                                <span>Announcements</span>
+                                <span>Create Events</span>
                             </a>
                         </li>
                     </ul>
