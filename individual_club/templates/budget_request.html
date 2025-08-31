@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Budget Request | BCP Club System</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
   <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -11,8 +11,8 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color:rgb(242, 248, 253);
+      font-family: 'DM Sans', Arial, sans-serif;
+      background-color: rgb(242, 248, 253);
       margin: 0;
       padding: 20px;
       display: flex;
@@ -31,7 +31,7 @@
     }
 
     .form-header {
-      background-color:rgb(83, 67, 253);
+      background-color: rgb(83, 67, 253);
       color: white;
       padding: 20px 24px;
       display: flex;
@@ -93,53 +93,54 @@
       margin-top: 4px;
     }
 
-    .submit-btn {
-      background-color:rgb(83, 67, 253);
-      color:rgb(231, 230, 241);
-      border: none;
-      font-weight: bold;
+    .submit-group {
+      text-align: right;
+    }
+
+    .btn {
       padding: 10px 20px;
+      border: none;
       border-radius: 30px;
       cursor: pointer;
-      float: right;
+      font-weight: bold;
       transition: background-color 0.3s ease;
+      margin-left: 12px;
     }
 
-    .submit-btn:hover {
-      background-color:rgb(8, 71, 19);
+    .btn-return {
+      background-color: #6c757d;
+      color: white;
     }
 
-    /* Clear floats */
-    .submit-group::after {
-      content: "";
-      display: table;
-      clear: both;
+    .btn-return:hover {
+      background-color: #5a6268;
+    }
+
+    .btn-submit {
+      background-color: rgb(83, 67, 253);
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background-color: #084713;
     }
   </style>
 </head>
 <body>
-
   <div class="form-container">
- 
-
     <div class="form-header">
       <h2>Budget Request Form</h2>
       <span class="system-label">BCP Club System</span>
     </div>
 
-
-
     <!-- Form -->
     <form class="form-body" novalidate>
-
-
       <!-- Requester Name -->
       <div class="form-group">
         <label for="requester-name">Requester Name</label>
         <input type="text" id="requester-name" placeholder="Juan Dela Cruz" required />
       </div>
 
-      
       <div class="form-group">
         <label for="club-name">Club Name</label>
         <select id="club-name" required>
@@ -170,7 +171,6 @@
         </select>
       </div>
 
-     
       <div class="form-group">
         <label for="purpose">Purpose</label>
         <textarea id="purpose" rows="3" placeholder="E.g. Purchase of materials for club event" required></textarea>
@@ -193,15 +193,19 @@
         <p class="helper-text">The amount will be auto-filled. Edit if needed.</p>
       </div>
 
-
+      <!-- Submit Buttons -->
       <div class="form-group submit-group">
-        <button type="submit" class="submit-btn">Submit Request</button>
+        <button type="button" class="btn btn-return" onclick="window.history.back();">
+          ← Return
+        </button>
+        <button type="submit" class="btn btn-submit">
+          Submit Request
+        </button>
       </div>
     </form>
   </div>
 
   <script>
-
     function numberToWords(num) {
       const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
         'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
@@ -245,17 +249,15 @@
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-  
     const amountInput = document.getElementById('amount');
     const wordsInput = document.getElementById('amount-words');
 
     amountInput.addEventListener('input', function () {
-    
       let value = this.value.replace(/[^0-9.]/g, '');
       const parts = value.split('.');
 
       if (parts.length > 2) {
-        value = parts[0] + '.' + parts[1]; 
+        value = parts[0] + '.' + parts[1];
       }
 
       if (parts[1] && parts[1].length > 2) {
