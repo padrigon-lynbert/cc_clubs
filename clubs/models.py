@@ -111,11 +111,11 @@ class Event(models.Model):
         return f'{self.club.club_name} Event - {self.name}'
     
     class Meta:
-        db_table = 'events'
+        db_table = 'event'
 
 class BudgetRequest(models.Model):
     purpose = models.CharField(max_length=255, blank=False, null=False)
-    details = models.CharField(max_length=255)
+    details = models.TextField(null=True, blank=True)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
     class Status(models.IntegerChoices):
@@ -132,4 +132,16 @@ class BudgetRequest(models.Model):
         return f'{self.club.club_name} is requesting budget for {self.purpose}'
     
     class Meta:
-        db_table = 'budget_requests'
+        db_table = 'budget_request'
+
+class Achievement(models.Model):
+    title = models.CharField(max_length=50, blank=False, null=False)
+    details = models.TextField(blank=True, null=True)
+    club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.club.club_name} achieves {self.title}'
+    
+    class Meta:
+        db_table = 'achievement'
