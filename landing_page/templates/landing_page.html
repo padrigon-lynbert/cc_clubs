@@ -21,6 +21,10 @@
         <link href="{% static 'landing_page/css/bootstrap-icons.css' %}" rel="stylesheet">
 
         <link href="{% static 'landing_page/css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
+
+        <link rel="stylesheet" href="">
+
+
         
     </head>
 
@@ -353,20 +357,22 @@
                         <div class="col-lg-5 col-12 mx-auto" id="club_view">
                             <h4 class="mb-4 pb-lg-2 text-center">Please join us!</h4>
                         
-                            <form action="{% url 'individual_club' %}" method="post" class="custom-form membership-form shadow-lg" role="form">
+                            <form action="{% url 'individual_club' %}" method="post" class="custom-form membership-form shadow-lg" role="form"
+                                      style="padding: 8px; box-shadow: none; border: none;"
+                                      >
                                 {% csrf_token %}
                            
                                     
-                                <div class="card border-0 mb-4">
+                                <div class="card mb-4" style="border-radius: 10%;">
                                         <img src="{% static 'landing_page/images/members/portrait-young-handsome-businessman-wearing-suit-standing-with-crossed-arms-with-isolated-studio-white-background.jpg' %}"
                                             class="card-img-top rounded-4 shadow" alt="Club Image"
-                                            style="height: 250px; width: 100%; object-fit: cover;">
+                                            style="height: 200px; width: 100%; object-fit: cover;">
 
-                                        <div class="card-body">
+                                        <div class="card-body" style="max-height: 150px; overflow-y: auto;">
                                             <!-- <h5 class="card-title fw-bold text-center">Club Name</h5> -->
                                             <h5 id="club-name" class="card-title fw-bold text-center">Select Club</h5>
 
-                                            <p id="club-description" class="card-text text-muted" style="max-height: 7em; overflow-y: auto;">
+                                            <p id="club-description" class="card-text text-muted">
                                                 ! No club selected. <br><br>
                                                 This is a brief description about the selected club, including its purpose and activities.
                                             </p>
