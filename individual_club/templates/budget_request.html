@@ -1,61 +1,276 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
   <title>Budget Request | BCP Club System</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-[#f7f7fa] min-h-screen flex items-center justify-center p-6 font-sans">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <div class="w-full max-w-2xl bg-white rounded-2xl shadow-lg border border-gray-200">
-    <!-- Header -->
-    <div class="bg-[#2e2b50] text-white rounded-t-2xl px-6 py-4 flex justify-between items-center">
-      <h2 class="text-xl font-bold">Budget Request Form</h2>
-      <span class="text-sm text-yellow-400">BCP Club System</span>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color:rgb(242, 248, 253);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 1050px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(55, 26, 161, 0.1);
+      overflow: hidden;
+    }
+
+    .form-header {
+      background-color:rgb(83, 67, 253);
+      color: white;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .form-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    .form-header .system-label {
+      font-size: 0.875rem;
+      color: #ffeb3b;
+    }
+
+    .form-body {
+      padding: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    select {
+      background: white;
+    }
+
+    .helper-text {
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .submit-btn {
+      background-color:rgb(83, 67, 253);
+      color:rgb(231, 230, 241);
+      border: none;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      float: right;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color:rgb(8, 71, 19);
+    }
+
+    /* Clear floats */
+    .submit-group::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+ 
+
+    <div class="form-header">
+      <h2>Budget Request Form</h2>
+      <span class="system-label">BCP Club System</span>
     </div>
 
+
+
     <!-- Form -->
-    <form class="p-6 space-y-5">
+    <form class="form-body" novalidate>
+
+
       <!-- Requester Name -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Requester Name</label>
-        <input type="text" placeholder="Juan Dela Cruz"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2b50]" />
+      <div class="form-group">
+        <label for="requester-name">Requester Name</label>
+        <input type="text" id="requester-name" placeholder="Juan Dela Cruz" required />
       </div>
 
-      <!-- Department -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Department</label>
-        <select
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2b50]">
-          <option disabled selected>Select department</option>
-          <option>Student Affairs</option>
-          <option>Sports Club</option>
-          <option>Academic Org</option>
+      
+      <div class="form-group">
+        <label for="club-name">Club Name</label>
+        <select id="club-name" required>
+          <option disabled selected>Select club</option>
+          <option value="cesc">CESC - Computer Engineering Sports Club</option>
+          <option value="lakas">LAKAS - Liga ng mga Aktibong Kabataan Sa Araling Panlipunan</option>
+          <option value="gems">GEMs - Guild of English Majors</option>
+          <option value="aces">ACES - Association of Computer Engineering Students</option>
+          <option value="acac">ACAC - Association of Cultural Art Club</option>
+          <option value="acads">ACADS - Association of Computer Engineering Academic Driven Students</option>
+          <option value="libro">LIBRO - Lucid Intelligence of Bright and Righteous Officers</option>
+          <option value="wika">WIKA - Wikang Filipino Instrumento sa Kaunlarang Akademya</option>
+          <option value="eyo">EYO - Entrepre Youth Organization</option>
+          <option value="galaw">GALAW - Group of Athletes and Leaders Association for Wellness</option>
+          <option value="psych-soc">PSYCH-SOC - Psychology Society</option>
+          <option value="techs">TECHS - Technology, Explorative, Creativeness and Hospitality Skills</option>
+          <option value="sigma">SIGMA - Students' Interactive Guild for Mathematics Major</option>
+          <option value="tlc">TLC - BCP TALENT CENTER</option>
+          <option value="aiss">AISS - Accounting Information System Society</option>
+          <option value="hrs">HRS - Human Resource Society</option>
+          <option value="rsd">RSD - Regnum Scientiae Discipulus</option>
+          <option value="lapis">LAPIS - Leadership Association Program Including Services</option>
+          <option value="bliss">BLISS - Bestlink Library and Information Science Society</option>
+          <option value="tss">TSS - Tourism Student Society</option>
+          <option value="jma">JMA - Junior Marketing Association</option>
+          <option value="gold">GOLD - Guild Officers to Lead Development</option>
+          <option value="smc">SMC - Shuttle Master Club</option>
         </select>
       </div>
 
-      <!-- Purpose -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Purpose</label>
-        <textarea rows="3" placeholder="E.g. Purchase of materials for club event"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2b50]"></textarea>
+     
+      <div class="form-group">
+        <label for="purpose">Purpose</label>
+        <textarea id="purpose" rows="3" placeholder="E.g. Purchase of materials for club event" required></textarea>
       </div>
 
-      <!-- Amount -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Amount (₱)</label>
-        <input type="number" placeholder="Enter amount requested"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2b50]" />
+      <div class="form-group">
+        <label for="amount">Amount (₱)</label>
+        <input 
+          type="text" 
+          id="amount" 
+          inputmode="decimal"
+          placeholder="Enter amount requested" 
+          required 
+        />
       </div>
 
-      <!-- Submit -->
-      <div class="text-right">
-        <button type="submit"
-          class="bg-yellow-400 text-[#2e2b50] font-semibold px-6 py-2 rounded-full hover:bg-yellow-500 transition">Submit Request</button>
+      <div class="form-group">
+        <label for="amount-words">Amount in Words</label>
+        <input type="text" id="amount-words" placeholder="e.g. One thousand two hundred fifty pesos only" readonly required />
+        <p class="helper-text">The amount will be auto-filled. Edit if needed.</p>
+      </div>
+
+
+      <div class="form-group submit-group">
+        <button type="submit" class="submit-btn">Submit Request</button>
       </div>
     </form>
   </div>
 
+  <script>
+
+    function numberToWords(num) {
+      const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+        'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+      const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+      function convertLessThanThousand(n) {
+        if (n === 0) return '';
+        else if (n < 20) return ones[n];
+        else if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + ones[n % 10] : '');
+        else return ones[Math.floor(n / 100)] + ' hundred ' + convertLessThanThousand(n % 100);
+      }
+
+      if (num === 0) return 'zero pesos only';
+
+      let integerPart = Math.floor(num);
+      let decimalPart = Math.round((num - integerPart) * 100);
+
+      let words = '';
+      if (integerPart >= 1000000) {
+        words += convertLessThanThousand(Math.floor(integerPart / 1000000)) + ' million ';
+        integerPart %= 1000000;
+      }
+      if (integerPart >= 1000) {
+        words += convertLessThanThousand(Math.floor(integerPart / 1000)) + ' thousand ';
+        integerPart %= 1000;
+      }
+      if (integerPart > 0 || words === '') {
+        words += convertLessThanThousand(integerPart);
+      }
+
+      words = words.trim() + ' pesos';
+      if (decimalPart > 0) {
+        words += ' and ' + convertLessThanThousand(decimalPart) + ' centavos';
+      }
+      words += ' only';
+
+      return words.replace(/\s+/g, ' ').trim().toLowerCase().replace(/\b[a-z]/g, c => c.toUpperCase());
+    }
+
+    function formatNumberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+  
+    const amountInput = document.getElementById('amount');
+    const wordsInput = document.getElementById('amount-words');
+
+    amountInput.addEventListener('input', function () {
+    
+      let value = this.value.replace(/[^0-9.]/g, '');
+      const parts = value.split('.');
+
+      if (parts.length > 2) {
+        value = parts[0] + '.' + parts[1]; 
+      }
+
+      if (parts[1] && parts[1].length > 2) {
+        value = parts[0] + '.' + parts[1].substring(0, 2);
+      }
+
+      this.value = value;
+
+      const num = parseFloat(value);
+      if (!isNaN(num) && value !== '') {
+        wordsInput.value = numberToWords(num);
+      } else {
+        wordsInput.value = '';
+      }
+    });
+  </script>
 </body>
 </html>

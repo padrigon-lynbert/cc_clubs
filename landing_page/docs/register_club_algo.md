@@ -1,6 +1,6 @@
 # Club Registration Flow — Algorithm
 
-## 1. Check Login Status
+## 1. Check   in Status
 - If the user is **not logged in**:
   - Display an error message: `"You must be logged in to access this page."`
   - Redirect to the home page
