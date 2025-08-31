@@ -3,9 +3,579 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Member List</title>
+    <title>BCP Club Members</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #3b4a87 0%, #2c3e7a 25%, #1e2b5c 75%, #152041 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #ffd700;
+        }
+
+        .member-login-btn {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .member-login-btn:hover {
+            background: #ffd700;
+            color: #2c3e7a;
+        }
+
+        .main-container {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+        }
+
+        .decorative-wave {
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='%23ffffff' fill-opacity='0.1'/%3E%3C/svg%3E") no-repeat center/cover;
+        }
+
+        .hierarchy-section {
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            min-width: 300px;
+        }
+
+        .professor-section .section-title {
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            color: #2c3e7a;
+        }
+
+        .officer-section .section-title {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+        }
+
+        .member-section .section-title {
+            background: linear-gradient(135deg, #5a67d8, #4c51bf);
+            color: white;
+        }
+
+        .member-grid {
+            display: grid;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .professor-grid {
+            grid-template-columns: 1fr;
+            justify-items: center;
+        }
+
+        .officer-grid {
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        }
+
+        .member-grid-container {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .member-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ffd700, #ffed4a);
+        }
+
+        .member-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .professor-card {
+            max-width: 450px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 237, 74, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .professor-card::before {
+            background: linear-gradient(90deg, #ffd700, #ffed4a);
+            height: 6px;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .professor-avatar {
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            color: #2c3e7a;
+            border-color: #ffd700;
+        }
+
+        .officer-avatar {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+        }
+
+        .member-avatar {
+            background: linear-gradient(135deg, #5a67d8, #4c51bf);
+            color: white;
+        }
+
+        .name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .position {
+            text-align: center;
+            font-weight: 500;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .professor-card .position {
+            color: #ffd700;
+        }
+
+        .officer-card .position {
+            color: #4a90e2;
+        }
+
+        .member-card-regular .position {
+            color: #a0aec0;
+        }
+
+        .details {
+            text-align: center;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .add-member-section {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .add-member-btn {
+            background: linear-gradient(135deg, #ffd700, #ffed4a);
+            color: #2c3e7a;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .add-member-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+            background: linear-gradient(135deg, #ffed4a, #ffd700);
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .crown-icon {
+            position: absolute;
+            top: -5px;
+            right: 10px;
+            font-size: 1.5rem;
+            color: #ffd700;
+        }
+
+        @media (max-width: 768px) {
+            .header-nav {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+
+            .main-container {
+                padding: 20px;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .officer-grid, .member-grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <p>member list</p>
+    <!-- Header Navigation -->
+    <nav class="header-nav">
+        <div class="logo">
+            <div class="logo-icon">🏛️</div>
+            <div>
+                <div>BCP</div>
+                <div style="font-size: 0.8rem; font-weight: normal;">CLUB SYSTEM</div>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link">Home</a>
+            <a href="#" class="nav-link">About</a>
+            <a href="#" class="nav-link">Clubs</a>
+            <a href="#" class="nav-link active">Members</a>
+            <a href="#" class="nav-link">Events</a>
+            <a href="#" class="member-login-btn">Member Login</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title">Club Members</h1>
+            <p class="hero-subtitle">Organizational Structure & Directory</p>
+            <div class="decorative-wave"></div>
+        </div>
+
+        <!-- Professor Section -->
+        <div class="hierarchy-section professor-section">
+            <div class="section-header">
+                <div class="section-title">👑 Professor</div>
+            </div>
+            <div class="member-grid professor-grid">
+                <div class="member-card professor-card">
+                    <div class="crown-icon">👑</div>
+                    <div class="avatar professor-avatar">👨‍🏫</div>
+                    <div class="name">Dr. Juan Dela Cruz</div>
+                    <div class="position">Professor & Club Advisor</div>
+                    <div class="details">Computer Science Department<br>PhD in Computer Science<br>Bestlink College of the Philippines</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Officers Section -->
+        <div class="hierarchy-section officer-section">
+            <div class="section-header">
+                <div class="section-title">🏆 Club Officers</div>
+            </div>
+            <div class="member-grid officer-grid">
+                <div class="member-card officer-card">
+                    <div class="avatar officer-avatar">👑</div>
+                    <div class="name">Maria Santos</div>
+                    <div class="position">Club President</div>
+                    <div class="details">4th Year BS Computer Science<br>maria.santos@bcp.edu.ph<br>Student ID: 2021-12345</div>
+                </div>
+                <div class="member-card officer-card">
+                    <div class="avatar officer-avatar">👥</div>
+                    <div class="name">Jose Rizal</div>
+                    <div class="position">Vice President</div>
+                    <div class="details">3rd Year BS Information Technology<br>jose.rizal@bcp.edu.ph<br>Student ID: 2022-67890</div>
+                </div>
+                <div class="member-card officer-card">
+                    <div class="avatar officer-avatar">📝</div>
+                    <div class="name">Ana Garcia</div>
+                    <div class="position">Secretary</div>
+                    <div class="details">3rd Year BS Computer Science<br>ana.garcia@bcp.edu.ph<br>Student ID: 2022-11111</div>
+                </div>
+                <div class="member-card officer-card">
+                    <div class="avatar officer-avatar">💰</div>
+                    <div class="name">Pedro Martinez</div>
+                    <div class="position">Treasurer</div>
+                    <div class="details">4th Year BS Information Technology<br>pedro.martinez@bcp.edu.ph<br>Student ID: 2021-22222</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Members Section -->
+        <div class="hierarchy-section member-section">
+            <div class="section-header">
+                <div class="section-title">👥 Club Members</div>
+            </div>
+            <div class="member-grid member-grid-container">
+                <div class="member-card member-card-regular">
+                    <div class="avatar member-avatar">👨</div>
+                    <div class="name">Carlos Mendoza</div>
+                    <div class="position">Active Member</div>
+                    <div class="details">2nd Year BS Computer Science<br>carlos.mendoza@bcp.edu.ph</div>
+                </div>
+                <div class="member-card member-card-regular">
+                    <div class="avatar member-avatar">👩</div>
+                    <div class="name">Liza Reyes</div>
+                    <div class="position">Active Member</div>
+                    <div class="details">1st Year BS Information Technology<br>liza.reyes@bcp.edu.ph</div>
+                </div>
+                <div class="member-card member-card-regular">
+                    <div class="avatar member-avatar">👨</div>
+                    <div class="name">Roberto Cruz</div>
+                    <div class="position">Active Member</div>
+                    <div class="details">2nd Year BS Computer Science<br>roberto.cruz@bcp.edu.ph</div>
+                </div>
+                <div class="member-card member-card-regular">
+                    <div class="avatar member-avatar">👩</div>
+                    <div class="name">Carmen Lopez</div>
+                    <div class="position">Active Member</div>
+                    <div class="details">3rd Year BS Information Technology<br>carmen.lopez@bcp.edu.ph</div>
+                </div>
+                <div class="member-card member-card-regular">
+                    <div class="avatar member-avatar">👨</div>
+                    <div class="name">Miguel Torres</div>
+                    <div class="position">Active Member</div>
+                    <div class="details">1st Year BS Computer Science<br>miguel.torres@bcp.edu.ph</div>
+                </div>
+                <div class="member-card member-card-regular">
+                    <div class="avatar member-avatar">👩</div>
+                    <div class="name">Sofia Gonzales</div>
+                    <div class="position">Active Member</div>
+                    <div class="details">2nd Year BS Information Technology<br>sofia.gonzales@bcp.edu.ph</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Member Section -->
+        <div class="add-member-section">
+            <button class="add-member-btn" onclick="addMember()">➕ Add New Member</button>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Professor</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Officers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Active Members</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">Total Members</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addMember() {
+            const name = prompt("Enter member name:");
+            const position = prompt("Enter position (Professor/Officer/Member):");
+            const details = prompt("Enter additional details (Year, Course, etc.):");
+            
+            if (name && position) {
+                alert(`Successfully added ${name} as ${position} to the BCP Club System!`);
+                // In a real application, this would add the member to the database
+            }
+        }
+
+        // Enhanced animations and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.member-card');
+            
+            // Staggered animation on load
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Enhanced hover effects
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-12px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Navigation active state
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+
+        // Parallax scroll effect for background
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('body');
+            const speed = scrolled * 0.5;
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+    </script>
 </body>
 </html>
