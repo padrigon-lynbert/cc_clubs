@@ -111,7 +111,7 @@ class Event(models.Model):
         return f'{self.club.club_name} Event - {self.name}'
     
     class Meta:
-        db_table = 'events'
+        db_table = 'event'
 
 class BudgetRequest(models.Model):
     purpose = models.CharField(max_length=255, blank=False, null=False)
@@ -132,6 +132,7 @@ class BudgetRequest(models.Model):
         return f'{self.club.club_name} is requesting budget for {self.purpose}'
     
     class Meta:
+        db_table = 'budget_request'
 
 class Achievement(models.Model):
     title = models.CharField(max_length=50, blank=False, null=False)
