@@ -22,7 +22,7 @@
 
         /* Sidebar - Fixed Width, Sticky */
         .sidebar {
-            background-color: #1e3a8a;
+            background-color: #29306f;
             /* Deep blue */
             color: white;
             width: 240px;
@@ -58,7 +58,7 @@
         }
 
         .sidebar .nav-link:hover {
-            background-color: #3355eb;
+            background-color: #29306f;
             color: #fff;
         }
 
@@ -78,7 +78,7 @@
 
         /* Stats Cards */
         .stats-card {
-            background-color: #1a4b8c;
+            background-color: #29306f;
             padding: 10px 15px;
             border-radius: 6px;
             margin-bottom: 10px;
@@ -178,7 +178,7 @@
         }
 
         .modal-header {
-            background-color: #1e3a8a;
+            background-color:#29306f;
             color: white;
         }
 
@@ -209,30 +209,163 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        #calendar {
-            max-width: 350px;
-            height: 350px;
-            margin: 0 auto;
-        }
+        /* Calendar Container - Centered with Elegance */
+#calendar {
+    max-width: 600px;
+    height: 380px;
+    margin: 0 auto;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(41, 48, 111, 0.15);
+    border: 1px solid #e0e4f0;
+    background: white;
+}
 
-        .fc .fc-toolbar-title {
-            font-size: 1rem;
-        }
+/* FullCalendar Toolbar (Header) */
+.fc .fc-toolbar {
+    margin: 0;
+    padding: 0.8rem 0.5rem;
+}
 
-        .fc .fc-button {
-            font-size: 1rem;
-            padding: 5px;
-        }
+.fc .fc-toolbar-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color:rgb(81, 94, 214);
+    margin: 0;
+    text-align: center;
+}
 
-        .fc .fc-daygrid-day-number {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
+.fc .fc-toolbar-header {
+    background: linear-gradient(135deg, #29306f, #1e234a);
+    border-bottom: 1px solid #3a4385;
+    padding: 0.4rem 0;
+}
 
-        .fc .fc-event-title {
-            font-size: 1rem;
-            font-weight: 500;
-        }
+/* Calendar Buttons (Prev/Next) */
+.fc .fc-button {
+    background-color: #29306f;
+    border: none;
+    color: white;
+    font-size: 0.95rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(41, 48, 111, 0.2);
+    transition: all 0.3s ease;
+}
+
+.fc .fc-button:hover {
+    background-color: #3a4385;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(41, 48, 111, 0.3);
+}
+
+.fc .fc-button:active {
+    transform: translateY(0);
+}
+
+/* Today Button Specific Style */
+.fc .fc-button-primary {
+    background-color: #29306f;
+}
+
+.fc .fc-button-primary:not(:disabled):active {
+    background-color: #1e234a;
+}
+
+/* Calendar Days Grid */
+.fc .fc-daygrid-day {
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.fc .fc-daygrid-day:hover {
+    background-color: #f0f2ff;
+    border: 1px solid #a3bffa;
+    cursor: pointer;
+}
+
+/* Today Highlight */
+.fc .fc-daygrid-day.fc-today {
+    background-color: #29306f !important;
+    border-color: #29306f;
+}
+
+.fc .fc-daygrid-day.fc-today .fc-daygrid-day-number {
+    color: white !important;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 50%;
+    background: #1e234a;
+    display: inline-block;
+}
+
+/* Day Number Styling */
+.fc .fc-daygrid-day-number {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #29306f;
+    padding: 4px;
+}
+
+/* Events in Calendar */
+.fc .fc-daygrid-event {
+    font-size: 0.85rem;
+    font-weight: 500;
+    background-color: #29306f;
+    border-color: #3a4385;
+    color: white;
+    border-radius: 6px;
+    margin: 1px 2px;
+    padding: 2px 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.fc .fc-daygrid-event:hover {
+    background-color: #3a4385;
+    transform: scale(1.05);
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Event Title */
+.fc .fc-event-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Weekday Headers (Mon, Tue, etc.) */
+.fc .fc-col-header-cell {
+    background: #f5f7ff;
+    border-bottom: 2px solid #e0e4f0;
+}
+
+.fc .fc-col-header-cell a {
+    color: #29306f;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Calendar Grid Lines */
+.fc .fc-scrollgrid {
+    border: none;
+}
+
+.fc table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.fc th {
+    padding: 8px 0;
+}
+
+.fc td {
+    padding: 2px 0;
+}
     </style>
 </head>
 
@@ -334,30 +467,37 @@
             <!-- Main Content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <header>
-                    <h1>Club Officer Elections <span class="text-success">- for students ui(remove)</span></h1>
+                    <h1>Club Officer Elections</h1>
                     <hr>
                 </header>
-                <div class="d-flex">
-                    <div class="container text-center col-md-5 p-3 border rounded bg-white">
-                        <h4>Ongoing Election Results</h4>
-                        <h6>for <span class="text-success">Presidential Election 2025</span></h6>
-                        <div class="chart-container"
-                            style="width: 100%; max-width: 600px; height: 200px; margin: auto;">
-                            <canvas id="electionChart"></canvas>
+            
+                <!-- Chart and Calendar Side by Side -->
+                <div class="row mb-4">
+                    <!-- Election Chart -->
+                    <div class="col-lg-6 mb-4 mb-lg-0">
+                        <div class="p-3 border rounded bg-white h-100 shadow-sm">
+                            <h4 class="text-center mb-3">Ongoing Election Results</h4>
+                            <h6 class="text-center text-primary mb-3">Presidential Election 2025</h6>
+                            <div class="chart-container" style="height: 240px;">
+                                <canvas id="electionChart"></canvas>
+                            </div>
                         </div>
                     </div>
-                    <div class="container col-md-5 p-3 border rounded bg-white">
-                        <h4 class="text-center mb-4">Calendar Events</h4>
-                        <div id="calendar"></div>
+            
+                    <!-- Calendar -->
+                    <div class="col-lg-6">
+                        <div class="p-3 border rounded bg-white h-100 shadow-sm">
+                            <h4 class="text-center mb-3" style="color: #29306f; font-weight: 600;">Calendar Events</h4>
+                            <div id="calendar"></div>
+                        </div>
                     </div>
                 </div>
-
-
-                <div class="p-3 border rounded mb-3">
-                    <h4>Results for <span class="text-success">Presidential Election 2025 (remove the color, db)</span>
-                    </h4>
+            
+                <!-- Election Results Table -->
+                <div class="p-3 border rounded mb-3 bg-white shadow-sm">
+                    <h4>Results for Presidential Election 2025</h4>
                     <div class="tableresults">
-                        <table class="table table-bordered bg-white rounded">
+                        <table class="table table-bordered rounded mb-0">
                             <tr>
                                 <th>Election Title</th>
                                 <td>Presidential Elections 2025</td>
@@ -368,48 +508,55 @@
                             </tr>
                             <tr>
                                 <th>Assigned Role</th>
-                                <td>President of <span class="text-success">CESC Club (remove the color, db)</span></td>
+                                <td>President of CESC Club</td>
                             </tr>
                             <tr>
                                 <th>Statistics Results</th>
-                                <td>78% rate of votes or something <span class="text-success">(remove) suggestions:
-                                        analytical or summarized powered ai</span></td>
+                                <td>78% of total votes</td>
                             </tr>
                         </table>
                     </div>
                 </div>
-
-
-                <div class="p-3 border rounded">
+            
+                <!-- Ongoing Elections Table -->
+                <div class="p-3 border rounded bg-white shadow-sm">
                     <h4>Ongoing Elections</h4>
                     <div>
-                        <!-- lalabas lahat ng available na elections based sa club kung saan kasali isang student -->
-                        <table class="table table-hover table-striped text-center">
-                            <tr>
-                                <th>Election Title</th>
-                                <th>Club</th>
-                                <th>Status</th>
-                                <th>Voting Period</th>
-                                <th>Action</th>
-                            </tr>
-                            <tr>
-                                <td>Sample Title 1</td>
-                                <td>Sample Club 1</td>
-                                <td>Completed</td>
-                                <td>August 22, 2025, 12:00 P.M. <br>August 24, 2025, 12:00 P.M.</td>
-                                <td><button class="btn btn-success disabled">Completed</button></td>
-                            </tr>
-                            <tr>
-                                <td>Presidential Elections 2025</td>
-                                <td>Computer Engineering Sports Club</td>
-                                <td>Ongoing</td>
-                                <td>August 27, 2025, 10:00 A.M. <br>August 30, 2025, 12:00 P.M.</td>
-                                <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#votemodal">
-                                        Vote Now
-                                    </button></td>
-                            </tr>
+                        <table class="table table-hover table-striped text-center mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Election Title</th>
+                                    <th>Club</th>
+                                    <th>Status</th>
+                                    <th>Voting Period</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Sample Title 1</td>
+                                    <td>Sample Club 1</td>
+                                    <td><span class="badge bg-secondary">Completed</span></td>
+                                    <td>Aug 22–24, 2025</td>
+                                    <td><button class="btn btn-sm btn-secondary disabled">Completed</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Presidential Elections 2025</td>
+                                    <td>Computer Engineering Sports Club</td>
+                                    <td><span class="badge bg-success">Ongoing</span></td>
+                                    <td>Aug 27–30, 2025</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#votemodal">
+                                            Vote Now
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
+                    </div>
+                </div>
+            </main>
 
                         <!-- Modal -->
                         <div class="modal fade" id="votemodal" tabindex="-1" aria-labelledby="votemodalLabel"
@@ -527,7 +674,16 @@
 
     <script>
         const ctx = document.getElementById('electionChart').getContext('2d');
-
+    
+   
+        const primaryColor = '#29306f';
+        const colorVariants = [
+            '#29306f',        
+            '#3a4385',       
+            '#4a5699',        
+            '#5b69ae'         
+        ];
+    
         const electionChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -535,42 +691,84 @@
                 datasets: [{
                     label: '% of Votes',
                     data: [55, 30, 10, 5],
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 0.7)',
-                        'rgba(54, 162, 235, 0.7)',
-                        'rgba(255, 206, 86, 0.7)',
-                        'rgba(255, 99, 132, 0.7)'
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(255, 99, 132, 1)'
-                    ],
-                    borderWidth: 1
+                    backgroundColor: colorVariants.map(color => 
+                        `${color}CC` // Add 80% opacity for softness
+                    ),
+                    borderColor: colorVariants,
+                    borderWidth: 1.5,
+                    borderRadius: 6,
+                    borderSkipped: false
                 }]
             },
             options: {
-                indexAxis: 'y', 
+                indexAxis: 'y',
                 responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     x: {
                         beginAtZero: true,
                         max: 100,
+                        grid: {
+                            color: 'rgba(41, 48, 111, 0.1)',
+                            lineWidth: 1
+                        },
+                        ticks: {
+                            color: '#444',
+                            font: { size: 11 }
+                        },
                         title: {
                             display: true,
-                            text: 'Vote Percentage (%)'
+                            text: 'Vote Percentage (%)',
+                            color: '#29306f',
+                            font: { size: 12, weight: '600' },
+                            padding: 10
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#29306f',
+                            font: { weight: '600', size: 12 }
                         }
                     }
                 },
                 plugins: {
-                    legend: { display: false },
+                    legend: {
+                        display: false
+                    },
                     tooltip: {
+                        backgroundColor: 'rgba(41, 48, 111, 0.9)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: '#fff',
+                        borderWidth: 1,
+                        cornerRadius: 6,
+                        displayColors: false,
                         callbacks: {
-                            label: function (context) {
-                                return context.parsed.x + '% of votes';
+                            label: function(context) {
+                                return `${context.parsed.x}% of votes`;
                             }
-                        }
+                        },
+                        padding: 10
+                    },
+                    // Custom hover animation
+                    animation: {
+                        duration: 1200,
+                        easing: 'easeInOutQuart'
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 20,
+                        top: 20,
+                        bottom: 10
                     }
                 }
             }

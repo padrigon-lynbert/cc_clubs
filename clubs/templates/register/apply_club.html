@@ -7,185 +7,214 @@
     <title>Club Application</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
     <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'landing_page/css/bootstrap-icons.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
     <style>
+        :root {
+            --primary: #29306f;           /* Main brand color */
+            --primary-dark: #1e234a;      /* Darker variant for gradients */
+            --primary-light: #a3bffa;     /* Soft blue for highlights */
+            --primary-hover: #3a4385;     /* Hover state */
+            --accent: #ffb703;            /* Warning/Yellow */
+            --danger: #e63946;            /* Error/Red */
+            --light: #f8f9fa;             /* Background */
+            --dark: #212529;              /* Text */
+            --white: #ffffff;
+            --gray: #6c757d;
+            --border: #dee2e6;
+        }
 
-:root {
-    --primary: #1a5fb4;     
-    --secondary: #e63946;
-    --accent: #ffb703;     
-    --light: #f8f9fa;     
-    --dark: #212529;          
-    --success: #4ade80;       
-    --warning: #facc15;     
-    --info: #48cae4;         
-    --danger: #f87171;        
-}
+        * {
+            font-family: 'DM Sans', sans-serif;
+        }
 
-* {
-    font-family: 'DM Sans', sans-serif;
-}
+        body {
+            background: linear-gradient(135deg, #f0f2ff 0%, #e6ebf5 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            margin: 0;
+        }
 
-body {
-    background: linear-gradient(135deg, #f0f4fd 0%, #e2edf8 100%);
-    color: var(--dark);
-    min-height: 100vh;
-    padding: 2rem 1rem;
-}
+        .header {
+            background: linear-gradient(120deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 1.8rem 1.5rem;
+            margin-bottom: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(41, 48, 111, 0.25);
+            text-align: center;
+        }
 
-.header {
-    background: linear-gradient(120deg, var(--primary), #0c4a8d);
-    color: white;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(26, 95, 180, 0.2);
-    text-align: center;
-}
+        .header h1 {
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            font-size: 1.9rem;
+            margin: 0;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
 
-.header h1 {
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    margin: 0;
-}
+        .application-container {
+            background: var(--white);
+            padding: 2.8rem;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(41, 48, 111, 0.18);
+            max-width: 1080px;
+            margin: 0 auto;
+            border: 1px solid rgba(41, 48, 111, 0.1);
+        }
 
-.application-container {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 25px rgba(26, 95, 180, 0.15);
-    max-width: 1050px;
-    margin: 0 auto;
-}
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
 
-.form-group {
-    margin-bottom: 1.5rem;
-}
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.05rem;
+        }
 
-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--primary);
-}
+        .file-input-container {
+            position: relative;
+        }
 
-.file-input-container {
-    position: relative;
-}
+        input[type="file"] {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 2px dashed var(--border);
+            border-radius: 14px;
+            background-color: #fafbff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
 
-input[type="file"] {
-    width: 100%;
-    padding: 0.75rem;
-    border: 2px dashed #dee2e6;
-    border-radius: 12px;
-    box-sizing: border-box;
-    transition: border-color 0.3s, background-color 0.3s;
-    cursor: pointer;
-}
+        input[type="file"]:hover {
+            border-color: var(--primary-light);
+            background-color: #f0f4ff;
+        }
 
-input[type="file"]:hover {
-    border-color: var(--primary);
-    background-color: rgba(26, 95, 180, 0.03);
-}
+        input[type="file"]:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 0.25rem rgba(41, 48, 111, 0.2);
+        }
 
-input[type="file"]:focus {
-    border-color: var(--primary);
-    outline: none;
-    box-shadow: 0 0 0 0.25rem rgba(26, 95, 180, 0.2);
-}
+        input[type="file"].is-invalid {
+            border-color: var(--danger);
+            background-color: #fff5f5;
+        }
 
-/* --- File Size Info and Warnings --- */
-.file-info-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 0.25rem;
-    font-size: 0.85rem;
-    color: #6c757d;
-}
+        /* File Info & Warnings */
+        .file-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.4rem;
+            font-size: 0.87rem;
+            color: var(--gray);
+        }
 
-.file-warning {
-    color: var(--accent);
-    font-weight: 500;
-    display: none;
-}
+        .file-warning {
+            color: var(--accent);
+            font-weight: 600;
+            display: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
 
-.file-error {
-    color: var(--secondary);
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-    display: none;
-}
+        .file-error {
+            color: var(--danger);
+            font-size: 0.88rem;
+            margin-top: 0.4rem;
+            display: none;
+            font-weight: 500;
+        }
 
-/* --- Submit Button --- */
-.btn-submit {
-    width: 50%;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    background: linear-gradient(to right, var(--primary), #0c4a8d);
-    color: white;
-    margin-left: 210px;
-    border: none;
-    padding: 12px;
-    font-size: 1.1rem;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(26, 95, 180, 0.3);
-}
+        /* Submit Button */
+        .btn-submit {
+            width: 55%;
+            max-width: 300px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            transition: all 0.35s ease;
+            background: linear-gradient(to right, var(--primary), var(--primary-hover));
+            color: var(--white);
+            margin: 2rem auto 0;
+            display: block;
+            border: none;
+            padding: 14px 0;
+            font-size: 1.15rem;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(41, 48, 111, 0.35);
+        }
 
-.btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(26, 95, 180, 0.4);
-    background: linear-gradient(to right, #0c4a8d, var(--primary));
-}
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(41, 48, 111, 0.45);
+            background: linear-gradient(to right, var(--primary-hover), var(--primary));
+        }
 
-.btn-submit:focus {
-    box-shadow: 0 0 0 0.25rem rgba(26, 95, 180, 0.25);
-}
+        .btn-submit:disabled {
+            background: linear-gradient(to right, #a0a5c9, #8c93b8);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.7;
+        }
 
-.btn-submit:disabled {
-    background: linear-gradient(to right,rgb(196, 36, 24),rgb(221, 34, 34));
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
+        .btn-submit:focus {
+            box-shadow: 0 0 0 0.25rem rgba(41, 48, 111, 0.25);
+        }
 
-h1 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #ffff ; 
-}
+        /* Badges & Highlights */
+        .highlight-blue {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 0.25rem 0.7rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
 
-/* --- Optional: Add yellow/red accents for highlights --- */
-.highlight-yellow {
-    background-color: var(--accent);
-    color: #000;
-    padding: 0.2rem 0.6rem;
-    border-radius: 6px;
-    font-weight: 600;
-}
+        .badge-red {
+            background-color: var(--danger);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 22px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
 
-.badge-red {
-    background-color: var(--secondary);
-    color: white;
-    padding: 0.25rem 0.7rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-}
+        /* Responsive */
+        @media (max-width: 768px) {
+            .application-container {
+                padding: 1.6rem;
+                margin: 0 0.5rem;
+            }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .application-container {
-        padding: 1.5rem;
-    }
-    body {
-        padding: 1rem 0.5rem;
-    }
-}
+            .header {
+                padding: 1.4rem;
+            }
+
+            .header h1 {
+                font-size: 1.7rem;
+            }
+
+            .btn-submit {
+                width: 80%;
+                font-size: 1.05rem;
+                padding: 12px 0;
+            }
+
+            label {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -199,183 +228,150 @@ h1 {
         <form method="post" enctype="multipart/form-data" id="applicationForm">
             {% csrf_token %}
 
-            <!-- Medical/Affiliation List Upload (2MB limit) -->
+            <!-- Medical/Affiliation List Upload -->
             <div class="form-group">
-                <label for="medical_affiliation_list"><i class="fas fa-file-medical me-2"></i>Upload Medical/Affiliation List:</label>
+                <label for="medical_affiliation_list">
+                    <i class="fas fa-file-medical me-2"></i>
+                    Upload Medical/Affiliation List
+                </label>
                 <div class="file-input-container">
                     <input type="file" id="medical_affiliation_list" name="medical_affiliation_list" required>
                     <div class="file-info-container">
-                         <div class="file-size-info">Max file size: 2MB</div>
-                         <div id="medical_affiliation_list_warning" class="file-warning"><i class="fas fa-exclamation-triangle me-1"></i> Large File</div>
+                        <div class="file-size-info">Max file size: 2MB</div>
+                        <div id="medical_affiliation_list_warning" class="file-warning">
+                            <i class="fas fa-exclamation-triangle"></i> Large File
+                        </div>
                     </div>
                     <div id="medical_affiliation_list_error" class="file-error"></div>
                 </div>
             </div>
 
-            <!-- Certificate of Registration (COR) Upload (3MB limit, 6MB warning) -->
+            <!-- Certificate of Registration (COR) -->
             <div class="form-group">
-                <label for="cor"><i class="fas fa-graduation-cap me-2"></i>Upload Certificate of Registration (COR):</label>
+                <label for="cor">
+                    <i class="fas fa-graduation-cap me-2"></i>
+                    Upload Certificate of Registration (COR)
+                </label>
                 <div class="file-input-container">
                     <input type="file" id="cor" name="cor" required>
-                     <div class="file-info-container">
-                         <div class="file-size-info">Max file size: 3MB</div> <!-- Updated info -->
-                         <div id="cor_warning" class="file-warning"><i class="fas fa-exclamation-triangle me-1"></i> Large File (6MB+)</div> <!-- More specific warning text -->
+                    <div class="file-info-container">
+                        <div class="file-size-info">Max file size: 3MB</div>
+                        <div id="cor_warning" class="file-warning">
+                            <i class="fas fa-exclamation-triangle"></i> Over 2MB
+                        </div>
                     </div>
                     <div id="cor_error" class="file-error"></div>
                 </div>
             </div>
 
-            <!-- Student ID Upload (3MB limit) -->
+            <!-- Student ID Upload -->
             <div class="form-group">
-                <label for="student_id"><i class="fas fa-id-card me-2"></i>Upload Student ID:</label>
+                <label for="student_id">
+                    <i class="fas fa-id-card me-2"></i>
+                    Upload Student ID
+                </label>
                 <div class="file-input-container">
                     <input type="file" id="student_id" name="student_id" required>
-                     <div class="file-info-container">
-                         <div class="file-size-info">Max file size: 2MB</div>
-                         <div id="student_id_warning" class="file-warning"><i class="fas fa-exclamation-triangle me-1"></i> Large File</div>
+                    <div class="file-info-container">
+                        <div class="file-size-info">Max file size: 2MB</div>
+                        <div id="student_id_warning" class="file-warning">
+                            <i class="fas fa-exclamation-triangle"></i> Large File
+                        </div>
                     </div>
                     <div id="student_id_error" class="file-error"></div>
                 </div>
             </div>
 
             <!-- Submit Button -->
-            <div>
-                <button type="submit" class="btn-submit" id="submitBtn">Submit Application</button>
-            </div>
+            <button type="submit" class="btn-submit" id="submitBtn">Submit Application</button>
         </form>
     </div>
 
     <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
     <script>
+        // File size limits in MB → Bytes
+        const MB = 1024 * 1024;
 
+        const FILE_LIMITS = {
+            medical: 2 * MB,
+            cor: 3 * MB,
+            student: 2 * MB
+        };
 
-        // --- File Size Limits (in MB) ---
-        const DEFAULT_FILE_SIZE_LIMIT_MB = 2;
-        const DEFAULT_FILE_SIZE_WARNING_MB = 3; // Applies to Medical and Student ID
+        const FILE_WARNINGS = {
+            medical: 1.5 * MB,
+            cor: 2 * MB,
+            student: 1.5 * MB
+        };
 
-        // Specific limits for COR
-        const COR_FILE_SIZE_LIMIT_MB = 3; // COR has a higher limit
-        const COR_FILE_SIZE_WARNING_MB = 2; // COR warning starts at 6MB
+        function validateFileSize(inputId, errorId, warningId, limit, warning) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            const warningEl = document.getElementById(warningId);
+            const file = input.files[0];
 
-        // Convert to bytes
-        const DEFAULT_FILE_SIZE_LIMIT_BYTES = DEFAULT_FILE_SIZE_LIMIT_MB * 1024 * 1024;
-        const DEFAULT_FILE_SIZE_WARNING_BYTES = DEFAULT_FILE_SIZE_WARNING_MB * 1024 * 1024;
-        const COR_FILE_SIZE_LIMIT_BYTES = COR_FILE_SIZE_LIMIT_MB * 1024 * 1024;
-        const COR_FILE_SIZE_WARNING_BYTES = COR_FILE_SIZE_WARNING_MB * 1024 * 1024;
+            // Reset
+            error.style.display = 'none';
+            warningEl.style.display = 'none';
+            input.classList.remove('is-invalid');
 
+            if (!file) return { valid: true, large: false };
 
-        // Generic validation function, now takes limits as parameters
-        function validateFileSize(inputElement, errorElementId, warningElementId, limitBytes, warningBytes) {
-            const errorElement = document.getElementById(errorElementId);
-            const warningElement = document.getElementById(warningElementId);
-            const file = inputElement.files[0];
-
-            // Reset states
-            errorElement.style.display = 'none';
-            warningElement.style.display = 'none';
-            inputElement.classList.remove('is-invalid');
-
-            if (file) {
-                if (file.size > limitBytes) {
-                    // File exceeds hard limit
-                    const limitMB = limitBytes / (1024 * 1024);
-                    errorElement.textContent = `File size exceeds ${limitMB}MB limit. Please choose a smaller file.`;
-                    errorElement.style.display = 'block';
-                    inputElement.classList.add('is-invalid');
-                    return { valid: false, oversized: true };
-                } else if (file.size >= warningBytes) {
-                    // warning
-                    warningElement.style.display = 'block';
-                    return { valid: true, oversized: false, large: true };
-                } else {
-                    // Filee range
-                    return { valid: true, oversized: false, large: false };
-                }
-            } else {
-                 return { valid: true, oversized: false, large: false };
+            if (file.size > limit) {
+                const limitMB = limit / MB;
+                error.textContent = `File too large. Max: ${limitMB}MB.`;
+                error.style.display = 'block';
+                input.classList.add('is-invalid');
+                return { valid: false, large: false };
+            } else if (file.size > warning) {
+                warningEl.style.display = 'flex';
+                return { valid: true, large: true };
             }
+
+            return { valid: true, large: false };
         }
 
-
-        // Specific validation functions for each field
-        function validateMedicalFile() {
-            return validateFileSize(
-                document.getElementById('medical_affiliation_list'),
-                'medical_affiliation_list_error',
-                'medical_affiliation_list_warning',
-                DEFAULT_FILE_SIZE_LIMIT_BYTES,
-                DEFAULT_FILE_SIZE_WARNING_BYTES
-            );
+        function validateMedical() {
+            return validateFileSize('medical_affiliation_list', 'medical_affiliation_list_error', 'medical_affiliation_list_warning', FILE_LIMITS.medical, FILE_WARNINGS.medical);
         }
 
-        function validateCorFile() {
-            return validateFileSize(
-                document.getElementById('cor'),
-                'cor_error',
-                'cor_warning',
-                COR_FILE_SIZE_LIMIT_BYTES,
-                COR_FILE_SIZE_WARNING_BYTES
-            );
+        function validateCor() {
+            return validateFileSize('cor', 'cor_error', 'cor_warning', FILE_LIMITS.cor, FILE_WARNINGS.cor);
         }
 
-        function validateStudentIdFile() {
-             return validateFileSize(
-                document.getElementById('student_id'),
-                'student_id_error',
-                'student_id_warning',
-                DEFAULT_FILE_SIZE_LIMIT_BYTES,
-                DEFAULT_FILE_SIZE_WARNING_BYTES
-            );
-        }
-
-
-        function setupFileValidation(inputId, validateFunction) {
-            const inputElement = document.getElementById(inputId);
-            if (inputElement) {
-                inputElement.addEventListener('change', function() {
-                    validateFunction(); // Call the specific validation function
-                    checkFormValidity(); // Check overall form validity
-                });
-            }
+        function validateStudentId() {
+            return validateFileSize('student_id', 'student_id_error', 'student_id_warning', FILE_LIMITS.student, FILE_WARNINGS.student);
         }
 
         function checkFormValidity() {
-            const submitBtn = document.getElementById('submitBtn');
-            const medicalCheck = validateMedicalFile();
-            const corCheck = validateCorFile(); // Use specific COR validation
-            const studentIdCheck = validateStudentIdFile();
+            const btn = document.getElementById('submitBtn');
+            const m = validateMedical();
+            const c = validateCor();
+            const s = validateStudentId();
 
-            // Disable submit if any file is oversized
-            if (medicalCheck.oversized || corCheck.oversized || studentIdCheck.oversized) {
-                submitBtn.disabled = true;
-            } else {
-                submitBtn.disabled = false;
-            }
+            btn.disabled = !(m.valid && c.valid && s.valid);
         }
 
-        // Setup validation for each file input
-        document.addEventListener('DOMContentLoaded', function() {
-             setupFileValidation('medical_affiliation_list', validateMedicalFile);
-             setupFileValidation('cor', validateCorFile); // Use specific setup for COR
-             setupFileValidation('student_id', validateStudentIdFile);
-
-             checkFormValidity();
+        document.addEventListener('DOMContentLoaded', () => {
+            ['medical_affiliation_list', 'cor', 'student_id'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('change', checkFormValidity);
+                }
+            });
+            checkFormValidity();
         });
 
-        // Prevent form submission if oversized files slipped through
-        document.getElementById('applicationForm').addEventListener('submit', function(e) {
-             const medicalCheck = validateMedicalFile();
-             const corCheck = validateCorFile(); // Use specific validation on submit
-             const studentIdCheck = validateStudentIdFile();
+        document.getElementById('applicationForm').addEventListener('submit', function (e) {
+            const m = validateMedical();
+            const c = validateCor();
+            const s = validateStudentId();
 
-             if (medicalCheck.oversized || corCheck.oversized || studentIdCheck.oversized) {
-                 e.preventDefault();
-                 alert("Please correct the file size errors before submitting.");
-                 checkFormValidity();
-             }
-            
+            if (!m.valid || !c.valid || !s.valid) {
+                e.preventDefault();
+                alert("Please fix file size issues before submitting.");
+            }
         });
-
     </script>
 </body>
 </html>
