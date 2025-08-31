@@ -79,6 +79,7 @@ def get_club_details(request, club_id):
         data = {
             'name': club.club_name,
             'id': club.id,
+            'banner': club.banner,
             # add more fields here
         }
         return JsonResponse(data)
