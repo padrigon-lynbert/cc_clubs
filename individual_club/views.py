@@ -12,9 +12,8 @@ def apply_club(request):
         return redirect('home')
     return render(request, 'register/apply_club.html')
 
-
-
-
+def member_list(request):
+    return render(request, 'member_list.html')
 
 def individual_club(request):
     if not request.session.get('member_logged_in'):
@@ -63,8 +62,6 @@ def budget_request(request):
         return render(request, 'budget_request_review.html', {"club": club}) # if activity coordinator: view budget request
 
     return render(request, 'budget_request.html', {"club": club}) # go to budget_request (instructor only)
-
-
 
 
 

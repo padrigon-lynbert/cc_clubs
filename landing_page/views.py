@@ -47,3 +47,9 @@ def login_from_landing(request):
 def logout(request):
     request.session.flush()
     return redirect('home')
+
+def global_announcements(request):
+    return render(request, 'global_announcement.html')
+
+def global_chat(request):
+    return render(request, 'global_chat.html')
