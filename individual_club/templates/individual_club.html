@@ -430,12 +430,12 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="{% url 'member_list' %}">
                                 <i class="fas fa-users"></i>
                                 <span>Member List</span>
                             </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'election_club' club.id %}">
                                 <i class="fas fa-users-cog"></i>
@@ -505,7 +505,11 @@
             <div class="club-card">
                 <div class="club-banner"></div>
                 <div class="club-header">
-                    <div class="club-logo"></div>
+                    {% if club.banner %}
+                        <img src="{{ club.banner.url }}" alt="Club logo" class="club-logo">
+                    {% else %}
+                        <img class="club-logo">
+                    {% endif %}
                     <div class="club-info">
                         <h4><b>{{ club.club_name }}</b></h4>
                         <p class="text-muted mb-0">{{ club.members_count }} Members</p>
