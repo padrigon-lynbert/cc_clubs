@@ -1,13 +1,31 @@
-+ club registration portal 
-+ student club membership  
-club officer elections 
-+ event and activity logs
-attendance tracker
-+ club achievement records
-budget requests
-inter-club communication
-volunteer hour tracking
+landing page
 
-acc:
-acc_no: 0001
-password: pass123
+    + club registration portal 
+    -double check req if filled
+
+    + Announcements
+    -create Announcements, route
+
+individual clubs
+    + student club membership  
+    -no UI yet
+
+    club officer elections 
+    -no backend yet
+
+    + club achievement records
+    - no data to record yet
+
+    budget requests
+    check req if filled, no budget accept yet
+
+    +inter-club communication
+    - no ui, no plan yet
+
+| id | acc_no | password | name | role |
+|----+--------+---------------------+----------------------+------|
+| 1 | 0000 | student | test_student | 0 |
+| 2 | 0002 | adviser | test_adviser | 2 |
+| 3 | 0001 | officer | test_officer | 1 |
+| 4 | 0003 | activitycoordinator | activity coordinator | 3 |
+| 5 | 0004 | admin | test_admin | 4 |
