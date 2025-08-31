@@ -115,7 +115,7 @@ class Event(models.Model):
 
 class BudgetRequest(models.Model):
     purpose = models.CharField(max_length=255, blank=False, null=False)
-    details = models.CharField(max_length=255)
+    details = models.TextField(null=True, blank=True)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
     class Status(models.IntegerChoices):
