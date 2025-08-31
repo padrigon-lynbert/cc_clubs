@@ -182,13 +182,11 @@
             overflow: hidden;
         }
 
-        /* Banner */
         .club-banner {
-            height: 300px;
+            height: 325px;
             background: url("{% static 'images/bg01.jpg' %}") center/cover no-repeat;
         }
 
-        /* Logo + Info wrapper */
         .club-header {
             position: absolute;
             bottom: 20px;
@@ -196,10 +194,8 @@
             display: flex;
             align-items: center;
             gap: 30px;
-            /* spacing between logo and text */
         }
 
-        /* Logo */
         .club-logo {
             width: 135px;
             height: 135px;
@@ -211,6 +207,29 @@
         .club-info {
             color: white;
             margin-top: 50px;
+        }
+
+        .uploader {
+            width: 30px;
+            height: 30px;
+            background-color: #0c994b;
+            border-radius: 50%;
+        }
+
+        .memberphoto {
+            width: 4rem;
+            height: 4rem;
+            background-color: #0c994b;
+            border-radius: 50%;
+        }
+
+        .member {
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+        .member:hover {
+            cursor: pointer;
         }
     </style>
 </head>
@@ -314,7 +333,6 @@
         <!-- Main Content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="club-card">
-                <!-- Banner -->
                 <div class="club-banner"></div>
                 <div class="club-header">
                     <div class="club-logo"></div>
@@ -324,14 +342,85 @@
                     </div>
                 </div>
             </div>
+            <div class="club-card pt-3">
+                <div class="d-flex justify-content-evenly">
+                    <div class="col-md-6 p-3">
+                        <h5><b>Club Announcements</b></h5>
+                        <div class="announcements my-3 mx-1 p-3 border rounded">
+                            <h6>Join to our Upcoming Sports Event!</h6>
+                            <p class="text-muted ">August 30, 2025 at 12:00 PM</p>
+                            <div class="d-flex">
+                                <div class="uploader"></div>
+                                <p class="text-muted m-0 px-2 pt-1">Club Officer</p>
+                            </div>
+                            <a href="#" class="text-decoration-none text-right d-flex justify-content-end">View All</a>
+                        </div>
+
+                        <div class="d-flex justify-content-between pt-3">
+                            <h5><b>Members</b></h5>
+                            <div class="m">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="memberslist my-3 mx-1 d-flex flex-row overflow-auto gap-3">
+                            <div class="member card text-center" style="min-width: 125px;">
+                                <div class="d-flex justify-content-center">
+                                    <span class="memberphoto"></span>
+                                </div>
+                                <h6 class="m-0 p-0">John Doe</h6>
+                                <span class="text-muted" style="font-size: 13px;">President</span>
+                            </div>
+
+                            <div class="member card text-center" style="min-width: 125px;">
+                                <div class="d-flex justify-content-center">
+                                    <span class="memberphoto"></span>
+                                </div>
+                                <h6 class="m-0 p-0">Jane Smith</h6>
+                                <span class="text-muted" style="font-size: 13px;">Vice President</span>
+                            </div>
+
+                            <div class="member card text-center" style="min-width: 125px;">
+                                <div class="d-flex justify-content-center">
+                                    <span class="memberphoto"></span>
+                                </div>
+                                <h6 class="m-0 p-0">Jane Doe</h6>
+                                <span class="text-muted" style="font-size: 13px;">Secretary</span>
+                            </div>
+                            
+                            <div class="member card text-center" style="min-width: 125px;">
+                                <div class="d-flex justify-content-center">
+                                    <span class="memberphoto"></span>
+                                </div>
+                                <h6 class="m-0 p-0">Will Smith</h6>
+                                <span class="text-muted" style="font-size: 13px;">Officer</span>
+                            </div>
+                            
+                            <div class="member card text-center" style="min-width: 125px;">
+                                <div class="d-flex justify-content-center">
+                                    <span class="memberphoto"></span>
+                                </div>
+                                <h6 class="m-0 p-0">Peter Colins</h6>
+                                <span class="text-muted" style="font-size: 13px;">Treasurer</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 border p-3">
+                        <h5><b>Upcoming Events</b></h5>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
     </div>
 
-    <!-- Apply Button-->
+    <!-- temporarily hide the button -->
+    <!-- Apply Button -->
     <div class="apply-button-container">
         <a href="{% url 'apply_club' %}" class="btn btn-apply">Apply Now</a>
     </div>
+    
 
     <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
 </body>
