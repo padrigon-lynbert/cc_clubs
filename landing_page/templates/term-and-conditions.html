@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .section p {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .footer {
+            background-color: #f8f8f8;
+            padding: 20px 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .agreement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .agreement input {
+            margin-right: 10px;
+        }
+
+        .agreement label {
+            color: #333;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-cancel {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .btn-accept {
+            background-color: #007bff;
+            color: white;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-accept.enabled {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .btn:hover:not(:disabled) {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Terms & Conditions</h1>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h3>Terms of Service</h3>
+                <p>By using this website, you agree to comply with our terms of service. You must be at least 18 years old to create an account.</p>
+                <p>You are responsible for maintaining the security of your account and password. We reserve the right to terminate accounts that violate our terms.</p>
+            </div>
+
+            <div class="section">
+                <h3>Privacy Policy</h3>
+                <p>We collect and store information you provide to us, including your name, email address, and usage data.</p>
+                <p>We use this information to provide our services, improve user experience, and communicate with you about updates or issues.</p>
+                <p>We do not sell your personal information to third parties.</p>
+            </div>
+
+            <div class="section">
+                <h3>Community Rules</h3>
+                <p>Be respectful to other users. Harassment, spam, or offensive content is not allowed.</p>
+                <p>Do not share personal information or engage in illegal activities on our platform.</p>
+                <p>Report any violations to our support team. Violations may result in account suspension or termination.</p>
+            </div>
+
+            <div class="section">
+                <h3>Changes to Terms</h3>
+                <p>We may update these terms from time to time. We will notify users of significant changes via email or platform notifications.</p>
+                <p>Continued use of our service after changes constitutes acceptance of the new terms.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="agreement">
+                <input type="checkbox" id="agree" onchange="toggleAccept()">
+                <label for="agree">I agree to the Terms & Conditions and Privacy Policy</label>
+            </div>
+            
+            <div class="buttons">
+                <button class="btn btn-cancel" onclick="goBack()">Cancel</button>
+                <button class="btn btn-accept" id="acceptBtn" onclick="proceed()">Accept & Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAccept() {
+            const checkbox = document.getElementById('agree');
+            const acceptBtn = document.getElementById('acceptBtn');
+            
+            if (checkbox.checked) {
+                acceptBtn.classList.add('enabled');
+            } else {
+                acceptBtn.classList.remove('enabled');
+            }
+        }
+
+        function proceed() {
+            const checkbox = document.getElementById('agree');
+            
+            if (!checkbox.checked) {
+                alert('Please accept the terms to continue');
+                return;
+            }
+            
+            // Redirect to landing page
+            window.location.href = 'landing.html';
+        }
+
+        function goBack() {
+            if (confirm('Are you sure you want to leave?')) {
+                alert('Returning to homepage...');
+            }
+        }
+    </script>
+</body>
+</html>
