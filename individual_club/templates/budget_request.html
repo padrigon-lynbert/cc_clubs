@@ -272,63 +272,53 @@
         </select>
       </div>
 
-      <!-- Purpose -->
-      <div class="form-group">
-        <label for="purpose">Purpose</label>
-        <textarea id="purpose" rows="3" placeholder="E.g. Purchase of materials for club event" required></textarea>
-      </div>
+       <!-- Purpose -->
+        <div class="form-group">
+          <label for="purpose">Purpose</label>
+          <textarea id="purpose" rows="3" placeholder="E.g. Purchase of materials for club event" required></textarea>
+        </div>
 
-      <!-- Amount -->
-      <div class="form-group">
-        <label for="amount">Amount (₱)</label>
-        <input 
-          type="text" 
-          id="amount" 
-          inputmode="decimal"
-          placeholder="Enter amount requested" 
-          required 
-        />
-      </div>
+        <!-- Amount -->
+        <div class="form-group">
+          <label for="amount">Amount (₱)</label>
+          <input type="text" id="amount" inputmode="decimal" placeholder="Enter amount requested" required />
+        </div>
 
-      <!-- Amount in Words -->
-      <div class="form-group">
-        <label for="amount-words">Amount in Words</label>
-        <input type="text" id="amount-words" placeholder="e.g. One thousand two hundred fifty pesos only" readonly />
-        <p class="helper-text">The amount will be auto-filled. Edit if needed.</p>
-      </div>
-
+        <!-- Amount in Words -->
+        <div class="form-group">
+          <label for="amount-words">Amount in Words</label>
+          <input type="text" id="amount-words" placeholder="e.g. One thousand two hundred fifty pesos only" readonly />
+          <p class="helper-text">The amount will be auto-filled. Edit if needed.</p>
+        </div>
       <!-- Submit Buttons -->
       <div class="form-group submit-group">
-        <button type="button" class="btn btn-return" onclick="window.history.back();">
-          ← Return
-        </button>
-        <button type="submit" class="btn btn-submit">
-          Submit Request
-        </button>
+        <button type="button" class="btn btn-return" onclick="window.history.back();">← Return</button>
+        <button type="submit" class="btn btn-submit">Submit Request </button>
       </div>
     </form>
   </div>
 
   <script>
-    // Converts number to words (e.g. 1250 → "One Thousand Two Hundred Fifty Pesos Only")
+    // Converts number to words
     function numberToWords(num) {
       const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
         'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
       const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
-
+  
       function convertLessThanThousand(n) {
         if (n === 0) return '';
-        else if (n < 20) return ones[n];
-        else if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + ones[n % 10] : '');
-        else return ones[Math.floor(n / 100)] + ' Hundred ' + convertLessThanThousand(n % 100);
+        if (n < 20) return ones[n];
+        if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + ones[n % 10] : '');
+        return ones[Math.floor(n / 100)] + ' Hundred ' + convertLessThanThousand(n % 100);
       }
-
+  
       if (num === 0) return 'Zero Pesos Only';
-
+  
       let integerPart = Math.floor(num);
       let decimalPart = Math.round((num - integerPart) * 100);
-
+  
       let words = '';
+  
       if (integerPart >= 1000000) {
         words += convertLessThanThousand(Math.floor(integerPart / 1000000)) + ' Million ';
         integerPart %= 1000000;
@@ -340,47 +330,69 @@
       if (integerPart > 0 || words === '') {
         words += convertLessThanThousand(integerPart);
       }
-
+  
       words = words.trim() + ' Pesos';
+  
       if (decimalPart > 0) {
         words += ' and ' + convertLessThanThousand(decimalPart) + ' Centavos';
       }
-      words += ' Only';
-
-      return words.replace(/\s+/g, ' ').trim();
+  
+      return words.trim() + ' Only';
     }
-
-    // Format number with commas (e.g. 1234567 → "1,234,567")
-    function formatNumberWithCommas(x) {
-      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    const amountInput = document.getElementById('amount');
-    const wordsInput = document.getElementById('amount-words');
-
-    amountInput.addEventListener('input', function () {
-      // Remove invalid characters
-      let value = this.value.replace(/[^0-9.]/g, '');
-      const parts = value.split('.');
-
-      // Limit to two decimal places
-      if (parts.length > 2) {
-        value = parts[0] + '.' + parts.slice(1).join('');
+  
+      // Format number with commas
+      function formatNumberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       }
+    
+      const amountInput = document.getElementById('amount');
+      const wordsInput = document.getElementById('amount-words');
+    
+      // Allow typing freely, just clean input
+      amountInput.addEventListener('input', function () {
+      let value = this.value;
+  
+      // Clean: allow digits and one dot only
+      let cleaned = value.replace(/[^0-9.]/g, '');
+      if ((cleaned.match(/\./g) || []).length > 1) {
+        const firstDot = cleaned.indexOf('.');
+        cleaned = cleaned.slice(0, firstDot + 1) + cleaned.slice(firstDot + 1).replace(/\./g, '');
+      }
+  
+      // Limit to 2 decimal places (but don't reassign yet)
+      const parts = cleaned.split('.');
       if (parts[1] && parts[1].length > 2) {
-        value = parts[0] + '.' + parts[1].substring(0, 2);
+        cleaned = parts[0] + '.' + parts[1].substring(0, 2);
       }
-
-      // Reformat with commas
-      const num = parseFloat(value);
-      if (!isNaN(num) && value !== '') {
-        this.value = formatNumberWithCommas(num.toFixed(2));
+  
+      // Update display value only if changed
+      if (cleaned !== value) {
+        this.value = cleaned;
+      }
+  
+      // Parse number for words
+      const num = parseFloat(cleaned);
+      if (!isNaN(num) && cleaned !== '') {
         wordsInput.value = numberToWords(num);
       } else {
-        this.value = value;
         wordsInput.value = '';
       }
     });
+  
+    // Format with commas only when user leaves the field
+    amountInput.addEventListener('blur', function () {
+      const value = this.value.trim();
+      if (value === '') return;
+  
+      const num = parseFloat(value);
+      if (!isNaN(num)) {
+        this.value = num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      } else {
+        // Invalid, restore last clean state
+        this.value = value.replace(/[^0-9.]/g, '');
+      }
+    });
   </script>
+
 </body>
 </html>
