@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
-from clubs.models import Clubs
+from clubs.models import Clubs, MemberApplication
 from landing_page.models import Users
 
 
