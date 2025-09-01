@@ -96,5 +96,17 @@ def dashboard(request, club_id):
     
     user = get_object_or_404(Users, id=member_id)
     club = Clubs.objects.get(id=club_id)
-    context = {'club': club}
+    context = {'club': club, 'member': user}
     return render(request, 'individual_club.html', context)
+
+def get_club_applicants(request, club_id):
+    member_id = request.session.get('member_id')
+    if not member_id:
+        messages.error(request, "You must be logged in to access this page")
+        return redirect(reverse('home') + '#section_3')
+    
+    user = get_object_or_404(Users, id=member_id)
+    club = Clubs.objects.get(id=club_id)
+    applicant = MemberApplication.objects.filter(club=club)
+    context = {'club': club, 'applicant': applicant, 'user': user}
+    return render(request, 'approve_member.html', context)
