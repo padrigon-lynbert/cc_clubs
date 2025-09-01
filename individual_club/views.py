@@ -73,7 +73,7 @@ def election_club(request, club_id):
     
     user = get_object_or_404(Users, id=member_id)
     club = Clubs.objects.get(id=club_id)
-    context = {'club': club}
+    context = {'club': club, 'user': user}
     return render(request, 'election_club.html', context)
 
     
@@ -85,7 +85,7 @@ def get_club_achievement(request, club_id):
     
     user = get_object_or_404(Users, id=member_id)
     club = Clubs.objects.get(id=club_id)
-    context = {'club': club}
+    context = {'club': club, 'user': user}
     return render(request, 'club-achievement.html', context)
 
 def dashboard(request, club_id):
