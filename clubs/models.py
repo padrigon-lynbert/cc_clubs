@@ -63,6 +63,18 @@ class MemberApplication(models.Model):
     signature = models.ImageField(upload_to='membership_applications/signatures/', null=True, blank=True) 
     date_submitted = models.DateField(auto_now_add=True)
 
+    class Status(models.IntegerChoices):
+        PENDING = 0, _('Pending')
+        APPROVED = 1, _('Approved')
+        REJECTED = 2, _('Rejected')
+
+    status = models.IntegerField(
+        choices=Status.choices,
+        default=Status.PENDING,
+        verbose_name='Status',
+    )
+
+
     def __str__(self):
         return f'{self.student.name} wants to apply to {self.club.club_name}'
     
