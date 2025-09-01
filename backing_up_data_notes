@@ -7,4 +7,4 @@
 2: psql "postgres://avnadmin:AVNS_jOLOj7KVZ9kKT-LnPSP@club-pg-padrigonlynbert-3ec9.d.aivencloud.com:23197/defaultdb?sslmode=require" \
   -f backup_ready.sql
 
-open db in cli and list tables
+open db in pgcli and list tables
