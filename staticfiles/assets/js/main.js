@@ -1,4 +1,8 @@
-
+/*
+	Eventually by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
 
 (function() {
 
@@ -32,9 +36,9 @@
 
 					// Images (in the format of 'url': 'alignment').
 						images: {
-							'/static/images/bg01.jpg': 'center',
-							'/static/images/bg02.jpg': 'center',
-							'/static/images/bg03.jpg': 'center'
+							'static/images/bg01.jpg': 'center',
+							'static/images/bg02.jpg': 'center',
+							'static/images/bg03.jpg': 'center'
 						},
 
 					// Delay.
