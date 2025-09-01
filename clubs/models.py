@@ -60,6 +60,7 @@ class MemberApplication(models.Model):
     medical_form = models.ImageField(upload_to='membership_applications/medical_forms/', null=False)
     certificate_of_recognition = models.ImageField(upload_to='membership_applications/cor/', null=False)
     student_id_card = models.ImageField(upload_to='membership_applications/identification_cards/', null=False)
+    signature = models.ImageField(upload_to='membership_applications/signatures/', null=True, blank=True) 
     date_submitted = models.DateField(auto_now_add=True)
 
     def __str__(self):
