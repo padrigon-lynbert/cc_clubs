@@ -26,15 +26,24 @@ def individual_club(request):
         if not club_id:  # nothing selected
             return redirect(reverse('home') + '#section_3')
 
-        club = get_object_or_404(Clubs, id=club_id)
+        # store selected club
+        request.session['club_id'] = club_id
 
-        # ! store selected club in session
-        request.session['club_id'] = club.id
+        # redirect to clean URL with ID
+        return redirect('club_detail', club_id=club_id)
 
-        return render(request, 'individual_club.html', {"club": club})
-
-    # if someone goes here directly
+    # if someone goes here directly without POST
     return redirect(reverse('home') + '#section_3')
+
+# for individual club to carry id in the url
+def club_detail(request, club_id):
+    if not request.session.get('member_logged_in'):
+        messages.error(request, "You must be logged in to access this page")
+        return redirect(reverse('home') + '#section_3')
+
+    club = get_object_or_404(Clubs, id=club_id)
+    return render(request, 'individual_club.html', {"club": club})
+
 
 
 def budget_request(request):
