@@ -473,7 +473,7 @@
                                 <span>Budget Request</span>
                             </a>
                         </li>
-                        {% if member.role == 1 or member.role == 2 %}
+                        {% if user.role == 1 or user.role == 2 %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'club_applicants' club.id %}">
                                     <i class="fas fa-user-plus"></i>
