@@ -76,6 +76,10 @@
       const preview = document.getElementById('imagePreview');
       preview.src = URL.createObjectURL(file);
       preview.style.display = 'block';
+    } else {
+      const preview = document.getElementById('imagePreview');
+      preview.src = null;
+      preview.style.display = 'none';
     }
   });
 </script>

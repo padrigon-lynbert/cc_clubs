@@ -238,13 +238,13 @@
       <!-- Requester Name -->
       <div class="form-group">
         <label for="requester-name">Requester Name</label>
-        <input type="text" id="requester-name" placeholder="Juan Dela Cruz" required />
+        <input type="text" id="requester-name" value="{{user.name}}" readonly required/>
       </div>
 
       <!-- Club Name -->
       <div class="form-group">
         <label for="club-name">Club Name</label>
-        <select id="club-name" required>
+        <!-- <select id="club-name" required>
           <option disabled selected>Select club</option>
           <option value="cesc">CESC - Computer Engineering Sports Club</option>
           <option value="lakas">LAKAS - Liga ng mga Aktibong Kabataan Sa Araling Panlipunan</option>
@@ -269,7 +269,9 @@
           <option value="jma">JMA - Junior Marketing Association</option>
           <option value="gold">GOLD - Guild Officers to Lead Development</option>
           <option value="smc">SMC - Shuttle Master Club</option>
-        </select>
+        </select> -->
+         <input type="text" id="club-name"
+            value="[{{club.acronym}}] {{club.club_name}}" readonly>
       </div>
 
        <!-- Purpose -->
