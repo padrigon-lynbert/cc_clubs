@@ -178,7 +178,7 @@
         }
 
         .modal-header {
-            background-color:#29306f;
+            background-color: #29306f;
             color: white;
         }
 
@@ -210,162 +210,167 @@
         }
 
         /* Calendar Container - Centered with Elegance */
-#calendar {
-    max-width: 600px;
-    height: 380px;
-    margin: 0 auto;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(41, 48, 111, 0.15);
-    border: 1px solid #e0e4f0;
-    background: white;
-}
+        #calendar {
+            max-width: 600px;
+            height: 380px;
+            margin: 0 auto;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(41, 48, 111, 0.15);
+            border: 1px solid #e0e4f0;
+            background: white;
+        }
 
-/* FullCalendar Toolbar (Header) */
-.fc .fc-toolbar {
-    margin: 0;
-    padding: 0.8rem 0.5rem;
-}
+        /* FullCalendar Toolbar (Header) */
+        .fc .fc-toolbar {
+            margin: 0;
+            padding: 0.8rem 0.5rem;
+        }
 
-.fc .fc-toolbar-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color:rgb(81, 94, 214);
-    margin: 0;
-    text-align: center;
-}
+        .fc .fc-toolbar-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: rgb(81, 94, 214);
+            margin: 0;
+            text-align: center;
+        }
 
-.fc .fc-toolbar-header {
-    background: linear-gradient(135deg, #29306f, #1e234a);
-    border-bottom: 1px solid #3a4385;
-    padding: 0.4rem 0;
-}
+        .fc .fc-toolbar-header {
+            background: linear-gradient(135deg, #29306f, #1e234a);
+            border-bottom: 1px solid #3a4385;
+            padding: 0.4rem 0;
+        }
 
-/* Calendar Buttons (Prev/Next) */
-.fc .fc-button {
-    background-color: #29306f;
-    border: none;
-    color: white;
-    font-size: 0.95rem;
-    padding: 0.3rem 0.7rem;
-    border-radius: 8px;
-    font-weight: 500;
-    box-shadow: 0 2px 6px rgba(41, 48, 111, 0.2);
-    transition: all 0.3s ease;
-}
+        /* Calendar Buttons (Prev/Next) */
+        .fc .fc-button {
+            background-color: #29306f;
+            border: none;
+            color: white;
+            font-size: 0.95rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 8px;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(41, 48, 111, 0.2);
+            transition: all 0.3s ease;
+        }
 
-.fc .fc-button:hover {
-    background-color: #3a4385;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(41, 48, 111, 0.3);
-}
+        .fc .fc-button:hover {
+            background-color: #3a4385;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(41, 48, 111, 0.3);
+        }
 
-.fc .fc-button:active {
-    transform: translateY(0);
-}
+        .fc .fc-button:active {
+            transform: translateY(0);
+        }
 
-/* Today Button Specific Style */
-.fc .fc-button-primary {
-    background-color: #29306f;
-}
+        /* Today Button Specific Style */
+        .fc .fc-button-primary {
+            background-color: #29306f;
+        }
 
-.fc .fc-button-primary:not(:disabled):active {
-    background-color: #1e234a;
-}
+        .fc .fc-button-primary:not(:disabled):active {
+            background-color: #1e234a;
+        }
 
-/* Calendar Days Grid */
-.fc .fc-daygrid-day {
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
-}
+        /* Calendar Days Grid */
+        .fc .fc-daygrid-day {
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
 
-.fc .fc-daygrid-day:hover {
-    background-color: #f0f2ff;
-    border: 1px solid #a3bffa;
-    cursor: pointer;
-}
+        .fc .fc-daygrid-day:hover {
+            background-color: #f0f2ff;
+            border: 1px solid #a3bffa;
+            cursor: pointer;
+        }
 
-/* Today Highlight */
-.fc .fc-daygrid-day.fc-today {
-    background-color: #29306f !important;
-    border-color: #29306f;
-}
+        /* Today Highlight */
+        .fc .fc-daygrid-day.fc-today {
+            background-color: #29306f !important;
+            border-color: #29306f;
+        }
 
-.fc .fc-daygrid-day.fc-today .fc-daygrid-day-number {
-    color: white !important;
-    font-weight: 700;
-    padding: 4px 8px;
-    border-radius: 50%;
-    background: #1e234a;
-    display: inline-block;
-}
+        .fc .fc-daygrid-day.fc-today .fc-daygrid-day-number {
+            color: white !important;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 50%;
+            background: #1e234a;
+            display: inline-block;
+        }
 
-/* Day Number Styling */
-.fc .fc-daygrid-day-number {
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: #29306f;
-    padding: 4px;
-}
+        /* Day Number Styling */
+        .fc .fc-daygrid-day-number {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #29306f;
+            padding: 4px;
+        }
 
-/* Events in Calendar */
-.fc .fc-daygrid-event {
-    font-size: 0.85rem;
-    font-weight: 500;
-    background-color: #29306f;
-    border-color: #3a4385;
-    color: white;
-    border-radius: 6px;
-    margin: 1px 2px;
-    padding: 2px 6px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-}
+        /* Events in Calendar */
+        .fc .fc-daygrid-event {
+            font-size: 0.85rem;
+            font-weight: 500;
+            background-color: #29306f;
+            border-color: #3a4385;
+            color: white;
+            border-radius: 6px;
+            margin: 1px 2px;
+            padding: 2px 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
 
-.fc .fc-daygrid-event:hover {
-    background-color: #3a4385;
-    transform: scale(1.05);
-    z-index: 2;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
+        .fc .fc-daygrid-event:hover {
+            background-color: #3a4385;
+            transform: scale(1.05);
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
 
-/* Event Title */
-.fc .fc-event-title {
-    font-size: 0.9rem;
-    font-weight: 500;
-}
+        /* Event Title */
+        .fc .fc-event-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
 
-/* Weekday Headers (Mon, Tue, etc.) */
-.fc .fc-col-header-cell {
-    background: #f5f7ff;
-    border-bottom: 2px solid #e0e4f0;
-}
+        /* Weekday Headers (Mon, Tue, etc.) */
+        .fc .fc-col-header-cell {
+            background: #f5f7ff;
+            border-bottom: 2px solid #e0e4f0;
+        }
 
-.fc .fc-col-header-cell a {
-    color: #29306f;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+        .fc .fc-col-header-cell a {
+            color: #29306f;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-/* Calendar Grid Lines */
-.fc .fc-scrollgrid {
-    border: none;
-}
+        /* Calendar Grid Lines */
+        .fc .fc-scrollgrid {
+            border: none;
+        }
 
-.fc table {
-    border-radius: 10px;
-    overflow: hidden;
-}
+        .fc table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-.fc th {
-    padding: 8px 0;
-}
+        .fc th {
+            padding: 8px 0;
+        }
 
-.fc td {
-    padding: 2px 0;
-}
+        .fc td {
+            padding: 2px 0;
+        }
+
+        .indented-ai {
+            text-indent: 2em;
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -438,14 +443,14 @@
                                 <span>Budget Request</span>
                             </a>
                         </li>
-                        
+
                         {% if user.role == 1 or user.role == 2 %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'club_applicants' club.id %}">
-                                    <i class="fas fa-user-plus"></i>
-                                    <span>Club Applicants</span>
-                                </a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'club_applicants' club.id %}">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Club Applicants</span>
+                            </a>
+                        </li>
                         {% endif %}
 
                         <li class="nav-item">
@@ -474,207 +479,208 @@
             </nav>
 
             <!-- Main Content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <header>
-                    <h1>Club Officer Elections</h1>
-                    <hr>
-                </header>
-            
-                <!-- Chart and Calendar Side by Side -->
-                <div class="row mb-4">
-                    <!-- Election Chart -->
-                    <div class="col-lg-6 mb-4 mb-lg-0">
-                        <div class="p-3 border rounded bg-white h-100 shadow-sm">
-                            <h4 class="text-center mb-3">Ongoing Election Results</h4>
-                            <h6 class="text-center text-primary mb-3">Presidential Election 2025</h6>
-                            <div class="chart-container" style="height: 240px;">
-                                <canvas id="electionChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-            
-                    <!-- Calendar -->
-                    <div class="col-lg-6">
-                        <div class="p-3 border rounded bg-white h-100 shadow-sm">
-                            <h4 class="text-center mb-3" style="color: #29306f; font-weight: 600;">Calendar Events</h4>
-                            <div id="calendar"></div>
-                        </div>
-                    </div>
-                </div>
-            
-                <!-- Election Results Table -->
-                <div class="p-3 border rounded mb-3 bg-white shadow-sm">
-                    <h4>Results for Presidential Election 2025</h4>
-                    <div class="tableresults">
-                        <table class="table table-bordered rounded mb-0">
-                            <tr>
-                                <th>Election Title</th>
-                                <td>Presidential Elections 2025</td>
-                            </tr>
-                            <tr>
-                                <th>Elected Candidate</th>
-                                <td>John Doe</td>
-                            </tr>
-                            <tr>
-                                <th>Assigned Role</th>
-                                <td>President of CESC Club</td>
-                            </tr>
-                            <tr>
-                                <th>Statistics Results</th>
-                                <td>78% of total votes</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            
-                <!-- Ongoing Elections Table -->
-                <div class="p-3 border rounded bg-white shadow-sm">
-                    <h4>Ongoing Elections</h4>
-                    <div>
-                        <table class="table table-hover table-striped text-center mb-0">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Election Title</th>
-                                    <th>Club</th>
-                                    <th>Status</th>
-                                    <th>Voting Period</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Sample Title 1</td>
-                                    <td>Sample Club 1</td>
-                                    <td><span class="badge bg-secondary">Completed</span></td>
-                                    <td>Aug 22–24, 2025</td>
-                                    <td><button class="btn btn-sm btn-secondary disabled">Completed</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Presidential Elections 2025</td>
-                                    <td>Computer Engineering Sports Club</td>
-                                    <td><span class="badge bg-success">Ongoing</span></td>
-                                    <td>Aug 27–30, 2025</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#votemodal">
-                                            Vote Now
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </main>
+            <main class="col-md-9 bg-light ms-sm-auto col-lg-10 px-md-4">
+                <div class="card px-5 py-3">
+                    <header>
+                        <h1>Club Officer Elections</h1>
+                        <hr>
+                    </header>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="votemodal" tabindex="-1" aria-labelledby="votemodalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-xl modal-dialog-scrollable">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-3 text-center" id="votemodalLabel">Presidential
-                                            Elections 2025 <span class="text-success"> - Election Title (remove)</span>
-                                        </h1>
-                                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <form action="">
-                                                <div class="container">
-                                                    <div class="carousel-container">
-                                                        <h4>Candidates for President</h4>
-                                                        <div id="cardWrapper">
-                                                            <div class="card profile-card border rounded p-2">
-                                                                <div class="d-flex">
-                                                                    <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                                                        alt="default profile" class="w-25">
-                                                                    <div class="px-3">
-                                                                        <h4 class="m-0 mt-1 pt-2">John Doe</h4>
-                                                                        <p style="color:#696666;" class="m-0">Vice
-                                                                            President</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="d-flex align-items-center mt-2">
-                                                                    <input type="radio" name="position"
-                                                                        class="me-2 custom-radio">
-                                                                    <label>Some Implementation Description</label>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="card profile-card border rounded p-2">
-                                                                <div class="d-flex">
-                                                                    <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                                                        alt="default profile" class="w-25">
-                                                                    <div class="px-3">
-                                                                        <h4 class="m-0 mt-1 pt-2">Jane Doe</h4>
-                                                                        <p style="color:#696666;" class="m-0">President
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="d-flex align-items-center mt-2">
-                                                                    <input type="radio" name="position"
-                                                                        class="me-2 custom-radio">
-                                                                    <label>Some Implementation Description</label>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="card profile-card border rounded p-2">
-                                                                <div class="d-flex">
-                                                                    <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                                                        alt="default profile" class="w-25">
-                                                                    <div class="px-3">
-                                                                        <h4 class="m-0 mt-1 pt-2">Peter Smith</h4>
-                                                                        <p style="color:#696666;" class="m-0">Secretary
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="d-flex align-items-center mt-2">
-                                                                    <input type="radio" name="position"
-                                                                        class="me-2 custom-radio">
-                                                                    <label>Some Implementation Description</label>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="card profile-card border rounded p-2">
-                                                                <div class="d-flex">
-                                                                    <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                                                        alt="default profile" class="w-25">
-                                                                    <div class="px-3">
-                                                                        <h4 class="m-0 mt-1 pt-2">Alice Johnson</h4>
-                                                                        <p style="color:#696666;" class="m-0">Treasurer
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="d-flex align-items-center mt-2">
-                                                                    <input type="radio" name="position"
-                                                                        class="me-2 custom-radio">
-                                                                    <label>Some Implementation Description</label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <hr>
-                                                    </div>
-                                                    <div class="text-center">
-                                                        <input type="submit" value="Submit Vote"
-                                                            class="btn btn-primary">
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <h6 class="text-warning">NOTE: </h6>
-                                        <h6>Please Vote Wisely.</h6>
-                                    </div>
+                    <!-- Chart and Calendar Side by Side -->
+                    <div class="row mb-4">
+                        <!-- Election Chart -->
+                        <div class="col-lg-6 mb-4 mb-lg-0">
+                            <div class="p-3 bg-white h-100">
+                                <h4 class="text-center mb-3">Ongoing Election Results</h4>
+                                <h6 class="text-center text-primary mb-3">Presidential Election 2025</h6>
+                                <div class="chart-container m-0 p-0 border-bottom" style="height: 180px;">
+                                    <canvas id="electionChart"></canvas>
+                                </div>
+                                <div class="m-0 mt-2 p-0">
+                                    <b>A.I. Statistical Summarizer</b><br>
+                                    <p class="indented-ai"><small><i>- "Based on the analysis eme, John doe has the most votes with a percentage of 58% eme or equivalent to 374 eme out of 700 eme voters."</i></small></p>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Calendar -->
+                        <div class="col-lg-6">
+                            <div class="p-3 bg-white h-100">
+                                <h4 class="text-center mb-3" style="color: #29306f; font-weight: 600;">Calendar Events
+                                </h4>
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Election Results Table -->
+                    <div class="p-3 border rounded mb-3 bg-white shadow-sm">
+                        <h4>Results for Presidential Election 2025</h4>
+                        <div class="tableresults">
+                            <table class="table table-bordered rounded mb-0">
+                                <tr>
+                                    <th>Election Title</th>
+                                    <td>Presidential Elections 2025</td>
+                                </tr>
+                                <tr>
+                                    <th>Elected Candidate</th>
+                                    <td>John Doe</td>
+                                </tr>
+                                <tr>
+                                    <th>Assigned Role</th>
+                                    <td>President of CESC Club</td>
+                                </tr>
+                                <tr>
+                                    <th>Statistics Results</th>
+                                    <td>78% of total votes</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Ongoing Elections Table -->
+                    <div class="p-3 border rounded bg-white shadow-sm">
+                        <h4>Ongoing Elections</h4>
+                        <div>
+                            <table class="table table-hover table-striped text-center mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Election Title</th>
+                                        <th>Club</th>
+                                        <th>Status</th>
+                                        <th>Voting Period</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Sample Title 1</td>
+                                        <td>Sample Club 1</td>
+                                        <td><span class="badge bg-secondary">Completed</span></td>
+                                        <td>Aug 22–24, 2025</td>
+                                        <td><button class="btn btn-sm btn-secondary disabled">Completed</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Presidential Elections 2025</td>
+                                        <td>Computer Engineering Sports Club</td>
+                                        <td><span class="badge bg-success">Ongoing</span></td>
+                                        <td>Aug 27–30, 2025</td>
+                                        <td>
+                                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#votemodal">
+                                                Vote Now
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </main>
+
+            <!-- Modal -->
+            <div class="modal fade" id="votemodal" tabindex="-1" aria-labelledby="votemodalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-3 text-center" id="votemodalLabel">Presidential
+                                Elections 2025 <span class="text-success"> - Election Title (remove)</span>
+                            </h1>
+                            <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <form action="">
+                                    <div class="container">
+                                        <div class="carousel-container">
+                                            <h4>Candidates for President</h4>
+                                            <div id="cardWrapper">
+                                                <div class="card profile-card border rounded p-2">
+                                                    <div class="d-flex">
+                                                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
+                                                            alt="default profile" class="w-25">
+                                                        <div class="px-3">
+                                                            <h4 class="m-0 mt-1 pt-2">John Doe</h4>
+                                                            <p style="color:#696666;" class="m-0">Vice
+                                                                President</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center mt-2">
+                                                        <input type="radio" name="position" class="me-2 custom-radio">
+                                                        <label>Some Implementation Description</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card profile-card border rounded p-2">
+                                                    <div class="d-flex">
+                                                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
+                                                            alt="default profile" class="w-25">
+                                                        <div class="px-3">
+                                                            <h4 class="m-0 mt-1 pt-2">Jane Doe</h4>
+                                                            <p style="color:#696666;" class="m-0">President
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center mt-2">
+                                                        <input type="radio" name="position" class="me-2 custom-radio">
+                                                        <label>Some Implementation Description</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card profile-card border rounded p-2">
+                                                    <div class="d-flex">
+                                                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
+                                                            alt="default profile" class="w-25">
+                                                        <div class="px-3">
+                                                            <h4 class="m-0 mt-1 pt-2">Peter Smith</h4>
+                                                            <p style="color:#696666;" class="m-0">Secretary
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center mt-2">
+                                                        <input type="radio" name="position" class="me-2 custom-radio">
+                                                        <label>Some Implementation Description</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card profile-card border rounded p-2">
+                                                    <div class="d-flex">
+                                                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
+                                                            alt="default profile" class="w-25">
+                                                        <div class="px-3">
+                                                            <h4 class="m-0 mt-1 pt-2">Alice Johnson</h4>
+                                                            <p style="color:#696666;" class="m-0">Treasurer
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center mt-2">
+                                                        <input type="radio" name="position" class="me-2 custom-radio">
+                                                        <label>Some Implementation Description</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                        <div class="text-center">
+                                            <input type="submit" value="Submit Vote" class="btn btn-primary">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <h6 class="text-warning">NOTE: </h6>
+                            <h6>Please Vote Wisely.</h6>
+                        </div>
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
+    </div>
+    </div>
+    </main>
+    </div>
     </div>
 
     <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
@@ -683,16 +689,16 @@
 
     <script>
         const ctx = document.getElementById('electionChart').getContext('2d');
-    
-   
+
+
         const primaryColor = '#29306f';
         const colorVariants = [
-            '#29306f',        
-            '#3a4385',       
-            '#4a5699',        
-            '#5b69ae'         
+            '#29306f',
+            '#3a4385',
+            '#4a5699',
+            '#5b69ae'
         ];
-    
+
         const electionChart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -700,7 +706,7 @@
                 datasets: [{
                     label: '% of Votes',
                     data: [55, 30, 10, 5],
-                    backgroundColor: colorVariants.map(color => 
+                    backgroundColor: colorVariants.map(color =>
                         `${color}CC` // Add 80% opacity for softness
                     ),
                     borderColor: colorVariants,
@@ -756,7 +762,7 @@
                         cornerRadius: 6,
                         displayColors: false,
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 return `${context.parsed.x}% of votes`;
                             }
                         },
@@ -795,7 +801,7 @@
                     { title: 'Birthday Party', start: '2025-09-21' }
                 ],
                 initialView: 'dayGridMonth',
-                themeSystem: 'bootstrap5', 
+                themeSystem: 'bootstrap5',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
