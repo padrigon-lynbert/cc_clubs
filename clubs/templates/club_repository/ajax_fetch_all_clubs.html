@@ -17,7 +17,8 @@
 <tr class="club-row" 
     data-id="{{ club.id }}"
     data-name="{{ club.club_name }}" 
-    data-description="{{ club.description|default:'No description yet.' }}">
+    data-description="{{ club.description|default:'No description yet.' }}"
+    data-banner="{% if club.banner %}{{ club.banner.url }}{% endif %}">
     <td>{{ club.acronym }}</td>
     <td>{{ club.location }}</td>
     <td>Yes</td>
