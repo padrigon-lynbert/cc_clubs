@@ -96,7 +96,7 @@ def dashboard(request, club_id):
     
     user = get_object_or_404(Users, id=member_id)
     club = Clubs.objects.get(id=club_id)
-    context = {'club': club, 'member': user}
+    context = {'club': club, 'user': user}
     return render(request, 'individual_club.html', context)
 
 def get_club_applicants(request, club_id):
