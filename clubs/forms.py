@@ -13,7 +13,7 @@ class ClubRegistrationForm(forms.ModelForm):
             'location': 'Club Location',
         }
         widgets = {
-            'banner': forms.FileInput(attrs={
+            'banner': forms.ClearableFileInput(attrs={
                 'class': 'form-control',
                 'id': 'imageInput',}),
             'club_name': forms.TextInput(attrs={
