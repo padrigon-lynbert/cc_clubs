@@ -61,7 +61,7 @@ def budget_request(request):
     if user.role == Users.Role.ACTIVITY_COORDINATOR:
         return render(request, 'budget_request_review.html', {"club": club}) # if activity coordinator: view budget request
 
-    return render(request, 'budget_request.html', {"club": club}) # go to budget_request (instructor only)
+    return render(request, 'budget_request.html', {"club": club, "user": user}) # go to budget_request (instructor only)
 
 
 

@@ -394,14 +394,12 @@
                                     style="height:300px; width:230px; object-fit:cover; border-radius:5%;">
                             </div>
 
-
                             <div class="member-block-info d-flex flex-column text-center">
                                 <h4>Dr. Maria M. Vicente</h4>
                                 <p>Founder BCP</p>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -475,9 +473,12 @@
 
 
                             <div class="card mb-4" style="border-radius: 10%;">
-                                <img src="{% static 'landing_page/images/members/portrait-young-handsome-businessman-wearing-suit-standing-with-crossed-arms-with-isolated-studio-white-background.jpg' %}"
-                                    class="card-img-top rounded-4 shadow" alt="Club Image"
-                                    style="height: 200px; width: 100%; object-fit: cover;">
+                                <img id="club-image"
+                                    src="{% static 'landing_page/images/fishing.jpg' %}"
+                                    class="card-img-top rounded-4 shadow"
+                                    alt="Club Banner"
+                                    style="height: 200px; width: 100%; object-fit: contain;">
+                                
 
                                 <div class="card-body"
                                     style="height: 150px; overflow-y: auto; scrollbar-width:none; -ms-overflow-style:none;">
@@ -521,38 +522,39 @@
                         });
                 });
 
-                // handle clicks
-                document.addEventListener("click", function (e) {
-                    const row = e.target.closest(".club-row");
-                    if (!row) return;
-
-                    const id = row.getAttribute("data-id");
-                    const name = row.getAttribute("data-name");
-                    const description = row.getAttribute("data-description");
-
-                    // update preview box
-                    document.getElementById("club-name").textContent = name;
-                    document.getElementById("club-description").textContent = description;
-
-                    // update hidden input for form
-                    document.getElementById("selected-club-id").value = id;
-
-                    // scroll goto view when club is clicked in the repository
-                    const clubView = document.getElementById("club_view");
-
-                    if (window.innerWidth <= 768) {
-                        // Mobile
-                        clubView.scrollIntoView({ behavior: "smooth", block: "end" });
-                    } else {
-                        // Desktop
-                        document.getElementById("section_3")
-                            .scrollIntoView({ behavior: "smooth", block: "center" });
-                    }
-
-
-
-
-                });
+               // handle clicks
+               document.addEventListener("click", function (e) {
+                   const row = e.target.closest(".club-row");
+                   if (!row) return;
+               
+                   const id = row.getAttribute("data-id");
+                   const name = row.getAttribute("data-name");
+                   const description = row.getAttribute("data-description");
+                   const banner = row.getAttribute("data-banner"); // <-- NEW
+               
+                   // update preview box
+                   document.getElementById("club-name").textContent = name;
+                   document.getElementById("club-description").textContent = description;
+               
+                   // update image
+                   document.getElementById("club-image").src = banner && banner.trim() !== ""
+                       ? banner
+                       : "{% static 'landing_page/images/fishing.jpg' %}";
+               
+                   // update hidden input for form
+                   document.getElementById("selected-club-id").value = id;
+               
+                   // scroll goto view when club is clicked in the repository
+                   const clubView = document.getElementById("club_view");
+               
+                   if (window.innerWidth <= 768) {
+                       clubView.scrollIntoView({ behavior: "smooth", block: "end" });
+                   } else {
+                       document.getElementById("section_3")
+                           .scrollIntoView({ behavior: "smooth", block: "center" });
+                   }
+               });
+               
 
             </script>
         </section>
