@@ -147,6 +147,7 @@ class Announcement(models.Model):
     
     class Meta:
         db_table = 'event'
+        ordering = ['-announcement_date']
 
 class Achievement(models.Model):
     title = models.CharField(max_length=50, blank=False, null=False)
