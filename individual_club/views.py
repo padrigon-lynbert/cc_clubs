@@ -135,3 +135,13 @@ def get_club_applicants(request, club_id):
     applicant = MemberApplication.objects.filter(club=club)
     context = {'club': club, 'applicant': applicant, 'user': user}
     return render(request, 'approve_member.html', context)
+
+# create event view ------------------------------------
+# una gawa ka ng function (def) para sa event, i return mo yung .html file na gusto mong buksan kapag pinindot mo yung tag. 
+#   Hindi mo na kelangan gamitin full path kasi naka register sa settings.py na base path ang /templates
+
+def create_event(request):
+    
+    # kapag pinindot mo ito yung page na pupuntahan(.html sa return), para malaman ng system kung anong url ang gagamitin mo kelangan mo i define,
+        #kaya pupunta ka sa urls ng application na ito (folder na may views.py), open mo urls.py same folder
+    return render(request, 'create_event.html')

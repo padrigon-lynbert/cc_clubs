@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import individual_club # view club
-from .views import apply_club # no backend yet
-from .views import budget_request # no backend, no acceptance page
-from .views import election_club # only for linking the page
+from .views import individual_club 
+from .views import apply_club 
+from .views import budget_request 
+from .views import election_club 
 from .views import get_club_achievement, member_list, get_club_applicants, club_detail
+
+from .views import create_event # url ng create event to, import mo muna sa views.url bago ka magdagdag ng path sa pattern
 
 urlpatterns =[
     path('individual_club/', individual_club, name='individual_club'),
@@ -14,4 +16,5 @@ urlpatterns =[
     path('achievements/<int:club_id>/', get_club_achievement, name='club_achievement'),
     path('club_applicants/<int:club_id>/', get_club_applicants, name='club_applicants'),
     path('member_list/', member_list, name='member_list'),
+    path('create_event/', create_event, name='create_event'), # yung laman ng name variable and pwede mong gamitin sa {% url 'value_ng_name_variable'%}, pwede mo na gamitin to as url check mo yung page tas gamitin mo.
 ]
