@@ -234,70 +234,53 @@
       <span class="system-label">BCP Club System</span>
     </div>
 
-    <form class="form-body" novalidate>
+    <form class="form-body" method="post" action="{% url 'budget_request' %}">
+      {% csrf_token %}
+    
       <!-- Requester Name -->
       <div class="form-group">
         <label for="requester-name">Requester Name</label>
-        <input type="text" id="requester-name" value="{{user.name}}" readonly required/>
+        <input type="text" id="requester-name" name="requester"
+               value="{{user.name}}" readonly required/>
       </div>
-
+    
       <!-- Club Name -->
       <div class="form-group">
         <label for="club-name">Club Name</label>
-        <!-- <select id="club-name" required>
-          <option disabled selected>Select club</option>
-          <option value="cesc">CESC - Computer Engineering Sports Club</option>
-          <option value="lakas">LAKAS - Liga ng mga Aktibong Kabataan Sa Araling Panlipunan</option>
-          <option value="gems">GEMs - Guild of English Majors</option>
-          <option value="aces">ACES - Association of Computer Engineering Students</option>
-          <option value="acac">ACAC - Association of Cultural Art Club</option>
-          <option value="acads">ACADS - Association of Computer Engineering Academic Driven Students</option>
-          <option value="libro">LIBRO - Lucid Intelligence of Bright and Righteous Officers</option>
-          <option value="wika">WIKA - Wikang Filipino Instrumento sa Kaunlarang Akademya</option>
-          <option value="eyo">EYO - Entrepre Youth Organization</option>
-          <option value="galaw">GALAW - Group of Athletes and Leaders Association for Wellness</option>
-          <option value="psych-soc">PSYCH-SOC - Psychology Society</option>
-          <option value="techs">TECHS - Technology, Explorative, Creativeness and Hospitality Skills</option>
-          <option value="sigma">SIGMA - Students' Interactive Guild for Mathematics Major</option>
-          <option value="tlc">TLC - BCP TALENT CENTER</option>
-          <option value="aiss">AISS - Accounting Information System Society</option>
-          <option value="hrs">HRS - Human Resource Society</option>
-          <option value="rsd">RSD - Regnum Scientiae Discipulus</option>
-          <option value="lapis">LAPIS - Leadership Association Program Including Services</option>
-          <option value="bliss">BLISS - Bestlink Library and Information Science Society</option>
-          <option value="tss">TSS - Tourism Student Society</option>
-          <option value="jma">JMA - Junior Marketing Association</option>
-          <option value="gold">GOLD - Guild Officers to Lead Development</option>
-          <option value="smc">SMC - Shuttle Master Club</option>
-        </select> -->
-         <input type="text" id="club-name"
-            value="[{{club.acronym}}] {{club.club_name}}" readonly>
+        <input type="text" id="club-name" name="club"
+               value="[{{club.acronym}}] {{club.club_name}}" readonly />
       </div>
-
-       <!-- Purpose -->
-        <div class="form-group">
-          <label for="purpose">Purpose</label>
-          <textarea id="purpose" rows="3" placeholder="E.g. Purchase of materials for club event" required></textarea>
-        </div>
-
-        <!-- Amount -->
-        <div class="form-group">
-          <label for="amount">Amount (₱)</label>
-          <input type="text" id="amount" inputmode="decimal" placeholder="Enter amount requested" required />
-        </div>
-
-        <!-- Amount in Words -->
-        <div class="form-group">
-          <label for="amount-words">Amount in Words</label>
-          <input type="text" id="amount-words" placeholder="e.g. One thousand two hundred fifty pesos only" readonly />
-          <p class="helper-text">The amount will be auto-filled. Edit if needed.</p>
-        </div>
+    
+      <!-- Purpose -->
+      <div class="form-group">
+        <label for="purpose">Purpose</label>
+        <textarea id="purpose" name="purpose" rows="3"
+                  placeholder="E.g. Purchase of materials for club event" required></textarea>
+      </div>
+          
+      <!-- Amount -->
+      <div class="form-group">
+        <label for="amount">Amount (₱)</label>
+        <input type="text" id="amount" name="amount" inputmode="decimal"
+               placeholder="Enter amount requested" required />
+      </div>
+    
+      <!-- Amount in Words -->
+      <div class="form-group">
+        <label for="amount-words">Amount in Words</label>
+        <input type="text" id="amount-words" name="amount_words"
+               placeholder="e.g. One thousand two hundred fifty pesos only" readonly />
+        <p class="helper-text">The amount will be auto-filled. Edit if needed.</p>
+      </div>
+    
       <!-- Submit Buttons -->
       <div class="form-group submit-group">
         <button type="button" class="btn btn-return" onclick="window.history.back();">← Return</button>
-        <button type="submit" class="btn btn-submit">Submit Request </button>
+        <button type="button" class="btn btn-return">History</button>
+        <button type="submit" class="btn btn-submit">Submit Request</button>
       </div>
     </form>
+      
   </div>
 
   <script>

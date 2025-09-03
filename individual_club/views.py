@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.urls import reverse
 from clubs.models import Clubs, MemberApplication
 from landing_page.models import Users
+from .models import BudgetRequest
 
 
 
@@ -56,7 +57,6 @@ def budget_request(request):
         return redirect(reverse('home') + '#section_3')
 
     user = get_object_or_404(Users, id=member_id)
-
     club_id = request.session.get('club_id')
     club = get_object_or_404(Clubs, id=club_id)
 
@@ -72,9 +72,33 @@ def budget_request(request):
     
     if user.role == Users.Role.ACTIVITY_COORDINATOR:
         return render(request, 'budget_request_review.html', {"club": club}) # if activity coordinator: view budget request
+    
+     # Instructor/Adviser: submit budget request
+    if request.method == "POST":
+        purpose = request.POST.get("purpose")
+        amount = request.POST.get("amount")
+        amount_words = request.POST.get("amount_words")
+        requester = user.name  # instructor name
 
-    return render(request, 'budget_request.html', {"club": club, "user": user}) # go to budget_request (instructor only)
+        if not purpose or not amount:
+            messages.error(request, "Purpose and Amount are required")
+            return render(request, 'budget_request.html', {"club": club, "user": user})
 
+        BudgetRequest.objects.create(
+            purpose=purpose,
+            requester=user.name,
+            amount=amount,
+            amount_words=amount_words,
+            status=BudgetRequest.Status.PENDING,
+            club=club,
+        )
+
+        messages.success(request, "Budget request submitted successfully")
+        # return redirect("individual_club")
+        return redirect('club_detail', club_id=club.id)
+
+
+    return render(request, 'budget_request.html', {"club": club, "user": user}) # go to budget_request (instructor page only)
 
 
 def election_club(request, club_id):
