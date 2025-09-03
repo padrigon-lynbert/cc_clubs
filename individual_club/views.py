@@ -100,17 +100,6 @@ def get_club_achievement(request, club_id):
     context = {'club': club, 'user': user}
     return render(request, 'club-achievement.html', context)
 
-def dashboard(request, club_id):
-    member_id = request.session.get('member_id')
-    if not member_id:
-        messages.error(request, "You must be logged in to access this page")
-        return redirect(reverse('home') + '#section_3')
-    
-    user = get_object_or_404(Users, id=member_id)
-    club = Clubs.objects.get(id=club_id)
-    context = {'club': club, 'user': user}
-    return render(request, 'individual_club.html', context)
-
 def get_club_applicants(request, club_id):
     member_id = request.session.get('member_id')
     if not member_id:
