@@ -37,12 +37,15 @@ def individual_club(request):
 
 # for individual club to carry id in the url
 def club_detail(request, club_id):
-    if not request.session.get('member_logged_in'):
+    member_id = request.session.get('member_id')
+    if not member_id:
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
-
-    club = get_object_or_404(Clubs, id=club_id)
-    return render(request, 'individual_club.html', {"club": club})
+    
+    user = get_object_or_404(Users, id=member_id)
+    club = Clubs.objects.get(id=club_id)
+    context = {'club': club, 'user': user}
+    return render(request, 'individual_club.html', context)
 
 
 
