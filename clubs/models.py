@@ -141,6 +141,8 @@ class Announcement(models.Model):
     announcement_date = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
+    test_field = models.CharField(max_length=50, null=True, blank=True)  # temporary for testing
+
 
     def __str__(self):
         return f'{self.club.club_name} Event - {self.name}'
