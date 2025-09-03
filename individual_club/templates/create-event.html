@@ -3,153 +3,268 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create Event - BCP Club System</title>
+  <title>Create Announcement - BCP Club System</title>
+
+  <!-- Google Fonts: DM Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
   <style>
-    body {
+    /* Reset & Base Styles */
+    * {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #fff;
-      color: #333;
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f9fbfd;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Header */
     header {
-      background: #243B6B;
+      background: #29306f;
       color: white;
       padding: 1rem 2rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 10px rgba(41, 48, 111, 0.15);
     }
+
     .logo {
-      font-weight: bold;
-      font-size: 1.2rem;
+      font-weight: 700;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .logo img {
+      width: 32px;
+      height: 32px;
+    }
+
+    /* Return Button */
+    .return-btn {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-    }
-    nav a {
       color: white;
       text-decoration: none;
-      margin: 0 1rem;
       font-weight: 500;
-    }
-    nav a.events {
-      color: #FFD700;
-      font-weight: 700;
-    }
-    .login-btn {
-      border: 2px solid #FFD700;
+      font-size: 0.95rem;
       padding: 0.5rem 1rem;
-      border-radius: 20px;
-      color: #FFD700;
-      background: transparent;
-      cursor: pointer;
-      font-weight: 600;
-      text-decoration: none;
-    }
-    
-    main {
-      max-width: 600px;
-      margin: 3rem auto;
-      padding: 0 1rem;
-      text-align: center;
-    }
-    main h1 {
-      color: #FFD700;
-      font-size: 2.5rem;
-      margin-bottom: 0.3rem;
-    }
-    main p.subtitle {
-      color: #333;
-      margin-bottom: 2rem;
-      font-weight: 400;
-    }
-
-    form {
-      background: #FFF9E5;
-      padding: 2rem;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
-      text-align: left;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.3rem;
-      font-weight: 600;
-      color: #333;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1.5rem;
       border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-      font-family: inherit;
-    }
-    textarea {
-      resize: vertical;
-    }
-    button {
-      background: #FFD700;
-      color: #243B6B;
-      padding: 0.8rem 2rem;
-      font-weight: 700;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 1.1rem;
-      display: block;
-      margin: 0 auto;
       transition: background 0.3s ease;
     }
-    button:hover {
-      background: #e6c200;
+
+    .return-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .return-btn i {
+      font-size: 1rem;
+    }
+
+    /* Main Content */
+    main {
+      max-width: 680px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    main h1 {
+      color: #29306f;
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+    }
+
+    main p.subtitle {
+      color: #555;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    /* Form Card */
+    .form-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(41, 48, 111, 0.12);
+      text-align: left;
+    }
+
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #29306f;
+      font-size: 0.95rem;
+    }
+
+    .form-control,
+    .form-select {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 2px solid #e0e4f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #29306f;
+      box-shadow: 0 0 0 4px rgba(41, 48, 111, 0.1);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .btn-submit {
+      background: #29306f;
+      color: white;
+      padding: 0.9rem 2.2rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 1.05rem;
+      display: block;
+      margin: 2rem auto 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(41, 48, 111, 0.2);
+    }
+
+    .btn-submit:hover {
+      background: #1e2555;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(41, 48, 111, 0.25);
+    }
+
+    .btn-submit:active {
+      transform: translateY(-1px);
+    }
+
+    .required {
+      color: #e74c3c;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">
-    <img src="logo.png" alt="BCP Logo" style="width:30px; height:30px;">
-    <span>BCP CLUB SYSTEM</span>
-  </div>
-  <nav>
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Clubs</a>
-    <a href="#">Members</a>
-    <a href="#" class="events">Events</a>
-  </nav>
-  <a href="#" class="login-btn">Member Login</a>
-</header>
+  <!-- Header with Return Button and Logo -->
+  <header>
+    <a href="#" class="return-btn">
+      <i class="fas fa-arrow-left"></i> Return
+    </a>
+    <div class="logo">
+      <img src="logo.png" alt="BCP Logo">
+      <span>BCP CLUB SYSTEM</span>
+    </div>
+  </header>
 
-<main>
-  <h1>Create Event</h1>
-  <p class="subtitle">Fill in the details to organize a new club event</p>
+  <!-- Main Content -->
+  <main>
+    <h1><i class="fas fa-bullhorn"></i> Create Announcement</h1>
+    <p class="subtitle">Share important updates with your club members</p>
 
-  <form>
-    <label for="eventName">Event Name</label>
-    <input type="text" id="eventName" name="eventName" required />
+    <div class="form-card">
+      <form id="announcementForm">
+        
+        <!-- Title -->
+        <div class="form-group">
+          <label for="title" class="form-label">
+            Announcement Title <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            required
+            placeholder="Enter a clear and engaging title"
+          />
+        </div>
 
-    <label for="eventDate">Event Date</label>
-    <input type="date" id="eventDate" name="eventDate" required />
+        <!-- Category -->
+        <div class="form-group">
+          <label for="category" class="form-label">Category</label>
+          <select class="form-select" id="category" name="category">
+            <option value="general">General Announcement</option>
+            <option value="event">Upcoming Event</option>
+            <option value="important">Important Notice</option>
+            <option value="maintenance">System Maintenance</option>
+            <option value="policy">Policy Update</option>
+            <option value="meeting">Club Meeting</option>
+          </select>
+        </div>
 
-    <label for="eventTime">Event Time</label>
-    <input type="time" id="eventTime" name="eventTime" required />
+        <!-- Content -->
+        <div class="form-group">
+          <label for="content" class="form-label">
+            Content <span class="required">*</span>
+            
+          </label>
+          <textarea class="form-control" id="content" name="content" required placeholder="Write your announcement here... Be clear and concise." ></textarea>
+          </div>
 
-    <label for="location">Location</label>
-    <input type="text" id="location" name="location" required />
 
-    <label for="description">Description</label>
-    <textarea id="description" name="description" rows="4" required></textarea>
+        <div class="form-group">
+          <label for="announcementDate" class="form-label">Announcement Date</label>
+          <input type="date" class="form-control" id="announcementDate" name="announcementDate" required />
+        </div>
 
-    <label for="organizer">Organizer</label>
-    <input type="text" id="organizer" name="organizer" />
+        <div class="form-group">
+          <label for="expiryDate" class="form-label">Expiry Date (Optional)</label>
+          <input type="date" class="form-control" id="expiryDate" name="expiryDate" />
+        </div>
 
-    <button type="submit">Create Event</button>
-  </form>
-</main>
+        <button type="submit" class="btn-submit">
+        <i class="fas fa-paper-plane me-2"></i> Publish Announcement </button>
+      </form>
+    </div>
+  </main>
+
+
+  <script>
+    document.getElementById("announcementForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const title = document.getElementById("title").value.trim();
+      const content = document.getElementById("content").value.trim();
+      const date = document.getElementById("announcementDate").value;
+
+      if (!title || !content || !date) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      alert("Announcement published successfully!");
+      this.reset();
+    });
+  </script>
+
 
 </body>
 </html>
