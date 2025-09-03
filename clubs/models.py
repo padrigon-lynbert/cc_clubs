@@ -74,7 +74,6 @@ class MemberApplication(models.Model):
         verbose_name='Status',
     )
 
-
     def __str__(self):
         return f'{self.student.name} wants to apply to {self.club.club_name}'
     
@@ -87,24 +86,23 @@ class ClubApplication(models.Model):
     acronym = models.CharField(max_length=30, null=True, unique=True, blank=True)
     adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='application_adviser', null=True)
     banner = models.ImageField(upload_to='Club Application/Banners/', null=True, blank=True)
-
     constitutions_and_by_laws = models.FileField(upload_to='Club Application/Constitutions and By Laws/')
     acceptance_letter = models.FileField(upload_to='Club Application/Acceptance Letter/')
-    list_of_officer = models.FileField(upload_to='Club Application/List of Officer/')
+    action_plan = models.FileField(upload_to='Club Application/Action Plan/')
+    list_of_officers = models.FileField(upload_to='Club Application/List of Officers/')
     calendar_of_activities = models.FileField(upload_to='Club Application/Calendar of Activities/')
-    action_plan = models.FileField(upload_to='Club Application/Action Plan/') 
     
-    submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='submitted_application')
+    submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='submitted_applications', null=True, blank=True)
     year_level = models.CharField(max_length=10, null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     date_submitted = models.DateTimeField(auto_now_add=True)
-    description = models.TextField(null=True, blank=True, help_text='Enter a description about this club')    
-
+    description = models.TextField(null=True, blank=True, help_text='Enter a description about this club')
+    
     class Status(models.IntegerChoices):
         PENDING = 0, _('Pending')
         APPROVED = 1, _('Approved')
         REJECTED = 2, _('Rejected')
-
+    
     status = models.IntegerField(
         choices=Status.choices,
         default=Status.PENDING,
@@ -112,11 +110,19 @@ class ClubApplication(models.Model):
     )
 
     def __str__(self):
-        return f'{self.club_name} is proposed by {self.submitted_by.name}'
+        return f'{self.club_name} - {self.get_status_display()}'
+    
+    def clean(self):
+        # Validate that club_name and acronym don't conflict with existing clubs
+        if self.club_name:
+            self.club_name = self.club_name.strip()
+        if self.acronym:
+            self.acronym = self.acronym.strip().upper()
     
     class Meta:
         db_table = 'club_application'
         ordering = ['-date_submitted']
+        verbose_name = 'Club Application'
         verbose_name_plural = 'Club Applications'
 
 class Announcement(models.Model):
@@ -141,14 +147,12 @@ class Announcement(models.Model):
     announcement_date = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    test_field = models.CharField(max_length=50, null=True, blank=True)  # temporary for testing
-
 
     def __str__(self):
-        return f'{self.club.club_name} Event - {self.name}'
+        return f'{self.club.club_name} Announcement - {self.name}'
     
     class Meta:
-        db_table = 'event'
+        db_table = 'announcement'
         ordering = ['-announcement_date']
 
 class Achievement(models.Model):
