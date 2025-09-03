@@ -74,7 +74,6 @@ class MemberApplication(models.Model):
         verbose_name='Status',
     )
 
-
     def __str__(self):
         return f'{self.student.name} wants to apply to {self.club.club_name}'
     
@@ -152,10 +151,10 @@ class Announcement(models.Model):
 
 
     def __str__(self):
-        return f'{self.club.club_name} Event - {self.name}'
+        return f'{self.club.club_name} Announcement - {self.name}'
     
     class Meta:
-        db_table = 'event'
+        db_table = 'announcement'
         ordering = ['-announcement_date']
 
 class Achievement(models.Model):
