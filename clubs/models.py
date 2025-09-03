@@ -86,13 +86,19 @@ class ClubApplication(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
     acronym = models.CharField(max_length=30, null=True, unique=True, blank=True)
     adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='application_adviser', null=True)
-    banner = models.ImageField(upload_to='club_applications/banners/', null=True, blank=True)
-    submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='submitted_application', null=True, blank=True)
+    banner = models.ImageField(upload_to='Club Application/Banners/', null=True, blank=True)
+
+    constitutions_and_by_laws = models.FileField(upload_to='Club Application/Constitutions and By Laws/')
+    acceptance_letter = models.FileField(upload_to='Club Application/Acceptance Letter/')
+    list_of_officer = models.FileField(upload_to='Club Application/List of Officer/')
+    calendar_of_activities = models.FileField(upload_to='Club Application/Calendar of Activities/')
+    action_plan = models.FileField(upload_to='Club Application/Action Plan/') 
+    
+    submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='submitted_application')
     year_level = models.CharField(max_length=10, null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     date_submitted = models.DateTimeField(auto_now_add=True)
-    description = models.TextField(null=True, blank=True, help_text='Enter a description about this club')
-    location = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    description = models.TextField(null=True, blank=True, help_text='Enter a description about this club')    
 
     class Status(models.IntegerChoices):
         PENDING = 0, _('Pending')
