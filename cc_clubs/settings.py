@@ -93,11 +93,20 @@ WSGI_APPLICATION = 'cc_clubs.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
+    # Old Render DB (disabled)
+    # 'default': dj_database_url.parse(
+    #     'postgresql://clubs_database_85om_user:3wPWZBahlYjBsq7FVnA005Wd6IBw0u7s@dpg-d2kkst75r7bs73cnloj0-a.oregon-postgres.render.com/clubs_database_85om',
+    #     conn_max_age=600,
+    #     ssl_require=True
+    # ),
+
+    # aiven
     'default': dj_database_url.parse(
-        'postgresql://clubs_database_85om_user:3wPWZBahlYjBsq7FVnA005Wd6IBw0u7s@dpg-d2kkst75r7bs73cnloj0-a.oregon-postgres.render.com/clubs_database_85om',
+        'postgres://avnadmin:AVNS_jOLOj7KVZ9kKT-LnPSP@club-pg-padrigonlynbert-3ec9.d.aivencloud.com:23197/defaultdb?sslmode=require',
         conn_max_age=600,
         ssl_require=True
     )
+    
 }
 
 
