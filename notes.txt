@@ -29,3 +29,13 @@ individual clubs
 | 3 | 0001 | officer | test_officer | 1 |
 | 4 | 0003 | activitycoordinator | activity coordinator | 3 |
 | 5 | 0004 | admin | test_admin | 4 |
+
+database:
+postgres://avnadmin:AVNS_jOLOj7KVZ9kKT-LnPSP@club-pg-padrigonlynbert-3ec9.d.aivencloud.com:23197/defaultdb?sslmode=require
+
+service's hosted site:
+https://cc-clubs.onrender.com
+
+repo:
+https://github.com/padrigon-lynbert/cc_clubs.git
+
