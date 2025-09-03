@@ -119,7 +119,7 @@ class ClubApplication(models.Model):
         ordering = ['-date_submitted']
         verbose_name_plural = 'Club Applications'
 
-class Event(models.Model):
+class Announcement(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, blank=True, null=True)
