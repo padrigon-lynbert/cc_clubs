@@ -480,6 +480,15 @@
                             </a>
                         </li> -->
 
+                        {% if user.role == 1 or user.role == 2 %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'club_applicants' club.id %}">
+                                    <i class="fas fa-user-plus"></i>
+                                    <span>Club Applicants</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'budget_request' %}">
                                 <i class="fas fa-wallet"></i>
