@@ -122,7 +122,23 @@ class ClubApplication(models.Model):
 class Announcement(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
-    description = models.CharField(max_length=255, blank=True, null=True)
+    content = models.CharField(max_length=255, blank=True, null=True)
+    
+    class Category(models.IntegerChoices):
+        GENERAL_ANNOUNCEMENT = 0, _('General Announcement')
+        UPCOMING_EVENT = 1, _('Upcoming Event')
+        IMPORTANT_NOTICE = 2, _('Important Notice')
+        SYSTEM_MAINTENANCE = 3, _('System Maintenance')
+        POLICY_UPDATE = 4, _('Policy Update')
+        CLUB_MEETING = 5, _('Club Meeting')
+
+    category = models.IntegerField(
+        choices=Category.choices,
+        default=Category.GENERAL_ANNOUNCEMENT,
+        verbose_name='Categories',
+    )
+        
+    announcement_date = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
 
