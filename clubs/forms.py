@@ -5,12 +5,11 @@ class ClubRegistrationForm(forms.ModelForm):
     
     class Meta:
         model = ClubApplication
-        fields = ['banner', 'club_name', 'description', 'location']
+        fields = ['banner', 'club_name', 'description',]
         labels = {
             'banner': 'Club Profile',
             'club_name': 'Name of the club',
             'description': 'Description',
-            'location': 'Club Location',
         }
         widgets = {
             'banner': forms.ClearableFileInput(attrs={
@@ -20,7 +19,5 @@ class ClubRegistrationForm(forms.ModelForm):
                 'class': 'form-control', 
                 'maxlength': 255}),
             'description': forms.Textarea(attrs={
-                'class': 'form-control'}),
-            'location': forms.Select(attrs={
                 'class': 'form-control'}),
         }
