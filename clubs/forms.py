@@ -96,3 +96,12 @@ class ClubRegistrationForm(forms.ModelForm):
             raise ValidationError('Another applicant already registered with the same acronym.')
         
         return acronym
+    
+    def clean_adviser(self):
+        adviser = self.cleaned_data['adviser']
+
+        if adviser.role != 2:
+            raise ValidationError('Selected user is not an instructor.')
+        
+        return adviser
+    
