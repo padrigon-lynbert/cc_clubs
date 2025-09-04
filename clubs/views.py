@@ -30,14 +30,6 @@ def post_registration_club(request):
     if request.method == 'POST':
         form = ClubRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
-            club_name = form.cleaned_data['club_name'].strip().lower()
-
-            # Check if the club is already officially registered
-            if Clubs.objects.filter(club_name__iexact=club_name).exists() or \
-               ClubApplication.objects.filter(club_name__iexact=club_name).exists():
-                messages.error(request, 'This club is already registered. Please choose a different name.')
-                return redirect('register_club')
-
             new_club_registration = form.save(commit=False)
             instructor_id = request.session.get('member_id')
             # Save user form
