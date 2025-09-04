@@ -14,10 +14,21 @@ class ClubRegistrationForm(forms.ModelForm):
                   'list_of_officers', 'calendar_of_activities',
                   ]
         labels = {
-            'banner': 'Club Profile',
+            'banner': 'Club Profile (optional)',
             'club_name': 'Name of the club',
-            'description': 'Description',
+            'acronym': 'Acronym',
+            'adviser': 'Adviser',
+            'description': 'Description (min: 30)',
+            'email': 'Email',
+            'year_level': 'Year Level',
+            'program': 'Program',
+            'constitutions_and_by_laws': 'Constitutions and By Laws',
+            'acceptance_letter': 'Acceptance Letter',
+            'action_plan': 'Action Plan',
+            'list_of_officers': 'List of Officers',
+            'calendar_of_activities': 'Calender of Activities',
         }
+
         widgets = {
             'banner': forms.ClearableFileInput(attrs={
                 'class': 'form-control',
