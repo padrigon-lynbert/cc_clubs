@@ -113,3 +113,11 @@ class ClubRegistrationForm(forms.ModelForm):
         
         return description
     
+    def clean_email(self):
+        email = self.cleaned_data['email']
+
+        verified_emails = ['@gmail.com', '@outlook.com', '@yahoo.com']
+
+        if not any(email.endswith(domain) for domain in verified_emails):
+            raise ValidationError('Please enter a valid email.')
+        
