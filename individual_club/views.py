@@ -6,7 +6,6 @@ from landing_page.models import Users
 from .models import BudgetRequest
 
 
-
 def apply_club(request):
     if not request.session.get('member_logged_in'):
         messages.error(request, "You must be logged in to access this page")
@@ -70,10 +69,34 @@ def budget_request(request):
         messages.error(request, "No club selected")
         return redirect(reverse('home') + '#section_3')
     
+    # if activity coordinator: view budget request review page
     if user.role == Users.Role.ACTIVITY_COORDINATOR:
-        return render(request, 'budget_request_review.html', {"club": club}) # if activity coordinator: view budget request
+
+        if request.method == "POST":
+            req_id = request.POST.get("request_id")
+            new_status = request.POST.get("status")
+            if req_id and new_status in [
+                str(BudgetRequest.Status.PENDING),
+                str(BudgetRequest.Status.APPROVED),
+                str(BudgetRequest.Status.REJECTED)
+            ]:
+                req = get_object_or_404(BudgetRequest, id=req_id, club=club)
+                req.status = int(new_status)
+                req.save()
+                messages.success(request, "Request updated successfully")
+                return redirect("budget_request")
+
+        budget_request = BudgetRequest.objects.filter(club=club)
+
+        return render(request, "budget_request_review.html", {
+            "club": club,
+            "budget_request": budget_request,
+            "user": user,
+        })
+
+
     
-     # Instructor/Adviser: submit budget request
+     # Instructor/Adviser: submit budget request page
     if request.method == "POST":
         purpose = request.POST.get("purpose")
         amount = request.POST.get("amount")
