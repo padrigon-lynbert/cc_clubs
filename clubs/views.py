@@ -39,9 +39,9 @@ def post_registration_club(request):
                 new_club_registration.save()
                 messages.success(request, 'Successfully submitted a club registration form.')
                 return redirect('register_club')
-            except IntegrityError:
-                messages.error(request, 'The club name is already applied, try a different name.')
-                return redirect('register_club')
+            except Users.DoesNotExist:
+                messages.error(request, 'Session expired. Please login again.')
+                return redirect('landing_page')
         else:
             messages.error(request, 'The club name is already applied, try a different name.')
     else:
