@@ -75,3 +75,5 @@ class ClubRegistrationForm(forms.ModelForm):
             field.required = True
         
         self.fields['banner'].required = False
+        self.fields['adviser'].queryset = Users.objects.filter(role=2)
+
