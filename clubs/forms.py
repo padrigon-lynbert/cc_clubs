@@ -5,7 +5,12 @@ class ClubRegistrationForm(forms.ModelForm):
     
     class Meta:
         model = ClubApplication
-        fields = ['banner', 'club_name', 'description',]
+        fields = ['banner', 'club_name', 'acronym', 
+                  'adviser', 'description', 'email',
+                  'year_level', 'program', 'constitutions_and_by_laws',
+                  'acceptance_letter', 'action_plan', 'list_of_officers',
+                  'list_of_officers', 'calendar_of_activities',
+                  ]
         labels = {
             'banner': 'Club Profile',
             'club_name': 'Name of the club',
