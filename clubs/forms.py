@@ -87,3 +87,12 @@ class ClubRegistrationForm(forms.ModelForm):
 
         return club_name
     
+    def clean_acronym(self):
+        acronym = self.cleaned_data['acronym'].strip().lower()
+
+        if Clubs.objects.filter(acronym__iexact=acronym).exists():
+            raise ValidationError('Club acronym already exist.')
+        elif ClubApplication.objects.filter(acronym__iexact=acronym, status__in=[0, 1]).exists():
+            raise ValidationError('Another applicant already registered with the same acronym.')
+        
+        return acronym
