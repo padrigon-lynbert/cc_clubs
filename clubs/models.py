@@ -93,7 +93,18 @@ class ClubApplication(models.Model):
     calendar_of_activities = models.FileField(upload_to='Club Application/Calendar of Activities/')
     
     submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='submitted_applications', null=True, blank=True)
-    year_level = models.CharField(max_length=10, null=True, blank=True)
+    
+    class YearLevel(models.IntegerChoices):
+        FIRST_YEAR = 0, _('First Year')
+        SECOND_YEAR = 1, _('Second Year')
+        THIRD_YEAR = 2, _('Third Year')
+        FOURTH_YEAR = 3, _('Fourth Year')
+
+    year_level = models.IntegerField(
+        choices=YearLevel.choices,
+        verbose_name='Year Level',
+    )
+    
     email = models.EmailField(max_length=255, null=True, blank=True)
     date_submitted = models.DateTimeField(auto_now_add=True)
     description = models.TextField(null=True, blank=True, help_text='Enter a description about this club')
