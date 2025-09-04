@@ -225,9 +225,22 @@
     <h2 class="subtitle">Provide documents needed to register your club </h2>
 
     <div class="form-card">
-
-        <button type="submit" data-toggle="modal" data-target="#clubApplication" class="btn-submit">
+      <form id="clubForm" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            <ul class="errorlist">
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endfor %}
+        <button type="button" data-bs-toggle="modal" data-bs-target="#clubApplication" class="btn-submit">
         <i class="fas fa-paper-plane me-2"></i> Publish Announcement </button>
+      </form>
     </div>
   </main>
 
