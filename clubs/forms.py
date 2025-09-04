@@ -105,3 +105,11 @@ class ClubRegistrationForm(forms.ModelForm):
         
         return adviser
     
+    def clean_description(self):
+        description = self.cleaned_data['description']
+
+        if len(description) < 30:
+            raise ValidationError('The description is too short.')
+        
+        return description
+    
