@@ -104,7 +104,7 @@ class ClubApplication(models.Model):
         verbose_name='Year Level',
     )
 
-    email = models.EmailField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True)
     date_submitted = models.DateTimeField(auto_now_add=True)
     description = models.TextField(help_text='Enter a description about this club')
     
