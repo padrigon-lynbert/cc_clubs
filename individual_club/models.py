@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from clubs.models import Clubs
 from landing_page.models import Users
+from django.utils import timezone
 
 # Create your models here.
 
@@ -22,6 +23,7 @@ class BudgetRequest(models.Model):
     )
 
     amount_words = models.CharField(max_length=255)
+    created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = "budget_request"
