@@ -70,3 +70,8 @@ class ClubRegistrationForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            field.required = True
+        
+        self.fields['banner'].required = False
