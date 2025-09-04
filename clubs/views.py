@@ -13,10 +13,6 @@ from django.urls import reverse
 
 
 def post_registration_club(request):
-    # Login status checker (original just session checker)
-    # if not request.session.get('member_logged_in'):
-    #     messages.error(request, "You must be logged in to access this page")
-    #     return HttpResponseRedirect(reverse('home') +'#section_3')
     
     member_id = request.session.get('member_id')
     if not member_id:
@@ -26,12 +22,10 @@ def post_registration_club(request):
     user = get_object_or_404(Users, id=member_id)
 
     # ---- Role Restriction ----
-    if user.role in [Users.Role.STUDENT, Users.Role.OFFICER]:
-        messages.error(request, "Students are not allowed to access this page")
+    if user.role in [Users.Role.INSTRUCTOR, Users.Role.ACTIVITY_COORDINATOR, Users.Role.ADMIN]:
+        messages.error(request, "Non-student entities are not allowed to access this page")
         return redirect(reverse('home') + '#section_3')
 
-
-        
     # Handle user submission
     if request.method == 'POST':
         form = ClubRegistrationForm(request.POST, request.FILES)
