@@ -32,10 +32,38 @@ class ClubRegistrationForm(forms.ModelForm):
         widgets = {
             'banner': forms.ClearableFileInput(attrs={
                 'class': 'form-control',
-                'id': 'imageInput',}),
+                'id': 'imageInput',
+            }),
             'club_name': forms.TextInput(attrs={
                 'class': 'form-control', 
                 'maxlength': 255}),
             'description': forms.Textarea(attrs={
-                'class': 'form-control'}),
+                'class': 'form-control',
+                'minlength': 30,
+            }),
+            'email': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': 255
+            }),
+            'year_level': forms.Select(attrs={
+                'class': 'form-select',
+            }),
+            'program': forms.Select(attrs={
+                'class': 'form-select',
+            }),
+            'constitutions_and_by_laws': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+            }),
+            'acceptance_letter': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+            }),
+            'action_plan': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+            }),
+            'list_of_officers': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+            }),
+            'calendar_of_activities': forms.ClearableFileInput(attrs={
+                'class': 'form-control'
+            }),
         }
