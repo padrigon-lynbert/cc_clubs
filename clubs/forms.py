@@ -77,3 +77,13 @@ class ClubRegistrationForm(forms.ModelForm):
         self.fields['banner'].required = False
         self.fields['adviser'].queryset = Users.objects.filter(role=2)
 
+    def clean_club_name(self):
+        club_name = self.cleaned_data['club_name'].strip().lower()
+
+        if Clubs.objects.filter(club_name__iexact=club_name).exists():
+            raise ValidationError('Club name already exist.')
+        elif ClubApplication.objects.filter(club_name__iexact=club_name, status__in=[0, 1]).exists():
+            raise ValidationError('Another applicant already registered with the same name.')
+
+        return club_name
+    
