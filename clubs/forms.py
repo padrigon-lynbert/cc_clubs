@@ -121,3 +121,9 @@ class ClubRegistrationForm(forms.ModelForm):
         if not any(email.endswith(domain) for domain in verified_emails):
             raise ValidationError('Please enter a valid email.')
         
+        elif Clubs.objects.filter(email__iexact=email).exists():
+            raise ValidationError('Email is already used by other club.')
+        elif ClubApplication.objects.filter(email__iexact=email, status__in=[0, 1]).exists():
+            raise ValidationError('Another applicant already registered with the same email.')
+        
+        return email
