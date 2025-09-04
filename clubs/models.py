@@ -83,16 +83,15 @@ class MemberApplication(models.Model):
 
 class ClubApplication(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
-    acronym = models.CharField(max_length=30, null=True, unique=True, blank=True)
-    adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='application_adviser', null=True)
+    acronym = models.CharField(max_length=30)
+    adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='application_adviser')
     banner = models.ImageField(upload_to='Club Application/Banners/', null=True, blank=True)
     constitutions_and_by_laws = models.FileField(upload_to='Club Application/Constitutions and By Laws/')
     acceptance_letter = models.FileField(upload_to='Club Application/Acceptance Letter/')
     action_plan = models.FileField(upload_to='Club Application/Action Plan/')
     list_of_officers = models.FileField(upload_to='Club Application/List of Officers/')
     calendar_of_activities = models.FileField(upload_to='Club Application/Calendar of Activities/')
-    
-    submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='submitted_applications', null=True, blank=True)
+    submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='submitted_applications')
     
     class YearLevel(models.IntegerChoices):
         FIRST_YEAR = 0, _('First Year')
@@ -104,10 +103,10 @@ class ClubApplication(models.Model):
         choices=YearLevel.choices,
         verbose_name='Year Level',
     )
-    
-    email = models.EmailField(max_length=255, null=True, blank=True)
+
+    email = models.EmailField(max_length=255)
     date_submitted = models.DateTimeField(auto_now_add=True)
-    description = models.TextField(null=True, blank=True, help_text='Enter a description about this club')
+    description = models.TextField(help_text='Enter a description about this club')
     
     class Status(models.IntegerChoices):
         PENDING = 0, _('Pending')
