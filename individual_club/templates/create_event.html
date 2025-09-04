@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create Announcement - BCP Club System</title>
+  <title>BCP Announcements</title>
 
   <!-- Google Fonts: DM Sans -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
   <style>
-    /* Reset & Base Styles */
     * {
       margin: 0;
       padding: 0;
@@ -26,31 +25,20 @@
       line-height: 1.6;
     }
 
-    /* Header */
-    header {
+    /* Enhanced Navbar */
+    .navbar {
       background: #29306f;
       color: white;
-      padding: 1rem 2rem;
+      padding: 0.8rem 1rem;
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      box-shadow: 0 4px 10px rgba(41, 48, 111, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(41, 48, 111, 0.18);
     }
 
-    .logo {
-      font-weight: 700;
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .logo img {
-      width: 32px;
-      height: 32px;
-    }
-
-    /* Return Button */
     .return-btn {
       display: flex;
       align-items: center;
@@ -61,53 +49,100 @@
       font-size: 0.95rem;
       padding: 0.5rem 1rem;
       border-radius: 8px;
-      transition: background 0.3s ease;
+      transition: background 0.3s;
     }
 
-    .return-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .return-btn i {
-      font-size: 1rem;
-    }
-
-    /* Main Content */
-    main {
-      max-width: 680px;
-      margin: 3rem auto;
-      padding: 0 1.5rem;
-    }
-
-    main h1 {
-      color: #29306f;
-      font-size: 2.4rem;
-      margin-bottom: 0.5rem;
+    .navbar-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: white;
       text-align: center;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo {
+      visibility: hidden; /* Placeholder for spacing */
+    }
+
+    /* Tab Navigation */
+    .nav-tabs {
+      display: flex;
+      background: rgba(41, 48, 111, 0.3);
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 300px;
+      margin: 0 auto;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-tab {
+      flex: 1;
+      text-align: center;
+      padding: 0.8rem 0;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.7rem;
+      gap: 0.4rem;
     }
 
-    main p.subtitle {
+    .nav-tab.active {
+      color: white;
+      background: #1e2555;
+      font-weight: 600;
+    }
+
+
+    /* Main Content */
+    main {
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .page-title {
+      color: #29306f;
+      font-size: 1.8rem;
+      margin: 1.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-align: center;
+    }
+
+    .page-subtitle {
       color: #555;
       font-weight: 400;
       margin-bottom: 2rem;
       text-align: center;
+      font-size: 1rem;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
     }
 
     /* Form Card */
     .form-card {
       background: white;
-      padding: 2.5rem;
+      padding: 2.2rem;
       border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(41, 48, 111, 0.12);
-      text-align: left;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     }
 
     .form-group {
-      margin-bottom: 1.4rem;
+      margin-bottom: 1.3rem;
     }
 
     .form-label {
@@ -141,7 +176,8 @@
       min-height: 130px;
     }
 
-    .btn-submit {
+    .btn-submit,
+    .btn-update {
       background: #29306f;
       color: white;
       padding: 0.9rem 2.2rem;
@@ -156,115 +192,485 @@
       box-shadow: 0 4px 12px rgba(41, 48, 111, 0.2);
     }
 
-    .btn-submit:hover {
-      background: #1e2555;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(41, 48, 111, 0.25);
-    }
-
-    .btn-submit:active {
-      transform: translateY(-1px);
-    }
-
     .required {
       color: #e74c3c;
+    }
+
+    .success-message {
+      text-align: center;
+      background: #d4edda;
+      color: #155724;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      font-weight: 500;
+      border: 1px solid #c3e6cb;
+      display: none;
+    }
+
+    /* History Section */
+    .history-item {
+      background: white;
+      border: 1px solid #e0e4f0;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .history-item h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.15rem;
+      color: #29306f;
+      font-weight: 600;
+    }
+
+    .history-item .meta {
+      display: flex;
+      justify-content: space-between;
+      color: #777;
+      font-size: 0.85rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .history-item .category-badge {
+      background: #e0e4f0;
+      color: #29306f;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .history-item p {
+      color: #555;
+      margin: 0.6rem 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .history-item img {
+      margin-top: 0.8rem;
+      width: 100%;
+      max-height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+      justify-content: flex-end;
+    }
+
+    .btn-edit,
+    .btn-delete {
+      padding: 0.5rem 0.9rem;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-edit {
+      background: #007bff;
+      color: white;
+    }
+
+    .btn-delete {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
   </style>
 </head>
 <body>
 
-  <!-- Header with Return Button and Logo -->
-  <header>
-    <a href="#" class="return-btn">
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="#" class="return-btn" onclick="window.history.back(); return false;">
       <i class="fas fa-arrow-left"></i> Return
     </a>
-    <div class="logo">
-      <img src="logo.png" alt="BCP Logo">
-      <span>BCP CLUB SYSTEM</span>
+    <div class="navbar-title">BCP ANNOUNCEMENT</div>
+    <div class="logo"></div> <!-- Placeholder -->
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="nav-tabs">
+    <div class="nav-tab active" data-tab="create">
+      <i class="fas fa-plus-circle"></i> Create
     </div>
-  </header>
+    <div class="nav-tab" data-tab="history">
+      <i class="fas fa-history"></i> History
+    </div>
+  </div>
 
-  <!-- Main Content -->
   <main>
-    <h1><i class="fas fa-bullhorn"></i> Create Announcement</h1>
-    <p class="subtitle">Share important updates with your club members</p>
+    <!-- CREATE / EDIT FORM TAB -->
+    <div id="create" class="tab-content active">
+      <h2 class="page-title"><i class="fas fa-bullhorn"></i> <span id="formTitle">Create Announcement</span></h2>
+      <p class="page-subtitle">Share important updates with your club members</p>
 
-    <div class="form-card">
-      <form id="announcementForm">
-        
-        <!-- Title -->
-        <div class="form-group">
-          <label for="title" class="form-label">
-            Announcement Title <span class="required">*</span>
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            id="title"
-            name="title"
-            required
-            placeholder="Enter a clear and engaging title"
-          />
-        </div>
+      <div class="form-card">
+        <form id="announcementForm">
+          <input type="hidden" id="editId" value=""> <!-- To track editing -->
 
-        <!-- Category -->
-        <div class="form-group">
-          <label for="category" class="form-label">Category</label>
-          <select class="form-select" id="category" name="category">
-            <option value="general">General Announcement</option>
-            <option value="event">Upcoming Event</option>
-            <option value="important">Important Notice</option>
-            <option value="maintenance">System Maintenance</option>
-            <option value="policy">Policy Update</option>
-            <option value="meeting">Club Meeting</option>
-          </select>
-        </div>
-
-        <!-- Content -->
-        <div class="form-group">
-          <label for="content" class="form-label">
-            Content <span class="required">*</span>
-            
-          </label>
-          <textarea class="form-control" id="content" name="content" required placeholder="Write your announcement here... Be clear and concise." ></textarea>
+          <div class="form-group">
+            <label for="title" class="form-label">
+              Title <span class="required">*</span>
+            </label>
+            <input type="text" class="form-control" id="title" name="title" required placeholder="Enter a clear and engaging title" />
           </div>
 
+          <div class="form-group">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category">
+              <option value="general">General Announcement</option>
+              <option value="event">Upcoming Event</option>
+              <option value="important">Important Notice</option>
+              <option value="maintenance">System Maintenance</option>
+              <option value="policy">Policy Update</option>
+              <option value="meeting">Club Meeting</option>
+            </select>
+          </div>
 
-        <div class="form-group">
-          <label for="announcementDate" class="form-label">Announcement Date</label>
-          <input type="date" class="form-control" id="announcementDate" name="announcementDate" required />
-        </div>
+          <div class="form-group">
+            <label for="content" class="form-label">
+              Content <span class="required">*</span>
+            </label>
+            <textarea class="form-control" id="content" name="content" required placeholder="Write your announcement here... Be clear and concise."></textarea>
+          </div>
 
-        <div class="form-group">
-          <label for="expiryDate" class="form-label">Expiry Date (Optional)</label>
-          <input type="date" class="form-control" id="expiryDate" name="expiryDate" />
-        </div>
+          <div class="form-group">
+            <label for="announcementDate" class="form-label">Announcement Date</label>
+            <input type="date" class="form-control" id="announcementDate" name="announcementDate" required />
+          </div>
 
-        <button type="submit" class="btn-submit">
-        <i class="fas fa-paper-plane me-2"></i> Publish Announcement </button>
-      </form>
+          <div class="form-group">
+            <label for="expiryDate" class="form-label">Expiry Date (Optional)</label>
+            <input type="date" class="form-control" id="expiryDate" name="expiryDate" />
+          </div>
+
+          <div class="form-group">
+            <label for="imageUpload" class="form-label">Upload Image (Optional)</label>
+            <input type="file" class="form-control" id="imageUpload" name="imageUpload" accept="image/*" />
+            <small style="color: #666; font-size: 0.85rem;">Supports JPG, PNG, GIF (max 2MB)</small>
+          </div>
+
+          <div class="form-group" id="imagePreviewContainer" style="display: none;">
+            <label class="form-label">Image Preview</label>
+            <img id="imagePreview" src="" alt="Preview" style="max-width: 100%; border-radius: 10px; margin-top: 0.5rem;">
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitButton">
+            <i class="fas fa-paper-plane"></i> Publish Announcement
+          </button>
+
+          <button type="button" class="btn-update" id="updateButton" style="display: none;" onclick="updateAnnouncement()">
+            <i class="fas fa-edit"></i> Update Announcement
+          </button>
+
+          <div class="success-message" id="successMessage">
+            ✅ Successfully saved!
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- HISTORY TAB -->
+    <div id="history" class="tab-content">
+      <h2 class="page-title"><i class="fas fa-history"></i> Announcement History</h2>
+      <p class="page-subtitle">Review and manage your announcements</p>
+      <div id="historyContainer">
+        <div class="empty-state">No announcements posted yet.</div>
+      </div>
     </div>
   </main>
 
-
   <script>
-    document.getElementById("announcementForm").addEventListener("submit", function (e) {
-      e.preventDefault();
+    // Tab Switching
+    document.querySelectorAll(".nav-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+        tab.classList.add("active");
+        const tabId = tab.getAttribute("data-tab");
+        document.getElementById(tabId).classList.add("active");
 
-      const title = document.getElementById("title").value.trim();
-      const content = document.getElementById("content").value.trim();
-      const date = document.getElementById("announcementDate").value;
+        if (tabId === "history") loadHistory();
+      });
+    });
 
-      if (!title || !content || !date) {
-        alert("Please fill in all required fields.");
+    // Live Image Preview
+    document.getElementById("imageUpload").addEventListener("change", function () {
+      const file = this.files[0];
+      const previewContainer = document.getElementById("imagePreviewContainer");
+      const preview = document.getElementById("imagePreview");
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          preview.src = e.target.result;
+          previewContainer.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      } else if (!document.getElementById("editId").value) {
+        previewContainer.style.display = "none";
+        preview.src = "";
+      }
+    });
+
+    // Reset Form (for Create)
+    function resetForm() {
+      document.getElementById("announcementForm").reset();
+      document.getElementById("editId").value = "";
+      document.getElementById("formTitle").textContent = "Create Announcement";
+      document.getElementById("submitButton").style.display = "block";
+      document.getElementById("updateButton").style.display = "none";
+      document.getElementById("imagePreviewContainer").style.display = "none";
+      document.getElementById("imagePreview").src = "";
+      document.getElementById("successMessage").style.display = "none";
+    }
+
+    // Load History
+    function loadHistory() {
+      const container = document.getElementById("historyContainer");
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      container.innerHTML = "";
+
+      if (announcements.length === 0) {
+        container.innerHTML = '<div class="empty-state">No announcements posted yet.</div>';
         return;
       }
 
-      alert("Announcement published successfully!");
-      this.reset();
+      const sorted = announcements.sort((a, b) => new Date(b.announcementDate) - new Date(a.announcementDate));
+
+      sorted.forEach(ann => {
+        const item = document.createElement("div");
+        item.className = "history-item";
+
+        const date = new Date(ann.announcementDate).toLocaleDateString("en-US", {
+          year: 'numeric', month: 'short', day: 'numeric'
+        });
+
+        item.innerHTML = `
+          <div class="meta">
+            <strong>${escapeHtml(ann.title)}</strong>
+            <span class="category-badge">${formatCategory(ann.category)}</span>
+          </div>
+          <p>${escapeHtml(ann.content).substring(0, 150)}${ann.content.length > 150 ? "..." : ""}</p>
+          <div class="meta">
+            <small><i class="fas fa-calendar-alt"></i> ${date}</small>
+            <small><i class="fas fa-paper-plane"></i> ${ann.timestamp}</small>
+          </div>
+          ${ann.image ? `<img src="${ann.image}" alt="Image" style="margin-top: 0.8rem; width: 100%; max-height: 180px; object-fit: cover; border-radius: 10px;">` : ""}
+          <div class="action-buttons">
+            <button class="btn-edit" onclick="editAnnouncement(${ann.id})">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="btn-delete" onclick="deleteAnnouncement(${ann.id})">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    // Edit Announcement
+    function editAnnouncement(id) {
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      const ann = announcements.find(a => a.id === id);
+      if (!ann) return;
+
+      // Switch to Create tab
+      document.querySelector('[data-tab="create"]').click();
+
+      // Fill form
+      document.getElementById("editId").value = ann.id;
+      document.getElementById("title").value = ann.title;
+      document.getElementById("content").value = ann.content;
+      document.getElementById("category").value = ann.category;
+      document.getElementById("announcementDate").value = ann.announcementDate;
+      document.getElementById("expiryDate").value = ann.expiryDate || "";
+
+      // Handle image preview
+      if (ann.image) {
+        document.getElementById("imagePreview").src = ann.image;
+        document.getElementById("imagePreviewContainer").style.display = "block";
+      }
+
+      // Update UI
+      document.getElementById("formTitle").textContent = "Edit Announcement";
+      document.getElementById("submitButton").style.display = "none";
+      document.getElementById("updateButton").style.display = "block";
+    }
+
+    // Update Announcement
+    function updateAnnouncement() {
+      const id = Number(document.getElementById("editId").value);
+      const title = document.getElementById("title").value.trim();
+      const content = document.getElementById("content").value.trim();
+      const category = document.getElementById("category").value;
+      const announcementDate = document.getElementById("announcementDate").value;
+      const expiryDate = document.getElementById("expiryDate").value;
+      const imageFile = document.getElementById("imageUpload").files[0];
+
+      if (!title || !content || !announcementDate) {
+        alert("Please fill all required fields.");
+        return;
+      }
+
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      const index = announcements.findIndex(a => a.id === id);
+      if (index === -1) return;
+
+      // Handle image
+      let imageUrl = announcements[index].image; // Keep old unless new uploaded
+      if (imageFile) {
+        if (imageFile.size > 2 * 1024 * 1024) {
+          alert("Image too large. Max 2MB.");
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imageUrl = e.target.result;
+          saveUpdated();
+        };
+        reader.readAsDataURL(imageFile);
+        return;
+      }
+
+      saveUpdated();
+
+      function saveUpdated() {
+        const updated = {
+          ...announcements[index],
+          title, content, category, announcementDate, expiryDate: expiryDate || null,
+          image: imageUrl,
+          timestamp: new Date().toLocaleString() + " (edited)"
+        };
+
+        announcements[index] = updated;
+        localStorage.setItem("announcements", JSON.stringify(announcements));
+
+        // Reset and refresh
+        resetForm();
+        showSuccess();
+        if (document.getElementById("history").classList.contains("active")) {
+          loadHistory();
+        }
+      }
+    }
+
+    // Delete Announcement
+    function deleteAnnouncement(id) {
+      if (!confirm("Delete this announcement?")) return;
+      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+      const filtered = announcements.filter(a => a.id !== id);
+      localStorage.setItem("announcements", JSON.stringify(filtered));
+      loadHistory();
+    }
+
+    // Form Submit (Create)
+    document.getElementById("announcementForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (document.getElementById("editId").value) return; // Use Update button
+
+      const title = document.getElementById("title").value.trim();
+      const content = document.getElementById("content").value.trim();
+      const category = document.getElementById("category").value;
+      const announcementDate = document.getElementById("announcementDate").value;
+      const expiryDate = document.getElementById("expiryDate").value;
+      const imageFile = document.getElementById("imageUpload").files[0];
+
+      if (!title || !content || !announcementDate) {
+        alert("Please fill all required fields.");
+        return;
+      }
+
+      let imageUrl = null;
+      if (imageFile) {
+        if (imageFile.size > 2 * 1024 * 1024) {
+          alert("Image too large. Max 2MB.");
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imageUrl = e.target.result;
+          saveNew();
+        };
+        reader.readAsDataURL(imageFile);
+        return;
+      }
+
+      saveNew();
+
+      function saveNew() {
+        const newAnn = {
+          id: Date.now(),
+          title, content, category, announcementDate, expiryDate: expiryDate || null,
+          timestamp: new Date().toLocaleString(),
+          image: imageUrl
+        };
+
+        const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
+        announcements.push(newAnn);
+        localStorage.setItem("announcements", JSON.stringify(announcements));
+
+        resetForm();
+        showSuccess();
+        if (document.getElementById("history").classList.contains("active")) {
+          loadHistory();
+        }
+      }
+    });
+
+    // Show success message
+    function showSuccess() {
+      const msg = document.getElementById("successMessage");
+      msg.style.display = "block";
+      setTimeout(() => { msg.style.display = "none"; }, 5000);
+    }
+
+    // Escape HTML
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Format category
+    function formatCategory(cat) {
+      const labels = {
+        general: "General",
+        event: "Event",
+        important: "Important",
+        maintenance: "Maintenance",
+        policy: "Policy",
+        meeting: "Meeting"
+      };
+      return labels[cat] || "General";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (document.getElementById("history").classList.contains("active")) {
+        loadHistory();
+      }
     });
   </script>
-
-
 </body>
 </html>
