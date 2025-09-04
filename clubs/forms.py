@@ -1,4 +1,5 @@
 from django import forms
+from landing_page.models import Users
 from .models import Clubs, ClubApplication
 from django.core.exceptions import ValidationError
 
