@@ -31,11 +31,11 @@ def post_registration_club(request):
         form = ClubRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             new_club_registration = form.save(commit=False)
-            instructor_id = request.session.get('member_id')
+            applicant_id = request.session.get('member_id')
             # Save user form
             try:
-                instructor = Users.objects.get(id=instructor_id)
-                new_club_registration.submitted_by = instructor
+                applicant = Users.objects.get(id=applicant_id)
+                new_club_registration.submitted_by = applicant
                 new_club_registration.save()
                 messages.success(request, 'Successfully submitted a club registration form.')
                 return redirect('register_club')
@@ -45,7 +45,7 @@ def post_registration_club(request):
             except IntegrityError:
                 messages.error(request, 'Something went wrong. Please try again.')
         else:
-            messages.error(request, 'The club name is already applied, try a different name.')
+            messages.error(request, 'Invalid form. Please check your form and try again.')
     else:
         form = ClubRegistrationForm()
     # Render the form
