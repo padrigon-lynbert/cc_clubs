@@ -3,7 +3,7 @@ from landing_page.models import Users
 from .models import Clubs, ClubApplication
 from django.core.exceptions import ValidationError
 
-class ClubRegistrationForm(forms.ModelForm):
+class ClubApplicationForm(forms.ModelForm):
     
     class Meta:
         model = ClubApplication
@@ -37,6 +37,13 @@ class ClubRegistrationForm(forms.ModelForm):
             'club_name': forms.TextInput(attrs={
                 'class': 'form-control', 
                 'maxlength': 255}),
+            'acronym': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': 50,
+            }),
+            'adviser': forms.Select(attrs={
+                'class': 'form-select',
+            }),
             'description': forms.Textarea(attrs={
                 'class': 'form-control',
                 'minlength': 30,

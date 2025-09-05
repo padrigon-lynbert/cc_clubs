@@ -186,13 +186,23 @@
       color: #f1f2f3;
       position: sticky;
     }
+
+    .btn.btn-primary, .modal-header {
+      background-color: #29306F;
+      color: #F1F2F3;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
   <!-- Header with Return Button and Logo -->
   <header>
-    <a href="#" class="return-btn">
+    <a href="{% url 'home' %}" class="return-btn">
       <i class="fas fa-arrow-left"></i> Return
     </a>
     <div class="logo">
@@ -220,8 +230,8 @@
   {% endif %}
   <!-- Main Content -->
   <main>
-    <h1><i class="fas fa-bullhorn"></i> Register your Club</h1>
-    <h2 class="subtitle">Provide documents needed to register your club </h2>
+    <h1><i class="fas fa-bullhorn"></i>Club Application</h1>
+    <h2 class="subtitle">Submit the required documents to complete your club application.</h2>
 
     <div class="form-card">
       <form id="clubForm" enctype="multipart/form-data" method="POST">
@@ -238,7 +248,7 @@
           {% endif %}
         {% endfor %}
         <button type="button" data-bs-toggle="modal" data-bs-target="#clubApplication" class="btn-submit">
-        <i class="fas fa-paper-plane me-2"></i> Publish Announcement </button>
+        <i class="fas fa-envelope"></i> Apply your Club </button>
       </form>
     </div>
   </main>
@@ -247,14 +257,14 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title">Submit Club Application</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>Modal body text goes here.</p>
+        <p>Are you sure you want to submit your club application? Once submitted, you may not be able to edit it.</p>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" id="confirmSubmit">Save changes</button>
+        <button type="submit" class="btn btn-primary" id="confirmSubmit">Submit</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>

@@ -27,11 +27,14 @@
     <link href="{% static 'landing_page/css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
 
     <link rel="stylesheet" href="">
-
-
-
-
-
+    <style>
+        .form-control.apply {
+            font-style: inherit;
+            background-color: #29306F;
+            color: #F1F2F3;
+            font-weight: 1000;
+        }
+    </style>
 </head>
 
 
@@ -455,7 +458,7 @@
                                 </table>
                             </div>
 
-                            <button name="action" value="club_directory" class="form-control">Club Application</button>
+                            <button name="action" value="club_directory" class="form-control apply">Club Application</button>
 
                         </form>
                     </div>
@@ -497,7 +500,7 @@
                             <!-- <button type="submit" class="form-control">Visit</button> -->
                             <!-- <button type="submit" name="action" value="visit" class="form-control">Visit</button> -->
                             <input type="hidden" id="selected-club-id" name="club_id" value="">
-                            <button type="submit" class="form-control">Visit</button>
+                            <button type="submit" class="form-control visit">Visit</button>
 
                     </div>
                     </form>
