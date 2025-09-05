@@ -73,3 +73,18 @@ def get_club_details(request, club_id):
         return JsonResponse(data)
     except Clubs.DoesNotExist:
         return JsonResponse({'error': 'Club not found'}, status=404)
+
+def get_club_application(request):
+    member_id = request.session.get('member_id')
+    if not member_id:
+        messages.error(request, "You must be logged in to access this page")
+        return redirect(reverse('home') + '#section_3')
+
+    user = get_object_or_404(Users, id=member_id)
+
+    # ---- Role Restriction ----
+    if user.role != Users.Role.ADMIN:
+        messages.error(request, "Non-admin entities are not allowed to access this page")
+        return redirect(reverse('home') + '#section_3')
+    
+    return render(request, 'club_applications_review.html')
