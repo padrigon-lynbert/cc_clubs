@@ -87,11 +87,17 @@ def budget_request(request):
                 return redirect("budget_request")
 
         budget_request = BudgetRequest.objects.filter(club=club)
+        pending_count = budget_request.filter(status=BudgetRequest.Status.PENDING).count()
+        approved_count = budget_request.filter(status=BudgetRequest.Status.APPROVED).count()
+        rejected_count = budget_request.filter(status=BudgetRequest.Status.REJECTED).count()
 
         return render(request, "budget_request_review.html", {
             "club": club,
-            "budget_request": budget_request,
             "user": user,
+            "budget_request": budget_request,
+            "pending_count": pending_count,
+            "approved_count": approved_count,
+            "rejected_count": rejected_count,
         })
 
 
