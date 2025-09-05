@@ -45,7 +45,6 @@ class Clubs(models.Model):
     )
     
     email = models.EmailField(max_length=255, null=True, blank=True)
-    location = models.ForeignKey(Branch, on_delete=models.CASCADE, default=get_default_branch)
     banner = models.ImageField(upload_to='club_applications/banners/', null=True, blank=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
