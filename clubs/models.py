@@ -17,7 +17,7 @@ class Branch(models.Model):
         db_table = 'school_branch'
     
 class Program(models.Model):
-    course_code = models.CharField(max_length=255)
+    course_code = models.CharField(max_length=50, primary_key=True)
     course_name = models.CharField(max_length=255)
 
     def __str__(self):
