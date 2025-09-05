@@ -16,7 +16,7 @@ class Branch(models.Model):
     class Meta:
         db_table = 'school_branch'
     
-class Course(models.Model):
+class Program(models.Model):
     course_code = models.CharField(max_length=255)
     course_name = models.CharField(max_length=255)
 
@@ -24,7 +24,7 @@ class Course(models.Model):
         return f'{self.course_code} - {self.course_name}'
     
     class Meta:
-        db_table = 'course'
+        db_table = 'program'
 
 class Clubs(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
@@ -106,7 +106,7 @@ class ClubApplication(models.Model):
     acronym = models.CharField(max_length=30)
     adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='application_adviser')
     banner = models.ImageField(upload_to='Club Application/Banners/', null=True, blank=True)
-    program = models.ForeignKey(Course, on_delete=models.CASCADE)
+    program = models.ForeignKey(Program, on_delete=models.CASCADE)
     constitutions_and_by_laws = models.FileField(upload_to='Club Application/Constitutions and By Laws/')
     acceptance_letter = models.FileField(upload_to='Club Application/Acceptance Letter/')
     action_plan = models.FileField(upload_to='Club Application/Action Plan/')
