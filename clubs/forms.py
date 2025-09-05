@@ -3,7 +3,7 @@ from landing_page.models import Users
 from .models import Clubs, ClubApplication
 from django.core.exceptions import ValidationError
 
-class ClubRegistrationForm(forms.ModelForm):
+class ClubApplicationForm(forms.ModelForm):
     
     class Meta:
         model = ClubApplication
