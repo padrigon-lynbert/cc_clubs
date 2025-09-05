@@ -2,15 +2,16 @@ from django.shortcuts import render, redirect
 # from django.contrib.auth.decorators import login_required
 from .models import Users
 from django.contrib import messages
-
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 # Create your views here.
+# termporary bypass input in low tier browsers
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
 def terms_and_conditions(request):
-    if request.method == 'POST':
-        if request.POST.get('agree') == 'on': return redirect('home')
-
+    if request.method == 'POST' and request.POST.get('agree') == 'on':
+        return redirect('home')
     return render(request, 'terms.html')
 
 def home(request):
