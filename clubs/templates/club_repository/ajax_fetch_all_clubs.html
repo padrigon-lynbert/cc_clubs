@@ -21,7 +21,11 @@
     data-banner="{% if club.banner %}{{ club.banner.url }}{% endif %}">
     <td>{{ club.acronym }}</td>
     <td>{{ club.location }}</td>
-    <td>Yes</td>
-    <td>No</td>
+    <td>{{ club.year_level }}</td>
+    {% if club.is_active %}
+        <td><i class="bi-check-circle-fill"></i></td>
+    {% else %}
+        <td><i class="bi-x-circle-fill"></i></td>
+    {% endif %}
 </tr>
 {% endfor %}
