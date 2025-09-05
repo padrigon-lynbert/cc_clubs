@@ -37,6 +37,13 @@ class ClubApplicationForm(forms.ModelForm):
             'club_name': forms.TextInput(attrs={
                 'class': 'form-control', 
                 'maxlength': 255}),
+            'acronym': forms.TextInput(attrs={
+                'class': 'form-control',
+                'maxlength': 50,
+            }),
+            'adviser': forms.Select(attrs={
+                'class': 'form-select',
+            }),
             'description': forms.Textarea(attrs={
                 'class': 'form-control',
                 'minlength': 30,
