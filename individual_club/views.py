@@ -104,6 +104,7 @@ def budget_request(request):
     
      # Instructor/Adviser: submit budget request page
     if request.method == "POST":
+        title = request.POST.get("title")
         purpose = request.POST.get("purpose")
         amount = request.POST.get("amount")
         amount_words = request.POST.get("amount_words")
@@ -114,8 +115,9 @@ def budget_request(request):
             return render(request, 'budget_request.html', {"club": club, "user": user})
 
         BudgetRequest.objects.create(
+            title=title,
             purpose=purpose,
-            requester=user.name,
+            requester=requester,
             amount=amount,
             amount_words=amount_words,
             status=BudgetRequest.Status.PENDING,
@@ -125,9 +127,14 @@ def budget_request(request):
         messages.success(request, "Budget request submitted successfully")
         # return redirect("individual_club")
         return redirect('club_detail', club_id=club.id)
+        
+    budget_request = BudgetRequest.objects.filter(club=club)
 
-
-    return render(request, 'budget_request.html', {"club": club, "user": user}) # go to budget_request (instructor page only)
+    return render(request, 'budget_request.html', {
+        "club": club, 
+        "user": user,
+        "budget_request": budget_request
+        }) # go to budget_request (instructor page only)
 
 
 def election_club(request, club_id):

@@ -114,7 +114,7 @@
         <div class="card mb-4 border-0 shadow-sm">
             <div class="card mb-4 border-0 shadow-sm">
                 <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
-                    <h4 class="mb-0 text-primary">Review and manage budget requests from your team</h4>
+                    <h4 class="mb-0 text-success">Review and manage budget requests from your team</h4>
                     <div class="d-flex gap-4">
                         <div class="text-center">
                             <div class="h4 mb-0 text-warning" id="pendingCount"> {{ pending_count }}</div>
@@ -143,7 +143,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <h5 class="card-title mb-3">{{club.acronym}} Reqest # {{req.id}}</h5>
+                                            <h5 class="card-title mb-3">{{club.acronym}} Reqest # {{req.id}}: {{ req.title }}</h5>
                                             <div class="row mb-3">
                                                 <div class="col-md-4">
                                                     <small class="text-muted">
@@ -342,10 +342,7 @@
                         </div>
                     {% endif %}
                 {% endfor %}
-            </div>
-
-            
-            
+            </div>     
             
       
 
