@@ -32,7 +32,18 @@ class Clubs(models.Model):
     description = models.TextField(max_length=255, null=True, blank=True)
     chairperson = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='chaired_clubs', null=True, blank=True)
     adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='advised_clubs', null=True, blank=True)
-    year_level = models.CharField(max_length=10, null=True, blank=True)
+
+    class YearLevel(models.IntegerChoices):
+        FIRST_YEAR = 0, _('First Year')
+        SECOND_YEAR = 1, _('Second Year')
+        THIRD_YEAR = 2, _('Third Year')
+        FOURTH_YEAR = 3, _('Fourth Year')
+
+    year_level = models.IntegerField(
+        choices=YearLevel.choices,
+        verbose_name='Year Level',
+    )
+    
     email = models.EmailField(max_length=255, null=True, blank=True)
     location = models.ForeignKey(Branch, on_delete=models.CASCADE, default=get_default_branch)
     banner = models.ImageField(upload_to='club_applications/banners/', null=True, blank=True)
