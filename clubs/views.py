@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .forms import ClubRegistrationForm
+from .forms import ClubApplicationForm
 from django.db import IntegrityError
 from .models import Clubs, ClubApplication
 from landing_page.models import Users
@@ -28,7 +28,7 @@ def post_registration_club(request):
 
     # Handle user submission
     if request.method == 'POST':
-        form = ClubRegistrationForm(request.POST, request.FILES)
+        form = ClubApplicationForm(request.POST, request.FILES)
         if form.is_valid():
             new_club_registration = form.save(commit=False)
             applicant_id = request.session.get('member_id')
@@ -37,7 +37,7 @@ def post_registration_club(request):
                 applicant = Users.objects.get(id=applicant_id)
                 new_club_registration.submitted_by = applicant
                 new_club_registration.save()
-                messages.success(request, 'Successfully submitted a club registration form.')
+                messages.success(request, 'Successfully submitted a club application form.')
                 return redirect('register_club')
             except Users.DoesNotExist:
                 messages.error(request, 'Session expired. Please login again.')
@@ -47,7 +47,7 @@ def post_registration_club(request):
         else:
             messages.error(request, 'Invalid form. Please check your form and try again.')
     else:
-        form = ClubRegistrationForm()
+        form = ClubApplicationForm()
     # Render the form
     context = {'form': form}
     return render(request, 'register/register_club.html', context)
