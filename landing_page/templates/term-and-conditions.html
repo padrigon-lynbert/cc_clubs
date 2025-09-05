@@ -168,13 +168,15 @@
                 <label for="agree">I agree to the Terms & Conditions and Privacy Policy</label>
             </div>
             
-            <div class="buttons">
-                <button class="btn btn-cancel" onclick="goBack()">Cancel</button>
-                <button class="btn btn-accept" id="acceptBtn" onclick="proceed()">Accept & Continue</button>
-            </div>
+            <form method="POST" action="{% url 'terms_and_conditions' %}">
+                {% csrf_token %}
+                <input type="checkbox" name="agree" id="agree" required>
+                <button type="submit">Accept & Continue</button>
+            </form>
+                
         </div>
     </div>
-
+<!-- 
     <script>
         function toggleAccept() {
             const checkbox = document.getElementById('agree');
@@ -187,23 +189,22 @@
             }
         }
 
+    
         function proceed() {
             const checkbox = document.getElementById('agree');
-            
             if (!checkbox.checked) {
                 alert('Please accept the terms to continue');
                 return;
             }
-            
-            // Redirect to landing page
-            window.location.href = 'landing.html';
+            window.location.href = '/terms_and_conditions?agree=on';
         }
+            
 
         function goBack() {
             if (confirm('Are you sure you want to leave?')) {
                 alert('Returning to homepage...');
             }
         }
-    </script>
+    </script> -->
 </body>
 </html>
