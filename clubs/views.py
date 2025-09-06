@@ -123,3 +123,10 @@ def accept_club(request, club_id):
             club_application.status = 1
             club_application.save()
             messages.success(request, 'Club is successfully accepted.')
+    except IntegrityError as e:
+        messages.error(request, e)
+    except Exception as e:
+        messages.error(request, f'Something went wrong {e}')
+
+    return redirect('get_club_application')
+
