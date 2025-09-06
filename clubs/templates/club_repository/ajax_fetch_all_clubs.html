@@ -20,7 +20,7 @@
     data-description="{{ club.description|default:'No description yet.' }}"
     data-banner="{% if club.banner %}{{ club.banner.url }}{% endif %}">
     <td>{{ club.acronym }}</td>
-    <td>{{ club.location }}</td>
+    <td>{{ club.program.course_code }}</td>
     <td>{{ club.get_year_level_display }}</td>
     {% if club.is_active %}
         <td><i class="bi-check-circle-fill"></i></td>
