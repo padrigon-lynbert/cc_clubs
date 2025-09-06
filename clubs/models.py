@@ -32,7 +32,7 @@ class Clubs(models.Model):
     description = models.TextField(max_length=255, null=True, blank=True)
     chairperson = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='chaired_clubs', null=True, blank=True)
     adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='advised_clubs', null=True, blank=True)
-
+    program = models.ForeignKey(Program, on_delete=models.CASCADE)
     class YearLevel(models.IntegerChoices):
         FIRST_YEAR = 0, _('First Year')
         SECOND_YEAR = 1, _('Second Year')
