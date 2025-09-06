@@ -86,28 +86,27 @@
     </style>
 </head>
 <body>
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center">
-           <a href="{% url 'club_detail' club.id %}" class="btn btn-light btn-sm me-2" style="padding-right: 5px;">
-    <i class="fas fa-arrow-left me-1"></i> Return
-</a>
 
-            
-           <a class="navbar-brand mb-0 h1" href="#">
-                <i class="fas fa-dollar-sign me-2"></i>Budget Request Review  
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+            <a href="{% url 'club_detail' club.id %}" class="btn btn-light btn-sm me-2" style="padding-right: 5px;">
+                <i class="fas fa-arrow-left me-1"></i> Return
             </a>
+                
+                
+            <a class="navbar-brand mb-0 h1" href="#">
+                    <i class="fas fa-dollar-sign me-2"></i>Budget Request Review  
+                </a>
+            </div>
+            <div class="navbar-nav">
+                <span class="nav-link text-white mb-0">
+                    <i class="fas fa-thumbtack"></i> {{club.club_name}}
+                </span>
+            </div>
         </div>
-        <div class="navbar-nav">
-            <span class="nav-link text-white mb-0">
-                <i class="fas fa-thumbtack"></i> {{club.club_name}}
-            </span>
-        </div>
-    </div>
-</nav>
-
-
+    </nav>
 
     <div class="container mt-4">
     
@@ -115,238 +114,235 @@
         <div class="card mb-4 border-0 shadow-sm">
             <div class="card mb-4 border-0 shadow-sm">
                 <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
-                    <h4 class="mb-0 text-primary">Review and manage budget requests from your team</h4>
+                    <h4 class="mb-0 text-success">Review and manage budget requests from your team</h4>
                     <div class="d-flex gap-4">
                         <div class="text-center">
-                            <div class="h4 mb-0 text-warning" id="pendingCount">
-                                ({{ budget_request | length }})
-                            </div>
+                            <div class="h4 mb-0 text-warning" id="pendingCount"> {{ pending_count }}</div>
                             <small class="text-muted">Pending</small>
                         </div>
                         <div class="text-center">
-                            <div class="h4 mb-0 text-success" id="approvedCount">0</div>
+                            <div class="h4 mb-0 text-success" id="approvedCount">{{ approved_count }}</div>
                             <small class="text-muted">Approved</small>
                         </div>
                         <div class="text-center">
-                            <div class="h4 mb-0 text-danger" id="rejectedCount">0</div>
+                            <div class="h4 mb-0 text-danger" id="rejectedCount"> {{ rejected_count }}</div>
                             <small class="text-muted">Rejected</small>
                         </div>
                     </div>
                 </div>
             </div>
-                
 
             <!-- pending -->
-            {% for req in budget_request %}
-                {% if req.status == 0 %}
-                    <div class="card-body" id="pendingRequestsContainer">
-                        <!-- Request 1 -->
-                        <div class="card mb-3 request-card medium-priority card-hover" data-request-id="1">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <h5 class="card-title mb-3">{{club.acronym}} Reqest # {{req.id}}</h5>
-                                        <div class="row mb-3">
-                                            <div class="col-md-4">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-user me-1"></i>
-                                                    {{req.requester}}
-                                                </small>
+            <!-- <h3 style="padding: 0px 20px;">Pending</h3>  -->
+            <div style="max-height: 500px; overflow-y: auto;">
+                {% for req in budget_request %}
+                    {% if req.status == 0 %}
+                        <div class="card-body" id="pendingRequestsContainer">
+                            <!-- Request 1 -->
+                            <div class="card mb-3 request-card medium-priority card-hover" data-request-id="1">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h5 class="card-title mb-3">{{club.acronym}} Reqest # {{req.id}}: {{ req.title }}</h5>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-user me-1"></i>
+                                                        {{req.requester}}
+                                                    </small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-building me-1"></i>{{req.club}}</small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-calendar me-1"></i> {{ req.created_at }} </small>
+                                                </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-building me-1"></i>
-                                                {{req.club}} 
-                                                </small>
+                                            <p class="card-text"><strong>Reason:</strong> {{req.purpose}}</p>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            <div class="mb-2">
+                                                <span class="badge priority-medium px-3 py-2">
+                                                    {{req.get_status_display}}
+                                                </span>
                                             </div>
-                                            <div class="col-md-4">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-calendar me-1"></i>
-                                                    {{ req.created_at }}
-                                                </small>
+                                            <div class="mb-3">
+                                                <div class="amount-display">₱{{req.amount}}</div>
                                             </div>
-                                        </div>
-                                        <p class="card-text"><strong>Reason:</strong> {{req.purpose}}</p>
-                                    </div>
-                                    <div class="col-md-4 text-end">
-                                        <div class="mb-2">
-                                            <span class="badge priority-medium px-3 py-2">
-                                                {{req.get_status_display}}
-                                            </span>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="amount-display">₱{{req.amount}}</div>
-                                        </div>
-                                       <!-- form -->
-                                       <form method="post" class="d-inline">
-                                           {% csrf_token %}
-                                           <input type="hidden" name="request_id" value="{{ req.id }}">
-                                           <input type="hidden" name="status" value="{{ req.Status.REJECTED }}">
-                                           <button type="submit" class="btn btn-outline-danger btn-action">
-                                               <i class="fas fa-times me-1"></i>Reject
-                                           </button>
-                                       </form>
-                                       
-                                       <form method="post" class="d-inline">
-                                           {% csrf_token %}
-                                           <input type="hidden" name="request_id" value="{{ req.id }}">
-                                           <input type="hidden" name="status" value="{{ req.Status.APPROVED }}">
-                                           <button type="submit" class="btn btn-success btn-action">
-                                               <i class="fas fa-check me-1"></i>Approve
-                                           </button>
-                                       </form>
+                                           <!-- form -->
+                                           <form method="post" class="d-inline">
+                                               {% csrf_token %}
+                                               <input type="hidden" name="request_id" value="{{ req.id }}">
+                                               <input type="hidden" name="status" value="{{ req.Status.REJECTED }}">
+                                               <button type="submit" class="btn btn-outline-danger btn-action">
+                                                   <i class="fas fa-times me-1"></i>Reject
+                                               </button>
+                                           </form>
                                            
-                                            
+                                           <form method="post" class="d-inline">
+                                               {% csrf_token %}
+                                               <input type="hidden" name="request_id" value="{{ req.id }}">
+                                               <input type="hidden" name="status" value="{{ req.Status.APPROVED }}">
+                                               <button type="submit" class="btn btn-success btn-action">
+                                                   <i class="fas fa-check me-1"></i>Approve
+                                               </button>
+                                           </form>
+                                               
+                                                
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
 
             <!-- accepted -->
-             <hr>
-            {% for req in budget_request %}
-                {% if req.status == 1 %}
-                    <div class="card-body" id="pendingRequestsContainer">
-                        <!-- Request 1 -->
-                        <div class="card mb-3 request-card low-priority card-hover" data-request-id="1">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <h5 class="card-title mb-3">{{club.acronym}} Reqest # {{req.id}}</h5>
-                                        <div class="row mb-3">
-                                            <div class="col-md-4">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-user me-1"></i>
-                                                    {{req.requester}}
-                                                </small>
+            <hr>
+            <div style="max-height: 500px; overflow-y: auto;">
+                {% for req in budget_request %}
+                    {% if req.status == 1 %}
+                        <div class="card-body" id="pendingRequestsContainer">
+                            <!-- Request 1 -->
+                            <div class="card mb-3 request-card low-priority card-hover" data-request-id="1">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h5 class="card-title mb-3">{{club.acronym}} Reqest # {{req.id}}</h5>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-user me-1"></i>
+                                                        {{req.requester}}
+                                                    </small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-building me-1"></i>
+                                                    {{req.club}} 
+                                                    </small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-calendar me-1"></i>
+                                                        {{ req.created_at }}
+                                                    </small>
+                                                </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-building me-1"></i>
-                                                {{req.club}} 
-                                                </small>
+                                            <p class="card-text"><strong>Reason:</strong> {{req.purpose}}</p>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            <div class="mb-2">
+                                                <span class="badge priority-low px-3 py-2">
+                                                    {{req.get_status_display}}
+                                                </span>
                                             </div>
-                                            <div class="col-md-4">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-calendar me-1"></i>
-                                                    {{ req.created_at }}
-                                                </small>
+                                            <div class="mb-3">
+                                                <div class="amount-display">₱{{req.amount}}</div>
                                             </div>
-                                        </div>
-                                        <p class="card-text"><strong>Reason:</strong> {{req.purpose}}</p>
-                                    </div>
-                                    <div class="col-md-4 text-end">
-                                        <div class="mb-2">
-                                            <span class="badge priority-low px-3 py-2">
-                                                {{req.get_status_display}}
-                                            </span>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="amount-display">₱{{req.amount}}</div>
-                                        </div>
-                                       <!-- form -->
-                                       <!-- <form method="post" class="d-inline">
-                                           {% csrf_token %}
-                                           <input type="hidden" name="request_id" value="{{ req.id }}">
-                                           <input type="hidden" name="status" value="{{ req.Status.REJECTED }}">
-                                           <button type="submit" class="btn btn-outline-danger btn-action">
-                                               <i class="fas fa-times me-1"></i>Reject
-                                           </button>
-                                       </form>
-                                       
-                                       <form method="post" class="d-inline">
-                                           {% csrf_token %}
-                                           <input type="hidden" name="request_id" value="{{ req.id }}">
-                                           <input type="hidden" name="status" value="{{ req.Status.APPROVED }}">
-                                           <button type="submit" class="btn btn-success btn-action">
-                                               <i class="fas fa-check me-1"></i>Approve
-                                           </button>
-                                       </form> -->
+                                           <!-- form -->
+                                           <!-- <form method="post" class="d-inline">
+                                               {% csrf_token %}
+                                               <input type="hidden" name="request_id" value="{{ req.id }}">
+                                               <input type="hidden" name="status" value="{{ req.Status.REJECTED }}">
+                                               <button type="submit" class="btn btn-outline-danger btn-action">
+                                                   <i class="fas fa-times me-1"></i>Reject
+                                               </button>
+                                           </form>
                                            
-                                            
+                                           <form method="post" class="d-inline">
+                                               {% csrf_token %}
+                                               <input type="hidden" name="request_id" value="{{ req.id }}">
+                                               <input type="hidden" name="status" value="{{ req.Status.APPROVED }}">
+                                               <button type="submit" class="btn btn-success btn-action">
+                                                   <i class="fas fa-check me-1"></i>Approve
+                                               </button>
+                                           </form> -->
+                                               
+                                                
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
 
             <!-- rejected -->
-             <hr>
-            {% for req in budget_request %}
-                {% if req.status == 2 %}
-                    <div class="card-body" id="pendingRequestsContainer">
-                        <!-- Request 1 -->
-                        <div class="card mb-3 request-card high-priority card-hover" data-request-id="1">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <h5 class="card-title mb-3">{{club.acronym}} Reqest # {{req.id}}</h5>
-                                        <div class="row mb-3">
-                                            <div class="col-md-4">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-user me-1"></i>
-                                                    {{req.requester}}
-                                                </small>
+            <hr>
+            <div style="max-height: 500px; overflow-y: auto;">
+                {% for req in budget_request %}
+                    {% if req.status == 2 %}
+                        <div class="card-body" id="pendingRequestsContainer">
+                            <!-- Request 1 -->
+                            <div class="card mb-3 request-card high-priority card-hover" data-request-id="1">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h5 class="card-title mb-3">{{club.acronym}} Reqest # {{req.id}}</h5>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-user me-1"></i>
+                                                        {{req.requester}}
+                                                    </small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-building me-1"></i>
+                                                    {{req.club}} 
+                                                    </small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-calendar me-1"></i>
+                                                        {{ req.created_at }}
+                                                    </small>
+                                                </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-building me-1"></i>
-                                                {{req.club}} 
-                                                </small>
+                                            <p class="card-text"><strong>Reason:</strong> {{req.purpose}}</p>
+                                        </div>
+                                        <div class="col-md-4 text-end">
+                                            <div class="mb-2">
+                                                <span class="badge priority-high px-3 py-2">
+                                                    {{req.get_status_display}}
+                                                </span>
                                             </div>
-                                            <div class="col-md-4">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-calendar me-1"></i>
-                                                    {{ req.created_at }}
-                                                </small>
+                                            <div class="mb-3">
+                                                <div class="amount-display">₱{{req.amount}}</div>
                                             </div>
-                                        </div>
-                                        <p class="card-text"><strong>Reason:</strong> {{req.purpose}}</p>
-                                    </div>
-                                    <div class="col-md-4 text-end">
-                                        <div class="mb-2">
-                                            <span class="badge priority-high px-3 py-2">
-                                                {{req.get_status_display}}
-                                            </span>
-                                        </div>
-                                        <div class="mb-3">
-                                            <div class="amount-display">₱{{req.amount}}</div>
-                                        </div>
-                                       <!-- form -->
-                                       <!-- <form method="post" class="d-inline">
-                                           {% csrf_token %}
-                                           <input type="hidden" name="request_id" value="{{ req.id }}">
-                                           <input type="hidden" name="status" value="{{ req.Status.REJECTED }}">
-                                           <button type="submit" class="btn btn-outline-danger btn-action">
-                                               <i class="fas fa-times me-1"></i>Reject
-                                           </button>
-                                       </form>
-                                       
-                                       <form method="post" class="d-inline">
-                                           {% csrf_token %}
-                                           <input type="hidden" name="request_id" value="{{ req.id }}">
-                                           <input type="hidden" name="status" value="{{ req.Status.APPROVED }}">
-                                           <button type="submit" class="btn btn-success btn-action">
-                                               <i class="fas fa-check me-1"></i>Approve
-                                           </button>
-                                       </form> -->
+                                           <!-- form -->
+                                           <!-- <form method="post" class="d-inline">
+                                               {% csrf_token %}
+                                               <input type="hidden" name="request_id" value="{{ req.id }}">
+                                               <input type="hidden" name="status" value="{{ req.Status.REJECTED }}">
+                                               <button type="submit" class="btn btn-outline-danger btn-action">
+                                                   <i class="fas fa-times me-1"></i>Reject
+                                               </button>
+                                           </form>
                                            
-                                            
+                                           <form method="post" class="d-inline">
+                                               {% csrf_token %}
+                                               <input type="hidden" name="request_id" value="{{ req.id }}">
+                                               <input type="hidden" name="status" value="{{ req.Status.APPROVED }}">
+                                               <button type="submit" class="btn btn-success btn-action">
+                                                   <i class="fas fa-check me-1"></i>Approve
+                                               </button>
+                                           </form> -->
+                                               
+                                                
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
-
-            
-            
+                    {% endif %}
+                {% endfor %}
+            </div>     
             
       
 

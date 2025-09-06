@@ -181,6 +181,7 @@
 
         main .btn.btn-primary.mt-auto {
             background: #29306f;
+            border: 1px solid #29306f;
             border-radius: 6px;
         }
 
@@ -263,12 +264,12 @@
                         </li>
 
                         {% if user.role == 1 or user.role == 2 %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'club_applicants' club.id %}">
-                                    <i class="fas fa-user-plus"></i>
-                                    <span>Club Applicants</span>
-                                </a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'club_applicants' club.id %}">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Club Applicants</span>
+                            </a>
+                        </li>
                         {% endif %}
 
                         <li class="nav-item">
@@ -294,32 +295,72 @@
                         </div>
                     </div>
                 </div>
+            </nav>
         </div>
-        </nav>
     </div>
 
 
     <main class="col">
-        <h1>Club Achievement of {{ club.acronym }}</h1>
+        <h1>Club Achievement</h1>
         <div class="row">
+            {% for achievement in achievements %}
             <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
                 <div class="card h-100">
                     <img src="{% static 'images/bg01.jpg' %}" class="card-img-top" alt="Achievement image">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">Achievement Title</h5>
-                        <p class="card-text">The {{ club.acronym }} achieve... </p>
-                        <a href="#" class="btn btn-primary mt-auto">Go somewhere</a>
+                    <div class="card-body d-flex flex-column text-center">
+                        <h6 class="card-title">{{ achievement.title }}</h6>
+                        <p class="card-text m-0 p-0 text-start" style="font-size: 13px;">
+                            {{ achievement.details|truncatewords:4 }}
+                        </p>
+                        <small class="text-muted my-2" style="font-size: 10px;">
+                            Posted on {{ achievement.date_posted|date:"F d, Y" }}
+                        </small>
+                        <button type="button" class="btn btn-primary mt-auto" data-bs-toggle="modal"
+                            data-bs-target="#achievementmodal{{achievement.id}}">
+                            expand
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="achievementmodal{{achievement.id}}" tabindex="-1"
+                            aria-labelledby="achievementmodalLabel{{achievement.id}}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="m-auto">
+                                            <h1 class="modal-title fs-2 p-1" id="achievementmodalLabel{{achievement.id}}"></h1>
+                                                {{achievement.title}} -- Achievement Details</h1>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body p-0">
+                                        <div class="container-image">
+                                            <img src="{% static 'images/bg01.jpg' %}" class="img-fluid w-100" style="height: 275px;"
+                                                alt="Achievement image"><span class="text-success">achievement photo or something</span>
+                                        </div>
+                                        <div class="modal-container p-2 m-3 border rounded text-start">
+                                            <small class="text-muted">{{achievement.date_posted|date:"F d, Y"}}</small><br>
+                                            <div class="details">
+                                                <p style="text-indent: 2em;"><i>"{{achievement.details}}"</i></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-            <!-- Add more cards here as needed -->
+            {% empty %}
+            <p class="text-muted">No achievements available.</p>
+            {% endfor %}
         </div>
+
+
     </main>
-    </div>
-
-
-
-
 
     <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
 </body>

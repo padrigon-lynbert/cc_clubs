@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
-from clubs.models import Clubs, MemberApplication
+from clubs.models import Clubs, MemberApplication, Achievement
 from landing_page.models import Users
 from .models import BudgetRequest
 
@@ -104,6 +104,7 @@ def budget_request(request):
     
      # Instructor/Adviser: submit budget request page
     if request.method == "POST":
+        title = request.POST.get("title")
         purpose = request.POST.get("purpose")
         amount = request.POST.get("amount")
         amount_words = request.POST.get("amount_words")
@@ -114,8 +115,9 @@ def budget_request(request):
             return render(request, 'budget_request.html', {"club": club, "user": user})
 
         BudgetRequest.objects.create(
+            title=title,
             purpose=purpose,
-            requester=user.name,
+            requester=requester,
             amount=amount,
             amount_words=amount_words,
             status=BudgetRequest.Status.PENDING,
@@ -125,9 +127,14 @@ def budget_request(request):
         messages.success(request, "Budget request submitted successfully")
         # return redirect("individual_club")
         return redirect('club_detail', club_id=club.id)
+        
+    budget_request = BudgetRequest.objects.filter(club=club)
 
-
-    return render(request, 'budget_request.html', {"club": club, "user": user}) # go to budget_request (instructor page only)
+    return render(request, 'budget_request.html', {
+        "club": club, 
+        "user": user,
+        "budget_request": budget_request
+        }) # go to budget_request (instructor page only)
 
 
 def election_club(request, club_id):
@@ -147,10 +154,16 @@ def get_club_achievement(request, club_id):
     if not member_id:
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
-    
+
     user = get_object_or_404(Users, id=member_id)
-    club = Clubs.objects.get(id=club_id)
-    context = {'club': club, 'user': user}
+    club = get_object_or_404(Clubs, id=club_id)
+    achievements = Achievement.objects.all().order_by('-date_posted')
+
+    context = {
+        'club': club,
+        'user': user,
+        'achievements': achievements,
+    }
     return render(request, 'club-achievement.html', context)
 
 def get_club_applicants(request, club_id):
