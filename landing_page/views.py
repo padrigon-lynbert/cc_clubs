@@ -4,6 +4,7 @@ from .models import Users
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from individual_club.models import BudgetRequest, Users
 
 # Create your views here.
 # termporary bypass input in low tier browsers
@@ -15,7 +16,17 @@ def terms_and_conditions(request):
     return render(request, 'terms.html')
 
 def home(request):
-    return render(request, 'landing_page.html')
+    pending_budget_request = BudgetRequest.objects.filter(status=0)
+    user = None
+
+    user_id = request.session.get('user_id')
+    if user_id:
+        try: Users.objects.get(id=user_id)
+        except Users.DoesNotExist: user = None
+
+    return render(request, 'landing_page.html', {
+        "pending_budget_request": pending_budget_request,
+        "user": user})
 
 def bridge(request):
     if request.method == 'POST':

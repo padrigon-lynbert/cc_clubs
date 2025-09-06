@@ -106,8 +106,8 @@ DATABASES = {
         conn_max_age=600,
         ssl_require=True
     )
-    
 }
+# DATABASES['default']['CONN_MAX_AGE'] = 60  # 1 minute reuse, then close
 
 
 # Password validation

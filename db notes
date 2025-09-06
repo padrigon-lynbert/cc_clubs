@@ -1,0 +1,12 @@
+dumping example: pg_dump "postgresql://clubs_database_85om_user:3wPWZBahlYjBsq7FVnA005Wd6IBw0u7s@dpg-d2kkst75r7bs73cnloj0-a.oregon-postgres.render.com/clubs_database_85om?sslmode=require" \
+  --format=plain \
+  --no-owner \
+  --no-privileges \
+  --clean > backup_ready.sql
+
+importing example: psql "postgres://avnadmin:AVNS_jOLOj7KVZ9kKT-LnPSP@club-pg-padrigonlynbert-3ec9.d.aivencloud.com:23197/defaultdb?sslmode=require" \
+  -f backup_ready.sql
+
+clearing database (aiven):
+  view: SELECT pid, usename, application_name, client_addr, state FROM pg_stat_activity; -- viewing all connections
+  kill:  SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE state = 'idle' AND usename = 'avnadmin'; -- kill all idle connections
