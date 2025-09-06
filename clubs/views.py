@@ -6,7 +6,7 @@ from .models import Clubs, ClubApplication
 from landing_page.models import Users
 
 # redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotAllowed
 from django.urls import reverse
 
 # Create your views here.
