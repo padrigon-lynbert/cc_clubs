@@ -152,3 +152,7 @@ def reject_club(request, club_id):
             club_application.status = 2
             club_application.save()
             messages.warning(request, 'Application has been rejected.')
+    except Exception as e:
+        messages.error(request, f'Something went wrong {e}')
+    
+    return redirect('get_club_application')
