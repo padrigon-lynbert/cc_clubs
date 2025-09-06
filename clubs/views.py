@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import ClubApplicationForm
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from .models import Clubs, ClubApplication
 from landing_page.models import Users
 
