@@ -91,3 +91,35 @@ def get_club_application(request):
     context = {'pending_applications': pending_applications}
     return render(request, 'club_applications_review.html', context)
 
+def accept_club(request, club_id):
+    member_id = request.session.get('member_id')
+    if not member_id:
+        messages.error(request, "You must be logged in to access this page")
+        return redirect(reverse('home') + '#section_3')
+
+    user = get_object_or_404(Users, id=member_id)
+    # ---- Role Restriction ----
+    if user.role != Users.Role.ADMIN:
+        messages.error(request, "Non-admin entities are not allowed to access this page")
+        return redirect(reverse('home') + '#section_3')
+    
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    
+    club_application = get_object_or_404(ClubApplication, id=club_id)
+    try:
+        with transaction.atomic():
+            Clubs.objects.create(
+                club_name = club_application.club_name,
+                acronym = club_application.acronym,
+                chairperson = club_application.submitted_by,
+                adviser = club_application.adviser,
+                banner = club_application.banner,
+                year_level = club_application.year_level,
+                email = club_application.email,
+                program = club_application.program,
+                description = club_application.description,
+            )
+            club_application.status = 1
+            club_application.save()
+            messages.success(request, 'Club is successfully accepted.')
