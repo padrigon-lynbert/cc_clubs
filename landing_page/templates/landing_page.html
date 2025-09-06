@@ -112,11 +112,13 @@
                             <a class="nav-link" data-bs-toggle="offcanvas" href="#GlobalChat" role="button"
                                 aria-controls="GlobalChat"><i class="bi bi-chat-dots"></i></a>
                         </li>
+                        {% if user.role == 3 %}
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="offcanvas" href="#BudgetRequest" role="button"
+                                    aria-controls="GlobalChat"><i class="bi bi-back"></i></a>
+                            </li>
+                        {% endif %}
                         
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="offcanvas" href="#BudgetRequest" role="button"
-                                aria-controls="GlobalChat"><i class="bi bi-back"></i></a>
-                        </li>
                         <!-- dont remove this comment -->
                         <!-- <li class="nav-item">
                                 <a class="nav-link click-scroll" href="#section_4">Events</a>
@@ -144,6 +146,7 @@
                 </div>
             </div>
         </nav>
+        
 
         <!-- for login canvas -->
         <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasExample"
@@ -317,7 +320,7 @@
                       <tr>
                         <td style="padding:5px;">{{ forloop.counter }}</td>
                         <td style="padding:5px;">{{ req.title }}</td>
-                        <td style="padding:5px;">[{{ req.club.acronym }}]{{ req.club }}</td>
+                        <td style="padding:5px;">[{{ req.club.acronym }}] {{ req.club }}</td>
                         <td style="padding:5px;">{{ req.requester }}</td>
                         <td style="padding:5px;">₱ {{ req.amount }}</td>
                         <td style="padding:5px;">{{ req.created_at|date:"Y-m-d H:i" }}</td>

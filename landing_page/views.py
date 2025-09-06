@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 # from django.contrib.auth.decorators import login_required
 from .models import Users
 from django.contrib import messages
@@ -17,16 +17,16 @@ def terms_and_conditions(request):
 
 def home(request):
     pending_budget_request = BudgetRequest.objects.filter(status=0)
-    user = None
+    member_id = request.session.get('member_id')
 
-    user_id = request.session.get('user_id')
-    if user_id:
-        try: Users.objects.get(id=user_id)
-        except Users.DoesNotExist: user = None
+    user = get_object_or_404(Users, id=member_id)
+
 
     return render(request, 'landing_page.html', {
         "pending_budget_request": pending_budget_request,
         "user": user})
+
+
 
 def bridge(request):
     if request.method == 'POST':
