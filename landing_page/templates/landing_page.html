@@ -108,9 +108,14 @@
                             <a class="nav-link click-scroll" href="#section_4">Events</a>
                         </li>
 
-                        <li>
+                        <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="offcanvas" href="#GlobalChat" role="button"
                                 aria-controls="GlobalChat"><i class="bi bi-chat-dots"></i></a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="offcanvas" href="#BudgetRequest" role="button"
+                                aria-controls="GlobalChat"><i class="bi bi-back"></i></a>
                         </li>
                         <!-- dont remove this comment -->
                         <!-- <li class="nav-item">
@@ -270,6 +275,67 @@
                         <i class="bi bi-send"></i>
                     </button>
                 </form>
+            </div>
+        </div>
+        <!-- all budget request canvas-->
+        <div class="offcanvas offcanvas-start w-75 p-0 m-0" style="background-color: #29306f;" data-bs-scroll="true"
+            tabindex="-1" id="BudgetRequest" aria-labelledby="GlobalChatLabel" style="max-width: 900px;">
+
+            <div class="offcanvas-header">
+                <h4 class="offcanvas-title text-white" id="GlobalChatLabel">All Budget Request</h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="d-flex flex-column flex-grow-1"
+                style="background-color: #ededed; height: 85vh; overflow: hidden;">
+                <div class="mb-2 p-3 border-bottom bg-white">
+                    <div class="text-dark fw-semibold small mb-1 d-flex justify-content-between">
+                        <!-- ! To accept/reject their request kindly go into their club and click Request Budget. <br> -->
+                        
+                    </div>
+                 
+                </div>
+                
+                <div style="padding: 10px; height: 100%; overflow-y: scroll;">
+                  <table class="table caption-top mb-0" style="border-radius:0; border-collapse:collapse;">
+                    <caption>
+                      <strong>Total number of pending budget request: {{ pending_budget_request|length }}</strong> | 
+                      To accept/reject their request kindly go into their club and click Request Budget.
+                    </caption>
+                    <thead>
+                      <tr>
+                        <th style="width: 5%; padding-left: 5px;">#</th>
+                        <th style="width: 30%; padding-left: 5px;">Title</th>
+                        <th style="width: 25%; padding-left: 5px;">Club</th>
+                        <th style="width: 15%; padding-left: 5px;">Requester</th>
+                        <th style="width: 10%; padding-left: 5px;">Amount</th>
+                        <th style="width: 15%; padding-left: 5px;">Created At</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for req in pending_budget_request %}
+                      <tr>
+                        <td style="padding:5px;">{{ forloop.counter }}</td>
+                        <td style="padding:5px;">{{ req.title }}</td>
+                        <td style="padding:5px;">[{{ req.club.acronym }}]{{ req.club }}</td>
+                        <td style="padding:5px;">{{ req.requester }}</td>
+                        <td style="padding:5px;">₱ {{ req.amount }}</td>
+                        <td style="padding:5px;">{{ req.created_at|date:"Y-m-d H:i" }}</td>
+                      </tr>
+                      {% empty %}
+                      <tr>
+                        <td colspan="6" class="text-center text-muted" style="padding:5px;">No budget requests found.</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+
+               
+
+                
+               
             </div>
         </div>
 
@@ -468,7 +534,7 @@
 
 
                     <!-- club view -->
-                    <div class="col-lg-5 col-12 mx-auto" id="club_view">
+                    <div class="col-lg-6 col-12 mx-auto" id="club_view">
                         <h4 class="mb-4 pb-lg-2 text-center" id="join_text">Please join us!</h4>
 
                         <form action="{% url 'individual_club' %}" method="post"
@@ -482,7 +548,7 @@
                                     src="{% static 'landing_page/images/fishing.jpg' %}"
                                     class="card-img-top rounded-4 shadow"
                                     alt="Club Banner"
-                                    style="height: 215px; width: 100%; object-fit: contain;">
+                                    style="height: 203px; width: 100%; object-fit: contain;">
                                 
 
                                 <div class="card-body"
@@ -498,12 +564,11 @@
 
                                 </div>
                             </div>
-                            
+
                             <!-- <button type="submit" class="form-control">Visit</button> -->
                             <!-- <button type="submit" name="action" value="visit" class="form-control">Visit</button> -->
                             <input type="hidden" id="selected-club-id" name="club_id" value="">
                             <button type="submit" class="form-control visit">Visit</button>   
-                            
                         </div>
                     </form>
                 </div>
