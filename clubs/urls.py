@@ -7,4 +7,5 @@ urlpatterns = [
     path('clubs/details/<int:club_id>/', get_club_details, name='get_club_details'),
     path('club-application-review/', get_club_application, name='get_club_application'),
     path('club-application/<int:club_id>/accept/', accept_club, name='accept_club'),
+    path('club-application/<int:club_id>/reject/', reject_club, name='reject_club'),
     ]
