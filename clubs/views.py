@@ -22,7 +22,7 @@ def post_registration_club(request):
     user = get_object_or_404(Users, id=member_id)
 
     # ---- Role Restriction ----
-    if user.role in [Users.Role.INSTRUCTOR, Users.Role.ACTIVITY_COORDINATOR, Users.Role.ADMIN]:
+    if user.role not in [Users.Role.STUDENT, Users.Role.OFFICER]:
         messages.error(request, "Non-student entities are not allowed to access this page")
         return redirect(reverse('home') + '#section_3')
 
@@ -83,8 +83,8 @@ def get_club_application(request):
     user = get_object_or_404(Users, id=member_id)
 
     # ---- Role Restriction ----
-    if user.role != Users.Role.ADMIN:
-        messages.error(request, "Non-admin entities are not allowed to access this page")
+    if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.ADMIN]:
+        messages.error(request, "You are not allowed to access this page.")
         return redirect(reverse('home') + '#section_3')
     
     pending_applications = ClubApplication.objects.filter(status=0)
@@ -109,8 +109,8 @@ def accept_club(request, club_id):
 
     user = get_object_or_404(Users, id=member_id)
     # ---- Role Restriction ----
-    if user.role != Users.Role.ADMIN:
-        messages.error(request, "Non-admin entities are not allowed to access this page")
+    if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.ADMIN]:
+        messages.error(request, "You are not allowed to access this page.")
         return redirect(reverse('home') + '#section_3')
     
     if request.method != 'POST':
@@ -148,8 +148,8 @@ def reject_club(request, club_id):
 
     user = get_object_or_404(Users, id=member_id)
     # ---- Role Restriction ----
-    if user.role != Users.Role.ADMIN:
-        messages.error(request, "Non-admin entities are not allowed to access this page")
+    if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.ADMIN]:
+        messages.error(request, "You are not allowed to access this page.")
         return redirect(reverse('home') + '#section_3')
     
     if request.method != 'POST':
