@@ -41,7 +41,7 @@ def post_registration_club(request):
                 return redirect('register_club')
             except Users.DoesNotExist:
                 messages.error(request, 'Session expired. Please login again.')
-                return redirect('landing_page')
+                return redirect('home')
             except IntegrityError:
                 messages.error(request, 'Something went wrong. Please try again.')
         else:
