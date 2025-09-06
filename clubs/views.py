@@ -130,3 +130,25 @@ def accept_club(request, club_id):
 
     return redirect('get_club_application')
 
+def reject_club(request, club_id):
+    member_id = request.session.get('member_id')
+    if not member_id:
+        messages.error(request, "You must be logged in to access this page")
+        return redirect(reverse('home') + '#section_3')
+
+    user = get_object_or_404(Users, id=member_id)
+    # ---- Role Restriction ----
+    if user.role != Users.Role.ADMIN:
+        messages.error(request, "Non-admin entities are not allowed to access this page")
+        return redirect(reverse('home') + '#section_3')
+    
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    
+    club_application = get_object_or_404(ClubApplication, id=club_id)
+
+    try:
+        with transaction.atomic():
+            club_application.status = 2
+            club_application.save()
+            messages.warning(request, 'Application has been rejected.')
