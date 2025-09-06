@@ -85,7 +85,7 @@ class ClubApplicationForm(forms.ModelForm):
         self.fields['adviser'].queryset = Users.objects.filter(role=2)
 
     def clean_club_name(self):
-        club_name = self.cleaned_data['club_name'].strip().lower()
+        club_name = self.cleaned_data['club_name'].strip()
 
         if Clubs.objects.filter(club_name__iexact=club_name).exists():
             raise ValidationError('Club name already exist.')

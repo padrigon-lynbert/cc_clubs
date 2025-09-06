@@ -6,4 +6,5 @@ urlpatterns = [
     path('ajax_fetch_all_clubs/', ajax_fetch_all_clubs, name='ajax_fetch_all_clubs'), # club repository
     path('clubs/details/<int:club_id>/', get_club_details, name='get_club_details'),
     path('club-application-review/', get_club_application, name='get_club_application'),
+    path('club-application/<int:club_id>/accept/', accept_club, name='accept_club'),
     ]
