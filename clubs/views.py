@@ -87,4 +87,7 @@ def get_club_application(request):
         messages.error(request, "Non-admin entities are not allowed to access this page")
         return redirect(reverse('home') + '#section_3')
     
-    return render(request, 'club_applications_review.html')
+    pending_applications = ClubApplication.objects.filter(status=0)
+    context = {'pending_applications': pending_applications}
+    return render(request, 'club_applications_review.html', context)
+
