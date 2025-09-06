@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import post_registration_club, ajax_fetch_all_clubs, get_club_details, get_club_application
+from .views import post_registration_club, ajax_fetch_all_clubs, get_club_details, get_club_application, accept_club, reject_club
 
 urlpatterns = [
     path('register_club/', post_registration_club, name='register_club'), # register club
