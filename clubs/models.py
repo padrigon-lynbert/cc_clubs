@@ -28,10 +28,10 @@ class Program(models.Model):
 
 class Clubs(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
-    acronym = models.CharField(max_length=30, unique=True, null=True, blank=True)
-    description = models.TextField(max_length=255, null=True, blank=True)
-    chairperson = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='chaired_clubs', null=True, blank=True)
-    adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='advised_clubs', null=True, blank=True)
+    acronym = models.CharField(max_length=30, unique=True)
+    description = models.TextField(help_text='Enter a description about this club')
+    chairperson = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='chaired_clubs')
+    adviser = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='advised_clubs')
     program = models.ForeignKey(Program, on_delete=models.CASCADE)
     class YearLevel(models.IntegerChoices):
         FIRST_YEAR = 0, _('First Year')
@@ -44,7 +44,7 @@ class Clubs(models.Model):
         verbose_name='Year Level',
     )
     
-    email = models.EmailField(max_length=255, null=True, blank=True)
+    email = models.EmailField(max_length=255)
     banner = models.ImageField(upload_to='club_applications/banners/', null=True, blank=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
