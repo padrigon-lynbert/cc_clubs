@@ -88,7 +88,17 @@ def get_club_application(request):
         return redirect(reverse('home') + '#section_3')
     
     pending_applications = ClubApplication.objects.filter(status=0)
-    context = {'pending_applications': pending_applications}
+    total_pending = ClubApplication.objects.filter(status=0).count()
+    total_accepted = ClubApplication.objects.filter(status=1).count()
+    total_rejected = ClubApplication.objects.filter(status=2).count()
+    total_all = ClubApplication.objects.all().count() 
+    context = {
+                'pending_applications': pending_applications,
+                'total_pending': total_pending,
+                'total_accepted': total_accepted,
+                'total_rejected': total_rejected,
+                'total_all': total_all,
+            }
     return render(request, 'club_applications_review.html', context)
 
 def accept_club(request, club_id):
