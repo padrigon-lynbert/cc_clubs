@@ -124,35 +124,21 @@
                                 aria-controls="BudgetRequest"><i class="bi bi-back"></i></a>
                             </li>
                         {% endif %}
-                         <li class="nav-item nav-link">
-                             {{user.role}}
-                         </li>
                      
-                        
-                        <!-- dont remove this comment -->
-                        <!-- <li class="nav-item">
-                                <a class="nav-link click-scroll" href="#section_4">Events</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link click-scroll" href="#section_5">Contact Us</a>
-                            </li> -->
-
-                        <!-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-
-                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                                    <li><a class="dropdown-item" href="event-listing.html">Event Listing</a></li>
-
-                                    <li><a class="dropdown-item" href="event-detail.html">Event Detail</a></li>
-                                </ul>
-                            </li> -->
                     </ul>
 
-                    <div class="d-none d-lg-block ms-lg-3">
-                        <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
-                            role="button" aria-controls="offcanvasExample">Member Login</a>
-                    </div>
+                    {% if user.role == None%}
+                        <div class="d-none d-lg-block ms-lg-3">
+                            <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                                role="button" aria-controls="offcanvasExample">Member Login</a>
+                        </div>
+                    {% else %}
+                        <div class="d-none d-lg-block ms-lg-3">
+                            <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                                role="button" aria-controls="offcanvasExample">{{ user.get_role_display }}</a>
+                        </div>
+                    {% endif %}
+                        
                 </div>
             </div>
         </nav>
