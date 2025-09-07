@@ -22,28 +22,30 @@
         <div style="padding: 10px; height: 100%; overflow-y: scroll;">
             <table class="table caption-top mb-0" style="border-radius:0; border-collapse:collapse;">
             <caption>
-                <strong>Total number of: {#{# pending_budget_request|length }#} #</strong> | 
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat, maxime.
+                <strong>Total number: {{ club_i_am_instructor|length }}</strong> | 
+                Please consider the number of clubs that you manage, some clubs may need more attention than others.
             </caption>
             <thead>
                 <tr>
                 <th style="width: 5%; padding-left: 5px;">#</th>
-                <th style="width: 30%; padding-left: 5px;">Title</th>
-                <th style="width: 25%; padding-left: 5px;">Club</th>
-                <th style="width: 15%; padding-left: 5px;">Requester</th>
-                <th style="width: 10%; padding-left: 5px;">Amount</th>
-                <th style="width: 15%; padding-left: 5px;">Created At</th>
+                <th style="width: 30%; padding-left: 5px;">Club</th>
+                <th style="width: 20%; padding-left: 5px;">Chairperson</th>
+                <th style="width: 25%; padding-left: 5px;">Year Level: Program</th>
+                <th style="width: 10%; padding-left: 5px;">Email</th>
+                <th style="width: 10%; padding-left: 5px;">Renewal</th>
                 </tr>
             </thead>
             <tbody>
-                {% for req in pending_budget_request %}
+                {% for club in club_i_am_instructor %}
                 <tr>
-                <td style="padding:5px;">{{ forloop.counter }}</td>
-                <td style="padding:5px;">{{ req.title }}</td>
-                <td style="padding:5px;">[{{ req.club.acronym }}] {{ req.club }}</td>
-                <td style="padding:5px;">{{ req.requester }}</td>
-                <td style="padding:5px;">₱ {{ req.amount }}</td>
-                <td style="padding:5px;">{{ req.created_at|date:"Y-m-d H:i" }}</td>
+                    <td style="padding:5px;">{{ forloop.counter }}</td>
+                    <td style="padding:5px;">[{{ club.acronym }}] {{ club.club_name }}</td>
+                    <td style="padding:5px;">{{ club.chairperson }}</td>
+                    <td style="padding:5px;">Year {{ club.year_level }}: {{ club.program }}</td>
+                    <td style="padding:5px;">{{ club.email }}</td>
+                    {% if club.is_active == True %}
+                        <td style="padding:5px;">Renewed</td>
+                    {% endif %}
                 </tr>
                 {% empty %}
                 <tr>

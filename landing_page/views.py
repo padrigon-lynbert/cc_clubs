@@ -4,7 +4,7 @@ from .models import Users
 from django.contrib import messages
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
-from individual_club.models import BudgetRequest, Users
+from individual_club.models import BudgetRequest, Users, Clubs
 
 # Create your views here.
 
@@ -19,6 +19,7 @@ def terms_and_conditions(request):
 def home(request):
     pending_budget_request = BudgetRequest.objects.filter(status=0)
     member_id = request.session.get('member_id')
+    club_i_am_instructor = Clubs.objects.filter(adviser=member_id) if member_id else None
 
     try: user = get_object_or_404(Users, id=member_id)
     except Http404: user = None
@@ -26,7 +27,8 @@ def home(request):
 
     return render(request, 'landing_page.html', {
         "pending_budget_request": pending_budget_request,
-        "user": user})
+        "user": user,
+        "club_i_am_instructor": club_i_am_instructor})
 
 def bridge(request):
     if request.method == 'POST':
