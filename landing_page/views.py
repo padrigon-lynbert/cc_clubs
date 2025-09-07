@@ -28,8 +28,6 @@ def home(request):
         "pending_budget_request": pending_budget_request,
         "user": user})
 
-
-
 def bridge(request):
     if request.method == 'POST':
         action = request.POST.get('action')
