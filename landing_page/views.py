@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 # from django.contrib.auth.decorators import login_required
 from .models import Users
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from individual_club.models import BudgetRequest, Users
 
 # Create your views here.
+
 # termporary bypass input in low tier browsers
 from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
@@ -19,7 +20,8 @@ def home(request):
     pending_budget_request = BudgetRequest.objects.filter(status=0)
     member_id = request.session.get('member_id')
 
-    user = get_object_or_404(Users, id=member_id)
+    try: user = get_object_or_404(Users, id=member_id)
+    except Http404: user = None
 
 
     return render(request, 'landing_page.html', {
