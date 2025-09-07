@@ -107,7 +107,7 @@ DATABASES = {
         ssl_require=True
     )
 }
-# DATABASES['default']['CONN_MAX_AGE'] = 60  # 1 minute reuse, then close
+DATABASES['default']['CONN_MAX_AGE'] = 60  # 1 minute reuse, then close
 
 
 # Password validation
