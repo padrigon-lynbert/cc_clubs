@@ -21,7 +21,7 @@ def home(request):
     member_id = request.session.get('member_id')
     club_i_am_instructor = Clubs.objects.filter(adviser=member_id) if member_id else None
 
-    user = Users.objects.filter(id=member_id) if member_id else None
+    user = Users.objects.filter(id=member_id).first() if member_id else None
 
 
     return render(request, 'landing_page.html', {
