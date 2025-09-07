@@ -97,6 +97,7 @@ class MemberApplication(models.Model):
     class Meta:
         db_table = 'member_application'
         ordering = ['-date_submitted']
+        unique_together = ('student', 'club')
 
 class ClubApplication(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
