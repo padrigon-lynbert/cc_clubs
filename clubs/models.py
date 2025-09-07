@@ -77,12 +77,9 @@ class Memberships(models.Model):
 class MemberApplication(models.Model):
     student = models.ForeignKey(Users, on_delete=models.CASCADE)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
-    medical_form = models.ImageField(upload_to='membership_applications/medical_forms/', null=False)
-    certificate_of_recognition = models.ImageField(upload_to='membership_applications/cor/', null=False)
-    student_id_card = models.ImageField(upload_to='membership_applications/identification_cards/', null=False)
-    signature = models.ImageField(upload_to='membership_applications/signatures/', null=True, blank=True) 
+    certificate_of_recognition = models.FileField(upload_to='membership_applications/cor/')
     date_submitted = models.DateField(auto_now_add=True)
-
+    response_text = models.TextField(max_length=255, null=True, blank=True, help_text='Optional: Anything you would like to know about the club?')
     class Status(models.IntegerChoices):
         PENDING = 0, _('Pending')
         APPROVED = 1, _('Approved')
