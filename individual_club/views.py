@@ -6,7 +6,7 @@ from landing_page.models import Users
 from .models import BudgetRequest
 
 
-def apply_club(request):
+def post_membership_application(request):
     if not request.session.get('member_logged_in'):
         messages.error(request, "You must be logged in to access this page")
         return redirect('home')

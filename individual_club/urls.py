@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import individual_club 
-from .views import apply_club 
+from .views import post_membership_application 
 from .views import budget_request 
 from .views import election_club 
 from .views import get_club_achievement, member_list, get_club_applicants, club_detail
@@ -10,7 +10,7 @@ from .views import create_event # url ng create event to, import mo muna sa view
 urlpatterns =[
     path('individual_club/', individual_club, name='individual_club'),
     path('individual_club/<int:club_id>/', club_detail, name='club_detail'),
-    path('apply_club/', apply_club, name='apply_club'),
+    path('apply_club/', post_membership_application, name='apply_club'),
     path('budget_request/', budget_request, name='budget_request'),
     path('election_club/<int:club_id>/', election_club, name='election_club'),
     path('achievements/<int:club_id>/', get_club_achievement, name='club_achievement'),
