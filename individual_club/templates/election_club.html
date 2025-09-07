@@ -1,40 +1,31 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Club Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
     <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
-            font-family: 'DM Sans', sans-serif;
-            background-color: #f8f9fa;
             margin: 0;
             padding: 0;
-            min-height: 100vh;
         }
-
         /* Sidebar - Fixed Width, Sticky */
         .sidebar {
-            background-color: #29306f;
-            /* Deep blue */
+            background-color: #29306f; /* Deep blue */
             color: white;
             width: 240px;
-            position: fixed;
-            /* Keep it fixed in place */
+            position: fixed; /* Keep it fixed in place */
             top: 0;
             left: 0;
             height: 100vh;
             overflow-y: auto;
             z-index: 1000;
         }
-
         .sidebar .logo h1 {
             padding: 20px;
             font-size: 1.3rem;
@@ -44,7 +35,6 @@
             font-weight: 700;
             border-bottom: 2px solid #ffd60a;
         }
-
         /* Nav Links */
         .sidebar .nav-link {
             display: flex;
@@ -56,26 +46,22 @@
             border-left: 3px solid transparent;
             font-size: 0.95rem;
         }
-
         .sidebar .nav-link:hover {
-            background-color: #29306f;
+            background-color: #1e2454; /* Slightly darker shade for hover */
             color: #fff;
         }
-
         .sidebar .nav-link.active {
             background-color: rgba(255, 234, 0, 0.2);
             color: #ffea00;
             border-left-color: #ffea00;
             font-weight: bold;
         }
-
         .sidebar .nav-link i {
             margin-right: 12px;
             font-size: 18px;
             width: 24px;
             text-align: center;
         }
-
         /* Stats Cards */
         .stats-card {
             background-color: #29306f;
@@ -84,329 +70,481 @@
             margin-bottom: 10px;
             font-size: 0.9rem;
             color: #fff;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgb(41, 48, 111);
         }
-
         .stats-card h6 {
             margin: 0;
             font-size: 0.95rem;
             font-weight: 500;
         }
-
         /* Sidebar Footer */
         .sidebar-footer {
             padding: 20px;
             margin-top: 20px;
         }
-
-        /* Main Content */
-        main {
-            margin-left: 240px;
-            /* Matches sidebar width */
-            padding: 30px;
-            min-height: 100vh;
-        }
-
-        /* Apply Button - Floating at Bottom Center */
-        .apply-button-container {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            width: 200px;
-        }
-
-        .btn-apply {
-            width: 100%;
-            background-color: #0c994b;
-            color: white;
-            border: none;
-            font-weight: bold;
-            padding: 12px;
-            border-radius: 6px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .btn-apply:hover {
-            background-color: #0b4722;
-            color: #ffea00;
-        }
-
-        /* Responsive: Collapse sidebar on small screens */
-        @media (max-width: 767.98px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                z-index: 1000;
-            }
-
-            main {
-                margin-left: 0;
-                padding: 15px;
-            }
-
-            .apply-button-container {
-                left: 50%;
-            }
-        }
-
-        .custom-radio {
-            transform: scale(1.5);
-            margin: 0px 30px;
-        }
-
-        .carousel-container {
-            position: relative;
-            overflow: hidden;
-        }
-
-        #cardWrapper {
-            display: flex;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            gap: 1rem;
-            padding: 10px;
-        }
-
-        .profile-card {
-            min-width: 260px;
-            max-width: 300px;
-            flex: 0 0 auto;
-        }
-
-        .modal-header {
+        .sidebar-footer .return-btn {
             background-color: #29306f;
-            color: white;
-        }
-
-        .chart-container {
-            width: 100%;
-            max-width: 700px;
-            margin: auto;
-        }
-
-        .sidebar-footer .stats-card-return .return {
-            text-decoration: none;
-            color: white;
-            padding: 0;
-        }
-
-        .sidebar-footer .stats-card-return:hover {
-            background: #3355eb;
-        }
-
-        .sidebar-footer .stats-card-return {
-            background-color: #1a4b8c;
-            padding: 10px 20px 6px 10px;
-            text-decoration: none;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
             color: #fff;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Calendar Container - Centered with Elegance */
-        #calendar {
-            max-width: 600px;
-            height: 380px;
-            margin: 0 auto;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(41, 48, 111, 0.15);
-            border: 1px solid #e0e4f0;
-            background: white;
-        }
-
-        /* FullCalendar Toolbar (Header) */
-        .fc .fc-toolbar {
-            margin: 0;
-            padding: 0.8rem 0.5rem;
-        }
-
-        .fc .fc-toolbar-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: rgb(81, 94, 214);
-            margin: 0;
-            text-align: center;
-        }
-
-        .fc .fc-toolbar-header {
-            background: linear-gradient(135deg, #29306f, #1e234a);
-            border-bottom: 1px solid #3a4385;
-            padding: 0.4rem 0;
-        }
-
-        /* Calendar Buttons (Prev/Next) */
-        .fc .fc-button {
-            background-color: #29306f;
             border: none;
-            color: white;
-            font-size: 0.95rem;
-            padding: 0.3rem 0.7rem;
-            border-radius: 8px;
+            padding: 8px 16px;
+            border-radius: 5px;
             font-weight: 500;
-            box-shadow: 0 2px 6px rgba(41, 48, 111, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .fc .fc-button:hover {
-            background-color: #3a4385;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(41, 48, 111, 0.3);
-        }
-
-        .fc .fc-button:active {
-            transform: translateY(0);
-        }
-
-        /* Today Button Specific Style */
-        .fc .fc-button-primary {
-            background-color: #29306f;
-        }
-
-        .fc .fc-button-primary:not(:disabled):active {
-            background-color: #1e234a;
-        }
-
-        /* Calendar Days Grid */
-        .fc .fc-daygrid-day {
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-        }
-
-        .fc .fc-daygrid-day:hover {
-            background-color: #f0f2ff;
-            border: 1px solid #a3bffa;
             cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.3s ease;
         }
-
-        /* Today Highlight */
-        .fc .fc-daygrid-day.fc-today {
-            background-color: #29306f !important;
+        .sidebar-footer .return-btn:hover {
+            background-color: rgb(49, 58, 141);
+        }
+        /* Main Content Area */
+        main {
+            margin-left: 240px; /* Make space for the fixed sidebar */
+            padding: 20px;
+            flex: 1;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #29306f;
+            margin: 0;
+        }
+        .page-subtitle {
+            color: #6c757d;
+            margin: 5px 0 0;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-primary {
+            background-color: #29306f;
             border-color: #29306f;
         }
-
-        .fc .fc-daygrid-day.fc-today .fc-daygrid-day-number {
-            color: white !important;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 50%;
-            background: #1e234a;
-            display: inline-block;
-        }
-
-        /* Day Number Styling */
-        .fc .fc-daygrid-day-number {
-            font-size: 1.15rem;
-            font-weight: 600;
+        .btn-outline-primary {
             color: #29306f;
-            padding: 4px;
+            border-color: #29306f;
+        }
+        .btn-outline-success {
+            color: #28a745;
+            border-color: #28a745;
         }
 
-        /* Events in Calendar */
-        .fc .fc-daygrid-event {
-            font-size: 0.85rem;
-            font-weight: 500;
-            background-color: #29306f;
-            border-color: #3a4385;
-            color: white;
-            border-radius: 6px;
-            margin: 1px 2px;
-            padding: 2px 6px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .fc .fc-daygrid-event:hover {
-            background-color: #3a4385;
-            transform: scale(1.05);
-            z-index: 2;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        /* Event Title */
-        .fc .fc-event-title {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        /* Weekday Headers (Mon, Tue, etc.) */
-        .fc .fc-col-header-cell {
-            background: #f5f7ff;
-            border-bottom: 2px solid #e0e4f0;
-        }
-
-        .fc .fc-col-header-cell a {
-            color: #29306f;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Calendar Grid Lines */
-        .fc .fc-scrollgrid {
-            border: none;
-        }
-
-        .fc table {
+        .manage-section {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8f9fa;
             border-radius: 10px;
-            overflow: hidden;
+            border: 1px solid #e9ecef;
+        }
+        .manage-section h4 {
+            margin-top: 0;
+            color: #29306f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .manage-section p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+        .btn-print {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .fc th {
-            padding: 8px 0;
+        /* MODAL STYLES */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-title {
+            margin-top: 0;
+            color: #29306f;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #212529;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .btn-modal {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background-color: #29306f;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-print {
+            background-color: #6c757d;
+            color: white;
+        }
+        /* CANDIDATE INPUT LIST */
+        #candidatesList {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        .candidate-input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .candidate-input-row input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        .remove-candidate {
+            background: #dc3545;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .add-candidate-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
         }
 
-        .fc td {
-            padding: 2px 0;
+        /* CANDIDATE CARD */
+        .candidate-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+ 
+        .candidate-avatar {
+            width: 50px;
+            height: 50px;
+            background: #29306f;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 15px;
+        }
+        .candidate-info {
+            flex: 1;
+        }
+        .candidate-name {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #212529;
+        }
+        .candidate-position {
+            margin: 5px 0 0;
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+        .btn-vote {
+            background: #29306f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+  
+        .btn-vote:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        /* SUCCESS MODAL */
+        .success-content {
+            text-align: center;
+            padding: 30px;
+        }
+        .success-icon {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .success-message {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #212529;
+        }
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #adb5bd;
+        }
+        .empty-state p {
+            font-size: 1.1rem;
+        }
+        /* MANAGE ELECTIONS SECTION */
+        .election-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #dee2e6;
+        }
+        .election-info h5 {
+            margin: 0 0 5px;
+            font-weight: 600;
+            color: #29306f;
+        }
+        .election-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-action {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-edit {
+            background: #ffc107;
+            color: #212529;
         }
 
-        .indented-ai {
-            text-indent: 2em;
-            font-size: 14px;
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-print-slip {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* PRINT SLIP MODAL */
+        #printSlipContent {
+            font-family: 'Courier New', monospace;
+            padding: 30px;
+            background: white;
+            max-width: 500px;
+            margin: 0 auto;
+            border: 1px solid #dee2e6;
+        }
+        .slip-header {
+            text-align: center;
+            border-bottom: 2px solid #29306f;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .slip-body {
+            margin-bottom: 20px;
+        }
+        .slip-footer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printSlipContent, #printSlipContent * {
+                visibility: visible;
+            }
+            #printSlipContent {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 20px;
+            }
+        }
+        /* REAL-TIME BADGE */
+        .badge.bg-success {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        /* EXPORT BUTTONS GROUP */
+        .export-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        /* VOTE NOW BUTTON - BOTTOM CENTER */
+        .vote-now-button {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            background-color: #29306f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        /* STATISTICS MODAL STYLES */
+        #statisticsContent h4 {
+            color: #29306f;
+            margin-top: 0;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        #statisticsContent .badge {
+            font-size: 0.9rem;
+        }
+        /* CHART CONTAINER */
+        #voteChart {
+            margin: 20px 0;
+            width: 100%;
+            height: 400px;
+        }
+        /* AI SUMMARIZER BOX */
+        #aiSummaryBox {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            font-size: 0.95rem;
+        }
+        #aiSummaryBox strong {
+            color: #29306f;
         }
     </style>
 </head>
-
 <body>
-    <div class="container-fluid" style="padding-left: 50px;">
+    <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
             <nav class="sidebar">
-                <!-- <div class="logo">
-                    <h1>Arnis Club</h1>
-                </div> -->
                 <div class="logo">
                     <h1>{{ club.acronym }}</h1>
                 </div>
-
-
                 <div class="sidebar-content">
                     <ul class="nav flex-column">
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-user-tie"></i>
-                                <span>Coach</span>
-                            </a>
-                        </li> -->
                         <li class="nav-item mt-2">
                             <a class="nav-link" href="{% url 'club_detail' club.id %}">
                                 <i class="fa-solid fa-house"></i>
                                 <span>Home</span>
                             </a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-users"></i>
-                                <span>Member List</span>
-                            </a>
-                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link active" href="{% url 'election_club' club.id %}">
                                 <i class="fas fa-users-cog"></i>
@@ -419,31 +557,12 @@
                                 <span>Club Achievement Record</span>
                             </a>
                         </li>
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-calendar-check"></i>
-                                <span>Attendance Tracker</span>
-                            </a>
-                        </li> -->
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-handshake"></i>
-                                <span>Volunteer Hour Tracking</span>
-                            </a>
-                        </li> -->
-                        <!-- <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>Event and Activity Logs</span>
-                            </a>
-                        </li> -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'budget_request' %}">
                                 <i class="fas fa-wallet"></i>
                                 <span>Budget Request</span>
                             </a>
                         </li>
-
                         {% if user.role == 1 or user.role == 2 %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'club_applicants' club.id %}">
@@ -452,7 +571,6 @@
                             </a>
                         </li>
                         {% endif %}
-
                         <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <i class="fas fa-bullhorn"></i>
@@ -469,349 +587,693 @@
                             <h6>Active Events:</h6>
                         </div>
                         <hr class="my-4">
-                        <div class="stats-card-return">
-                            <a class="return text-center" href="{% url 'home' %}">
-                                <h6>Return</h6>
-                            </a>
-                        </div>
+                        <button class="return-btn" onclick="window.location.href='{% url 'home' %}'">
+                            <i class="fas fa-arrow-left"></i> Return
+                        </button>
                     </div>
                 </div>
             </nav>
-
             <!-- Main Content -->
-            <main class="col-md-9 bg-light ms-sm-auto col-lg-10 px-md-4">
-                <div class="card px-5 py-3">
-                    <header>
-                        <h1>Club Officer Elections</h1>
-                        <hr>
-                    </header>
-
-                    <!-- Chart and Calendar Side by Side -->
-                    <div class="row mb-4">
-                        <!-- Election Chart -->
-                        <div class="col-lg-6 mb-4 mb-lg-0">
-                            <div class="p-3 bg-white h-100">
-                                <h4 class="text-center mb-3">Ongoing Election Results</h4>
-                                <h6 class="text-center text-primary mb-3">Presidential Election 2025</h6>
-                                <div class="chart-container m-0 p-0 border-bottom" style="height: 180px;">
-                                    <canvas id="electionChart"></canvas>
-                                </div>
-                                <div class="m-0 mt-2 p-0">
-                                    <b>A.I. Statistical Summarizer</b><br>
-                                    <p class="indented-ai"><small><i>- "Based on the analysis eme, John doe has the most votes with a percentage of 58% eme or equivalent to 374 eme out of 700 eme voters."</i></small></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Calendar -->
-                        <div class="col-lg-6">
-                            <div class="p-3 bg-white h-100">
-                                <h4 class="text-center mb-3" style="color: #29306f; font-weight: 600;">Calendar Events
-                                </h4>
-                                <div id="calendar"></div>
-                            </div>
-                        </div>
+            <main>
+                <div class="header-container">
+                    <div>
+                        <h1 class="page-title">
+                            <i class="fas fa-users-cog"></i> Club Officer Election
+                        </h1>
+                        <p class="page-subtitle">Create and manage elections. Vote securely and privately.</p>
                     </div>
-
-                    <!-- Election Results Table -->
-                    <div class="p-3 border rounded mb-3 bg-white shadow-sm">
-                        <h4>Results for Presidential Election 2025</h4>
-                        <div class="tableresults">
-                            <table class="table table-bordered rounded mb-0">
-                                <tr>
-                                    <th>Election Title</th>
-                                    <td>Presidential Elections 2025</td>
-                                </tr>
-                                <tr>
-                                    <th>Elected Candidate</th>
-                                    <td>John Doe</td>
-                                </tr>
-                                <tr>
-                                    <th>Assigned Role</th>
-                                    <td>President of CESC Club</td>
-                                </tr>
-                                <tr>
-                                    <th>Statistics Results</th>
-                                    <td>78% of total votes</td>
-                                </tr>
-                            </table>
-                        </div>
+                    <div class="button-group">
+                        <button class="btn btn-primary me-2" onclick="createVote()">
+                            <i class="fas fa-plus"></i> Create Vote
+                       
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="manageElections()">
+                            <i class="fas fa-tasks"></i> Manage Elections
+                        </button>
+                       
+                        <button class="btn btn-outline-success" onclick="showVoteStatistics()">
+                            <i class="fas fa-chart-bar"></i> View Results
+                        </button>
                     </div>
-
-                    <!-- Ongoing Elections Table -->
-                    <div class="p-3 border rounded bg-white shadow-sm">
-                        <h4>Ongoing Elections</h4>
-                        <div>
-                            <table class="table table-hover table-striped text-center mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Election Title</th>
-                                        <th>Club</th>
-                                        <th>Status</th>
-                                        <th>Voting Period</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Sample Title 1</td>
-                                        <td>Sample Club 1</td>
-                                        <td><span class="badge bg-secondary">Completed</span></td>
-                                        <td>Aug 22–24, 2025</td>
-                                        <td><button class="btn btn-sm btn-secondary disabled">Completed</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Presidential Elections 2025</td>
-                                        <td>Computer Engineering Sports Club</td>
-                                        <td><span class="badge bg-success">Ongoing</span></td>
-                                        <td>Aug 27–30, 2025</td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#votemodal">
-                                                Vote Now
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                </div>
+                <div class="manage-section">
+                    <h4><i class="fas fa-receipt"></i> Vote Receipts</h4>
+                    <p>For your security, vote details are hidden. Print a timestamped receipt for your records.</p>
+                    <button class="btn-print" onclick="showPrintSlipModal()">
+                        <i class="fas fa-print"></i> Print Vote Slip
+                    </button>
+                </div>
+                <!-- VOTE NOW BUTTON AT BOTTOM CENTER -->
+                <button class="vote-now-button" onclick="voteNow()">
+                    <i class="fas fa-vote-yea"></i> Vote Now
+                </button>
             </main>
-
-            <!-- Modal -->
-            <div class="modal fade" id="votemodal" tabindex="-1" aria-labelledby="votemodalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-3 text-center" id="votemodalLabel">Presidential
-                                Elections 2025 <span class="text-success"> - Election Title (remove)</span>
-                            </h1>
-                            <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <form action="">
-                                    <div class="container">
-                                        <div class="carousel-container">
-                                            <h4>Candidates for President</h4>
-                                            <div id="cardWrapper">
-                                                <div class="card profile-card border rounded p-2">
-                                                    <div class="d-flex">
-                                                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                                            alt="default profile" class="w-25">
-                                                        <div class="px-3">
-                                                            <h4 class="m-0 mt-1 pt-2">John Doe</h4>
-                                                            <p style="color:#696666;" class="m-0">Vice
-                                                                President</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-center mt-2">
-                                                        <input type="radio" name="position" class="me-2 custom-radio">
-                                                        <label>Some Implementation Description</label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="card profile-card border rounded p-2">
-                                                    <div class="d-flex">
-                                                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                                            alt="default profile" class="w-25">
-                                                        <div class="px-3">
-                                                            <h4 class="m-0 mt-1 pt-2">Jane Doe</h4>
-                                                            <p style="color:#696666;" class="m-0">President
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-center mt-2">
-                                                        <input type="radio" name="position" class="me-2 custom-radio">
-                                                        <label>Some Implementation Description</label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="card profile-card border rounded p-2">
-                                                    <div class="d-flex">
-                                                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                                            alt="default profile" class="w-25">
-                                                        <div class="px-3">
-                                                            <h4 class="m-0 mt-1 pt-2">Peter Smith</h4>
-                                                            <p style="color:#696666;" class="m-0">Secretary
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-center mt-2">
-                                                        <input type="radio" name="position" class="me-2 custom-radio">
-                                                        <label>Some Implementation Description</label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="card profile-card border rounded p-2">
-                                                    <div class="d-flex">
-                                                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                                            alt="default profile" class="w-25">
-                                                        <div class="px-3">
-                                                            <h4 class="m-0 mt-1 pt-2">Alice Johnson</h4>
-                                                            <p style="color:#696666;" class="m-0">Treasurer
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-center mt-2">
-                                                        <input type="radio" name="position" class="me-2 custom-radio">
-                                                        <label>Some Implementation Description</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                        </div>
-                                        <div class="text-center">
-                                            <input type="submit" value="Submit Vote" class="btn btn-primary">
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <h6 class="text-warning">NOTE: </h6>
-                            <h6>Please Vote Wisely.</h6>
-                        </div>
+            <!-- CREATE / EDIT VOTE MODAL -->
+            <div class="modal-overlay" id="createVoteModal">
+                <div class="modal-content">
+                    <h3 class="modal-title" id="modalTitle"><i class="fas fa-plus"></i> Create New Election</h3>
+                    <input type="hidden" id="editElectionId">
+                    <div class="form-group">
+                        <label for="electionTitle">Election Title</label>
+                        <input type="text" id="electionTitle" placeholder="e.g., President Election 2024">
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <select id="position">
+                            <option value="">-- Select Position --</option>
+                            <option value="President">President</option>
+                            <option value="Vice President">Vice President</option>
+                            <option value="Secretary">Secretary</option>
+                            <option value="Treasurer">Treasurer</option>
+                            <option value="Auditor">Auditor</option>
+                            <option value="PIO">Public Information Officer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" id="startDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">End Date</label>
+                        <input type="date" id="endDate">
+                    </div>
+                    <h4 style="margin: 20px 0 10px;">Candidates</h4>
+                    <div id="candidatesList">
+                        <!-- Candidate rows will be added here -->
+                    </div>
+                    <button class="add-candidate-btn" onclick="addCandidateRow()">
+                        <i class="fas fa-plus"></i> Add Candidate
+                    </button>
+                    <div class="modal-buttons">
+                        <button class="btn-modal btn-secondary" onclick="closeCreateVoteModal()">
+                            <i class="fas fa-arrow-left"></i> Cancel
+                        </button>
+                        <button class="btn-modal btn-primary" onclick="submitCreateOrUpdateVote()">
+                            <i class="fas fa-check"></i> <span id="submitBtnText">Create Election</span>
+                        </button>
                     </div>
                 </div>
             </div>
+            <!-- SELECT ELECTION MODAL -->
+            <div class="modal-overlay" id="selectElectionModal">
+                <div class="modal-content">
+                    <h3 class="modal-title"><i class="fas fa-vote-yea"></i> Select Election to Vote</h3>
+                    <div id="activeElectionsContainer">
+                        <!-- Active elections will be listed here -->
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="btn-modal btn-secondary" onclick="closeSelectElectionModal()">
+                            <i class="fas fa-arrow-left"></i> Return
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- VOTING MODAL -->
+            <div class="modal-overlay" id="votingModal">
+                <div class="modal-content">
+                    <h3 class="modal-title" id="votingModalTitle">Vote for Position</h3>
+                    <p id="votingModalElection" style="color: #6c757d; margin-bottom: 20px;"></p>
+                    <div id="candidatesContainer">
+                        <!-- Candidate cards will be rendered here -->
+                    </div>
+                </div>
+            </div>
+            <!-- SUCCESS MODAL -->
+            <div class="modal-overlay" id="successModal">
+                <div class="modal-content success-content">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="success-message" id="successMessage">
+                        Your vote has been recorded!
+                    </div>
+                    <button class="btn-modal btn-primary" onclick="closeSuccessModal()">
+                        <i class="fas fa-home"></i> Return to Dashboard
+                    </button>
+                </div>
+            </div>
+            <!-- MANAGE ELECTIONS MODAL (Quick Access) -->
+            <div class="modal-overlay" id="manageElectionsModal">
+                <div class="modal-content">
+                    <h3 class="modal-title"><i class="fas fa-tasks"></i> Manage Elections</h3>
+                    <div id="manageElectionsList">
+                     
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="btn-modal btn-secondary" onclick="closeManageElectionsModal()">
+                            <i class="fas fa-arrow-left"></i> Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- PRINT SLIP MODAL -->
+            <div class="modal-overlay" id="printSlipModal">
+                <div class="modal-content" style="max-width: 550px;">
+                    <h3 class="modal-title"><i class="fas fa-print"></i> Print Vote Slip</h3>
+                    <div id="printSlipContent">
+                        <!-- Filled dynamically -->
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="btn-modal btn-secondary" onclick="closePrintSlipModal()">
+                            <i class="fas fa-arrow-left"></i> Close
+                        </button>
+                        <button class="btn-modal btn-print" onclick="printSlip()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- VOTE STATISTICS MODAL -->
+            <div class="modal-overlay" id="voteStatisticsModal">
+                <div class="modal-content" style="max-width: 700px;">
+                    <h3 class="modal-title"><i class="fas fa-chart-pie"></i> Real-Time Vote Statistics</h3>
+                    <div id="statisticsContent">
+                       
+                        <canvas id="voteChart" width="400" height="200"></canvas>
+                        <div id="aiSummaryBox"></div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="btn-modal btn-secondary" onclick="closeVoteStatisticsModal()">
+                            <i class="fas fa-arrow-left"></i> Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <script>
+
+                // Load elections and votes
+                let elections = JSON.parse(localStorage.getItem('elections')) || [];
+                let userVotes = JSON.parse(localStorage.getItem('userVotes')) || {};
+
+                // Encryption Key Setup (Client-side Demo Only)
+                const SECRET_PASSPHRASE = "your-very-secret-club-election-key-2024!@#"; 
+                let encryptionKey = null;
+                async function initializeEncryptionKey() {
+                    const encoder = new TextEncoder();
+                    const keyMaterial = await window.crypto.subtle.importKey(
+                        "raw",
+                        encoder.encode(SECRET_PASSPHRASE),
+                        { name: "PBKDF2" },
+                        false,
+                        ["deriveKey"]
+                    );
+                    encryptionKey = await window.crypto.subtle.deriveKey(
+                        {
+                            name: "PBKDF2",
+                            salt: encoder.encode("unique-salt-for-club-elections"),
+                            iterations: 100000,
+                            hash: "SHA-256"
+                        },
+                        keyMaterial,
+                        { name: "AES-GCM", length: 256 },
+                        true,
+                        ["encrypt", "decrypt"]
+                    );
+                }
+                // Initialize UI and encryption on load
+                document.addEventListener('DOMContentLoaded', async function() {
+                    await initializeEncryptionKey();
+                    if ({{ user.role }} === 1 || {{ user.role }} === 2) {
+                        renderManageElections();
+                    }
+                });
+                // Initialize with one candidate row
+                function initializeCandidateInputs() {
+                    const container = document.getElementById('candidatesList');
+                    container.innerHTML = '';
+                    addCandidateRow(); // Start with one empty row
+                }
+                function addCandidateRow() {
+                    const container = document.getElementById('candidatesList');
+                    const row = document.createElement('div');
+                    row.className = 'candidate-input-row';
+                    row.innerHTML = `
+                        <input type="text" placeholder="Candidate Name" class="candidate-name-input">
+                        <input type="text" placeholder="Role/Bio (optional)" class="candidate-bio-input">
+                        <button class="remove-candidate" onclick="removeCandidateRow(this)">&times;</button>
+                    `;
+                    container.appendChild(row);
+                }
+                function removeCandidateRow(button) {
+                    const row = button.parentElement;
+                    row.remove();
+                }
+                function createVote() {
+                    // Reset modal for creation
+                    document.getElementById('modalTitle').innerHTML = '<i class="fas fa-plus"></i> Create New Election';
+                    document.getElementById('submitBtnText').innerText = 'Create Election';
+                    document.getElementById('editElectionId').value = '';
+                    document.getElementById('electionTitle').value = '';
+                    document.getElementById('position').value = '';
+                    document.getElementById('startDate').value = '';
+                    document.getElementById('endDate').value = '';
+                    initializeCandidateInputs();
+                    document.getElementById('createVoteModal').classList.add('active');
+                }
+                function manageElections() {
+                    renderManageElections();
+                    document.getElementById('manageElectionsModal').classList.add('active');
+                }
+                function editElection(electionId) {
+                    const election = elections.find(e => e.id == electionId);
+                    if (!election) return;
+                    // Fill form with election data
+                    document.getElementById('modalTitle').innerHTML = '<i class="fas fa-pen"></i> Edit Election';
+                    document.getElementById('submitBtnText').innerText = 'Update Election';
+                    document.getElementById('editElectionId').value = election.id;
+                    document.getElementById('electionTitle').value = election.title;
+                    document.getElementById('position').value = election.position;
+                    document.getElementById('startDate').value = election.startDate;
+                    document.getElementById('endDate').value = election.endDate;
+                    // Fill candidates
+                    const container = document.getElementById('candidatesList');
+                    container.innerHTML = '';
+                    election.candidates.forEach(candidate => {
+                        const row = document.createElement('div');
+                        row.className = 'candidate-input-row';
+                        row.innerHTML = `
+                            <input type="text" placeholder="Candidate Name" class="candidate-name-input" value="${candidate.name}">
+                            <input type="text" placeholder="Role/Bio (optional)" class="candidate-bio-input" value="${candidate.bio || ''}">
+                            <button class="remove-candidate" onclick="removeCandidateRow(this)">&times;</button>
+                        `;
+                        container.appendChild(row);
+                    });
+                    document.getElementById('createVoteModal').classList.add('active');
+                }
+                function submitCreateOrUpdateVote() {
+                    const isEdit = document.getElementById('editElectionId').value !== '';
+                    const title = document.getElementById('electionTitle').value.trim();
+                    const position = document.getElementById('position').value;
+                    const startDate = document.getElementById('startDate').value;
+                    const endDate = document.getElementById('endDate').value;
+                    if (!title || !position || !startDate || !endDate) {
+                        alert("⚠️ Please fill in all fields.");
+                        return;
+                    }
+                    if (new Date(endDate) <= new Date(startDate)) {
+                        alert("⚠️ End date must be after start date.");
+                        return;
+                    }
+                    // Collect candidates
+                    const nameInputs = document.querySelectorAll('.candidate-name-input');
+                    const bioInputs = document.querySelectorAll('.candidate-bio-input');
+                    let candidates = [];
+                    for (let i = 0; i < nameInputs.length; i++) {
+                        const name = nameInputs[i].value.trim();
+                        if (name) {
+                            candidates.push({
+                                id: isEdit ? elections.find(e => e.id == document.getElementById('editElectionId').value)?.candidates[i]?.id || `c${Date.now()}-${i}` : `c${Date.now()}-${i}`,
+                                name: name,
+                                bio: bioInputs[i]?.value.trim() || ""
+                            });
+                        }
+                    }
+                    if (candidates.length === 0) {
+                        alert("⚠️ Please add at least one candidate.");
+                        return;
+                    }
+                    if (isEdit) {
+                        // Update existing
+                        const index = elections.findIndex(e => e.id == document.getElementById('editElectionId').value);
+                        elections[index] = {
+                            ...elections[index],
+                            title,
+                            position,
+                            startDate,
+                            endDate,
+                            candidates
+                        };
+                        alert(`✅ Election Updated!
+"${title}"`);
+                    } else {
+                        // Create new
+                        const newElection = {
+                            id: Date.now(),
+                            title: title,
+                            position: position,
+                            startDate: startDate,
+                            endDate: endDate,
+                            status: "active",
+                            candidates: candidates
+                        };
+                        elections.push(newElection);
+                        alert(`✅ Election Created!
+"${title}" for ${position} with ${candidates.length} candidates.`);
+                    }
+                    localStorage.setItem('elections', JSON.stringify(elections));
+                    closeCreateVoteModal();
+                    if ({{ user.role }} === 1 || {{ user.role }} === 2) {
+                        renderManageElections();
+                    }
+                }
+                function deleteElection(electionId) {
+                    if (confirm("⚠️ Are you sure? This will delete the election and all associated votes.")) {
+                        elections = elections.filter(e => e.id != electionId);
+                        localStorage.setItem('elections', JSON.stringify(elections));
+                        // Also remove any votes for this election
+                        delete userVotes[electionId];
+                        localStorage.setItem('userVotes', JSON.stringify(userVotes));
+                        renderManageElections();
+                        alert("🗑️ Election deleted.");
+                    }
+                }
+                function closeCreateVoteModal() {
+                    document.getElementById('createVoteModal').classList.remove('active');
+                }
+                function closeSuccessModal() {
+                    document.getElementById('successModal').classList.remove('active');
+                }
+                function closeSelectElectionModal() {
+                    document.getElementById('selectElectionModal').classList.remove('active');
+                }
+                function closeManageElectionsModal() {
+                    document.getElementById('manageElectionsModal').classList.remove('active');
+                }
+                function closePrintSlipModal() {
+                    document.getElementById('printSlipModal').classList.remove('active');
+                }
+                function closeVoteStatisticsModal() {
+                    document.getElementById('voteStatisticsModal').classList.remove('active');
+                }
+                function renderManageElections() {
+                    const container = document.getElementById('manageElectionsList');
+                    container.innerHTML = '';
+                    if (elections.length === 0) {
+                        container.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <p>No elections created yet.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+                    elections.forEach(election => {
+                        const item = document.createElement('div');
+                        item.className = 'election-item';
+                        const status = new Date() > new Date(election.endDate) ? 'Expired' : 'Active';
+                        item.innerHTML = `
+                            <div class="election-info">
+                                <h5>${election.title}</h5>
+                                <p><strong>Position:</strong> ${election.position}</p>
+                                <p><strong>Dates:</strong> ${election.startDate} to ${election.endDate} (${status})</p>
+                                <p><strong>Candidates:</strong> ${election.candidates.length}</p>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-action btn-edit" onclick="editElection(${election.id})">
+                                    <i class="fas fa-pen"></i> Edit
+                                </button>
+                                <button class="btn-action btn-delete" onclick="deleteElection(${election.id})">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        `;
+                        container.appendChild(item);
+                    });
+                }
+                function voteNow() {
+                    const activeElections = elections.filter(e => e.status === "active" && new Date() <= new Date(e.endDate));
+                    const container = document.getElementById('activeElectionsContainer');
+                    container.innerHTML = '';
+                    if (activeElections.length === 0) {
+                        container.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <p>No active elections available to vote in.</p>
+                            </div>
+                        `;
+                    } else {
+                        activeElections.forEach(election => {
+                            const hasVoted = userVotes[election.id];
+                            const card = document.createElement('div');
+                            card.className = 'candidate-card';
+                            card.style.cursor = 'pointer';
+                            card.innerHTML = `
+                                <div class="candidate-avatar" style="background: ${hasVoted ? '#28a745' : '#6c757d'};">
+                                    ${hasVoted ? '✅' : '🗳️'}
+                                </div>
+                                <div class="candidate-info">
+                                    <h4 class="candidate-name">${election.title}</h4>
+                                    <p class="candidate-position">${election.position} ${hasVoted ? '(You voted)' : ''}</p>
+                                </div>
+                                <button class="btn-vote" style="background: ${hasVoted ? '#6c757d' : '#28a745'};" ${hasVoted ? 'disabled' : ''} onclick='voteInElection(${JSON.stringify(election).replace(/"/g, '&quot;')})'>
+                                    <i class="fas fa-arrow-right"></i> ${hasVoted ? 'Voted' : 'Vote'}
+                                </button>
+                            `;
+                            container.appendChild(card);
+                        });
+                    }
+                    document.getElementById('selectElectionModal').classList.add('active');
+                }
+                function voteInElection(election) {
+                    if (userVotes[election.id]) {
+                        alert("🚫 You have already voted in this election.");
+                        return;
+                    }
+                    const modal = document.getElementById('votingModal');
+                    document.getElementById('votingModalTitle').innerText = `Vote for ${election.position}`;
+                    document.getElementById('votingModalElection').innerText = `"${election.title}"`;
+                    const container = document.getElementById('candidatesContainer');
+                    container.innerHTML = '';
+                    election.candidates.forEach(candidate => {
+                        const card = document.createElement('div');
+                        card.className = 'candidate-card';
+                        const initial = candidate.name.charAt(0).toUpperCase();
+                        card.innerHTML = `
+                            <div class="candidate-avatar">
+                                ${initial}
+                            </div>
+                            <div class="candidate-info">
+                                <h4 class="candidate-name">${candidate.name}</h4>
+                                ${candidate.bio ? `<p class="candidate-position">${candidate.bio}</p>` : `<p class="candidate-position">Candidate for ${election.position}</p>`}
+                            </div>
+                            <button class="btn-vote" onclick="castVote('${election.id}', '${candidate.id}', '${candidate.name.replace(/'/g, "\\\\'")}', '${election.title.replace(/'/g, "\\\\'")}', '${election.position}')">
+                                <i class="fas fa-check"></i> Vote
+                            </button>
+                        `;
+                        container.appendChild(card);
+                    });
+                    document.getElementById('selectElectionModal').classList.remove('active');
+                    modal.classList.add('active');
+                }
+                // Function to encrypt vote data
+                async function encryptVoteData(voteObject) {
+                    const encoder = new TextEncoder();
+                    const data = encoder.encode(JSON.stringify(voteObject));
+                    const iv = window.crypto.getRandomValues(new Uint8Array(12));
+                    const encryptedBuffer = await window.crypto.subtle.encrypt(
+                        {
+                            name: "AES-GCM",
+                            iv: iv
+                        },
+                        encryptionKey,
+                        data
+                    );
+                    return {
+                        encryptedData: Array.from(new Uint8Array(encryptedBuffer)),
+                        iv: Array.from(iv),
+                        receiptId: voteObject.receiptId,
+                        electionTitle: voteObject.electionTitle,
+                        position: voteObject.position,
+                        voteTime: voteObject.voteTime
+                    };
+                }
+                async function castVote(electionId, candidateId, candidateName, electionTitle, position) {
+                    const voteTime = new Date().toLocaleString();
+                    const receiptId = btoa(`${electionId}-${Date.now()}-${Math.random().toString(36).substring(2, 10)}`);
+                    const plainVote = {
+                        candidateId,
+                        candidateName,
+                        electionTitle,
+                        position,
+                        voteTime,
+                        receiptId
+                    };
+                         
+                        
+                    try {
+                        const encryptedVote = await encryptVoteData(plainVote);
+                        userVotes[electionId] = encryptedVote;
+                        localStorage.setItem('userVotes', JSON.stringify(userVotes));
+                        const successModal = document.getElementById('successModal');
+                        document.getElementById('successMessage').innerText =
+                            `✅ Vote recorded for "${electionTitle}".`;
+                        document.getElementById('votingModal').classList.remove('active');
+                        successModal.classList.add('active');
+                    } catch (error) {
+                        console.error("Encryption failed:", error);
+                        alert("❌ An error occurred while recording your vote. Please try again.");
+                    }
+                }
+                
+                function showPrintSlipModal() {
+                    const container = document.getElementById('printSlipContent');
+                    if (Object.keys(userVotes).length === 0) {
+                        container.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-receipt"></i>
+                                <p>You haven't voted yet. No slip to print.</p>
+                            </div>
+                        `;
+                        document.getElementById('printSlipModal').classList.add('active');
+                        return;
+                    }
+                    // Get latest vote
+                    const latestElectionId = Object.keys(userVotes).reduce((a, b) =>
+                        new Date(userVotes[a].voteTime) > new Date(userVotes[b].voteTime) ? a : b
+                    );
+                    const vote = userVotes[latestElectionId];
+                    container.innerHTML = `
+                        <div class="slip-header">
+                            <h2>OFFICIAL VOTE RECEIPT</h2>
+                            <p>For Security & Verification</p>
+                        </div>
+                        <div class="slip-body">
+                            <p><strong>Election:</strong> ${vote.electionTitle}</p>
+                            <p><strong>Position:</strong> ${vote.position}</p>
+                            <p><strong>Date Voted:</strong> ${vote.voteTime}</p>
+                            <p><strong>Receipt ID:</strong> ${vote.receiptId}</p>
+                            <p style="margin-top: 20px; font-style: italic; color: #dc3545;">
+                                <strong>NOTE:</strong> To protect voter privacy, candidate selection is not printed.
+                            </p>
+                        </div>
+                        <div class="slip-footer">
+                            <p>© {{ club.acronym }} — Verified Voting System</p>
+                        </div>
+                    `;
+                    document.getElementById('printSlipModal').classList.add('active');
+                }
+                function printSlip() {
+                    window.print();
+                }
+                // Function to show real-time vote statistics with Chart.js
+                function showVoteStatistics() {
+                    const container = document.getElementById('statisticsContent');
+                    container.innerHTML = '';
+                    if (elections.length === 0) {
+                        container.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-chart-bar"></i>
+                                <p>No elections have been created yet.</p>
+                            </div>
+                        `;
+                        document.getElementById('voteStatisticsModal').classList.add('active');
+                        return;
+                    }
+                    // Get the canvas element
+                    const ctx = document.getElementById('voteChart').getContext('2d');
+                    // Clear previous chart if exists
+                    if (window.voteChartInstance) {
+                        window.voteChartInstance.destroy();
+                    }
+                    // Collect data for all elections
+                    const chartData = [];
+                    const labels = [];
+                    elections.forEach(election => {
+                        const votesForThisElection = Object.values(userVotes).filter(vote => vote.electionTitle === election.title);
+                        const voteTally = {};
+                        election.candidates.forEach(candidate => {
+                            voteTally[candidate.id] = {
+                                name: candidate.name,
+                                count: 0
+                            };
+                        });
+                        votesForThisElection.forEach(vote => {
+                            if (voteTally[vote.candidateId]) {
+                                voteTally[vote.candidateId].count++;
+                            }
+                        });
+                        const totalVotes = votesForThisElection.length;
+                        // Format results for chart
+                        const electionLabel = `${election.title} (${election.position})`;
+                        const voteCounts = Object.values(voteTally).map(c => c.count);
+                        if (totalVotes > 0) {
+                            chartData.push(voteCounts);
+                            labels.push(electionLabel);
+                        } else {
+                            chartData.push([0]); // Empty bar
+                            labels.push(electionLabel);
+                        }
+                    });
+                    // Create chart
+                    window.voteChartInstance = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Votes per Candidate',
+                                data: chartData,
+                                backgroundColor: '#28a745',
+                                borderColor: '#218838',
+                                borderWidth: 1,
+                                borderRadius: 4,
+                                categoryPercentage: 0.8,
+                                barPercentage: 0.9
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Number of Votes'
+                                    }
+                                },
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Elections'
+                                    },
+                                    ticks: {
+                                        autoSkip: true,
+                                        maxRotation: 45,
+                                        minRotation: 45
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `Votes: ${context.parsed.y}`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    // AI Summarizer Box
+                    const summaryBox = document.getElementById('aiSummaryBox');
+                    if (chartData.some(arr => arr.some(v => v > 0))) {
+                        const allVotes = chartData.flat();
+                        const highestVote = Math.max(...allVotes);
+                        const totalVotes = allVotes.reduce((sum, v) => sum + v, 0);
+                        const numElections = labels.length;
+                        summaryBox.innerHTML = `
+                            <strong>AI Summary:</strong> A total of <strong>${totalVotes}</strong> votes have been cast across <strong>${numElections}</strong> elections. 
+                            The highest vote count recorded is <strong>${highestVote}</strong>. All data is real-time and reflects actual user votes.
+                        `;
+                    } else {
+                        summaryBox.innerHTML = '<strong>AI Summary:</strong> No votes have been recorded yet. The chart will update as votes are cast.';
+                    }
+                    //Auto-refresh every 5 seconds
+                    const refreshInterval = setInterval(() => {
+                        if (document.getElementById('voteStatisticsModal').classList.contains('active')) {
+                            showVoteStatistics();
+                        } else {
+                            clearInterval(refreshInterval);
+                        }
+                    }, 5000);
+                    document.getElementById('voteStatisticsModal').classList.add('active');
+                }
+            </script>
+            <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
         </div>
     </div>
-    </div>
-    </main>
-    </div>
-    </div>
-
-    <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-
-    <script>
-        const ctx = document.getElementById('electionChart').getContext('2d');
-
-
-        const primaryColor = '#29306f';
-        const colorVariants = [
-            '#29306f',
-            '#3a4385',
-            '#4a5699',
-            '#5b69ae'
-        ];
-
-        const electionChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['John Doe', 'Jane Doe', 'Peter Smith', 'Alice Johnson'],
-                datasets: [{
-                    label: '% of Votes',
-                    data: [55, 30, 10, 5],
-                    backgroundColor: colorVariants.map(color =>
-                        `${color}CC` // Add 80% opacity for softness
-                    ),
-                    borderColor: colorVariants,
-                    borderWidth: 1.5,
-                    borderRadius: 6,
-                    borderSkipped: false
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 100,
-                        grid: {
-                            color: 'rgba(41, 48, 111, 0.1)',
-                            lineWidth: 1
-                        },
-                        ticks: {
-                            color: '#444',
-                            font: { size: 11 }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Vote Percentage (%)',
-                            color: '#29306f',
-                            font: { size: 12, weight: '600' },
-                            padding: 10
-                        }
-                    },
-                    y: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            color: '#29306f',
-                            font: { weight: '600', size: 12 }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(41, 48, 111, 0.9)',
-                        titleColor: '#fff',
-                        bodyColor: '#fff',
-                        borderColor: '#fff',
-                        borderWidth: 1,
-                        cornerRadius: 6,
-                        displayColors: false,
-                        callbacks: {
-                            label: function (context) {
-                                return `${context.parsed.x}% of votes`;
-                            }
-                        },
-                        padding: 10
-                    },
-                    // Custom hover animation
-                    animation: {
-                        duration: 1200,
-                        easing: 'easeInOutQuart'
-                    }
-                },
-                interaction: {
-                    intersect: false,
-                    mode: 'index'
-                },
-                layout: {
-                    padding: {
-                        left: 10,
-                        right: 20,
-                        top: 20,
-                        bottom: 10
-                    }
-                }
-            }
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const calendarEl = document.getElementById('calendar');
-
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                events: [
-                    { title: 'Meeting', start: '2025-09-03' },
-                    { title: 'Conference', start: '2025-09-10', end: '2025-09-12' },
-                    { title: 'Lunch', start: '2025-09-14T12:00:00' },
-                    { title: 'Birthday Party', start: '2025-09-21' }
-                ],
-                initialView: 'dayGridMonth',
-                themeSystem: 'bootstrap5',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: ''
-                }
-            });
-
-            calendar.render();
-        });
-    </script>
 </body>
-
 </html>
