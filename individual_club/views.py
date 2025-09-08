@@ -7,11 +7,20 @@ from .models import BudgetRequest
 
 
 def submit_membership_application(request, club_id):
-    if not request.session.get('member_logged_in'):
+    member_id = request.session.get('member_id')
+    if not member_id:
         messages.error(request, "You must be logged in to access this page")
-        return redirect('home')
-    club = Clubs.objects.get(id=club_id)
+        return redirect(reverse('home') + '#section_3')
+
+    user = get_object_or_404(Users, id=member_id)
+    club = get_object_or_404(Clubs, id=club_id)
+    # ---- Role Restriction ----
+    if user.role != Users.Role.STUDENT:
+        messages.error(request, "Non-student entities are not allowed to access this page")
+        return redirect('club_detail', club_id=club.id)
+    
     return render(request, 'register/apply_club.html')
+    
 
 def member_list(request):
     return render(request, 'member_list.html')
