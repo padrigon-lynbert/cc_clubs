@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from landing_page.models import Users
 
@@ -81,7 +82,13 @@ class MemberApplication(models.Model):
     class Meta:
         db_table = 'member_application'
         ordering = ['-date_submitted']
-        unique_together = ('student', 'club')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['student', 'club'],
+                condition=Q(status=0),
+                name='unique_pending_applications'
+                )
+            ]
 
 class Memberships(models.Model):
     student = models.ForeignKey(Users, on_delete=models.CASCADE)
