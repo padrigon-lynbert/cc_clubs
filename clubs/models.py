@@ -58,22 +58,6 @@ class Clubs(models.Model):
     class Meta:
         db_table = 'clubs'
 
-
-class Memberships(models.Model):
-    student = models.ForeignKey(Users, on_delete=models.CASCADE)
-    club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
-    date_joined = models.DateField(auto_now_add=True)
-    is_officer = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f'{self.student.name} - {self.club.club_name}'
-    
-    class Meta:
-        db_table = 'memberships'
-        constraints = [
-            models.UniqueConstraint(fields=['student', 'club'], name='unique_membership')
-        ]
-
 class MemberApplication(models.Model):
     student = models.ForeignKey(Users, on_delete=models.CASCADE)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
@@ -98,6 +82,22 @@ class MemberApplication(models.Model):
         db_table = 'member_application'
         ordering = ['-date_submitted']
         unique_together = ('student', 'club')
+
+class Memberships(models.Model):
+    student = models.ForeignKey(Users, on_delete=models.CASCADE)
+    application_id = models.ForeignKey(MemberApplication, on_delete=models.CASCADE)
+    club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
+    date_joined = models.DateField(auto_now_add=True)
+    is_officer = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.student.name} - {self.club.club_name}'
+    
+    class Meta:
+        db_table = 'memberships'
+        constraints = [
+            models.UniqueConstraint(fields=['student', 'club'], name='unique_membership')
+        ]
 
 class ClubApplication(models.Model):
     club_name = models.CharField(max_length=255, unique=True)
