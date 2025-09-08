@@ -11,3 +11,8 @@ class MembershipApplicationForm(forms.ModelForm):
             'certificate_of_recognition', 'response_text'
         ]
 
+        labels = {
+            'certificate_of_recognition': 'Certificate of Recognition (max: 2mb)',
+            'response_text': 'Reason to join club (optional)',
+        }
+
