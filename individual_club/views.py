@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
-from clubs.models import Clubs, MemberApplication, Achievement
+from clubs.models import Clubs, MemberApplication, Memberships, Achievement
 from landing_page.models import Users
 from .models import BudgetRequest
 
@@ -16,7 +16,11 @@ def submit_membership_application(request, club_id):
     club = get_object_or_404(Clubs, id=club_id)
     # ---- Role Restriction ----
     if user.role != Users.Role.STUDENT:
-        messages.error(request, "Non-student entities are not allowed to access this page")
+        messages.error(request, "Non-student entities are not allowed to access this page.")
+        return redirect('club_detail', club_id=club.id)
+    
+    if Memberships.objects.filter(student=user).exists():
+        messages.error(request, "You are already a member of this club.")
         return redirect('club_detail', club_id=club.id)
     
     return render(request, 'register/apply_club.html')
