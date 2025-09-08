@@ -6,10 +6,11 @@ from landing_page.models import Users
 from .models import BudgetRequest
 
 
-def submit_membership_application(request):
+def submit_membership_application(request, club_id):
     if not request.session.get('member_logged_in'):
         messages.error(request, "You must be logged in to access this page")
         return redirect('home')
+    club = Clubs.objects.get(id=club_id)
     return render(request, 'register/apply_club.html')
 
 def member_list(request):
