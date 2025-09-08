@@ -7,3 +7,7 @@ class MembershipApplicationForm(forms.ModelForm):
 
     class Meta:
         model = MemberApplication
+        fields = [
+            'certificate_of_recognition', 'response_text'
+        ]
+
