@@ -22,7 +22,7 @@ def submit_membership_application(request, club_id):
         return redirect('club_detail', club_id=club.id)
     
     # Membership checker
-    if Memberships.objects.filter(student=user).exists():
+    if Memberships.objects.filter(student=user, club=club).exists():
         messages.error(request, "You are already a member of this club.")
         return redirect('club_detail', club_id=club.id)
     
