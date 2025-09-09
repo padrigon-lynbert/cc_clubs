@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
+from django.db import IntegrityError
 from clubs.models import Clubs, MemberApplication, Memberships, Achievement
 from landing_page.models import Users
 from .models import BudgetRequest
+from .forms import MembershipApplicationForm
 
 
 def submit_membership_application(request, club_id):
