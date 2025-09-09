@@ -19,11 +19,16 @@ def submit_membership_application(request, club_id):
         messages.error(request, "Non-student entities are not allowed to access this page.")
         return redirect('club_detail', club_id=club.id)
     
+    # Membership checker
     if Memberships.objects.filter(student=user).exists():
         messages.error(request, "You are already a member of this club.")
         return redirect('club_detail', club_id=club.id)
     
-    return render(request, 'register/apply_club.html')
+    # Application checker
+    if MemberApplication.objects.filter(student=user, status=MemberApplication.Status.PENDING).exists():
+        messages.error(request, 'You have a pending club application')
+        return redirect('club_detail', club_id=club.id)
+    
     
 
 def member_list(request):
