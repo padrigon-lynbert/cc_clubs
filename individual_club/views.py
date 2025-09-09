@@ -27,8 +27,8 @@ def submit_membership_application(request, club_id):
         return redirect('club_detail', club_id=club.id)
     
     # Application checker
-    if MemberApplication.objects.filter(student=user, status=MemberApplication.Status.PENDING).exists():
-        messages.error(request, 'You have a pending club application')
+    if MemberApplication.objects.filter(student=user, club=club, status=MemberApplication.Status.PENDING).exists():
+        messages.error(request, 'You have a pending application on this club')
         return redirect('club_detail', club_id=club.id)
     
     if request.method == 'POST':
@@ -39,7 +39,7 @@ def submit_membership_application(request, club_id):
                 new_member_application.student = user
                 new_member_application.club = club
                 new_member_application.save()
-                messages.success(request, f'You have successfully registered an application in {club.name}')
+                messages.success(request, f'You have successfully registered an application in {club.club_name}')
                 return redirect('club_detail', club_id=club.id)
             except IntegrityError as error:
                 messages.error(request, f'Something went wrong: {error}')
@@ -47,7 +47,7 @@ def submit_membership_application(request, club_id):
     else:
         form = MembershipApplicationForm()
 
-    context = {'form': form}
+    context = {'form': form, 'club': club}
     
     return render(request, 'register/apply_club.html', context)
     
