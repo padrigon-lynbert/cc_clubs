@@ -29,6 +29,25 @@ def submit_membership_application(request, club_id):
         messages.error(request, 'You have a pending club application')
         return redirect('club_detail', club_id=club.id)
     
+    if request.method == 'POST':
+        form = MembershipApplicationForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_member_application = form.save(commit=False)
+            try:
+                new_member_application.student = user
+                new_member_application.club = club
+                new_member_application.save()
+                messages.success(request, f'You have successfully registered an application in {club.name}')
+                return redirect('club_detail', club_id=club.id)
+            except IntegrityError as error:
+                messages.error(request, f'Something went wrong: {error}')
+                return redirect('club_detail', club_id=club.id)
+    else:
+        form = MembershipApplicationForm()
+
+    context = {'form': form}
+    
+    return render(request, 'register/apply_club.html', context)
     
 
 def member_list(request):
