@@ -1,377 +1,281 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Club Application</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-    <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Club Application Form</title>
 
-    <style>
-        :root {
-            --primary: #29306f;           /* Main brand color */
-            --primary-dark: #1e234a;      /* Darker variant for gradients */
-            --primary-light: #a3bffa;     /* Soft blue for highlights */
-            --primary-hover: #3a4385;     /* Hover state */
-            --accent: #ffb703;            /* Warning/Yellow */
-            --danger: #e63946;            /* Error/Red */
-            --light: #f8f9fa;             /* Background */
-            --dark: #212529;              /* Text */
-            --white: #ffffff;
-            --gray: #6c757d;
-            --border: #dee2e6;
-        }
+  <!-- Google Fonts: DM Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    /* Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        * {
-            font-family: 'DM Sans', sans-serif;
-        }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f9fbfd;
+      color: #333;
+      line-height: 1.6;
+    }
 
-        body {
-            background: linear-gradient(135deg, #f0f2ff 0%, #e6ebf5 100%);
-            color: var(--dark);
-            min-height: 100vh;
-            padding: 2rem 1rem;
-            margin: 0;
-        }
+    /* Header */
+    header {
+      background: #29306f;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 10px rgba(41, 48, 111, 0.15);
+    }
 
-        .header {
-            background: linear-gradient(120deg, var(--primary), var(--primary-dark));
-            color: var(--white);
-            padding: 1.8rem 1.5rem;
-            margin-bottom: 2.5rem;
-            border-radius: 16px;
-            box-shadow: 0 8px 25px rgba(41, 48, 111, 0.25);
-            text-align: center;
-        }
+    .logo {
+      font-weight: 700;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
 
-        .header h1 {
-            font-weight: 700;
-            letter-spacing: -0.8px;
-            font-size: 1.9rem;
-            margin: 0;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
+    .logo img {
+      width: 32px;
+      height: 32px;
+    }
 
-        .application-container {
-            background: var(--white);
-            padding: 2.8rem;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(41, 48, 111, 0.18);
-            max-width: 1080px;
-            margin: 0 auto;
-            border: 1px solid rgba(41, 48, 111, 0.1);
-        }
+    /* Return Button */
+    .return-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
 
-        .form-group {
-            margin-bottom: 1.8rem;
-        }
+    .return-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
 
-        label {
-            display: block;
-            margin-bottom: 0.6rem;
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 1.05rem;
-        }
+    .return-btn i {
+      font-size: 1rem;
+    }
 
-        .file-input-container {
-            position: relative;
-        }
+    /* Main Content */
+    main {
+      max-width: 680px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
 
-        input[type="file"] {
-            width: 100%;
-            padding: 0.85rem 1rem;
-            border: 2px dashed var(--border);
-            border-radius: 14px;
-            background-color: #fafbff;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            box-sizing: border-box;
-        }
+    main h1 {
+      color: #29306f;
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+    }
 
-        input[type="file"]:hover {
-            border-color: var(--primary-light);
-            background-color: #f0f4ff;
-        }
+    main p.subtitle {
+      color: #555;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
 
-        input[type="file"]:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 0.25rem rgba(41, 48, 111, 0.2);
-        }
+    /* Form Card */
+    .form-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(41, 48, 111, 0.12);
+      text-align: left;
+    }
 
-        input[type="file"].is-invalid {
-            border-color: var(--danger);
-            background-color: #fff5f5;
-        }
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
 
-        /* File Info & Warnings */
-        .file-info-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 0.4rem;
-            font-size: 0.87rem;
-            color: var(--gray);
-        }
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #29306f;
+      font-size: 0.95rem;
+    }
 
-        .file-warning {
-            color: var(--accent);
-            font-weight: 600;
-            display: none;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
+    .form-control,
+    .form-select {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 2px solid #e0e4f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.3s ease;
+    }
 
-        .file-error {
-            color: var(--danger);
-            font-size: 0.88rem;
-            margin-top: 0.4rem;
-            display: none;
-            font-weight: 500;
-        }
+    .form-control:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #29306f;
+      box-shadow: 0 0 0 4px rgba(41, 48, 111, 0.1);
+    }
 
-        /* Submit Button */
-        .btn-submit {
-            width: 55%;
-            max-width: 300px;
-            font-weight: 600;
-            letter-spacing: 0.6px;
-            transition: all 0.35s ease;
-            background: linear-gradient(to right, var(--primary), var(--primary-hover));
-            color: var(--white);
-            margin: 2rem auto 0;
-            display: block;
-            border: none;
-            padding: 14px 0;
-            font-size: 1.15rem;
-            border-radius: 14px;
-            cursor: pointer;
-            box-shadow: 0 6px 16px rgba(41, 48, 111, 0.35);
-        }
+    textarea.form-control {
+      resize: vertical;
+      min-height: 130px;
+    }
 
-        .btn-submit:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 24px rgba(41, 48, 111, 0.45);
-            background: linear-gradient(to right, var(--primary-hover), var(--primary));
-        }
+    .btn-submit {
+      background: #29306f;
+      color: white;
+      padding: 0.9rem 2.2rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 1.05rem;
+      display: block;
+      margin: 2rem auto 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(41, 48, 111, 0.2);
+    }
 
-        .btn-submit:disabled {
-            background: linear-gradient(to right, #a0a5c9, #8c93b8);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-            opacity: 0.7;
-        }
+    .btn-submit:hover {
+      background: #1e2555;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(41, 48, 111, 0.25);
+    }
 
-        .btn-submit:focus {
-            box-shadow: 0 0 0 0.25rem rgba(41, 48, 111, 0.25);
-        }
+    .btn-submit:active {
+      transform: translateY(-1px);
+    }
 
-        /* Badges & Highlights */
-        .highlight-blue {
-            background-color: var(--primary-light);
-            color: var(--primary-dark);
-            padding: 0.25rem 0.7rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
+    .required {
+      color: #e74c3c;
+    }
 
-        .badge-red {
-            background-color: var(--danger);
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 22px;
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
+    .errorlist {
+      color: #e74c3c;
+    }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .application-container {
-                padding: 1.6rem;
-                margin: 0 0.5rem;
-            }
+    .alert.alert-error {
+      position: sticky;   /* or 'fixed' */
+      top: 0;     
+      background-color: #FF000D;
+      color: #f1f2f3;
+      position: sticky;
+    }
 
-            .header {
-                padding: 1.4rem;
-            }
+    .alert.alert-success {
+      background-color:  #4BB543;
+      color: #f1f2f3;
+      position: sticky;
+    }
 
-            .header h1 {
-                font-size: 1.7rem;
-            }
-
-            .btn-submit {
-                width: 80%;
-                font-size: 1.05rem;
-                padding: 12px 0;
-            }
-
-            label {
-                font-size: 1rem;
-            }
-        }
-    </style>
+    .btn.btn-primary, .modal-header {
+      background-color: #29306F;
+      color: #F1F2F3;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <div class="container">
-            <h1>Club Registration Form</h1>
-        </div>
+
+  <!-- Header with Return Button and Logo -->
+  <header>
+    <a href="{% url 'club_detail' club.id %}" class="return-btn">
+      <i class="fas fa-arrow-left"></i> Return
+    </a>
+    <div class="logo">
+      <img src="logo.png" alt="BCP Logo">
+      <span>BCP CLUB SYSTEM</span>
     </div>
+  </header>
 
-    <div class="application-container">
-        <form method="post" enctype="multipart/form-data" id="applicationForm">
-            {% csrf_token %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {% if message.tags == 'success' %}
+          <i class="bi bi-check-circle me-2"></i>
+        {% elif message.tags == 'error' %}
+          <i class="bi bi-exclamation-triangle me-2"></i>
+        {% elif message.tags == 'warning' %}
+          <i class="bi bi-exclamation-circle me-2"></i>
+        {% else %}
+          <i class="bi bi-info-circle me-2"></i>
+        {% endif %}
+        {{ message }}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+  <!-- Main Content -->
+  <main>
+    <h1><i class="fas fa-pen"></i>Apply on {{ club.acronym }}</h1>
+    <h2 class="subtitle">Submit the required documents to complete your member application.</h2>
 
-            <!-- Medical/Affiliation List Upload -->
-            <div class="form-group">
-                <label for="medical_affiliation_list">
-                    <i class="fas fa-file-medical me-2"></i>
-                    Upload Medical/Affiliation List
-                </label>
-                <div class="file-input-container">
-                    <input type="file" id="medical_affiliation_list" name="medical_affiliation_list" required>
-                    <div class="file-info-container">
-                        <div class="file-size-info">Max file size: 2MB</div>
-                        <div id="medical_affiliation_list_warning" class="file-warning">
-                            <i class="fas fa-exclamation-triangle"></i> Large File
-                        </div>
-                    </div>
-                    <div id="medical_affiliation_list_error" class="file-error"></div>
-                </div>
-            </div>
-
-            <!-- Certificate of Registration (COR) -->
-            <div class="form-group">
-                <label for="cor">
-                    <i class="fas fa-graduation-cap me-2"></i>
-                    Upload Certificate of Registration (COR)
-                </label>
-                <div class="file-input-container">
-                    <input type="file" id="cor" name="cor" required>
-                    <div class="file-info-container">
-                        <div class="file-size-info">Max file size: 3MB</div>
-                        <div id="cor_warning" class="file-warning">
-                            <i class="fas fa-exclamation-triangle"></i> Over 2MB
-                        </div>
-                    </div>
-                    <div id="cor_error" class="file-error"></div>
-                </div>
-            </div>
-
-            <!-- Student ID Upload -->
-            <div class="form-group">
-                <label for="student_id">
-                    <i class="fas fa-id-card me-2"></i>
-                    Upload Student ID
-                </label>
-                <div class="file-input-container">
-                    <input type="file" id="student_id" name="student_id" required>
-                    <div class="file-info-container">
-                        <div class="file-size-info">Max file size: 2MB</div>
-                        <div id="student_id_warning" class="file-warning">
-                            <i class="fas fa-exclamation-triangle"></i> Large File
-                        </div>
-                    </div>
-                    <div id="student_id_error" class="file-error"></div>
-                </div>
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" class="btn-submit" id="submitBtn">Submit Application</button>
-        </form>
+    <div class="form-card">
+      <form id="memberForm" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            <ul class="errorlist">
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endfor %}
+        <button type="button" data-bs-toggle="modal" data-bs-target="#memberApplication" class="btn-submit">
+        <i class="fas fa-envelope"></i> Apply </button>
+      </form>
     </div>
+  </main>
 
-    <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
-    <script>
-        // File size limits in MB → Bytes
-        const MB = 1024 * 1024;
+  <div class="modal" tabindex="-1" role="dialog" id="memberApplication">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Submit Member Application</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to submit this member application? Once submitted, you may not be able to edit it.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="confirmSubmit">Submit</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 
-        const FILE_LIMITS = {
-            medical: 2 * MB,
-            cor: 3 * MB,
-            student: 2 * MB
-        };
+  <script>
+    document.getElementById('confirmSubmit').addEventListener('click', function() {
+      document.getElementById('memberForm').submit();
+    });
+  </script>
 
-        const FILE_WARNINGS = {
-            medical: 1.5 * MB,
-            cor: 2 * MB,
-            student: 1.5 * MB
-        };
-
-        function validateFileSize(inputId, errorId, warningId, limit, warning) {
-            const input = document.getElementById(inputId);
-            const error = document.getElementById(errorId);
-            const warningEl = document.getElementById(warningId);
-            const file = input.files[0];
-
-            // Reset
-            error.style.display = 'none';
-            warningEl.style.display = 'none';
-            input.classList.remove('is-invalid');
-
-            if (!file) return { valid: true, large: false };
-
-            if (file.size > limit) {
-                const limitMB = limit / MB;
-                error.textContent = `File too large. Max: ${limitMB}MB.`;
-                error.style.display = 'block';
-                input.classList.add('is-invalid');
-                return { valid: false, large: false };
-            } else if (file.size > warning) {
-                warningEl.style.display = 'flex';
-                return { valid: true, large: true };
-            }
-
-            return { valid: true, large: false };
-        }
-
-        function validateMedical() {
-            return validateFileSize('medical_affiliation_list', 'medical_affiliation_list_error', 'medical_affiliation_list_warning', FILE_LIMITS.medical, FILE_WARNINGS.medical);
-        }
-
-        function validateCor() {
-            return validateFileSize('cor', 'cor_error', 'cor_warning', FILE_LIMITS.cor, FILE_WARNINGS.cor);
-        }
-
-        function validateStudentId() {
-            return validateFileSize('student_id', 'student_id_error', 'student_id_warning', FILE_LIMITS.student, FILE_WARNINGS.student);
-        }
-
-        function checkFormValidity() {
-            const btn = document.getElementById('submitBtn');
-            const m = validateMedical();
-            const c = validateCor();
-            const s = validateStudentId();
-
-            btn.disabled = !(m.valid && c.valid && s.valid);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            ['medical_affiliation_list', 'cor', 'student_id'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.addEventListener('change', checkFormValidity);
-                }
-            });
-            checkFormValidity();
-        });
-
-        document.getElementById('applicationForm').addEventListener('submit', function (e) {
-            const m = validateMedical();
-            const c = validateCor();
-            const s = validateStudentId();
-
-            if (!m.valid || !c.valid || !s.valid) {
-                e.preventDefault();
-                alert("Please fix file size issues before submitting.");
-            }
-        });
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
