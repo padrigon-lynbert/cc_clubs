@@ -27,7 +27,7 @@ class MembershipApplicationForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super.__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['certificate_of_recognition'].required = True
 
     def clean_certificate_of_recognition(self):
