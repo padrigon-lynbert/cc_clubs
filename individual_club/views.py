@@ -213,9 +213,9 @@ def get_club_applicants(request, club_id):
         return redirect(reverse('home') + '#section_3')
     
     user = get_object_or_404(Users, id=member_id)
-    club = Clubs.objects.get(id=club_id)
-    applicant = MemberApplication.objects.filter(club=club)
-    context = {'club': club, 'applicant': applicant, 'user': user}
+    club = get_object_or_404(Clubs, id=club_id)
+    applicants = MemberApplication.objects.filter(club=club)
+    context = {'club': club, 'applicants': applicants, 'user': user}
     return render(request, 'approve_member.html', context)
 
 # create event view ------------------------------------
