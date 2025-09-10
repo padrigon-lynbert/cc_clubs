@@ -82,23 +82,25 @@
             padding: 20px;
             margin-top: 20px;
         }
-        .sidebar-footer .return-btn {
-            background-color: #29306f;
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            font-weight: 500;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: background-color 0.3s ease;
+        .sidebar-footer .stats-card-return .return {
+            text-decoration: none;
+            color: white;
+            padding: 0;
         }
-        .sidebar-footer .return-btn:hover {
-            background-color: rgb(49, 58, 141);
+    
+        .sidebar-footer .stats-card-return:hover {
+            background: #3355eb;
+        }
+    
+        .sidebar-footer .stats-card-return {
+            background-color: #29306f;
+            padding: 10px 20px 6px 10px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         /* Main Content Area */
         main {
@@ -586,11 +588,13 @@
                         <div class="stats-card">
                             <h6>Active Events:</h6>
                         </div>
+
                         <hr class="my-4">
-                        <button class="return-btn" onclick="window.location.href='{% url 'home' %}'">
-                            <i class="fas fa-arrow-left"></i> Return
-                        </button>
-                    </div>
+                        <div class="stats-card-return">
+                            <a class="return text-center" href="{% url 'home' %}">
+                              <h6>Return</h6>
+                            </a>
+                          </div>
                 </div>
             </nav>
             <!-- Main Content -->
