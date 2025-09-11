@@ -3,7 +3,7 @@ from .views import individual_club
 from .views import submit_membership_application
 from .views import budget_request 
 from .views import election_club 
-from .views import get_club_achievement, member_list, get_club_applicants, club_detail
+from .views import get_club_achievement, member_list, get_club_applicants, club_detail, accept_membership_application, rejecT_membership_application
 
 from .views import create_event # url ng create event to, import mo muna sa views.url bago ka magdagdag ng path sa pattern
 
