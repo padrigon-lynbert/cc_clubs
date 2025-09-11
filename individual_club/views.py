@@ -86,6 +86,31 @@ def accept_membership_application(request, application_id):
     
     return redirect('club_applicants', club_id=member_application.club.id)
 
+def rejecT_membership_application(request, application_id):
+    member_id = request.session.get('member_id')
+    if not member_id:
+        messages.error(request, "You must be logged in to access this page")
+        return redirect(reverse('home') + '#section_3')
+
+    user = get_object_or_404(Users, id=member_id)
+    # ---- Role Restriction ----
+    if user.role not in [Users.Role.OFFICER, Users.Role.INSTRUCTOR]:
+        messages.error(request, "You are not allowed to access this page.")
+        return redirect(reverse('home') + '#section_3')
+    
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+    
+    member_application = get_object_or_404(MemberApplication, id=application_id)
+    try:
+        with transaction.atomic():
+            member_application.status = MemberApplication.Status.REJECTED
+            member_application.save()
+            messages.warning(request, f'Rejected membership application of {member_application.student.name}')
+    except Exception as e:
+        messages.error(request, f'Something went wrong: {str(e)}')
+    
+    return redirect('club_applicants', club_id=member_application.club.id)
 
 def member_list(request):
     return render(request, 'member_list.html')
