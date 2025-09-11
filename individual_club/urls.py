@@ -15,6 +15,7 @@ urlpatterns =[
     path('election_club/<int:club_id>/', election_club, name='election_club'),
     path('achievements/<int:club_id>/', get_club_achievement, name='club_achievement'),
     path('club_applicants/<int:club_id>/', get_club_applicants, name='club_applicants'),
+    path('club_applicants/accept/<int:application_id>/', accept_membership_application, name='accept_membership_application'),
     path('member_list/', member_list, name='member_list'),
     path('create_event/', create_event, name='create_event'), # yung laman ng name variable and pwede mong gamitin sa {% url 'value_ng_name_variable'%}, pwede mo na gamitin to as url check mo yung page tas gamitin mo.
 ]
