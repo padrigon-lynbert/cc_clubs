@@ -274,7 +274,7 @@ def get_club_applicants(request, club_id):
     
     user = get_object_or_404(Users, id=member_id)
     club = get_object_or_404(Clubs, id=club_id)
-    applicants = MemberApplication.objects.filter(club=club)
+    applicants = MemberApplication.objects.filter(club=club, status=MemberApplication.Status.PENDING)
     context = {'club': club, 'applicants': applicants, 'user': user}
     return render(request, 'approve_member.html', context)
 
