@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
+from django.http import HttpResponseNotAllowed
 from clubs.models import Clubs, MemberApplication, Memberships, Achievement
 from landing_page.models import Users
 from .models import BudgetRequest
@@ -50,7 +51,41 @@ def submit_membership_application(request, club_id):
     context = {'form': form, 'club': club}
     
     return render(request, 'register/apply_club.html', context)
+
+def accept_membership_application(request, application_id):
+    member_id = request.session.get('member_id')
+    if not member_id:
+        messages.error(request, "You must be logged in to access this page")
+        return redirect(reverse('home') + '#section_3')
+        
+    user = get_object_or_404(Users, id=member_id)
+    # ---- Role Restriction ----
+    if user.role not in [Users.Role.OFFICER, Users.Role.INSTRUCTOR]:
+        messages.error(request, "You are not allowed to access this page.")
+        return redirect(reverse('home') + '#section_3')
+
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
     
+    member_application = get_object_or_404(MemberApplication, id=application_id)
+
+    try:
+        with transaction.atomic():
+            Memberships.objects.get_or_create(
+                student = member_application.student,
+                application_id = member_application,
+                club = member_application.club
+            )
+            member_application.status = MemberApplication.Status.APPROVED
+            member_application.save()
+            messages.success(request, f'{member_application.student} has been accepted into {member_application.club}.')
+    except IntegrityError as e:
+        messages.error(request, str(e))
+    except Exception as e:
+        messages.error(request, str(e))
+    
+    return redirect('club_applicants', club_id=member_application.club.id)
+
 
 def member_list(request):
     return render(request, 'member_list.html')
