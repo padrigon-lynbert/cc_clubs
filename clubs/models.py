@@ -4,19 +4,6 @@ from django.utils.translation import gettext_lazy as _
 from landing_page.models import Users
 
 # Create your models here.
-
-def get_default_branch():
-    return Branch.objects.get_or_create(branch_name='Main Campus')[0].id
-
-class Branch(models.Model):
-    branch_name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.branch_name
-    
-    class Meta:
-        db_table = 'school_branch'
-    
 class Program(models.Model):
     course_code = models.CharField(max_length=50, primary_key=True)
     course_name = models.CharField(max_length=255)

@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('adviser', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='advised_clubs', to='landing_page.users')),
                 ('chairperson', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='chaired_clubs', to='landing_page.users')),
-                ('location', models.ForeignKey(default=clubs.models.get_default_branch, on_delete=django.db.models.deletion.CASCADE, to='clubs.branch')),
+                ('location', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='clubs.branch')),
             ],
             options={
                 'db_table': 'clubs',
