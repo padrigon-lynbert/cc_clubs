@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import ClubApplicationForm
 from django.db import IntegrityError, transaction
-from .models import Clubs, ClubApplication
+from .models import Clubs, ClubApplication, Memberships
 from landing_page.models import Users
 
 # redirect
@@ -130,9 +130,16 @@ def accept_club(request, club_id):
                 program = club_application.program,
                 description = club_application.description,
             )
-            club_application.status = 1
+            club_application.status = ClubApplication.Status.APPROVED
             club_application.save()
             messages.success(request, 'Club is successfully accepted.')
+
+            Memberships.objects.get_or_create(
+                student=club_application.submitted_by,
+                club=club,
+                role=Memberships.Role.CHAIRPERSON,
+            )
+
     except IntegrityError as e:
         messages.error(request, e)
     except Exception as e:
