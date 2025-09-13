@@ -79,7 +79,6 @@ class MemberApplication(models.Model):
 
 class Memberships(models.Model):
     student = models.ForeignKey(Users, on_delete=models.CASCADE)
-    application_id = models.ForeignKey(MemberApplication, on_delete=models.CASCADE)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
     date_joined = models.DateField(auto_now_add=True)
 

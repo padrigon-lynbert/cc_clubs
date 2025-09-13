@@ -73,7 +73,6 @@ def accept_membership_application(request, application_id):
         with transaction.atomic():
             Memberships.objects.get_or_create(
                 student = member_application.student,
-                application_id = member_application,
                 club = member_application.club
             )
             member_application.status = MemberApplication.Status.APPROVED
