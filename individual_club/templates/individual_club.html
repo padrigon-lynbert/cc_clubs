@@ -452,12 +452,15 @@
                                 <span>Member List</span>
                             </a>
                         </li> -->
+            {% if role != 'Visitor' %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'election_club' club.id %}">
                 <i class="fas fa-users-cog"></i>
                 <span>Club Officer Election</span>
               </a>
             </li>
+            {% endif %}
+
             <li class="nav-item">
               <a class="nav-link" href="{% url 'club_achievement' club.id %}">
                 <i class="fas fa-trophy"></i>
@@ -482,15 +485,16 @@
                                 <span>Event and Activity Logs</span>
                             </a>
                         </li> -->
-
+            {% if role == 'Adviser' or role == 'Treasurer' %}            
             <li class="nav-item">
               <a class="nav-link" href="{% url 'budget_request' %}">
                 <i class="fas fa-wallet"></i>
                 <span>Budget Request</span>
               </a>
             </li>
+            {% endif %}
 
-            {% if user.role == 1 or user.role == 2 %}
+            {% if role == 'Adviser' or role == 'Chairperson' %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'club_applicants' club.id %}">
                 <i class="fas fa-user-plus"></i>
@@ -499,10 +503,12 @@
             </li>
             {% endif %}
 
+            {% if role == 'Adviser' or role == 'Public Relation Officer' %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'create_event'%}"> <i class="fas fa-bullhorn"></i> <span>Create
+              <a class="nav-link" href="{% url 'create_event' %}"> <i class="fas fa-bullhorn"></i> <span>Create
                   Events</span> </a>
             </li>
+            {% endif %}
           </ul>
           <hr class="my-4">
           <div class="sidebar-footer">
