@@ -119,7 +119,7 @@ def accept_club(request, club_id):
     club_application = get_object_or_404(ClubApplication, id=club_id)
     try:
         with transaction.atomic():
-            Clubs.objects.create(
+            club = Clubs.objects.create(
                 club_name = club_application.club_name,
                 acronym = club_application.acronym,
                 chairperson = club_application.submitted_by,
@@ -166,7 +166,7 @@ def reject_club(request, club_id):
 
     try:
         with transaction.atomic():
-            club_application.status = 2
+            club_application.status = ClubApplication.Status.REJECTED
             club_application.save()
             messages.warning(request, 'Application has been rejected.')
     except Exception as e:
