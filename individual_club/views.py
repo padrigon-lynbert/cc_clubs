@@ -143,7 +143,8 @@ def club_detail(request, club_id):
     
     user = get_object_or_404(Users, id=member_id)
     club = Clubs.objects.get(id=club_id)
-    context = {'club': club, 'user': user}
+    role = get_role(user, club)
+    context = {'club': club, 'user': user, 'role': role}
     return render(request, 'individual_club.html', context)
 
 
@@ -159,9 +160,9 @@ def budget_request(request):
     club = get_object_or_404(Clubs, id=club_id)
 
     # ---- Role Restriction ----
-    if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.INSTRUCTOR]:
+    if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.INSTRUCTOR, Users.Role.STUDENT]:
         messages.error(request, "You are not allowed to access this page")
-        return render(request, 'individual_club.html', {"club": club})
+        return redirect('club_detail', club_id=club_id)
 
     # ! retrieve selected club from session
     if not club_id:
@@ -244,7 +245,8 @@ def election_club(request, club_id):
     
     user = get_object_or_404(Users, id=member_id)
     club = Clubs.objects.get(id=club_id)
-    context = {'club': club, 'user': user}
+    role = get_role(user, club)
+    context = {'club': club, 'user': user, 'role': role}
     return render(request, 'election_club.html', context)
 
     
@@ -257,11 +259,12 @@ def get_club_achievement(request, club_id):
     user = get_object_or_404(Users, id=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     achievements = Achievement.objects.all().order_by('-date_posted')
-
+    role = get_role(user, club)
     context = {
         'club': club,
         'user': user,
         'achievements': achievements,
+        'role': role
     }
     return render(request, 'club-achievement.html', context)
 
@@ -274,7 +277,8 @@ def get_club_applicants(request, club_id):
     user = get_object_or_404(Users, id=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     applicants = MemberApplication.objects.filter(club=club, status=MemberApplication.Status.PENDING)
-    context = {'club': club, 'applicants': applicants, 'user': user}
+    role  = get_role(user, club)
+    context = {'club': club, 'applicants': applicants, 'user': user, 'role': role}
     return render(request, 'approve_member.html', context)
 
 # create event view ------------------------------------
@@ -286,3 +290,13 @@ def create_event(request):
     # kapag pinindot mo ito yung page na pupuntahan(.html sa return), para malaman ng system kung anong url ang gagamitin mo kelangan mo i define,
         #kaya pupunta ka sa urls ng application na ito (folder na may views.py), open mo urls.py same folder
     return render(request, 'create_event.html')
+
+def get_role(user, club):
+    membership = Memberships.objects.filter(student=user, club=club).first()
+    if membership:
+        return membership.get_role_display()
+    
+    if Clubs.objects.filter(adviser=user, id=club.id).exists():
+        return 'Adviser' 
+    else:
+        return 'Visitor'
