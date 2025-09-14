@@ -485,7 +485,7 @@
                                 <span>Event and Activity Logs</span>
                             </a>
                         </li> -->
-            {% if role == 'Adviser' or role == 'Treasurer' %}            
+            {% if role == 'Adviser' or role == 'Treasurer' or role == 'Admin' %}            
             <li class="nav-item">
               <a class="nav-link" href="{% url 'budget_request' %}">
                 <i class="fas fa-wallet"></i>
@@ -494,7 +494,7 @@
             </li>
             {% endif %}
 
-            {% if role == 'Adviser' or role == 'Chairperson' %}
+            {% if role == 'Adviser' or role == 'Chairperson' or role == 'Admin' %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'club_applicants' club.id %}">
                 <i class="fas fa-user-plus"></i>
@@ -503,7 +503,7 @@
             </li>
             {% endif %}
 
-            {% if role == 'Adviser' or role == 'Public Relation Officer' %}
+            {% if role == 'Adviser' or role == 'Public Relation Officer' or role == 'Admin' %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'create_event' %}"> <i class="fas fa-bullhorn"></i> <span>Create
                   Events</span> </a>
