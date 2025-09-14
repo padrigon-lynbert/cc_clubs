@@ -22,7 +22,7 @@ def post_registration_club(request):
     user = get_object_or_404(Users, id=member_id)
 
     # ---- Role Restriction ----
-    if user.role not in [Users.Role.STUDENT, Users.Role.OFFICER]:
+    if user.role not in [Users.Role.STUDENT, Users.Role.OFFICER, Users.Role.ADMIN]:
         messages.error(request, "Non-student entities are not allowed to access this page")
         return redirect(reverse('home') + '#section_3')
 

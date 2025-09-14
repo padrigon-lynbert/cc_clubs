@@ -18,7 +18,7 @@ def submit_membership_application(request, club_id):
     user = get_object_or_404(Users, id=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     # ---- Role Restriction ----
-    if user.role != Users.Role.STUDENT:
+    if user.role not in [Users.Role.STUDENT, Users.Role.ADMIN]:
         messages.error(request, "Non-student entities are not allowed to access this page.")
         return redirect('club_detail', club_id=club.id)
     
@@ -60,7 +60,7 @@ def accept_membership_application(request, application_id):
         
     user = get_object_or_404(Users, id=member_id)
     # ---- Role Restriction ----
-    if user.role not in [Users.Role.OFFICER, Users.Role.INSTRUCTOR]:
+    if user.role not in [Users.Role.OFFICER, Users.Role.INSTRUCTOR, Users.Role.ADMIN]:
         messages.error(request, "You are not allowed to access this page.")
         return redirect(reverse('home') + '#section_3')
 
@@ -93,7 +93,7 @@ def rejecT_membership_application(request, application_id):
 
     user = get_object_or_404(Users, id=member_id)
     # ---- Role Restriction ----
-    if user.role not in [Users.Role.OFFICER, Users.Role.INSTRUCTOR]:
+    if user.role not in [Users.Role.OFFICER, Users.Role.INSTRUCTOR, Users.Role.ADMIN]:
         messages.error(request, "You are not allowed to access this page.")
         return redirect(reverse('home') + '#section_3')
     
@@ -160,7 +160,7 @@ def budget_request(request):
     club = get_object_or_404(Clubs, id=club_id)
 
     # ---- Role Restriction ----
-    if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.INSTRUCTOR, Users.Role.STUDENT]:
+    if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.INSTRUCTOR, Users.Role.STUDENT, Users.Role.ADMIN]:
         messages.error(request, "You are not allowed to access this page")
         return redirect('club_detail', club_id=club_id)
 
@@ -170,7 +170,7 @@ def budget_request(request):
         return redirect(reverse('home') + '#section_3')
     
     # if activity coordinator: view budget request review page
-    if user.role == Users.Role.ACTIVITY_COORDINATOR:
+    if user.role in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.ADMIN]:
 
         if request.method == "POST":
             req_id = request.POST.get("request_id")
@@ -292,11 +292,15 @@ def create_event(request):
     return render(request, 'create_event.html')
 
 def get_role(user, club):
+
+    if user.role == Users.Role.ADMIN:
+        return 'Admin'
+    
     membership = Memberships.objects.filter(student=user, club=club).first()
     if membership:
         return membership.get_role_display()
     
     if Clubs.objects.filter(adviser=user, id=club.id).exists():
         return 'Adviser' 
-    else:
-        return 'Visitor'
+    
+    return 'Visitor'
