@@ -147,8 +147,6 @@ def club_detail(request, club_id):
     context = {'club': club, 'user': user, 'role': role}
     return render(request, 'individual_club.html', context)
 
-
-
 def budget_request(request):
     member_id = request.session.get('member_id')
     if not member_id:
