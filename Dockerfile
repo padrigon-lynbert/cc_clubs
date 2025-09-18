@@ -11,4 +11,4 @@ COPY . .
 EXPOSE 10000
 
 # Run PHP built-in server
-CMD ["php", "-S", "0.0.0.0:10000", "-t", "a_test_api"]
+CMD ["php", "-S", "0.0.0.0:10000", "-t", "."]
