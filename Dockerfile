@@ -1,14 +1,11 @@
-# Use official PHP CLI image
 FROM php:8.2-cli
 
-# Set working directory inside container
-WORKDIR /app
+# Install PDO PostgreSQL
+RUN apt-get update && apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql
 
-# Copy your files into the container
+WORKDIR /app
 COPY . .
 
-# Expose a port
 EXPOSE 10000
-
-# Run PHP built-in server
 CMD ["php", "-S", "0.0.0.0:10000", "-t", "."]
