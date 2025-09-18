@@ -89,8 +89,6 @@ def login_from_landing(request):
     
     return redirect('home')
 
-
-
 def logout(request):
     request.session.flush()
     return redirect('home')
