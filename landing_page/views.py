@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from individual_club.models import BudgetRequest, Users, Clubs
+import requests
 
 # Create your views here.
 
@@ -38,8 +39,10 @@ def bridge(request):
 
     return render(request, 'landing_page.html')
 
+# This is our login using database (default or not using any api), uncomment for tests
 # login and logout session, structured like this so we can edith redirect path fast
-def login_from_landing(request):
+'''
+def login_from_landing(request): 
     if request.method == 'POST':
         acc_no = request.POST.get('member-login-number')
         password = request.POST.get('member-login-password')
@@ -56,6 +59,37 @@ def login_from_landing(request):
             return redirect('home')
 
     return redirect('home')
+'''
+
+# login using api
+def login_from_landing(request):
+    if request.method == 'POST':
+        acc_no = request.POST.get('member-login-number')
+        password = request.POST.get('member-login-password')
+
+        url = "http://localhost/a_test_api/api_login.php"  # change to your PHP API URL
+
+        try:
+            res = requests.post(url, json={"acc_no": acc_no, "password": password}, timeout=10)
+            api_res = res.json()
+        except Exception as e:
+            messages.error(request, f"API error: {e}")
+            return redirect('home')
+
+        if api_res.get("status") == "success":
+            user = api_res.get("user", {})
+            request.session['member_logged_in'] = True
+            request.session['member_id'] = user.get("id")
+            request.session['member_name'] = user.get("name")
+            request.session['member_role'] = user.get("role")
+            messages.success(request, 'Login successful')
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid account or password')
+    
+    return redirect('home')
+
+
 
 def logout(request):
     request.session.flush()
