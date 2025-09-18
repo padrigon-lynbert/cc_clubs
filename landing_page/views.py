@@ -67,7 +67,11 @@ def login_from_landing(request):
         acc_no = request.POST.get('member-login-number')
         password = request.POST.get('member-login-password')
 
-        url = "http://localhost/a_test_api/api_login.php"  # change to your PHP API URL
+        # api localhost
+        # url = "http://localhost/a_test_api/api_login.php"  # change to your PHP API URL
+
+        # api live
+        url = "https://cc-clubs-1.onrender.com/api_login.php"
 
         try:
             res = requests.post(url, json={"acc_no": acc_no, "password": password}, timeout=10)
