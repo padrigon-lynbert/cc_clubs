@@ -157,6 +157,11 @@ def budget_request(request):
     club_id = request.session.get('club_id')
     club = get_object_or_404(Clubs, id=club_id)
 
+    role = get_role(user, club)
+    if role not in ['Admin', 'Adviser', 'Treasurer']:
+        messages.error(request, "You are not allowed to access this page")
+        return redirect('club_detail', club_id=club_id)
+
     # ---- Role Restriction ----
     if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.INSTRUCTOR, Users.Role.STUDENT, Users.Role.ADMIN]:
         messages.error(request, "You are not allowed to access this page")
@@ -276,6 +281,10 @@ def get_club_applicants(request, club_id):
     club = get_object_or_404(Clubs, id=club_id)
     applicants = MemberApplication.objects.filter(club=club, status=MemberApplication.Status.PENDING)
     role  = get_role(user, club)
+    if role not in ['Admin', 'Adviser', 'Chairperson']:
+        messages.error(request, "You are not allowed to access this page")
+        return redirect('club_detail', club_id=club_id)
+    
     context = {'club': club, 'applicants': applicants, 'user': user, 'role': role}
     return render(request, 'approve_member.html', context)
 

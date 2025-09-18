@@ -496,7 +496,7 @@
             {% endif %}
             
 
-            {# % if role == 'Adviser' or role == 'Chairperson' or role == 'Admin' % #}
+            {% if role == 'Adviser' or role == 'Chairperson' or role == 'Admin' %}
             {% if user.role == 1 or user.role == 2 or user.role == 4 %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'club_applicants' club.id %}">
@@ -506,7 +506,7 @@
             </li>
             
 
-            {#% if role == 'Adviser' or role == 'Public Relation Officer' or role == 'Admin' %#}
+            {% if role == 'Adviser' or role == 'Public Relation Officer' or role == 'Admin' %}
             
             <li class="nav-item">
               <a class="nav-link" href="{% url 'create_event' %}"> <i class="fas fa-bullhorn"></i> <span>Create
