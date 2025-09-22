@@ -45,12 +45,12 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        #pfpbtn {
+        .pfpbtn {
             background-color: #29306F;
             color: white;
         }
 
-        #pfpbtn:hover {
+        .pfpbtn:hover {
             background-color: #4755cb ;
         }
     </style>
@@ -195,9 +195,9 @@
                     </div>
                     <hr>
                     <div class="mt-4 px-0">
-                        <a href="#" id="pfpbtn" class="btn w-100 d-block mb-2">Club/s you joined</a>
-                        <a href="#" id="pfpbtn" class="btn w-100 d-block mb-2">Profile Settings</a>
-                        <a href="{% url 'logout' %}" id="pfpbtn" class="btn w-100 d-block">Logout</a>
+                        <a href="#" id="" class="pfpbtn btn w-100 d-block mb-2">Club/s you joined</a>
+                        <a href="{% url 'profile_settings' %}" id="" class="pfpbtn btn w-100 d-block mb-2">Settings</a>
+                        <a href="{% url 'logout' %}" id="" class="pfpbtn btn w-100 d-block">Logout</a>
                     </div>
                 </div>
                 {% else %}
