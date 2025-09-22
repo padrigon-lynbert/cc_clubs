@@ -190,8 +190,8 @@
                         <img src="" class="profile-logo" alt="">
                     </div>
                     <div class="text-center mt-3">
-                        <h6 class="p-0 m-0 text-white">John Doe</h6>
-                        <small class="text-white-50 p-0 m-0">Student - 22010101</small>
+                        <h6 class="p-0 m-0 text-white">{{ user.name }}</h6>
+                        <small class="text-white-50 p-0 m-0">{{ user.get_role_display }} - {{ user.acc_no }}</small>
                     </div>
                     <hr>
                     <div class="mt-4 px-0">
@@ -233,7 +233,7 @@
                         </div>
 
                         <div class="text-center my-4">
-                            <a href="#">Forgotten password?</a>
+                            <a href="#">Forgot password?</a>
                         </div>
                     </div>
                 </form>
