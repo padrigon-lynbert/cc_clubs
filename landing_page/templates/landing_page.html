@@ -139,12 +139,12 @@
                         {% elif user.role == 2 %}
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="offcanvas" href="#club_instructor" role="button"
-                                aria-controls="BudgetRequest"><i class="bi bi-back"></i></a>
+                                aria-controls="club_instructor"><i class="bi bi-back"></i></a>
                         </li>
-                        {% elif user.role == 1 %}
+                        {% elif user.role == 0 %}
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="offcanvas" href="#club_instructor" role="button"
-                                aria-controls="BudgetRequest"><i class="bi bi-back"></i></a>
+                            <a class="nav-link" data-bs-toggle="offcanvas" href="#clubs_student_joined" role="button"
+                                aria-controls="clubs_student_joined"><i class="bi bi-back"></i></a>
                         </li>
                         {% endif %}
 
@@ -175,6 +175,8 @@
         {% include "landing_page_includes/all_budget_request_canvas.html" %}
         <!-- all_club_i_am_instructor_of canvas-->
         {% include "landing_page_includes/all_club_i_am_instructor.html" %}
+        <!-- all_club_student_joined canvas-->
+        {% include "landing_page_includes/all_club_student_joined.html" %}
 
         <!-- for login canvas -->
         <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasExample"

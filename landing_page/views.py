@@ -21,6 +21,7 @@ def home(request):
     pending_budget_request = BudgetRequest.objects.filter(status=0)
     member_id = request.session.get('member_id')
     club_i_am_instructor = Clubs.objects.filter(adviser=member_id) if member_id else None
+    club_student_joined = None
 
     user = Users.objects.filter(id=member_id).first() if member_id else None
 
@@ -28,7 +29,8 @@ def home(request):
     return render(request, 'landing_page.html', {
         "pending_budget_request": pending_budget_request,
         "user": user,
-        "club_i_am_instructor": club_i_am_instructor})
+        "club_i_am_instructor": club_i_am_instructor,
+        "club_student_joined": club_student_joined})
 
 def bridge(request):
     if request.method == 'POST':
