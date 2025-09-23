@@ -41,7 +41,7 @@ def bridge(request):
 
 # This is our login using database (default or not using any api), uncomment for tests
 # login and logout session, structured like this so we can edith redirect path fast
-
+'''
 def login_from_landing(request): 
     if request.method == 'POST':
         acc_no = request.POST.get('member-login-number')
@@ -59,8 +59,8 @@ def login_from_landing(request):
             return redirect('home')
 
     return redirect('home')
-
 '''
+
 # login using api
 def login_from_landing(request):
     if request.method == 'POST':
@@ -92,7 +92,7 @@ def login_from_landing(request):
             messages.error(request, 'Invalid account or password')
     
     return redirect('home')
-'''
+
 
 def logout(request):
     request.session.flush()
