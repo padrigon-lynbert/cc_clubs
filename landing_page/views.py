@@ -101,5 +101,5 @@ def logout(request):
 def global_announcements(request):
     return render(request, 'global_announcement.html')
 
-def global_chat(request):
-    return render(request, 'global_chat.html')
+def profile_settings(request):
+    return render(request, 'profile_settings.html')
