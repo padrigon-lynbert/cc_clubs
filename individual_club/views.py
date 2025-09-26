@@ -284,7 +284,7 @@ def get_club_applicants(request, club_id):
     user = get_object_or_404(Users, id=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     applicants = MemberApplication.objects.filter(club=club, status=MemberApplication.Status.PENDING)
-    role  = get_role(user, club)
+    role  = get_role(request, club)
     context = {'club': club, 'applicants': applicants, 'user': user, 'role': role}
     return render(request, 'approve_member.html', context)
 
