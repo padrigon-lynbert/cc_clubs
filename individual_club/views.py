@@ -243,7 +243,7 @@ def budget_request(request):
         "budget_request": budget_request
         }) # go to budget_request (instructor page only)
 
-
+# individual club
 def election_club(request, club_id):
     member_id = request.session.get('member_id')
     if not member_id:
@@ -252,11 +252,11 @@ def election_club(request, club_id):
     
     user = get_object_or_404(Users, id=member_id)
     club = Clubs.objects.get(id=club_id)
-    role = get_role(user, club)
+    role = get_role(request, club)
     context = {'club': club, 'user': user, 'role': role}
     return render(request, 'election_club.html', context)
 
-    
+# individual club
 def get_club_achievement(request, club_id):
     member_id = request.session.get('member_id')
     if not member_id:
