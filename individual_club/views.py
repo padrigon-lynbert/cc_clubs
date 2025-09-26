@@ -301,16 +301,16 @@ def create_event(request):
 def get_role(user, club):
 
     #  Check if the user is a system-wide Admin
-    if user.role == Users.Role.ADMIN:
-        return 'Admin'
+    if user["role"] == Users.Role.ADMIN: return 'Admin'
+    elif user["role"] == Users.Role.ACTIVITY_COORDINATOR: return "Activity Coordinator"
     
     # 2. Check if the user is a member of this club
-    membership = Memberships.objects.filter(student=user, club=club).first()
+    membership = Memberships.objects.filter(student=user["id"], club=club).first()
     if membership:
         return membership.get_role_display()
     
     # 3. Check if the user is assigned as adviser of this club
-    if Clubs.objects.filter(adviser=user, id=club.id).exists():
+    if Clubs.objects.filter(adviser=user["id"], id=club.id).exists():
         return 'Adviser' 
     
     # 4. If none of the above, treat as a visitor (no special role)
