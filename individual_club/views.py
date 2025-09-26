@@ -150,7 +150,7 @@ def club_detail(request, club_id):
     }
 
     club = get_object_or_404(Clubs, id=club_id)
-    role = get_role(user, club)  # this role is from models, user.role is from session
+    role = get_role(request, club)  # this role is changed from models to api(request.session)
 
     context = {"club": club, "user": user, "role": role}
     return render(request, "individual_club.html", context)
@@ -266,7 +266,7 @@ def get_club_achievement(request, club_id):
     user = get_object_or_404(Users, id=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     achievements = Achievement.objects.all().order_by('-date_posted')
-    role = get_role(user, club)
+    role = get_role(request, club)
     context = {
         'club': club,
         'user': user,
@@ -298,20 +298,24 @@ def create_event(request):
         #kaya pupunta ka sa urls ng application na ito (folder na may views.py), open mo urls.py same folder
     return render(request, 'create_event.html')
 
-def get_role(user, club):
 
-    #  Check if the user is a system-wide Admin
-    if user["role"] == Users.Role.ADMIN: return 'Admin'
-    elif user["role"] == Users.Role.ACTIVITY_COORDINATOR: return "Activity Coordinator"
-    
-    # 2. Check if the user is a member of this club
-    membership = Memberships.objects.filter(student=user["id"], club=club).first()
+def get_role(request, club):
+    user_id = request.session.get("member_id")
+    user_role = request.session.get("member_role")
+
+    if not user_id or user_role is None:
+        return "Visitor"
+
+    if user_role == Users.Role.ADMIN:
+        return "Admin"
+    elif user_role == Users.Role.ACTIVITY_COORDINATOR:
+        return "Activity Coordinator"
+
+    membership = Memberships.objects.filter(student_id=user_id, club=club).first()
     if membership:
         return membership.get_role_display()
-    
-    # 3. Check if the user is assigned as adviser of this club
-    if Clubs.objects.filter(adviser=user["id"], id=club.id).exists():
-        return 'Adviser' 
-    
-    # 4. If none of the above, treat as a visitor (no special role)
-    return 'Visitor'
+
+    if Clubs.objects.filter(adviser_id=user_id, id=club.id).exists():
+        return "Adviser"
+
+    return "Visitor"
