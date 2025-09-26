@@ -204,8 +204,8 @@
                         <img src="" class="profile-logo" alt="">
                     </div>
                     <div class="text-center mt-3">
-                        <h6 class="p-0 m-0 text-white">{{ user.name }}</h6>
-                        <small class="text-white-50 p-0 m-0">{{ user.get_role_display }} - {{ user.acc_no }}</small>
+                        <h6 class="p-0 m-0 text-white">{{ request.session.member_name }}</h6>
+                        <small class="text-white-50 p-0 m-0">{{ role_display }} - 00{{ request.session.member_id }}</small>
                     </div>
                     <hr>
                     <div class="mt-4 px-0">

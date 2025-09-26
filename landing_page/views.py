@@ -23,23 +23,30 @@ def home(request):
     club_i_am_instructor = Clubs.objects.filter(adviser=member_id) if member_id else None
     club_student_joined = None
 
-    user = Users.objects.filter(id=member_id).first() if member_id else None
-
-
-    return render(request, 'landing_page.html', {
+    # user = Users.objects.filter(id=member_id).first() if member_id else None
+    
+    user_role_value = request.session.get("member_role")
+    role_display = dict(Users.Role.choices).get(user_role_value, "Guest")
+    
+    context = {
         "pending_budget_request": pending_budget_request,
-        "user": user,
+        # "user": user,
         "club_i_am_instructor": club_i_am_instructor,
-        "club_student_joined": club_student_joined})
+        "club_student_joined": club_student_joined,
+        "role_display": role_display
+    }
 
-def bridge(request):
-    if request.method == 'POST':
-        action = request.POST.get('action')
 
-        if action == 'visit': return render(request, 'individual_club.html')
-        elif action == 'club_directory': return render(request, 'club_directory.html')
+    return render(request, 'landing_page.html', context)
 
-    return render(request, 'landing_page.html')
+# def bridge(request):
+#     if request.method == 'POST':
+#         action = request.POST.get('action')
+
+#         if action == 'visit': return render(request, 'individual_club.html')
+#         elif action == 'club_directory': return render(request, 'club_directory.html')
+
+#     return render(request, 'landing_page.html')
 
 # This is our login using database (default or not using any api), uncomment for tests
 # login and logout session, structured like this so we can edith redirect path fast
