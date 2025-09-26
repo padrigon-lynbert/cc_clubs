@@ -434,25 +434,16 @@
 
         <div class="sidebar-content">
           <ul class="nav flex-column">
-            <!-- <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-user-tie"></i>
-                                <span>Coach</span>
-                            </a>
-                        </li> -->
+            
             <li class="nav-item mt-2">
               <a class="nav-link active" href="#">
                 <i class="fa-solid fa-house"></i>
                 <span>Home</span>
               </a>
             </li>
-            <!-- <li class="nav-item">
-                            <a class="nav-link" href="{% url 'member_list' %}">
-                                <i class="fas fa-users"></i>
-                                <span>Member List</span>
-                            </a>
-                        </li> -->
-            {% if user.role == 1 or user.role == 2 or user.role == 4 %} 
+          
+            {% if role != "Member" and role != "Visitor" and role != "Activity Coordinator" %} 
+            <!-- view: adviser, officers -->
             <li class="nav-item">
               <a class="nav-link" href="{% url 'election_club' club.id %}">
                 <i class="fas fa-users-cog"></i>
@@ -486,27 +477,28 @@
                             </a>
                         </li> -->
 
-            {% if user.role == 2 or user.role == 3 or user.role == 4%}
+            {% if role == "Adviser" or role == "Activity Coordinator" or role == "Admin" %}
+            <!-- access: instructor, activity coordinator -->
             <li class="nav-item">
               <a class="nav-link" href="{% url 'budget_request' %}">
                 <i class="fas fa-wallet"></i>
-                <span>Budget Request {{user.role}}</span>
+                <span>Budget Request</span>
               </a>
             </li>
             {% endif %}
             
 
-            {# % if role == 'Adviser' or role == 'Chairperson' or role == 'Admin' % #}
-            {% if user.role == 1 or user.role == 2 or user.role == 4 %}
+            {% if role == 'Adviser' or role == 'Chairperson' or role == 'Admin' %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'club_applicants' club.id %}">
                 <i class="fas fa-user-plus"></i>
                 <span>Club Applicants</span>
               </a>
             </li>
+            {% endif %}
             
 
-            {#% if role == 'Adviser' or role == 'Public Relation Officer' or role == 'Admin' %#}
+            {% if role == 'Adviser' or role == 'Public Relation Officer' or role == 'Admin' %}
             
             <li class="nav-item">
               <a class="nav-link" href="{% url 'create_event' %}"> <i class="fas fa-bullhorn"></i> <span>Create

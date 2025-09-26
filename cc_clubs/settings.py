@@ -107,7 +107,8 @@ DATABASES = {
         ssl_require=True
     )
 }
-DATABASES['default']['CONN_MAX_AGE'] = 60  # 1 minute reuse, then close
+# DATABASES['default']['CONN_MAX_AGE'] = 60  # 1 minute reuse, then close
+DATABASES['default']['CONN_MAX_AGE'] = 0 # kill the connection after query, new connection every query (slower)
 
 
 # Password validation

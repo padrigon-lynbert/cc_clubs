@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 # from django.contrib.auth.decorators import login_required
 from .models import Users
 from django.contrib import messages
-from django.http import HttpResponseRedirect, Http404
+from django.db import connections
 from django.urls import reverse
 from individual_club.models import BudgetRequest, Users, Clubs
 import requests
@@ -98,6 +98,7 @@ def login_from_landing(request):
 
 def logout(request):
     request.session.flush()
+    connections.close_all() # drop all db connection from this session immediately
     return redirect('home')
 
 def global_announcements(request):
