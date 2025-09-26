@@ -7,6 +7,7 @@ from clubs.models import Clubs, MemberApplication, Memberships, Achievement
 from landing_page.models import Users
 from .models import BudgetRequest
 from .forms import MembershipApplicationForm
+import requests
 
 
 def submit_membership_application(request, club_id):
@@ -140,12 +141,20 @@ def club_detail(request, club_id):
     if not member_id:
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
-    
-    user = get_object_or_404(Users, id=member_id)
-    club = Clubs.objects.get(id=club_id)
-    role = get_role(user, club)
-    context = {'club': club, 'user': user, 'role': role}
-    return render(request, 'individual_club.html', context)
+
+    # Fetch user info from session (set during login using API)
+    user = {
+        "id": request.session.get("member_id"),
+        "name": request.session.get("member_name"),
+        "role": request.session.get("member_role"),
+    }
+
+    club = get_object_or_404(Clubs, id=club_id)
+    role = get_role(user, club)  # this role is from models, user.role is from session
+
+    context = {"club": club, "user": user, "role": role}
+    return render(request, "individual_club.html", context)
+
 
 def budget_request(request):
     member_id = request.session.get('member_id')
@@ -291,14 +300,18 @@ def create_event(request):
 
 def get_role(user, club):
 
+    #  Check if the user is a system-wide Admin
     if user.role == Users.Role.ADMIN:
         return 'Admin'
     
+    # 2. Check if the user is a member of this club
     membership = Memberships.objects.filter(student=user, club=club).first()
     if membership:
         return membership.get_role_display()
     
+    # 3. Check if the user is assigned as adviser of this club
     if Clubs.objects.filter(adviser=user, id=club.id).exists():
         return 'Adviser' 
     
+    # 4. If none of the above, treat as a visitor (no special role)
     return 'Visitor'
