@@ -29,7 +29,7 @@
                 <tr>
                 <th style="width: 5%; padding-left: 5px;">#</th>
                 <th style="width: 30%; padding-left: 5px;">Club</th>
-                <!-- <th style="width: 20%; padding-left: 5px;">Chairperson</th> -->
+                <th style="width: 20%; padding-left: 5px;">Role</th>
                 <th style="width: 25%; padding-left: 5px;">Year Level: Program</th>
                 <th style="width: 10%; padding-left: 5px;">Email</th>
                 <th style="width: 10%; padding-left: 5px;">Renewal</th>
@@ -38,21 +38,24 @@
             <tbody>
                 {% for club in club_student_joined %}
                 <tr>
-                    <td style="padding:5px;">{{ forloop.counter }}</td>
-                    <td style="padding:5px;">[{{ club.acronym }}] {{ club.club_name }}</td>
-                    <!-- <td style="padding:5px;">{{ club.chairperson }}</td> -->
-                    <td style="padding:5px;">Year {{ club.year_level }}: {{ club.program }}</td>
-                    <td style="padding:5px;">{{ club.email }}</td>
-                    {% if club.is_active == True %}
-                        <td style="padding:5px;">Renewed</td>
+                    <td>{{ forloop.counter }}</td>
+                    <td>[{{ club.acronym }}] {{ club.club_name }}</td>
+                    <td>{{ club.role }}</td>
+                    <td>Year {{ club.year_level }}: {{ club.program }}</td>
+                    <td>{{ club.email }}</td>
+                    {% if club.is_active %}
+                        <td>Renewed</td>
                     {% endif %}
                 </tr>
                 {% empty %}
                 <tr>
-                <td colspan="6" class="text-center text-muted" style="padding:5px;">Haven't joined or accepted on a club yet.</td>
+                    <td colspan="6" class="text-center text-muted">
+                        Haven't joined or accepted in a club yet.
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
+               
             </table>
         </div>
     </div>

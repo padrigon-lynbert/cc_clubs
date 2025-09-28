@@ -7,6 +7,7 @@ from django.urls import reverse
 from individual_club.models import BudgetRequest, Users, Clubs
 from clubs.models import Memberships
 import requests
+from individual_club.views import get_role
 
 # Create your views here.
 
@@ -24,16 +25,20 @@ def home(request):
     club_i_am_instructor = Clubs.objects.filter(adviser=member_id) if member_id else None
     clubs_student_joined = Clubs.objects.filter(memberships__student_id=member_id) if member_id else None
 
-    # user = Users.objects.filter(id=member_id).first() if member_id else None
-    
+     # add role to each club object
+    clubs_with_roles = []
+    if clubs_student_joined:
+        for club in clubs_student_joined:
+            club.role = get_role(request, club)
+            clubs_with_roles.append(club)
+
     user_role_value = request.session.get("member_role")
     role_display = dict(Users.Role.choices).get(user_role_value, "Guest")
     
     context = {
         "pending_budget_request": pending_budget_request,
-        # "user": user,
         "club_i_am_instructor": club_i_am_instructor,
-        "club_student_joined": clubs_student_joined,
+        "club_student_joined": clubs_with_roles,
         "role_display": role_display
     }
 
