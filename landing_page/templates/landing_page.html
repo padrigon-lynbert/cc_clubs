@@ -45,12 +45,12 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        #pfpbtn {
+        .pfpbtn {
             background-color: #29306F;
             color: white;
         }
 
-        #pfpbtn:hover {
+        .pfpbtn:hover {
             background-color: #4755cb ;
         }
     </style>
@@ -138,13 +138,25 @@
 
                         {% elif user.role == 2 %}
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="offcanvas" href="#BudgetRequest2" role="button"
-                                aria-controls="BudgetRequest"><i class="bi bi-back"></i></a>
+                            <a class="nav-link" data-bs-toggle="offcanvas" href="#club_instructor" role="button"
+                                aria-controls="club_instructor"><i class="bi bi-back"></i></a>
+                        </li>
+                        {% elif user.role == 0 %}
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="offcanvas" href="#clubs_student_joined" role="button"
+                                aria-controls="clubs_student_joined"><i class="bi bi-back"></i></a>
                         </li>
                         {% endif %}
 
                     </ul>
 
+                    <!-- temporary connection kill -->
+                    <!-- <div class="d-none d-lg-block ms-lg-3">
+                        <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                            role="button" aria-controls="offcanvasExample">!c_kill</a>
+                    </div> -->
+
+                    <!-- login button -->
                     {% if user.role == None%}
                     <div class="d-none d-lg-block ms-lg-3">
                         <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
@@ -170,6 +182,8 @@
         {% include "landing_page_includes/all_budget_request_canvas.html" %}
         <!-- all_club_i_am_instructor_of canvas-->
         {% include "landing_page_includes/all_club_i_am_instructor.html" %}
+        <!-- all_club_student_joined canvas-->
+        {% include "landing_page_includes/all_club_student_joined.html" %}
 
         <!-- for login canvas -->
         <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasExample"
@@ -190,14 +204,15 @@
                         <img src="" class="profile-logo" alt="">
                     </div>
                     <div class="text-center mt-3">
-                        <h6 class="p-0 m-0 text-white">John Doe</h6>
-                        <small class="text-white-50 p-0 m-0">Student - 22010101</small>
+                        <h6 class="p-0 m-0 text-white">{{ request.session.member_name }}</h6>
+                        <small class="text-white-50 p-0 m-0">{{ role_display }} - 00{{ request.session.member_id }}</small>
                     </div>
                     <hr>
                     <div class="mt-4 px-0">
-                        <a href="#" id="pfpbtn" class="btn w-100 d-block mb-2">Club/s you joined</a>
-                        <a href="#" id="pfpbtn" class="btn w-100 d-block mb-2">Profile Settings</a>
-                        <a href="{% url 'logout' %}" id="pfpbtn" class="btn w-100 d-block">Logout</a>
+                        <!-- <a href="#" id="" class="pfpbtn btn w-100 d-block mb-2">Club/s you joined</a> -->
+                        <!-- <a href="#" id="" class="pfpbtn btn w-100 d-block mb-2">{{ user.role }}</a> -->
+                        <a href="{% url 'profile_settings' %}" id="" class="pfpbtn btn w-100 d-block mb-2">Profile</a>
+                        <a href="{% url 'logout' %}" id="" class="pfpbtn btn w-100 d-block">Logout</a>
                     </div>
                 </div>
                 {% else %}
@@ -233,7 +248,7 @@
                         </div>
 
                         <div class="text-center my-4">
-                            <a href="#">Forgotten password?</a>
+                            <a href="#">Forgot password?</a>
                         </div>
                     </div>
                 </form>
@@ -244,7 +259,7 @@
                         <strong class="text-white me-3">Any Questions?</strong>
 
                         <a href="tel: 010-020-0340" class="contact-link">
-                            010-020-0340
+                            1-22-333
                         </a>
                     </p>
                 </div>

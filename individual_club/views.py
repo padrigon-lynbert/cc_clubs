@@ -7,6 +7,7 @@ from clubs.models import Clubs, MemberApplication, Memberships, Achievement
 from landing_page.models import Users
 from .models import BudgetRequest
 from .forms import MembershipApplicationForm
+import requests
 
 
 def submit_membership_application(request, club_id):
@@ -140,12 +141,20 @@ def club_detail(request, club_id):
     if not member_id:
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
-    
-    user = get_object_or_404(Users, id=member_id)
-    club = Clubs.objects.get(id=club_id)
-    role = get_role(user, club)
-    context = {'club': club, 'user': user, 'role': role}
-    return render(request, 'individual_club.html', context)
+
+    # Fetch user info from session (set during login using API)
+    user = {
+        "id": request.session.get("member_id"),
+        "name": request.session.get("member_name"),
+        "role": request.session.get("member_role"),
+    }
+
+    club = get_object_or_404(Clubs, id=club_id)
+    role = get_role(request, club)  # this role is changed from models to api(request.session)
+
+    context = {"club": club, "user": user, "role": role}
+    return render(request, "individual_club.html", context)
+
 
 def budget_request(request):
     member_id = request.session.get('member_id')
@@ -234,7 +243,7 @@ def budget_request(request):
         "budget_request": budget_request
         }) # go to budget_request (instructor page only)
 
-
+# individual club
 def election_club(request, club_id):
     member_id = request.session.get('member_id')
     if not member_id:
@@ -243,11 +252,11 @@ def election_club(request, club_id):
     
     user = get_object_or_404(Users, id=member_id)
     club = Clubs.objects.get(id=club_id)
-    role = get_role(user, club)
+    role = get_role(request, club)
     context = {'club': club, 'user': user, 'role': role}
     return render(request, 'election_club.html', context)
 
-    
+# individual club
 def get_club_achievement(request, club_id):
     member_id = request.session.get('member_id')
     if not member_id:
@@ -257,7 +266,7 @@ def get_club_achievement(request, club_id):
     user = get_object_or_404(Users, id=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     achievements = Achievement.objects.all().order_by('-date_posted')
-    role = get_role(user, club)
+    role = get_role(request, club)
     context = {
         'club': club,
         'user': user,
@@ -275,7 +284,7 @@ def get_club_applicants(request, club_id):
     user = get_object_or_404(Users, id=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     applicants = MemberApplication.objects.filter(club=club, status=MemberApplication.Status.PENDING)
-    role  = get_role(user, club)
+    role  = get_role(request, club)
     context = {'club': club, 'applicants': applicants, 'user': user, 'role': role}
     return render(request, 'approve_member.html', context)
 
@@ -289,16 +298,24 @@ def create_event(request):
         #kaya pupunta ka sa urls ng application na ito (folder na may views.py), open mo urls.py same folder
     return render(request, 'create_event.html')
 
-def get_role(user, club):
 
-    if user.role == Users.Role.ADMIN:
-        return 'Admin'
-    
-    membership = Memberships.objects.filter(student=user, club=club).first()
+def get_role(request, club):
+    user_id = request.session.get("member_id")
+    user_role = request.session.get("member_role")
+
+    if not user_id or user_role is None:
+        return "Visitor"
+
+    if user_role == Users.Role.ADMIN:
+        return "Admin"
+    elif user_role == Users.Role.ACTIVITY_COORDINATOR:
+        return "Activity Coordinator"
+
+    membership = Memberships.objects.filter(student_id=user_id, club=club).first()
     if membership:
         return membership.get_role_display()
-    
-    if Clubs.objects.filter(adviser=user, id=club.id).exists():
-        return 'Adviser' 
-    
-    return 'Visitor'
+
+    if Clubs.objects.filter(adviser_id=user_id, id=club.id).exists():
+        return "Adviser"
+
+    return "Visitor"

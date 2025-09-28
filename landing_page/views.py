@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 # from django.contrib.auth.decorators import login_required
 from .models import Users
 from django.contrib import messages
-from django.http import HttpResponseRedirect, Http404
+from django.db import connections
 from django.urls import reverse
 from individual_club.models import BudgetRequest, Users, Clubs
 import requests
@@ -21,23 +21,32 @@ def home(request):
     pending_budget_request = BudgetRequest.objects.filter(status=0)
     member_id = request.session.get('member_id')
     club_i_am_instructor = Clubs.objects.filter(adviser=member_id) if member_id else None
+    club_student_joined = None
 
-    user = Users.objects.filter(id=member_id).first() if member_id else None
-
-
-    return render(request, 'landing_page.html', {
+    # user = Users.objects.filter(id=member_id).first() if member_id else None
+    
+    user_role_value = request.session.get("member_role")
+    role_display = dict(Users.Role.choices).get(user_role_value, "Guest")
+    
+    context = {
         "pending_budget_request": pending_budget_request,
-        "user": user,
-        "club_i_am_instructor": club_i_am_instructor})
+        # "user": user,
+        "club_i_am_instructor": club_i_am_instructor,
+        "club_student_joined": club_student_joined,
+        "role_display": role_display
+    }
 
-def bridge(request):
-    if request.method == 'POST':
-        action = request.POST.get('action')
 
-        if action == 'visit': return render(request, 'individual_club.html')
-        elif action == 'club_directory': return render(request, 'club_directory.html')
+    return render(request, 'landing_page.html', context)
 
-    return render(request, 'landing_page.html')
+# def bridge(request):
+#     if request.method == 'POST':
+#         action = request.POST.get('action')
+
+#         if action == 'visit': return render(request, 'individual_club.html')
+#         elif action == 'club_directory': return render(request, 'club_directory.html')
+
+#     return render(request, 'landing_page.html')
 
 # This is our login using database (default or not using any api), uncomment for tests
 # login and logout session, structured like this so we can edith redirect path fast
@@ -93,12 +102,14 @@ def login_from_landing(request):
     
     return redirect('home')
 
+
 def logout(request):
     request.session.flush()
+    connections.close_all() # drop all db connection from this session immediately
     return redirect('home')
 
 def global_announcements(request):
     return render(request, 'global_announcement.html')
 
-def global_chat(request):
-    return render(request, 'global_chat.html')
+def profile_settings(request):
+    return render(request, 'profile_settings.html')

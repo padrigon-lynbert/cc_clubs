@@ -580,11 +580,13 @@
     <div id="toast"></div>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar (UNCHANGED) -->
+            <!-- Sidebar -->
             <nav class="sidebar">
+                
                 <div class="logo">
-                    <h1>{{ club.acronym }}</h1>
+                <h1>{{ club.acronym }}</h1>
                 </div>
+
                 <div class="sidebar-content">
                     <ul class="nav flex-column">
                         <li class="nav-item mt-2">
@@ -593,6 +595,7 @@
                                 <span>Home</span>
                             </a>
                         </li>
+
                         {% if role != 'Visitor' %}
                         <li class="nav-item">
                             <a class="nav-link active" href="{% url 'election_club' club.id %}">
@@ -601,12 +604,14 @@
                             </a>
                         </li>
                         {% endif %}
+
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'club_achievement' club.id %}">
                                 <i class="fas fa-trophy"></i>
                                 <span>Club Achievement Record</span>
                             </a>
                         </li>
+
                         {% if role == 'Adviser' or role == 'Treasurer' or role == 'Admin' %}            
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'budget_request' %}">
@@ -615,6 +620,7 @@
                             </a>
                         </li>
                         {% endif %}
+
                         {% if role == 'Adviser' or role == 'Chairperson' or role == 'Admin' %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'club_applicants' club.id %}">
@@ -623,6 +629,7 @@
                             </a>
                         </li>
                         {% endif %}
+
                         {% if role == 'Adviser' or role == 'Public Relation Officer' or role == 'Admin' %}
                         <li class="nav-item">
                             <a class="nav-link" href="#">
@@ -640,6 +647,7 @@
                         <div class="stats-card">
                             <h6>Active Events:</h6>
                         </div>
+
                         <hr class="my-4">
                         <div class="stats-card-return">
                             <a class="return text-center" href="{% url 'home' %}">
@@ -648,6 +656,10 @@
                           </div>
                 </div>
             </nav>
+
+
+
+            
             <!-- Main Content -->
             <main>
                 <div class="header-container">

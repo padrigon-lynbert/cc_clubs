@@ -2,10 +2,10 @@
     This page is supposed to return all clubs where the logged in instructor is an instructor
 -->
 <div class="offcanvas offcanvas-start w-75 p-0 m-0" style="background-color: #29306f;" data-bs-scroll="true"
-    tabindex="-1" id="club_instructor" aria-labelledby="club_instructor" style="max-width: 900px;">
+    tabindex="-1" id="clubs_student_joined" aria-labelledby="clubs_student_joined" style="max-width: 900px;">
 
     <div class="offcanvas-header">
-        <h4 class="offcanvas-title text-white" id="club_instructor">All Clubs I am Instructor of: </h4>
+        <h4 class="offcanvas-title text-white" id="clubs_student_joined">Club membership: </h4>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
             aria-label="Close"></button>
     </div>
@@ -22,22 +22,22 @@
         <div style="padding: 10px; height: 100%; overflow-y: scroll;">
             <table class="table caption-top mb-0" style="border-radius:0; border-collapse:collapse;">
             <caption>
-                <strong>Total number: {{ club_i_am_instructor|length }}</strong> | 
-                Please consider the number of clubs that you manage, some clubs may need more attention than others.
+                <strong>Total number of clubs you've joined: {{ club_student_joined|length }}</strong> | 
+                This part is incomplete
             </caption>
             <thead>
                 <tr>
                 <th style="width: 5%; padding-left: 5px;">#</th>
                 <th style="width: 30%; padding-left: 5px;">Club</th>
-                <th style="width: 20%; padding-left: 5px;">Chairperson</th>
+                <!-- <th style="width: 20%; padding-left: 5px;">Chairperson</th> -->
                 <th style="width: 25%; padding-left: 5px;">Year Level: Program</th>
-                <th style="width: 10%; padding-left: 5px;">Email</th>
-                <th style="width: 10%; padding-left: 5px;">Renewal</th>
+                <!-- <th style="width: 10%; padding-left: 5px;">Email</th> -->
+                <!-- <th style="width: 10%; padding-left: 5px;">Renewal</th> -->
                 </tr>
             </thead>
             <tbody>
                 {% for club in club_i_am_instructor %}
-                <tr>
+                <!-- <tr>
                     <td style="padding:5px;">{{ forloop.counter }}</td>
                     <td style="padding:5px;">[{{ club.acronym }}] {{ club.club_name }}</td>
                     <td style="padding:5px;">{{ club.chairperson }}</td>
@@ -46,10 +46,10 @@
                     {% if club.is_active == True %}
                         <td style="padding:5px;">Renewed</td>
                     {% endif %}
-                </tr>
+                </tr> -->
                 {% empty %}
                 <tr>
-                <td colspan="6" class="text-center text-muted" style="padding:5px;">No budget requests found.</td>
+                <td colspan="6" class="text-center text-muted" style="padding:5px;">Under development.</td>
                 </tr>
                 {% endfor %}
             </tbody>
