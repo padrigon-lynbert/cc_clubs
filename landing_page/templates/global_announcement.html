@@ -189,28 +189,32 @@
         
         {% if announcements %}
             {% for a in announcements %}
-                <div class="announcement-card">
-                    <div class="announcement-header">
-                        <div class="announcement-title">{{ a.title }}</div>
-                        <div class="announcement-category">{{ a.get_category_display }}</div>
-                    </div>
-                    <div class="announcement-content">{{ a.content|linebreaksbr }}</div>
-                    {% if a.image %}
-                        <div class="announcement-image">
-                            <img src="{{ a.image.url }}" alt="Announcement visual" />
-                        </div>
-                    {% endif %}
-                    <div class="announcement-meta">
-                    <span><i class="fas fa-calendar-alt"></i> Posted: {{ a.announcement_date }}</span>
-                    {% if a.expiry_date %}
-                        <span class="{% if a.expiry_date < today %}expires{% endif %}">
-                        <i class="fas fa-hourglass-end"></i> Expires: {{ a.expiry_date }}
-                        </span>
-                    {% endif %}
-                    </div>
+            <details class="announcement-card">
+              <summary class="announcement-header">
+                <div class="announcement-title">{{ a.name }}</div>
+                <div class="announcement-category">{{ a.get_category_display }}</div>
+              </summary>
+          
+              <div class="announcement-content">{{ a.content|linebreaksbr }}</div>
+          
+              {% if a.image %}
+                <div class="announcement-image">
+                  <img src="{{ a.image.url }}" alt="Announcement visual" />
                 </div>
-                {{a}}
+              {% endif %}
+          
+              <div class="announcement-meta">
+                <span><i class="fas fa-calendar-alt"></i> Posted: {{ a.announcement_date }}</span>
+                {% if a.expiry_date %}
+                  <span class="{% if a.expiry_date < today %}expires{% endif %}">
+                    <i class="fas fa-hourglass-end"></i> Expires: {{ a.expiry_date }}
+                  </span>
+                {% endif %}
+              </div>
+            </details>
             {% endfor %}
+
+
       {% else %}
         <p class="no-announcements">No announcements yeti.</p>
       {% endif %}
