@@ -4,7 +4,7 @@ from .views import terms_and_conditions, home # landing page
 from .views import login_from_landing, logout # session
 from .views import global_announcements, profile_settings #individual pages with functions
 
-urlpatterns =[
+urlpatterns = [
     path('terms_and_conditions', terms_and_conditions, name='terms_and_conditions'),
     path('home', home, name='home'),
     path('login_from_landing', login_from_landing, name='login_from_landing'),

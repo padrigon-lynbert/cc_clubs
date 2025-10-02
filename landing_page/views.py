@@ -114,8 +114,12 @@ def logout(request):
     connections.close_all() # drop all db connection from this session immediately
     return redirect('home')
 
+from clubs.models import Announcement
+
 def global_announcements(request):
-    return render(request, 'global_announcement.html')
+    annoucements = Announcement.objects.all().order_by('-announcement_date')
+    return render(request, 'global_announcement.html', {
+        "announcements": annoucements})
 
 def profile_settings(request):
     return render(request, 'profile_settings.html')
