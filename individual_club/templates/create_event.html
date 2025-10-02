@@ -301,7 +301,7 @@
 
   <!-- Navbar -->
   <div class="navbar">
-    <a href="{% url 'create_event'%}" class="return-btn" onclick="window.history.back(); return false;">
+    <a href="{% url 'create_event' club.id %}" class="return-btn" onclick="window.history.back(); return false;">
       <i class="fas fa-arrow-left"></i> Return 
     </a>
     <div class="navbar-title">BCP ANNOUNCEMENT</div>
@@ -325,7 +325,8 @@
       <p class="page-subtitle">Share important updates with your club members</p>
 
       <div class="form-card">
-        <form id="announcementForm">
+        <form id="announcementForm" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
           <input type="hidden" id="editId" value=""> <!-- To track editing -->
 
           <div class="form-group">
@@ -338,12 +339,12 @@
           <div class="form-group">
             <label for="category" class="form-label">Category</label>
             <select class="form-select" id="category" name="category">
-              <option value="general">General Announcement</option>
-              <option value="event">Upcoming Event</option>
-              <option value="important">Important Notice</option>
-              <option value="maintenance">System Maintenance</option>
-              <option value="policy">Policy Update</option>
-              <option value="meeting">Club Meeting</option>
+              <option value="0">General Announcement</option>
+              <option value="1">Upcoming Event</option>
+              <option value="2">Important Notice</option>
+              <option value="3">System Maintenance</option>
+              <option value="4">Policy Update</option>
+              <option value="5">Club Meeting</option>
             </select>
           </div>
 
@@ -395,9 +396,23 @@
       <h2 class="page-title"><i class="fas fa-history"></i> Announcement History</h2>
       <p class="page-subtitle">Review and manage your announcements</p>
       <div id="historyContainer">
-        <div class="empty-state">No announcements posted yet.</div>
+        {% if announcements %}
+          {% for a in announcements %}
+            <div class="announcement-item">
+              <h3>{{ a.name }}</h3>
+              <p>{{ a.content }}</p>
+              <small>Category: {{ a.get_category_display }} | Date: {{ a.announcement_date }}</small>
+              {% if a.image %}
+                <img src="{{ a.image.url }}" style="max-width:200px;">
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-state">No announcements posted yet.</div>
+        {% endif %}
       </div>
     </div>
+      
   </main>
 
   <script>
@@ -414,263 +429,6 @@
       });
     });
 
-    // Live Image Preview
-    document.getElementById("imageUpload").addEventListener("change", function () {
-      const file = this.files[0];
-      const previewContainer = document.getElementById("imagePreviewContainer");
-      const preview = document.getElementById("imagePreview");
-
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          preview.src = e.target.result;
-          previewContainer.style.display = "block";
-        };
-        reader.readAsDataURL(file);
-      } else if (!document.getElementById("editId").value) {
-        previewContainer.style.display = "none";
-        preview.src = "";
-      }
-    });
-
-    // Reset Form (for Create)
-    function resetForm() {
-      document.getElementById("announcementForm").reset();
-      document.getElementById("editId").value = "";
-      document.getElementById("formTitle").textContent = "Create Announcement";
-      document.getElementById("submitButton").style.display = "block";
-      document.getElementById("updateButton").style.display = "none";
-      document.getElementById("imagePreviewContainer").style.display = "none";
-      document.getElementById("imagePreview").src = "";
-      document.getElementById("successMessage").style.display = "none";
-    }
-
-    // Load History
-    function loadHistory() {
-      const container = document.getElementById("historyContainer");
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      container.innerHTML = "";
-
-      if (announcements.length === 0) {
-        container.innerHTML = '<div class="empty-state">No announcements posted yet.</div>';
-        return;
-      }
-
-      const sorted = announcements.sort((a, b) => new Date(b.announcementDate) - new Date(a.announcementDate));
-
-      sorted.forEach(ann => {
-        const item = document.createElement("div");
-        item.className = "history-item";
-
-        const date = new Date(ann.announcementDate).toLocaleDateString("en-US", {
-          year: 'numeric', month: 'short', day: 'numeric'
-        });
-
-        item.innerHTML = `
-          <div class="meta">
-            <strong>${escapeHtml(ann.title)}</strong>
-            <span class="category-badge">${formatCategory(ann.category)}</span>
-          </div>
-          <p>${escapeHtml(ann.content).substring(0, 150)}${ann.content.length > 150 ? "..." : ""}</p>
-          <div class="meta">
-            <small><i class="fas fa-calendar-alt"></i> ${date}</small>
-            <small><i class="fas fa-paper-plane"></i> ${ann.timestamp}</small>
-          </div>
-          ${ann.image ? `<img src="${ann.image}" alt="Image" style="margin-top: 0.8rem; width: 100%; max-height: 180px; object-fit: cover; border-radius: 10px;">` : ""}
-          <div class="action-buttons">
-            <button class="btn-edit" onclick="editAnnouncement(${ann.id})">
-              <i class="fas fa-edit"></i> Edit
-            </button>
-            <button class="btn-delete" onclick="deleteAnnouncement(${ann.id})">
-              <i class="fas fa-trash"></i> Delete
-            </button>
-          </div>
-        `;
-        container.appendChild(item);
-      });
-    }
-
-    // Edit Announcement
-    function editAnnouncement(id) {
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      const ann = announcements.find(a => a.id === id);
-      if (!ann) return;
-
-      // Switch to Create tab
-      document.querySelector('[data-tab="create"]').click();
-
-      // Fill form
-      document.getElementById("editId").value = ann.id;
-      document.getElementById("title").value = ann.title;
-      document.getElementById("content").value = ann.content;
-      document.getElementById("category").value = ann.category;
-      document.getElementById("announcementDate").value = ann.announcementDate;
-      document.getElementById("expiryDate").value = ann.expiryDate || "";
-
-      // Handle image preview
-      if (ann.image) {
-        document.getElementById("imagePreview").src = ann.image;
-        document.getElementById("imagePreviewContainer").style.display = "block";
-      }
-
-      // Update UI
-      document.getElementById("formTitle").textContent = "Edit Announcement";
-      document.getElementById("submitButton").style.display = "none";
-      document.getElementById("updateButton").style.display = "block";
-    }
-
-    // Update Announcement
-    function updateAnnouncement() {
-      const id = Number(document.getElementById("editId").value);
-      const title = document.getElementById("title").value.trim();
-      const content = document.getElementById("content").value.trim();
-      const category = document.getElementById("category").value;
-      const announcementDate = document.getElementById("announcementDate").value;
-      const expiryDate = document.getElementById("expiryDate").value;
-      const imageFile = document.getElementById("imageUpload").files[0];
-
-      if (!title || !content || !announcementDate) {
-        alert("Please fill all required fields.");
-        return;
-      }
-
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      const index = announcements.findIndex(a => a.id === id);
-      if (index === -1) return;
-
-      // Handle image
-      let imageUrl = announcements[index].image; // Keep old unless new uploaded
-      if (imageFile) {
-        if (imageFile.size > 2 * 1024 * 1024) {
-          alert("Image too large. Max 2MB.");
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          imageUrl = e.target.result;
-          saveUpdated();
-        };
-        reader.readAsDataURL(imageFile);
-        return;
-      }
-
-      saveUpdated();
-
-      function saveUpdated() {
-        const updated = {
-          ...announcements[index],
-          title, content, category, announcementDate, expiryDate: expiryDate || null,
-          image: imageUrl,
-          timestamp: new Date().toLocaleString() + " (edited)"
-        };
-
-        announcements[index] = updated;
-        localStorage.setItem("announcements", JSON.stringify(announcements));
-
-        // Reset and refresh
-        resetForm();
-        showSuccess();
-        if (document.getElementById("history").classList.contains("active")) {
-          loadHistory();
-        }
-      }
-    }
-
-    // Delete Announcement
-    function deleteAnnouncement(id) {
-      if (!confirm("Delete this announcement?")) return;
-      const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-      const filtered = announcements.filter(a => a.id !== id);
-      localStorage.setItem("announcements", JSON.stringify(filtered));
-      loadHistory();
-    }
-
-    // Form Submit (Create)
-    document.getElementById("announcementForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (document.getElementById("editId").value) return; // Use Update button
-
-      const title = document.getElementById("title").value.trim();
-      const content = document.getElementById("content").value.trim();
-      const category = document.getElementById("category").value;
-      const announcementDate = document.getElementById("announcementDate").value;
-      const expiryDate = document.getElementById("expiryDate").value;
-      const imageFile = document.getElementById("imageUpload").files[0];
-
-      if (!title || !content || !announcementDate) {
-        alert("Please fill all required fields.");
-        return;
-      }
-
-      let imageUrl = null;
-      if (imageFile) {
-        if (imageFile.size > 2 * 1024 * 1024) {
-          alert("Image too large. Max 2MB.");
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          imageUrl = e.target.result;
-          saveNew();
-        };
-        reader.readAsDataURL(imageFile);
-        return;
-      }
-
-      saveNew();
-
-      function saveNew() {
-        const newAnn = {
-          id: Date.now(),
-          title, content, category, announcementDate, expiryDate: expiryDate || null,
-          timestamp: new Date().toLocaleString(),
-          image: imageUrl
-        };
-
-        const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
-        announcements.push(newAnn);
-        localStorage.setItem("announcements", JSON.stringify(announcements));
-
-        resetForm();
-        showSuccess();
-        if (document.getElementById("history").classList.contains("active")) {
-          loadHistory();
-        }
-      }
-    });
-
-    // Show success message
-    function showSuccess() {
-      const msg = document.getElementById("successMessage");
-      msg.style.display = "block";
-      setTimeout(() => { msg.style.display = "none"; }, 5000);
-    }
-
-    // Escape HTML
-    function escapeHtml(text) {
-      const div = document.createElement("div");
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    // Format category
-    function formatCategory(cat) {
-      const labels = {
-        general: "General",
-        event: "Event",
-        important: "Important",
-        maintenance: "Maintenance",
-        policy: "Policy",
-        meeting: "Meeting"
-      };
-      return labels[cat] || "General";
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      if (document.getElementById("history").classList.contains("active")) {
-        loadHistory();
-      }
-    });
   </script>
 </body>
 </html>
