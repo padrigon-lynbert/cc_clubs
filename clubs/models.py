@@ -163,9 +163,9 @@ class ClubApplication(models.Model):
 
 class Announcement(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
-    club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
-    content = models.CharField(max_length=255, blank=True, null=True)
-    
+    club = models.ForeignKey("Clubs", on_delete=models.CASCADE)
+    content = models.TextField(blank=True, null=True)
+
     class Category(models.IntegerChoices):
         GENERAL_ANNOUNCEMENT = 0, _('General Announcement')
         UPCOMING_EVENT = 1, _('Upcoming Event')
@@ -179,14 +179,16 @@ class Announcement(models.Model):
         default=Category.GENERAL_ANNOUNCEMENT,
         verbose_name='Categories',
     )
-        
+
     announcement_date = models.DateTimeField(auto_now_add=True)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
+
+    image = models.ImageField(upload_to="announcements/", blank=True, null=True)
 
     def __str__(self):
         return f'{self.club.club_name} Announcement - {self.name}'
-    
+
     class Meta:
         db_table = 'announcement'
         ordering = ['-announcement_date']
