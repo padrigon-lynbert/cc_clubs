@@ -8,6 +8,7 @@ from landing_page.models import Users
 from .models import BudgetRequest
 from .forms import MembershipApplicationForm
 import requests
+from clubs.models import Announcement
 
 
 def submit_membership_application(request, club_id):
@@ -292,11 +293,41 @@ def get_club_applicants(request, club_id):
 # una gawa ka ng function (def) para sa event, i return mo yung .html file na gusto mong buksan kapag pinindot mo yung tag. 
 #   Hindi mo na kelangan gamitin full path kasi naka register sa settings.py na base path ang /templates
 
-def create_event(request):
-    
-    # kapag pinindot mo ito yung page na pupuntahan(.html sa return), para malaman ng system kung anong url ang gagamitin mo kelangan mo i define,
-        #kaya pupunta ka sa urls ng application na ito (folder na may views.py), open mo urls.py same folder
-    return render(request, 'create_event.html')
+
+# create event inside individual_club
+def create_event(request, club_id):
+    member_id = request.session.get("member_id")
+    if not member_id:
+        messages.error(request, "You must be logged in to create announcements")
+        return redirect("home")
+
+    club = get_object_or_404(Clubs, id=club_id)
+
+    if request.method == "POST":
+        name = request.POST.get("title")
+        category = request.POST.get("category")
+        content = request.POST.get("content")
+        start_date = request.POST.get("announcementDate")
+        end_date = request.POST.get("expiryDate") or None
+        image = request.FILES.get("imageUpload")
+
+        Announcement.objects.create(
+            name=name,
+            club=club,
+            category=category,
+            content=content,
+            start_date=start_date,
+            end_date=end_date,
+            image=image
+        )
+        return redirect("create_event", club_id=club.id)
+
+    announcements = Announcement.objects.filter(club=club)
+    return render(request, "create_event.html", {
+        "announcements": announcements,
+        "club": club
+    })
+
 
 
 def get_role(request, club):
