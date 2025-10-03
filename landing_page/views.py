@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.db import connections
 from django.urls import reverse
 from individual_club.models import BudgetRequest, Users, Clubs
-from clubs.models import Memberships
+import base64
 import requests
 from individual_club.views import get_role
 
@@ -117,9 +117,15 @@ def logout(request):
 from clubs.models import Announcement
 
 def global_announcements(request):
-    annoucements = Announcement.objects.all().order_by('-announcement_date')
+    announcements = Announcement.objects.all().order_by('-announcement_date')
+    for a in announcements:
+        if a.image:
+            a.image_base64 = base64.b64encode(a.image).decode("utf-8")
+        else:
+            a.image_base64 = None
     return render(request, 'global_announcement.html', {
-        "announcements": annoucements})
+        "announcements": announcements
+    })
 
 def profile_settings(request):
     return render(request, 'profile_settings.html')

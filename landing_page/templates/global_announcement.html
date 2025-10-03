@@ -193,15 +193,17 @@
               <summary class="announcement-header">
                 <div class="announcement-title">{{ a.name }}</div>
                 <div class="announcement-category">{{ a.get_category_display }}</div>
+                <div class="announcement-category">[{{ a.club.acronym }}] {{ a.club }}</div>
               </summary>
           
               <div class="announcement-content">{{ a.content|linebreaksbr }}</div>
           
-              {% if a.image %}
-                <div class="announcement-image">
-                  <img src="{{ a.image.url }}" alt="Announcement visual" />
-                </div>
-              {% endif %}
+                {% if a.image_base64 %}
+                    <div class="announcement-image">
+                        <img src="data:image/png;base64,{{ a.image_base64 }}" alt="Announcement visual" />
+                    </div>
+                {% endif %}
+              
           
               <div class="announcement-meta">
                 <span><i class="fas fa-calendar-alt"></i> Posted: {{ a.announcement_date }}</span>
