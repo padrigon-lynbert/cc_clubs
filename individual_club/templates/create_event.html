@@ -397,22 +397,23 @@
       <p class="page-subtitle">Review and manage your announcements</p>
       
       <div id="historyContainer">
-        {% if announcements %}
-          {% for a in announcements %}
-            <details>
-              <summary><strong>{{ forloop.counter }}. {{ a.name }}</strong></summary>
-              <div class="announcement-item">
-                <p>{{ a.content }}</p>
-                <small>Category: {{ a.get_category_display }} | Date: {{ a.announcement_date }}</small>
-                {% if a.image_base64 %}
-                  <img src="data:image/png;base64,{{ a.image_base64 }}" style="max-width:200px;">
-                {% endif %}
-              </div>
-            </details>
-          {% endfor %}
-        {% else %}
-          <div class="empty-state">No announcements posted yet.</div>
-        {% endif %}
+        {% for a in announcements %}
+          <details>
+            <summary><strong>{{ forloop.counter }}. {{ a.name }}</strong></summary>
+            <div class="announcement-item">
+              <p>{{ a.content }}</p>
+              <small>Category: {{ a.get_category_display }} | Date: {{ a.announcement_date }}</small>
+              {% if a.image_base64 %}
+                <img src="data:image/png;base64,{{ a.image_base64 }}" style="max-width:200px;">
+              {% endif %}
+              <form action="{% url 'delete_announcement' a.id %}" method="post" style="margin-top:10px;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </div>
+          </details>
+        {% endfor %}
+        
         
       </div>
     </div>

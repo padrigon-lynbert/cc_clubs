@@ -344,6 +344,13 @@ def create_event(request, club_id):
         "club": club
     })
 
+# deleting announcement inside create annoucement page
+def delete_announcement(request, pk):
+    announcement = get_object_or_404(Announcement, pk=pk)
+    announcement.delete()
+    messages.success(request, "Announcement deleted.")
+    return redirect(request.META.get("HTTP_REFERER", "home"))
+
 # supporting function to specify individual role inside individual dlub
 def get_role(request, club):
     user_id = request.session.get("member_id")
