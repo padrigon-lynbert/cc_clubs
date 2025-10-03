@@ -400,12 +400,12 @@
         {% if announcements %}
           {% for a in announcements %}
             <details>
-              <summary> <strong>{{ forloop.counter }}. {{ a.name }}</strong></summary>
+              <summary><strong>{{ forloop.counter }}. {{ a.name }}</strong></summary>
               <div class="announcement-item">
                 <p>{{ a.content }}</p>
                 <small>Category: {{ a.get_category_display }} | Date: {{ a.announcement_date }}</small>
-                {% if a.image %}
-                  <img src="{{ a.image.url }}" style="max-width:200px;">
+                {% if a.image_base64 %}
+                  <img src="data:image/png;base64,{{ a.image_base64 }}" style="max-width:200px;">
                 {% endif %}
               </div>
             </details>
@@ -413,6 +413,7 @@
         {% else %}
           <div class="empty-state">No announcements posted yet.</div>
         {% endif %}
+        
       </div>
     </div>
       

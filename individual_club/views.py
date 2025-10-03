@@ -7,8 +7,9 @@ from clubs.models import Clubs, MemberApplication, Memberships, Achievement
 from landing_page.models import Users
 from .models import BudgetRequest
 from .forms import MembershipApplicationForm
-import requests
 from clubs.models import Announcement
+import base64
+from datetime import datetime
 
 
 def submit_membership_application(request, club_id):
@@ -307,9 +308,20 @@ def create_event(request, club_id):
         name = request.POST.get("title")
         category = request.POST.get("category")
         content = request.POST.get("content")
-        start_date = request.POST.get("announcementDate")
-        end_date = request.POST.get("expiryDate") or None
-        image = request.FILES.get("imageUpload")
+
+        # dates (parse from string -> date)
+        start_date_str = request.POST.get("announcementDate")
+        end_date_str = request.POST.get("expiryDate")
+
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date() if start_date_str else None
+        end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date() if end_date_str else None
+
+        # category to int
+        category = int(category) if category else Announcement.Category.GENERAL_ANNOUNCEMENT
+
+        # handle image as bytes
+        image_file = request.FILES.get("imageUpload")
+        image_bytes = image_file.read() if image_file else None
 
         Announcement.objects.create(
             name=name,
@@ -318,18 +330,21 @@ def create_event(request, club_id):
             content=content,
             start_date=start_date,
             end_date=end_date,
-            image=image
+            image=image_bytes,
         )
         return redirect("create_event", club_id=club.id)
 
+    # render announcements with base64 images
     announcements = Announcement.objects.filter(club=club)
+    for a in announcements:
+        a.image_base64 = base64.b64encode(a.image).decode("utf-8") if a.image else None
+
     return render(request, "create_event.html", {
         "announcements": announcements,
         "club": club
     })
 
-
-
+# supporting function to specify individual role inside individual dlub
 def get_role(request, club):
     user_id = request.session.get("member_id")
     user_role = request.session.get("member_role")
