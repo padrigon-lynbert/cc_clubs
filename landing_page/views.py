@@ -5,8 +5,9 @@ from django.contrib import messages
 from django.db import connections
 from django.urls import reverse
 from individual_club.models import BudgetRequest, Users, Clubs
-import base64
-import requests
+from clubs.models import Announcement
+import base64, requests
+
 from individual_club.views import get_role
 
 # Create your views here.
@@ -24,6 +25,14 @@ def home(request):
     member_id = request.session.get('member_id')
     club_i_am_instructor = Clubs.objects.filter(adviser=member_id) if member_id else None
     clubs_student_joined = Clubs.objects.filter(memberships__student_id=member_id) if member_id else None
+    recent_announcements = Announcement.objects.order_by('-announcement_date')[:2]
+
+    for a in recent_announcements:
+        if a.image:
+            a.image_base64 = base64.b64encode(a.image).decode()
+        else:
+            a.image_base64 = None
+
 
      # add role to each club object
     clubs_with_roles = []
@@ -39,23 +48,13 @@ def home(request):
         "pending_budget_request": pending_budget_request,
         "club_i_am_instructor": club_i_am_instructor,
         "club_student_joined": clubs_with_roles,
-        "role_display": role_display
+        "role_display": role_display,
+        "recent_announcements": recent_announcements
     }
-
 
     return render(request, 'landing_page.html', context)
 
-# def bridge(request):
-#     if request.method == 'POST':
-#         action = request.POST.get('action')
 
-#         if action == 'visit': return render(request, 'individual_club.html')
-#         elif action == 'club_directory': return render(request, 'club_directory.html')
-
-#     return render(request, 'landing_page.html')
-
-# This is our login using database (default or not using any api), uncomment for tests
-# login and logout session, structured like this so we can edith redirect path fast
 '''
 def login_from_landing(request): 
     if request.method == 'POST':
@@ -78,6 +77,7 @@ def login_from_landing(request):
 
 # login using api
 def login_from_landing(request):
+
     if request.method == 'POST':
         acc_no = request.POST.get('member-login-number')
         password = request.POST.get('member-login-password')
@@ -107,7 +107,6 @@ def login_from_landing(request):
             messages.error(request, 'Invalid account or password')
     
     return redirect('home')
-
 
 def logout(request):
     request.session.flush()
