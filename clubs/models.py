@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from landing_page.models import Users
+import base64
 
 # Create your models here.
 class Program(models.Model):
@@ -162,7 +163,7 @@ class ClubApplication(models.Model):
         verbose_name_plural = 'Club Applications'
 
 class Announcement(models.Model):
-    name = models.CharField(max_length=255, blank=False, null=False)
+    name = models.CharField(max_length=255)
     club = models.ForeignKey("Clubs", on_delete=models.CASCADE)
     content = models.TextField(blank=True, null=True)
 
@@ -177,21 +178,22 @@ class Announcement(models.Model):
     category = models.IntegerField(
         choices=Category.choices,
         default=Category.GENERAL_ANNOUNCEMENT,
-        verbose_name='Categories',
     )
 
     announcement_date = models.DateTimeField(auto_now_add=True)
     start_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
 
-    image = models.ImageField(upload_to="announcements/", blank=True, null=True)
-
-    def __str__(self):
-        return f'{self.club.club_name} Announcement - {self.name}'
+    image = models.BinaryField(blank=True, null=True)
 
     class Meta:
         db_table = 'announcement'
         ordering = ['-announcement_date']
+
+    def __str__(self):
+        return f"{self.name} ({self.get_category_display()})"
+
+
 
 class Achievement(models.Model):
     title = models.CharField(max_length=50, blank=False, null=False)
