@@ -395,17 +395,20 @@
     <div id="history" class="tab-content">
       <h2 class="page-title"><i class="fas fa-history"></i> Announcement History</h2>
       <p class="page-subtitle">Review and manage your announcements</p>
+      
       <div id="historyContainer">
         {% if announcements %}
           {% for a in announcements %}
-            <div class="announcement-item">
-              <h3>{{ a.name }}</h3>
-              <p>{{ a.content }}</p>
-              <small>Category: {{ a.get_category_display }} | Date: {{ a.announcement_date }}</small>
-              {% if a.image %}
-                <img src="{{ a.image.url }}" style="max-width:200px;">
-              {% endif %}
-            </div>
+            <details>
+              <summary> <strong>{{ forloop.counter }}. {{ a.name }}</strong></summary>
+              <div class="announcement-item">
+                <p>{{ a.content }}</p>
+                <small>Category: {{ a.get_category_display }} | Date: {{ a.announcement_date }}</small>
+                {% if a.image %}
+                  <img src="{{ a.image.url }}" style="max-width:200px;">
+                {% endif %}
+              </div>
+            </details>
           {% endfor %}
         {% else %}
           <div class="empty-state">No announcements posted yet.</div>
