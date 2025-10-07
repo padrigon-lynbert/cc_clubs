@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 # from django.contrib.auth.decorators import login_required
 from .models import Users
 from django.contrib import messages
-from django.http import HttpResponseRedirect, Http404
+from django.db import connections
 from django.urls import reverse
 from individual_club.models import BudgetRequest, Users, Clubs
-import requests
+from clubs.models import Announcement
+import base64, requests
+
+from individual_club.views import get_role
 
 # Create your views here.
 
@@ -21,28 +24,37 @@ def home(request):
     pending_budget_request = BudgetRequest.objects.filter(status=0)
     member_id = request.session.get('member_id')
     club_i_am_instructor = Clubs.objects.filter(adviser=member_id) if member_id else None
-    club_student_joined = None
+    clubs_student_joined = Clubs.objects.filter(memberships__student_id=member_id) if member_id else None
+    recent_announcements = Announcement.objects.order_by('-announcement_date')[:2]
 
-    user = Users.objects.filter(id=member_id).first() if member_id else None
+    for a in recent_announcements:
+        if a.image:
+            a.image_base64 = base64.b64encode(a.image).decode()
+        else:
+            a.image_base64 = None
 
 
-    return render(request, 'landing_page.html', {
+     # add role to each club object
+    clubs_with_roles = []
+    if clubs_student_joined:
+        for club in clubs_student_joined:
+            club.role = get_role(request, club)
+            clubs_with_roles.append(club)
+
+    user_role_value = request.session.get("member_role")
+    role_display = dict(Users.Role.choices).get(user_role_value, "Guest")
+    
+    context = {
         "pending_budget_request": pending_budget_request,
-        "user": user,
         "club_i_am_instructor": club_i_am_instructor,
-        "club_student_joined": club_student_joined})
+        "club_student_joined": clubs_with_roles,
+        "role_display": role_display,
+        "recent_announcements": recent_announcements
+    }
 
-def bridge(request):
-    if request.method == 'POST':
-        action = request.POST.get('action')
+    return render(request, 'landing_page.html', context)
 
-        if action == 'visit': return render(request, 'individual_club.html')
-        elif action == 'club_directory': return render(request, 'club_directory.html')
 
-    return render(request, 'landing_page.html')
-
-# This is our login using database (default or not using any api), uncomment for tests
-# login and logout session, structured like this so we can edith redirect path fast
 '''
 def login_from_landing(request): 
     if request.method == 'POST':
@@ -65,6 +77,7 @@ def login_from_landing(request):
 
 # login using api
 def login_from_landing(request):
+
     if request.method == 'POST':
         acc_no = request.POST.get('member-login-number')
         password = request.POST.get('member-login-password')
@@ -95,13 +108,23 @@ def login_from_landing(request):
     
     return redirect('home')
 
-
 def logout(request):
     request.session.flush()
+    connections.close_all() # drop all db connection from this session immediately
     return redirect('home')
 
+from clubs.models import Announcement
+
 def global_announcements(request):
-    return render(request, 'global_announcement.html')
+    announcements = Announcement.objects.all().order_by('-announcement_date')
+    for a in announcements:
+        if a.image:
+            a.image_base64 = base64.b64encode(a.image).decode("utf-8")
+        else:
+            a.image_base64 = None
+    return render(request, 'global_announcement.html', {
+        "announcements": announcements
+    })
 
 def profile_settings(request):
     return render(request, 'profile_settings.html')

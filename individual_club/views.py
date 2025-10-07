@@ -7,6 +7,9 @@ from clubs.models import Clubs, MemberApplication, Memberships, Achievement
 from landing_page.models import Users
 from .models import BudgetRequest
 from .forms import MembershipApplicationForm
+from clubs.models import Announcement
+import base64
+from datetime import datetime
 
 
 def submit_membership_application(request, club_id):
@@ -140,12 +143,20 @@ def club_detail(request, club_id):
     if not member_id:
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
-    
-    user = get_object_or_404(Users, id=member_id)
-    club = Clubs.objects.get(id=club_id)
-    role = get_role(user, club)
-    context = {'club': club, 'user': user, 'role': role}
-    return render(request, 'individual_club.html', context)
+
+    # Fetch user info from session (set during login using API)
+    user = {
+        "id": request.session.get("member_id"),
+        "name": request.session.get("member_name"),
+        "role": request.session.get("member_role"),
+    }
+
+    club = get_object_or_404(Clubs, id=club_id)
+    role = get_role(request, club)  # this role is changed from models to api(request.session)
+
+    context = {"club": club, "user": user, "role": role}
+    return render(request, "individual_club.html", context)
+
 
 def budget_request(request):
     member_id = request.session.get('member_id')
@@ -239,7 +250,7 @@ def budget_request(request):
         "budget_request": budget_request
         }) # go to budget_request (instructor page only)
 
-
+# individual club
 def election_club(request, club_id):
     member_id = request.session.get('member_id')
     if not member_id:
@@ -248,11 +259,11 @@ def election_club(request, club_id):
     
     user = get_object_or_404(Users, id=member_id)
     club = Clubs.objects.get(id=club_id)
-    role = get_role(user, club)
+    role = get_role(request, club)
     context = {'club': club, 'user': user, 'role': role}
     return render(request, 'election_club.html', context)
 
-    
+# individual club
 def get_club_achievement(request, club_id):
     member_id = request.session.get('member_id')
     if not member_id:
@@ -262,7 +273,7 @@ def get_club_achievement(request, club_id):
     user = get_object_or_404(Users, id=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     achievements = Achievement.objects.all().order_by('-date_posted')
-    role = get_role(user, club)
+    role = get_role(request, club)
     context = {
         'club': club,
         'user': user,
@@ -280,7 +291,7 @@ def get_club_applicants(request, club_id):
     user = get_object_or_404(Users, id=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     applicants = MemberApplication.objects.filter(club=club, status=MemberApplication.Status.PENDING)
-    role  = get_role(user, club)
+    role  = get_role(request, club)
     if role not in ['Admin', 'Adviser', 'Chairperson']:
         messages.error(request, "You are not allowed to access this page")
         return redirect('club_detail', club_id=club_id)
@@ -292,22 +303,81 @@ def get_club_applicants(request, club_id):
 # una gawa ka ng function (def) para sa event, i return mo yung .html file na gusto mong buksan kapag pinindot mo yung tag. 
 #   Hindi mo na kelangan gamitin full path kasi naka register sa settings.py na base path ang /templates
 
-def create_event(request):
-    
-    # kapag pinindot mo ito yung page na pupuntahan(.html sa return), para malaman ng system kung anong url ang gagamitin mo kelangan mo i define,
-        #kaya pupunta ka sa urls ng application na ito (folder na may views.py), open mo urls.py same folder
-    return render(request, 'create_event.html')
 
-def get_role(user, club):
+# create event inside individual_club
+def create_event(request, club_id):
+    member_id = request.session.get("member_id")
+    if not member_id:
+        messages.error(request, "You must be logged in to create announcements")
+        return redirect("home")
 
-    if user.role == Users.Role.ADMIN:
-        return 'Admin'
-    
-    membership = Memberships.objects.filter(student=user, club=club).first()
+    club = get_object_or_404(Clubs, id=club_id)
+
+    if request.method == "POST":
+        name = request.POST.get("title")
+        category = request.POST.get("category")
+        content = request.POST.get("content")
+
+        # dates (parse from string -> date)
+        start_date_str = request.POST.get("announcementDate")
+        end_date_str = request.POST.get("expiryDate")
+
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date() if start_date_str else None
+        end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date() if end_date_str else None
+
+        # category to int
+        category = int(category) if category else Announcement.Category.GENERAL_ANNOUNCEMENT
+
+        # handle image as bytes
+        image_file = request.FILES.get("imageUpload")
+        image_bytes = image_file.read() if image_file else None
+
+        Announcement.objects.create(
+            name=name,
+            club=club,
+            category=category,
+            content=content,
+            start_date=start_date,
+            end_date=end_date,
+            image=image_bytes,
+        )
+        return redirect("create_event", club_id=club.id)
+
+    # render announcements with base64 images
+    announcements = Announcement.objects.filter(club=club)
+    for a in announcements:
+        a.image_base64 = base64.b64encode(a.image).decode("utf-8") if a.image else None
+
+    return render(request, "create_event.html", {
+        "announcements": announcements,
+        "club": club
+    })
+
+# deleting announcement inside create annoucement page
+def delete_announcement(request, pk):
+    announcement = get_object_or_404(Announcement, pk=pk)
+    announcement.delete()
+    messages.success(request, "Announcement deleted.")
+    return redirect(request.META.get("HTTP_REFERER", "home"))
+
+# supporting function to specify individual role inside individual dlub
+def get_role(request, club):
+    user_id = request.session.get("member_id")
+    user_role = request.session.get("member_role")
+
+    if not user_id or user_role is None:
+        return "Visitor"
+
+    if user_role == Users.Role.ADMIN:
+        return "Admin"
+    elif user_role == Users.Role.ACTIVITY_COORDINATOR:
+        return "Activity Coordinator"
+
+    membership = Memberships.objects.filter(student_id=user_id, club=club).first()
     if membership:
         return membership.get_role_display()
-    
-    if Clubs.objects.filter(adviser=user, id=club.id).exists():
-        return 'Adviser' 
-    
-    return 'Visitor'
+
+    if Clubs.objects.filter(adviser_id=user_id, id=club.id).exists():
+        return "Adviser"
+
+    return "Visitor"
