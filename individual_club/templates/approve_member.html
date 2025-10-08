@@ -283,7 +283,7 @@
                             {% if role == 'Adviser' or role == 'Public Relation Officer' or role == 'Admin' %}
                             
                             <li class="nav-item">
-                              <a class="nav-link" href="{% url 'create_event' %}"> <i class="fas fa-bullhorn"></i> <span>Create
+                              <a class="nav-link" href="{% url 'create_event' club.id %}"> <i class="fas fa-bullhorn"></i> <span>Create
                                   Events</span> </a>
                             </li>
                             {% endif %}
