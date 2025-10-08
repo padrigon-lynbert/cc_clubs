@@ -168,7 +168,7 @@ def budget_request(request):
     club_id = request.session.get('club_id')
     club = get_object_or_404(Clubs, id=club_id)
 
-    # ---- Role Restriction ----
+    # ---- Role Restriction ---- // update
     if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.INSTRUCTOR, Users.Role.STUDENT, Users.Role.ADMIN]:
         messages.error(request, "You are not allowed to access this page")
         return redirect('club_detail', club_id=club_id)
