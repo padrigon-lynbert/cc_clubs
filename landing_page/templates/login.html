@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Student Management System Login</title>
+    <style>
+        :root {
+            --bcp-navy: #1e3a8a;
+            --bcp-violet: #4f46e5;
+            --bcp-hover: #433db8;
+            --main-font: 'Inter', Arial, sans-serif;
+            --form-max-width: 300px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--main-font);
+            min-height: 100vh;
+            display: flex;
+            background-color: #f8f8f8;
+        }
+
+
+        .container {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .left-panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1 1 50%;
+            padding: 40px 20px;
+            background-color: white;
+        }
+
+        .login-content {
+            width: 100%;
+            max-width: var(--form-max-width);
+        }
+
+        .logo-placeholder {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-placeholder img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #4b5563;
+            margin-bottom: 4px;
+        }
+
+        .required-star {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 0.875rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--bcp-violet);
+            box-shadow: 0 0 0 2px rgba(111, 66, 193, 0.25);
+        }
+
+        .sign-in-btn {
+            width: 100%;
+            padding: 10px 0;
+            background-color: var(--bcp-violet);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .sign-in-btn:hover {
+            background-color: var(--bcp-hover);
+        }
+
+        .right-panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1 1 50%;
+            background-color: var(--bcp-navy);
+            color: white;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .right-panel::before,
+        .right-panel::after,
+        .shape-3 {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .right-panel::before {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            top: -100px;
+            right: -100px;
+        }
+
+        .right-panel::after {
+            width: 350px;
+            height: 350px;
+            background: rgba(26, 42, 108, 0.7);
+            bottom: -150px;
+            left: -150px;
+        }
+
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            bottom: 50px;
+            right: 50px;
+        }
+
+        .branding-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 450px;
+            text-align: left;
+        }
+
+        .system-heading {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .admission-link {
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .admission-link:hover {
+            opacity: 1;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+
+            .left-panel,
+            .right-panel {
+                flex: 1 1 50%;
+                padding: 0;
+            }
+
+            .left-panel {
+                height: 100vh;
+            }
+        }
+
+        .validation {
+            color:red;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="login-content">
+                <div class="logo-placeholder">
+                    <img src="https://placehold.co/96x96/c0d7ff/1a2a6c?text=Club+Logo"
+                        alt="Bestlink College of the Philippines Logo">
+                </div>
+                <h2 class="title">Sign in</h2>
+
+                <!-- Form -->
+                <form action="{% url 'login_from_landing' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="member-login-number">
+                            Email
+                            <span class="required-star">*</span>
+                        </label>
+                        <input type="text" name="member-login-number" id="member-login-number" placeholder="name@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member-login-password">
+                            Password
+                            <span class="required-star">*</span>
+                        </label>
+                        <input type="password" name="member-login-password" id="member-login-password" placeholder="********" required>
+                    </div>
+                    <div class="text-white">
+                        {% for message in messages %}
+                        <p class="validation">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" class="sign-in-btn">Sign in</button>
+                </form>
+
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="shape-3"></div>
+            <div class="branding-content">
+                <h2 class="system-heading">
+                    Club Management System
+                </h2>
+                <a href="#" class="admission-link">
+                    Redirect to SMS click here
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

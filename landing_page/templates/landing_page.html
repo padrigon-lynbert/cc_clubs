@@ -30,7 +30,7 @@
     <style>
         .form-control.apply {
             font-style: inherit;
-            background-color: #29306F;
+            background-color: #1e3a8a;
             color: #F1F2F3;
             font-weight: 1000;
             text-align: center;
@@ -46,12 +46,12 @@
         }
 
         .pfpbtn {
-            background-color: #29306F;
+            background-color: #4f46e5;
             color: white;
         }
 
         .pfpbtn:hover {
-            background-color: #4755cb ;
+            background-color: #433db8 ;
         }
     </style>
 </head>
@@ -98,10 +98,6 @@
                     </span>
                 </a>
 
-                <div class="d-lg-none ms-auto me-3">
-                    <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
-                        role="button" aria-controls="offcanvasExample">Login</a>
-                </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -160,8 +156,7 @@
                     <!-- login button changing role view -->
                     <div class="d-none d-lg-block ms-lg-3">
                         {% if request.session.member_role == None %} 
-                            <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
-                                role="button" aria-controls="offcanvasExample">Login</a>
+                            <a href="{% url 'login_page' %}" class="btn custom-btn custom-border-btn">Login</a>
                         {% elif request.session.member_role == 0 %}
                             <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
                                 role="button" aria-controls="offcanvasExample">Student</a>
@@ -199,7 +194,7 @@
                 <h4 class="offcanvas-title" id="offcanvasExampleLabel">My Account</h4>
                 {% else %}
                 <h5 class="offcanvas-title" id="offcanvasExampleLabel">Login</h5>
-                <!-- <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button> -->
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 {% endif %}
             </div>
 <hr>
@@ -281,7 +276,7 @@
 
 
         <!-- global chat canvas-->
-        <div class="offcanvas offcanvas-start w-75 p-0 m-0" style="background-color: #29306f;" data-bs-scroll="true"
+        <div class="offcanvas offcanvas-start w-75 p-0 m-0" style="background-color: #1e3a8a;" data-bs-scroll="true"
             tabindex="-1" id="GlobalChat" aria-labelledby="GlobalChatLabel" style="max-width: 900px;">
 
             <div class="offcanvas-header">
