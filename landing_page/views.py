@@ -93,7 +93,7 @@ def login_from_landing(request):
             api_res = res.json()
         except Exception as e:
             messages.error(request, f"API error: {e}")
-            return redirect('home')
+            return redirect('login_page')
 
         if api_res.get("status") == "success":
             user = api_res.get("user", {})
@@ -106,7 +106,7 @@ def login_from_landing(request):
         else:
             messages.error(request, 'Invalid account or password')
     
-    return redirect('home')
+    return redirect('login_page')
 
 def logout(request):
     request.session.flush()
@@ -128,3 +128,6 @@ def global_announcements(request):
 
 def profile_settings(request):
     return render(request, 'profile_settings.html')
+
+def login_page(request):
+    return render(request, 'login.html')
