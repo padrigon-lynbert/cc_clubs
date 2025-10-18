@@ -116,6 +116,9 @@ def logout(request):
 from clubs.models import Announcement
 
 def global_announcements(request):
+    if not request.session.get('member_logged_in'):
+        messages.error(request, "You must be logged in to access this page")
+        return redirect(reverse('home') + '#section_3')
     announcements = Announcement.objects.all().order_by('-announcement_date')
     for a in announcements:
         if a.image:
