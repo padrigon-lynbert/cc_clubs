@@ -676,8 +676,7 @@
                             <button type="submit" class="form-control">Submit</button>
                         </div>
                     </form> -->
-
-
+{% if role_display != "Guest" %}
         <!--eventswewr-->
         <section class="events-section section-bg section-padding" id="section_4">
             <div class="container">
@@ -788,7 +787,6 @@
                     </div>
                 </div> -->
 
-
                 {% if recent_announcements %}
                     {% for a in recent_announcements %}
                     <div class="row custom-block mb-4 align-items-center">
@@ -852,10 +850,8 @@
             </div>
             </div>
         </section>
-
         <!--baba-->
-
-
+{% endif %}
 
 
 
