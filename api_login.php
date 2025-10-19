@@ -1,10 +1,10 @@
 <?php
 header('Content-Type: application/json');
 
-$host = "dpg-d35pt5ali9vc738k5ur0-a.oregon-postgres.render.com";
-$db   = "temp_api";
-$user = "temp_api_user";
-$pass = "cTWduHqplZ2sAc00VaGblaNnZcFTqkmj";
+$host = "dpg-d3q794odl3ps73bn4jbg-a.oregon-postgres.render.com";
+$db   = "reporting_api";
+$user = "reporting_api_user";
+$pass = "NnJaaGQZdlomaoT22c5bXfZHqytGrfB2";
 $port = "5432";
 
 try {
