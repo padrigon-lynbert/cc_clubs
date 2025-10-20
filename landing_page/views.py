@@ -130,4 +130,7 @@ def profile_settings(request):
     return render(request, 'profile_settings.html')
 
 def login_page(request):
+    if request.user.is_authenticated:
+        # Redirect to landing page if user is already logged in
+        return redirect('home')  # 'landing_page' is the name of your URL pattern
     return render(request, 'login.html')
