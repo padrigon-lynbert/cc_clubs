@@ -98,6 +98,8 @@ def get_club_application(request):
                 'total_accepted': total_accepted,
                 'total_rejected': total_rejected,
                 'total_all': total_all,
+                'approved_apps': ClubApplication.objects.filter(status=1),  
+                'declined_apps': ClubApplication.objects.filter(status=2),  
             }
     return render(request, 'club_applications_review.html', context)
 

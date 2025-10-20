@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Club Application Review</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">  <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"
+        rel="stylesheet">
     <style>
-        .status-pending { background-color: #fff3cd; border-left: 4px solid #ffc107; }
-        .status-approved { background-color: #d1edff; border-left: 4px solid #0d6efd; }
-        .status-rejected { background-color: #f8d7da; border-left: 4px solid #dc3545; }
+        .status-pending {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+        }
+
+        .status-approved {
+            background-color: #d1edff;
+            border-left: 4px solid #0d6efd;
+        }
+
+        .status-rejected {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
         .file-list .list-group-item {
             padding: 0.5rem 1rem;
             border: 1px solid #dee2e6;
             border-bottom: none;
         }
+
         body {
             font-family: 'DM Sans', sans-serif;
             background: #f9fbfd;
@@ -26,7 +45,7 @@
             line-height: 1.6;
         }
 
-            /* Header */
+        /* Header */
         header {
             background: #29306f;
             color: white;
@@ -45,7 +64,7 @@
             gap: 0.6rem;
         }
 
-           /* Return Button */
+        /* Return Button */
         .return-btn {
             display: flex;
             align-items: center;
@@ -62,14 +81,17 @@
         .file-list .list-group-item:last-child {
             border-bottom: 1px solid #dee2e6;
         }
+
         .application-card {
             transition: box-shadow 0.15s ease-in-out;
         }
+
         .application-card:hover {
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
         }
     </style>
 </head>
+
 <body class="bg-light">
     <!-- Header -->
     <header>
@@ -84,16 +106,18 @@
 
     <!-- Toast Container for err (login)-->
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
-    {% for message in messages %}
-        <div class="toast align-items-center text-white bg-{{ message.tags }} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+        {% for message in messages %}
+        <div class="toast align-items-center text-white bg-{{ message.tags }} border-0 show" role="alert"
+            aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body" style="color: black;">
-                {{ message }}
+                    {{ message }}
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
             </div>
         </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 
     <!-- Toast JS (requires Bootstrap 5) -->
@@ -149,10 +173,12 @@
 
         <!-- Application Cards -->
         <div class="row">
-    {% if pending_applications %}
-        {% for pending_application in pending_applications %}
+            {% if pending_applications %}
+            {% for pending_application in pending_applications %}
             <!-- Application 1 - Pending -->
-            <div class="col-12 mb-4">
+            <div class="bg-white p-3 rounded mb-2 border">
+                <h3>Pending Logs</h3>
+                <div class="col-12 mb-4">
                 <div class="card application-card status-pending">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <div>
@@ -162,70 +188,86 @@
                                 <span class="text-muted fs-6">({{ pending_application.acronym }})</span>
                             </h5>
                             <small class="text-muted">
-                                <i class="bi bi-person me-1"></i>Submitted by: {{ pending_application.submitted_by.name|title }} |
+                                <i class="bi bi-person me-1"></i>Submitted by:
+                                {{pending_application.submitted_by.name|title }} |
                                 <i class="bi bi-calendar3 me-1"></i>{{ pending_application.date_submitted }} |
                                 <i class="bi bi-envelope me-1"></i>{{ pending_application.email }}
                             </small>
                         </div>
                         <div class="d-flex gap-2 align-items-center">
                             <span class="badge bg-warning">{{ pending_application.get_status_display }} Review</span>
-                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#app-{{ pending_application.id }}">
+                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse"
+                                data-bs-target="#app-{{ pending_application.id }}">
                                 <i class="bi bi-eye me-1"></i>Review Details
                             </button>
                         </div>
                     </div>
-                    
+
                     <div id="app-{{ pending_application.id }}" class="collapse">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <p><strong><i class="bi bi-person-badge me-1"></i>Adviser:</strong> {{ pending_application.adviser.name|title }}</p>
-                                            <p><strong><i class="bi bi-envelope me-1"></i>Club Email:</strong> {{ pending_application.email }}</p>
-                                            <p><strong><i class="bi bi-people me-1"></i>Course:</strong> {{ pending_application.program.course_code }}</p>
+                                            <p><strong><i class="bi bi-person-badge me-1"></i>Adviser:</strong>
+                                                {{pending_application.adviser.name|title }}</p>
+                                            <p><strong><i class="bi bi-envelope me-1"></i>Club Email:</strong>
+                                                {{pending_application.email }}</p>
+                                            <p><strong><i class="bi bi-people me-1"></i>Course:</strong>
+                                                {{pending_application.program.course_code }}</p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p><strong><i class="bi bi-geo-alt me-1"></i>Year Level:</strong> {{ pending_application.get_year_level_display }}</p>
-                                            <p><strong><i class="bi bi-calendar-date me-1"></i>Application Date:</strong> {{ pending_application.date_submitted }}</p>
+                                            <p><strong><i class="bi bi-geo-alt me-1"></i>Year Level:</strong>
+                                                {{pending_application.get_year_level_display }}</p>
+                                            <p><strong><i class="bi bi-calendar-date me-1"></i>Application
+                                                    Date:</strong> {{ pending_application.date_submitted }}</p>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="mt-3">
                                         <p><strong><i class="bi bi-card-text me-1"></i>Club Description:</strong></p>
                                         <p class="text-muted">{{ pending_application.description }}</p>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-4">
                                     <h6><i class="bi bi-files me-2"></i>Required Documents:</h6>
                                     <div class="file-list">
                                         <div class="list-group">
-                                            <a href="{{ pending_application.constitutions_and_by_laws.url }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" target="_blank" rel="noopener norefferer">
+                                            <a href="{{ pending_application.constitutions_and_by_laws.url }}"
+                                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                                                target="_blank" rel="noopener norefferer">
                                                 <div>
                                                     <i class="bi bi-file-earmark-text me-2"></i>Constitution & By Laws
                                                 </div>
                                                 <span class="badge bg-success rounded-pill">✓</span>
                                             </a>
-                                            <a href="{{ pending_application.acceptance_letter.url }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <a href="{{ pending_application.acceptance_letter.url }}"
+                                                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <i class="bi bi-file-earmark-text me-2"></i>Acceptance Letter
                                                 </div>
                                                 <span class="badge bg-success rounded-pill">✓</span>
                                             </a>
-                                            <a href="{{ pending_application.action_plan.url }}"" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <a href="{{ pending_application.action_plan.url }}"" class=" list-group-item
+                                                list-group-item-action d-flex justify-content-between
+                                                align-items-center">
                                                 <div>
                                                     <i class="bi bi-file-earmark-spreadsheet me-2"></i>Action Plan
                                                 </div>
                                                 <span class="badge bg-success rounded-pill">✓</span>
                                             </a>
-                                            <a href="{{ pending_application.list_of_officers.url }}"" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <a href="{{ pending_application.list_of_officers.url }}"" class="
+                                                list-group-item list-group-item-action d-flex justify-content-between
+                                                align-items-center">
                                                 <div>
                                                     <i class="bi bi-file-earmark-image me-2"></i>List of Officers
                                                 </div>
                                                 <span class="badge bg-success rounded-pill">✓</span>
                                             </a>
-                                            <a href="{{ pending_application.calendar_of_activities.url }}"" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <a href="{{ pending_application.calendar_of_activities.url }}"" class="
+                                                list-group-item list-group-item-action d-flex justify-content-between
+                                                align-items-center">
                                                 <div>
                                                     <i class="bi bi-file-earmark-pdf me-2"></i>Calendar of Activities
                                                 </div>
@@ -235,19 +277,22 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Action Buttons -->
                             <div class="d-flex gap-2 mt-4 pt-3 border-top">
-                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal{{ pending_application.id }}">
+                                <button class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#approveModal{{ pending_application.id }}">
                                     <i class="bi bi-check-circle me-1"></i>Accept Application
                                 </button>
-                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal{{ pending_application.id }}">
+                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#rejectModal{{ pending_application.id }}">
                                     <i class="bi bi-x-circle me-1"></i>Reject Application
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
 
             <!-- Approve Modal -->
@@ -290,7 +335,14 @@
                         </div>
                         <div class="modal-body">
                             <p>Are you sure you want to reject this application?</p>
+                            <label for="rejectionReason" class="form-label">Reason for rejection:</label>
+                            <textarea name="rejection_reason" id="rejectionReason" class="form-control" rows="4"
+                                placeholder="e.g., Missing required documents or not meeting eligibility criteria.">
+                            </textarea>
+                            <small class="text-success">gawan na lang ng data process(remove)</small>
+                            <!-- wala pang data, ui pa lang di ko alam pano gawan process padiretso database -->
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             <form action="{% url 'reject_club' club_id=pending_application.id %}" method="POST">
@@ -303,13 +355,107 @@
                     </div>
                 </div>
             </div>
-        {% endfor %}
-        {% else %}
+            {% endfor %}
+            {% else %}
             <div class="border rounded px-3 py-2 mb-2 text-center" style="background-color: #29306f; color: #f1f2f3;">
                 <p class="m-0">No Application to review.
                 </p>
             </div>
-    {% endif %}
+            {% endif %}
+
+            <div class="container mb-5 mt-3 bg-white p-4 border rounded">
+                <h3 class="mb-4">Application Logs</h3>
+
+                <ul class="nav nav-tabs" id="logTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="approved-tab" data-bs-toggle="tab"
+                            data-bs-target="#approved" type="button" role="tab">
+                            Approved History
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="declined-tab" data-bs-toggle="tab" data-bs-target="#declined"
+                            type="button" role="tab">
+                            Declined History
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content mt-3" id="logTabsContent">
+                    <!-- Approved Table -->
+                    <div class="tab-pane fade show active" id="approved" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped table-bordered align-middle">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Club Name</th>
+                                        <th>Applicant</th>
+                                        <th>Email</th>
+                                        <th>Approved By</th>
+                                        <th>Date Approved</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for app in approved_apps %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ app.club_name }}</td>
+                                        <td>{{ app.applicant.get_full_name }}</td>
+                                        <td>{{ app.email }}</td>
+                                        <td>{{ app.approved_by.get_full_name }}</td>
+                                        <td>{{ app.approved_at|date:"M d, Y - H:i" }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6" class="text-center">No approved applications yet.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Declined Table -->
+                    <div class="tab-pane fade" id="declined" role="tabpanel">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped table-bordered align-middle">
+                                <thead class="table-danger">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Club Name</th>
+                                        <th>Applicant</th>
+                                        <th>Email</th>
+                                        <th>Declined By</th>
+                                        <th>Reason</th>
+                                        <th>Date Declined</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for app in declined_apps %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ app.club_name }}</td>
+                                        <td>{{ app.applicant.get_full_name }}</td>
+                                        <td>{{ app.email }}</td>
+                                        <td>{{ app.declined_by.get_full_name }}</td>
+                                        <td>{{ app.rejection_reason|default:"No reason provided" }}</td>
+                                        <td>{{ app.declined_at|date:"M d, Y - H:i" }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="7" class="text-center">No declined applications yet.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
             <!-- Application 2 - Pending -->
             <!-- <div class="col-12 mb-4">
                 <div class="card application-card status-pending">
@@ -396,8 +542,8 @@
                                 </div>
                             </div>
                              -->
-                            <!-- Action Buttons -->
-                            <!-- <div class="d-flex gap-2 mt-4 pt-3 border-top">
+            <!-- Action Buttons -->
+            <!-- <div class="d-flex gap-2 mt-4 pt-3 border-top">
                                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal">
                                     <i class="bi bi-check-circle me-1"></i>Accept Application
                                 </button>
@@ -441,14 +587,15 @@
             </div>
         </div> -->
 
-        <!-- Load More Button -->
-        <!-- <div class="text-center mt-4 mb-5">
+            <!-- Load More Button -->
+            <!-- <div class="text-center mt-4 mb-5">
             <button class="btn btn-outline-primary">
                 <i class="bi bi-arrow-down-circle me-1"></i>Load More Applications
             </button>
         </div>
     </div> -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
