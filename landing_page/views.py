@@ -137,3 +137,7 @@ def login_page(request):
         # Redirect to landing page if user is already logged in
         return redirect('home')  # 'landing_page' is the name of your URL pattern
     return render(request, 'login.html')
+
+
+def upcoming_events(request):
+    return render(request, 'upcoming_events.html')

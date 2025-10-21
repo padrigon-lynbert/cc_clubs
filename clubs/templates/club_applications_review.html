@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
     <title>Club Application Review</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"
@@ -16,6 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css"
         rel="stylesheet">
+    <link href="{% static 'landing_page/css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
     <style>
         .status-pending {
             background-color: #fff3cd;
@@ -99,7 +101,8 @@
             <i class="fas fa-arrow-left"></i> Return
         </a>
         <div class="logo">
-            <img src="logo.png" alt="BCP Logo">
+            <img src="{% static 'landing_page/images/logo.png' %}" class="navbar-brand-image img-fluid"
+                        alt="Tiya Golf Club">
             <span>BCP CLUB SYSTEM</span>
         </div>
     </header>
