@@ -166,9 +166,16 @@ def reject_club(request, club_id):
     
     club_application = get_object_or_404(ClubApplication, id=club_id)
 
+    rejection_reason = request.POST.get('rejection_reason').strip()
+
+    if len(rejection_reason) < 5:
+        messages.error(request, "Please provide a valid rejection reason (at least 5 characters).")
+        return redirect('get_club_application')
+
     try:
         with transaction.atomic():
             club_application.status = ClubApplication.Status.REJECTED
+            club_application.rejection_reason = rejection_reason
             club_application.save()
             messages.warning(request, 'Application has been rejected.')
     except Exception as e:

@@ -328,6 +328,8 @@
             <!-- Reject Modal -->
             <div class="modal fade" id="rejectModal{{ pending_application.id }}" tabindex="-1">
                 <div class="modal-dialog">
+                <form action="{% url 'reject_club' club_id=pending_application.id %}" method="POST">
+                    {% csrf_token %}    
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
@@ -338,24 +340,21 @@
                         </div>
                         <div class="modal-body">
                             <p>Are you sure you want to reject this application?</p>
-                            <label for="rejectionReason" class="form-label">Reason for rejection:</label>
-                            <textarea name="rejection_reason" id="rejectionReason" class="form-control" rows="4"
-                                placeholder="e.g., Missing required documents or not meeting eligibility criteria.">
+                            <label for="rejection_reason" class="form-label">Reason for rejection:</label>
+                            <textarea name="rejection_reason" id="rejection_reason" class="form-control" rows="4"
+                                placeholder="e.g., Missing required documents or not meeting eligibility criteria." required>
                             </textarea>
-                            <small class="text-success">gawan na lang ng data process(remove)</small>
                             <!-- wala pang data, ui pa lang di ko alam pano gawan process padiretso database -->
                         </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <form action="{% url 'reject_club' club_id=pending_application.id %}" method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger">
-                                    <i class="bi bi-x-circle me-1"></i>Reject Application
-                                </button>
-                            </form>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-x-circle me-1"></i>Reject Application
+                            </button>
                         </div>
                     </div>
+                </form>
                 </div>
             </div>
             {% endfor %}
