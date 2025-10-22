@@ -119,6 +119,7 @@ class ClubApplication(models.Model):
     list_of_officers = models.FileField(upload_to='Club Application/List of Officers/')
     calendar_of_activities = models.FileField(upload_to='Club Application/Calendar of Activities/')
     submitted_by = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='submitted_applications')
+    rejection_reason = models.CharField(max_length=255, null=True, blank=True)
     
     class YearLevel(models.IntegerChoices):
         FIRST_YEAR = 0, _('First Year')
