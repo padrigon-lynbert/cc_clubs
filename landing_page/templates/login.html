@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
-    <title>Student Management System Login</title>
+    <title>BCP CLub Login</title>
     <style>
         :root {
             --bcp-navy: #1e3a8a;
@@ -212,7 +212,7 @@
         }
 
         .validation {
-            color:red;
+            color: red;
         }
     </style>
 
@@ -236,7 +236,8 @@
                             Email
                             <span class="required-star">*</span>
                         </label>
-                        <input type="text" name="member-login-number" id="member-login-number" placeholder="name@example.com" required>
+                        <input type="text" name="member-login-number" id="member-login-number"
+                            placeholder="name@example.com" required>
                     </div>
 
                     <div class="form-group">
@@ -244,7 +245,8 @@
                             Password
                             <span class="required-star">*</span>
                         </label>
-                        <input type="password" name="member-login-password" id="member-login-password" placeholder="********" required>
+                        <input type="password" name="member-login-password" id="member-login-password"
+                            placeholder="********" required>
                     </div>
                     <div class="text-white">
                         {% for message in messages %}
@@ -264,8 +266,8 @@
                 <h2 class="system-heading">
                     Club Management System
                 </h2>
-                <a href="#" class="admission-link">
-                    Redirect to SMS click here
+                <a href="{% url 'home' %}" class="admission-link">
+                    Return to Homepage. <strong>click here</strong>
                 </a>
             </div>
         </div>
