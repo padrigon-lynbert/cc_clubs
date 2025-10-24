@@ -3,9 +3,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Users
 from django.contrib import messages
 from django.db import connections
+from django.db.models import Q
 from django.urls import reverse
 from individual_club.models import BudgetRequest, Users, Clubs
-from clubs.models import Announcement
+from clubs.models import Announcement, ClubApplication
 import base64, requests
 
 from individual_club.views import get_role
@@ -23,6 +24,10 @@ def terms_and_conditions(request):
 def home(request):
     pending_budget_request = BudgetRequest.objects.filter(status=0)
     member_id = request.session.get('member_id')
+    from django.db.models import Q
+
+    club_applications = ClubApplication.objects.filter(Q(status=ClubApplication.Status.REJECTED) | Q(status=ClubApplication.Status.APPROVED), submitted_by=member_id) if member_id else None
+
     club_i_am_instructor = Clubs.objects.filter(adviser=member_id) if member_id else None
     clubs_student_joined = Clubs.objects.filter(memberships__student_id=member_id) if member_id else None
     recent_announcements = Announcement.objects.order_by('-announcement_date')[:2]
@@ -49,7 +54,8 @@ def home(request):
         "club_i_am_instructor": club_i_am_instructor,
         "club_student_joined": clubs_with_roles,
         "role_display": role_display,
-        "recent_announcements": recent_announcements
+        "recent_announcements": recent_announcements,
+        "club_applications": club_applications
     }
 
     return render(request, 'landing_page.html', context)

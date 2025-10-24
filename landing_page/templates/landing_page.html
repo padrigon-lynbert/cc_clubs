@@ -262,32 +262,22 @@
                                     <strong>Notifications</strong>
                                     <!-- <a href="#" class="see-all">See All</a> -->
                                 </div>
+                            {% for club_application in club_applications %}
                                 <ul class="notification-list">
                                     <li class="notification-item text-center unread">
                                         <a href="#" class="btn border-0">
                                             <div class="notification-content">
-                                                <p>Your <strong>Club Application</strong> has been declined. <br>Check
+                                                <p>Your Club Application <strong>{{ club_application.club_name }}</strong> has been <strong>{{ club_application.get_status_display }}</strong> <br>Check
                                                     for
-                                                    reasons.</p>
+                                                    more details.</p>
                                                 <div class="text-start">
                                                     <span class="time">2 mins ago</span>
                                                 </div>
                                             </div>
                                         </a>
                                     </li>
-                                    <li class="notification-item text-center">
-                                        <a href="#" class="btn border-0">
-                                            <div class="notification-content">
-                                                <p>Your <strong>Club Application</strong> has been declined. <br>Check
-                                                    for
-                                                    reasons.</p>
-                                                <div class="text-start">
-                                                    <span class="time">3 hours ago</span>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
                                 </ul>
+                            {% endfor %}
                             </div>
                         </li>
 
@@ -537,7 +527,6 @@
                         <h2 class="text-white">Welcome to BCP Clubs</h2>
 
                         <h1 class="cd-headline rotate-1">
-                            <!-- <span>Tiya is</span> -->
                             <span class="cd-words-wrapper">
                                 <b class="is-visible">Join</b>
                                 <b>Participate</b>
@@ -547,11 +536,6 @@
                                 <b>Compete</b>
                             </span>
                         </h1>
-                        <!-- <div class="custom-btn-group">
-                                <a href="#section_2" class="btn custom-btn smoothscroll me-3">Our Story</a>
-
-                                <a href="#section_3" class="btn custom-btn smoothscroll">Browse Active Clubs</a>
-                            </div> -->
                     </div>
 
                     <div class="col-lg-6 col-12">
@@ -602,21 +586,6 @@
                     <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0 mb-md-0">
                         <div class="member-block">
                             <div class="member-block-image-wrap">
-                                <!-- <img src="{% static 'landing_page/images/members/sir_ian.jpeg' %}" 
-                                        class="member-block-image img-fluid" 
-                                        alt=""
-                                        style="height:300px; width:270px; object-fit:cover; border-radius:5%; padding:5px; text-align: center;">                                     -->
-
-                                <!-- <ul class="social-icon">
-                                        <li class="social-icon-item">
-                                            <a href="#" class="social-icon-link bi-twitter"></a>
-                                        </li>
-
-                                        <li class="social-icon-item">
-                                            <a href="#" class="social-icon-link bi-whatsapp"></a>
-                                        </li>
-                                    </ul> -->
-
                                 <div class="member-block-image-wrap d-flex justify-content-center">
                                     <img src="{% static 'landing_page/images/members/sir_ian.jpg' %}"
                                         style="height:300px; width:230px; object-fit:cover; border-radius:5%;">
