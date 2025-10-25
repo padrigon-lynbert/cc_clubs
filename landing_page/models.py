@@ -9,7 +9,7 @@ class Users(models.Model):
     class Role(models.IntegerChoices):
         STUDENT = 0, _('Student')
         OFFICER = 1, _('Officer')
-        INSTRUCTOR = 2, _('Instructor')
+        ADVISER = 2, _('Adviser')
         ACTIVITY_COORDINATOR = 3, _('Coordinator')
         ADMIN = 4, _('Admin')
 

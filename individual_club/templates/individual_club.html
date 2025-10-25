@@ -439,7 +439,7 @@
               </a>
             </li>
           
-            {% if role != "Visitor" and role != "Activity Coordinator" %} 
+            {% if role == "Student" or role == "Adviser" %} 
             <!-- view: adviser, officers -->
             <li class="nav-item">
               <a class="nav-link" href="{% url 'election_club' club.id %}">

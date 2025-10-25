@@ -365,14 +365,16 @@ def get_role(request, club):
 
     if user_role == Users.Role.ADMIN:
         return "Admin"
-    elif user_role == Users.Role.ACTIVITY_COORDINATOR:
-        return "Activity Coordinator"
+    elif user_role == Users.Role.ADVISER:
+        return "Adviser"
+    elif user_role == Users.Role.STUDENT:
+        return "Student"
 
     membership = Memberships.objects.filter(student_id=user_id, club=club).first()
     if membership:
         return membership.get_role_display()
 
     if Clubs.objects.filter(adviser_id=user_id, id=club.id).exists():
-        return "Adviser"
+        return "Activity Coordinator"
 
     return "Visitor"

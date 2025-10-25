@@ -593,14 +593,12 @@
                                 <span>Home</span>
                             </a>
                         </li>
-                        {% if role != 'Visitor' %}
                         <li class="nav-item">
                             <a class="nav-link active" href="{% url 'election_club' club.id %}">
                                 <i class="fas fa-users-cog"></i>
                                 <span>Club Officer Election</span>
                             </a>
                         </li>
-                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'club_achievement' club.id %}">
                                 <i class="fas fa-trophy"></i>
@@ -657,7 +655,7 @@
                         </h1>
                         <p class="page-subtitle">Create and manage elections. Vote securely and privately.</p>
                     </div>
-                    {% if user.role == 3 or user.role == 4 %}
+                    {% if user.role == 2 %}
                     <div class="button-group">
                         <button class="btn btn-primary me-2" onclick="createVote()">
                             <i class="fas fa-plus"></i> Create Vote
@@ -908,7 +906,7 @@
 
                 document.addEventListener('DOMContentLoaded', async function() {
                     await initializeEncryptionKey();
-                    if ({{ user.role }} === 3 || {{ user.role }} === 4) {
+                    if ({{ user.role }} == 2) {
                         renderManageElections();
                         setInterval(() => {
                             const fresh = JSON.parse(localStorage.getItem('elections')) || [];

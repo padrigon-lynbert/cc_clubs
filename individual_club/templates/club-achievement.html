@@ -212,8 +212,7 @@
                         <span>Home</span>
                     </a>
                     </li>
-                
-                    {% if role != "Member" and role != "Visitor" and role != "Activity Coordinator" %} 
+                 
                     <!-- view: adviser, officers -->
                     <li class="nav-item">
                     <a class="nav-link" href="{% url 'election_club' club.id %}">
@@ -221,7 +220,6 @@
                         <span>Club Officer Election</span>
                     </a>
                     </li>
-                    {% endif %}
     
                     <li class="nav-item">
                     <a class="nav-link active" href="{% url 'club_achievement' club.id %}">
