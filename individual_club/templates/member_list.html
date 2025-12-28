@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BCP Clubs - Member Directory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
+            --light-text: #64748b;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--light-bg) 0%, #e2e8f0 100%);
+            color: var(--dark-text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 3rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* Filter Controls */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .filter-group {
+            position: relative;
+            min-width: 200px;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            background: white;
+            color: var(--dark-text);
+            font-size: 1rem;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        /* Stats Overview */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        /* Members Grid */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .member-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .member-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+            background: #ddd;
+        }
+
+        .member-info {
+            padding: 1.5rem;
+        }
+
+        .member-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .member-club {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .member-role {
+            background: var(--accent-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .member-details {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .member-contact {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--light-text);
+            background: white;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .member-contact {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .logo-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .member-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .member-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .member-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .member-card:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .member-card:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        .member-card:nth-child(6) {
+            animation-delay: 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo">
+                    <img alt="BCP Organization logo featuring a modern abstract design with blue and white colors representing education and community" />
+                </div>
+                <div>
+                    <h1>BCP Clubs</h1>
+                    <p class="subtitle">Member Directory &amp; Management System</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Statistics Overview -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">247</div>
+                <div class="stat-label">Total Members</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Active Clubs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">89%</div>
+                <div class="stat-label">Active Participation</div>
+            </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filters">
+            <div class="filter-group">
+                <select class="filter-select">
+                    <option>All Clubs</option>
+                    <option>Arnis</option>
+                    <option>Basketball</option>
+                    <option>VolleyBall</option>
+                    <option>Sepak</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <select class="filter-select">
+                    <option>All Roles</option>
+                    <option>President</option>
+                    <option>Vice President</option>
+                    <option>Secretary</option>
+                    <option>Treasurer</option>
+                    <option>Member</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <select class="filter-select">
+                    <option>Sort by: Name A-Z</option>
+                    <option>Sort by: Join Date</option>
+                    <option>Sort by: Club</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Members Grid -->
+        <div class="members-grid">
+            <!-- Member 1 -->
+            <div class="member-card">
+                <div class="member-image">
+                    
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">EXAMPLE NAME</h3>
+                    <div class="member-club">
+                        <i class="fas fa-users"></i>
+                    Club for Arnis
+                    </div>
+                    <span class="member-role">President</span>
+                    <p class="member-details">
+                        ARNIS | Joined: Sep 2022
+                    </p>
+                    <div class="member-contact">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            example.j@bcp.edu
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            (555) 123-4567
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 2 -->
+            <div class="member-card">
+                <div class="member-image">
+                
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">EXAMPLE NAME</h3>
+                    <div class="member-club">
+                        <i class="fas fa-basketball-ball"></i>
+                       Club for Basketball
+                    </div>
+                    <span class="member-role">Captain</span>
+                    <p class="member-details">
+                        Basketball | Joined: Jan 2023
+                    </p>
+                    <div class="member-contact">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                           example.c@bcp.edu
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            (555) 987-6543
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 3 -->
+            <div class="member-card">
+                <div class="member-image">
+                    <img alt="Art student working on canvas in studio with paint brushes and colorful palette" />
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">EXAMPLE NAME</h3>
+                    <div class="member-club">
+                        <i class="fas fa-palette"></i>
+                       Club for Volleyball
+                    </div>
+                    <span class="member-role">Secretary</span>
+                    <p class="member-details">
+                        Volleyball | Joined: Mar 2022
+                    </p>
+                    <div class="member-contact">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            example.r@bcp.edu
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            (555) 456-7890
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 4 -->
+            <div class="member-card">
+                <div class="member-image">
+                    
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">EXAMPLE NAME</h3>
+                    <div class="member-club">
+                        <i class="fas fa-hands-helping"></i>
+                        Club for Sepak
+                    </div>
+                    <span class="member-role">Treasurer</span>
+                    <p class="member-details">
+                       Sepak | Joined: Aug 2022
+                    </p>
+                    <div class="member-contact">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            example.k@bcp.edu
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            (555) 234-5678
+                        </div>
+                    </div>
+                </div>
+            </div>
+ 
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 BCP Organization. All rights reserved.</p>
+            <p>BCP Clubs Member Management System v2.1</p>
+        </div>
+    </footer>
+</body>
+</html>

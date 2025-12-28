@@ -1,386 +1,786 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <meta name="description" content="">
-        <meta name="author" content="">
-        {% load static %}
-        <title>BCP Clubs - Home</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- CSS FILES -->                
-        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
 
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    {% load static %}
+    <title>BCP Clubs - Home</title>
 
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-        <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        <link href="{% static 'landing_page/css/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet">
 
-        <link href="{% static 'landing_page/css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
-        
-    </head>
+    <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'landing_page/css/bootstrap-icons.css' %}" rel="stylesheet">
+
+    <link href="{% static 'landing_page/css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" href="">
+    <style>
+        .form-control.apply {
+            font-style: inherit;
+            background-color: #1e3a8a;
+            color: #F1F2F3;
+            font-weight: 1000;
+            text-align: center;
+        }
+
+        .profile-logo {
+            width: 135px;
+            height: 135px;
+            background: url("{% static 'images/bg03.jpg' %}") center/cover no-repeat;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .pfpbtn {
+            background-color: #4f46e5;
+            color: white;
+        }
+
+        .pfpbtn:hover {
+            background-color: #433db8;
+        }
+
+        .notification-popup {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 350px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #f5f5f5;
+        }
+
+        .notification-header .see-all {
+            font-size: 12px;
+            color: #1877f2;
+            text-decoration: none;
+        }
+
+        .notification-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            max-height: calc(5 * 70px);
+            /* Approx 5 items visible */
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 15px;
+            transition: background 0.3s;
+            cursor: pointer;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .notification-item:hover {
+            background-color: #f0f2f5;
+        }
+
+        .notification-item.unread {
+            background-color: #e4e6eb;
+        }
+
+        .notification-content p {
+            margin: 0;
+            font-size: 14px;
+            color: #050505;
+        }
+
+        .notification-content .time {
+            font-size: 12px;
+            color: #65676b;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 20px;
+            right: 18px;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            z-index: 10;
+            border: 2px solid white;
+            /* display: none; */
+        }
+    </style>
+</head>
 
 
 
 
 
-    <!-- Toast Container for err (login)-->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
-        {% for message in messages %}
-        <div class="toast align-items-center text-white bg-{{ message.tags }} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body" style="color: black;">
-                    {{ message }}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+<!-- Toast Container for err (login)-->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+    {% for message in messages %}
+    <div class="toast align-items-center text-white bg-{{ message.tags }} border-0 show" role="alert"
+        aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" style="color: black;">
+                {{ message }}
             </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                aria-label="Close"></button>
         </div>
-        {% endfor %}
     </div>
+    {% endfor %}
+</div>
 
+<!-- Toast JS (requires Bootstrap 5) -->
+<script>
+    document.querySelectorAll('.toast').forEach(toastEl => {
+        new bootstrap.Toast(toastEl).show();
+    });
+</script>
 
+<body>
 
+    <main>
 
-    <!-- Toast JS (requires Bootstrap 5) -->
-    <script>
-        document.querySelectorAll('.toast').forEach(toastEl => {
-            new bootstrap.Toast(toastEl).show();
-        });
-    </script>
-    
-    <body>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+                    <img src="{% static 'landing_page/images/logo.png' %}" class="navbar-brand-image img-fluid"
+                        alt="Tiya Golf Club">
+                    <span class="navbar-brand-text">
+                        BCP
+                        <small>Club System</small>
+                    </span>
+                </a>
 
-        <main>
+                <div class="d-block d-lg-none order-1">
+                    {% if request.session.member_role == None %}
+                    <a href="{% url 'login_page' %}" class="btn custom-btn custom-border-btn">Login</a>
+                    {% elif request.session.member_role == 0 %}
+                    <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                        role="button" aria-controls="offcanvasExample">Student</a>
+                    {% elif request.session.member_role == 2 %}
+                    <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                        role="button" aria-controls="offcanvasExample">Adviser</a>
+                    {% elif request.session.member_role == 3 %}
+                    <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                        role="button" aria-controls="offcanvasExample">Activity Coordinator</a>
+                    {% elif request.session.member_role == 4 %}
+                    <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                        role="button" aria-controls="offcanvasExample">Admin</a>
+                    {% else %}
+                    <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                        role="button" aria-controls="offcanvasExample">Role <strong>{{request.session.member_role}}:
+                            Unrecognized</strong></a>
+                    {% endif %}
+                </div>
 
-            <nav class="navbar navbar-expand-lg">                
-                <div class="container">
-                    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-                        <img src="{% static 'landing_page/images/logo.png' %}" class="navbar-brand-image img-fluid" alt="Tiya Golf Club">
-                        <span class="navbar-brand-text">
-                            BCP
-                            <small>Club System</small>
-                        </span>
-                    </a>
+                <button class="navbar-toggler ms-auto me-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    <div class="d-lg-none ms-auto me-3">
-                        <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">Member Login</a>
-                    </div>
-    
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-    
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-lg-auto">
-                            <li class="nav-item">
-                                <a class="nav-link click-scroll" href="#section_1">Home</a>
-                            </li>
-    
-                            <li class="nav-item">
-                                <a class="nav-link click-scroll" href="#section_2">About</a>
-                            </li>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="#section_1">Home</a>
+                        </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link click-scroll" href="#section_3">Clubs</a>
-                            </li>
-                            <!-- dont remove this comment -->
-                            <!-- <li class="nav-item">
-                                <a class="nav-link click-scroll" href="#section_4">Events</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="#section_2">About</a>
+                        </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link click-scroll" href="#section_5">Contact Us</a>
-                            </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="#section_3">Clubs</a>
+                        </li>
 
-                            <!-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="#section_4">Events</a>
+                        </li>
 
-                                <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                                    <li><a class="dropdown-item" href="event-listing.html">Event Listing</a></li>
+                        {% if request.session.member_logged_in %}
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="offcanvas" href="#GlobalChat" role="button"
+                                aria-controls="GlobalChat"><i class="bi bi-chat-dots"></i></a>
+                        </li>
+                        {% endif %}
 
-                                    <li><a class="dropdown-item" href="event-detail.html">Event Detail</a></li>
+                        {% if request.session.member_role == 3 %}
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="offcanvas" href="#BudgetRequest" role="button"
+                                aria-controls="BudgetRequest"><i class="bi bi-back"></i></a>
+                        </li>
+
+                        {% elif request.session.member_role == 2 %}
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="offcanvas" href="#club_instructor" role="button"
+                                aria-controls="club_instructor"><i class="bi bi-back"></i></a>
+                        </li>
+                        {% elif request.session.member_role == 0 %}
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="offcanvas" href="#clubs_student_joined" role="button"
+                                aria-controls="clubs_student_joined"><i class="bi bi-back"></i></a>
+                        </li>
+                        {% endif %}
+                        {% if role_display != "Guest" %}
+                        <li class="nav-item" style="position: relative;">
+                            <a class="nav-link button" id="notificationBell" role="button">
+                                <i class="bi bi-bell-fill"></i>
+                                <span class="notification-dot"></span>
+                            </a>
+
+                            <!-- Notification Popup -->
+                            <div id="notificationPopup" class="notification-popup">
+                                <div class="notification-header">
+                                    <strong>Notifications</strong>
+                                    <!-- <a href="#" class="see-all">See All</a> -->
+                                </div>
+                            {% for club_application in club_applications %}
+                                <ul class="notification-list">
+                                    <li class="notification-item text-center unread">
+                                        <a href="#" class="btn border-0">
+                                            <div class="notification-content">
+                                                <p>Your Club Application <strong>{{ club_application.club_name }}</strong> has been <strong>{{ club_application.get_status_display }}</strong> <br>Check
+                                                    for
+                                                    more details.</p>
+                                                <div class="text-start">
+                                                    <span class="time">2 mins ago</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
                                 </ul>
-                            </li> -->
-                        </ul>
+                            {% endfor %}
+                            </div>
+                        </li>
 
-                        <div class="d-none d-lg-block ms-lg-3">
-                            <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">Member Login</a>
-                        </div>
+                        {% endif %}
+                    </ul>
+
+                    <script>
+                        const bell = document.getElementById('notificationBell');
+                        const popup = document.getElementById('notificationPopup');
+
+                        bell.addEventListener('click', () => {
+                            if (popup.style.display === 'block') {
+                                // Hide the popup
+                                popup.style.opacity = 0;
+                                setTimeout(() => { popup.style.display = 'none'; }, 300);
+                            } else {
+                                // Show the popup
+                                popup.style.display = 'block';
+                                setTimeout(() => { popup.style.opacity = 1; }, 10);
+                            }
+                        });
+
+                        // Optional: close the popup if user clicks outside it
+                        document.addEventListener('click', (e) => {
+                            if (!bell.contains(e.target) && !popup.contains(e.target)) {
+                                popup.style.opacity = 0;
+                                setTimeout(() => { popup.style.display = 'none'; }, 300);
+                            }
+                        });
+                    </script>
+
+                    <!-- temporary connection kill -->
+                    <!-- <div class="d-none d-lg-block ms-lg-3">
+                        <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                            role="button" aria-controls="offcanvasExample">!c_kill</a>
+                    </div> -->
+
+                    <!-- login button changing role view -->
+                    <div class="d-none d-lg-block ms-lg-3 order-2">
+                        {% if request.session.member_role == None %}
+                        <a href="{% url 'login_page' %}" class="btn custom-btn custom-border-btn">Login</a>
+                        {% elif request.session.member_role == 0 %}
+                        <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                            role="button" aria-controls="offcanvasExample">Student</a>
+                        {% elif request.session.member_role == 2 %}
+                        <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                            role="button" aria-controls="offcanvasExample">Adviser</a>
+                        {% elif request.session.member_role == 3 %}
+                        <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                            role="button" aria-controls="offcanvasExample">Activity Coordinator</a>
+                        {% elif request.session.member_role == 4 %}
+                        <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                            role="button" aria-controls="offcanvasExample">Admin</a>
+                        {% else %}
+                        <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
+                            role="button" aria-controls="offcanvasExample">Role <strong>{{request.session.member_role}}:
+                                Unrecognized</strong></a>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+        <!-- all_budget_request canvas-->
+        {% include "landing_page_includes/all_budget_request_canvas.html" %}
+        <!-- all_club_i_am_instructor_of canvas-->
+        {% include "landing_page_includes/all_club_i_am_instructor.html" %}
+        <!-- all_club_student_joined canvas-->
+        {% include "landing_page_includes/all_club_student_joined.html" %}
+
+        <!-- for login canvas -->
+        <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasExample"
+            aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header d-flex justify-content-center">
+                {% if request.session.member_logged_in %}
+                <h4 class="offcanvas-title" id="offcanvasExampleLabel">My Account</h4>
+                {% else %}
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                {% endif %}
+            </div>
+            <hr>
+            <div class="offcanvas-body d-flex flex-column">
+                {% if request.session.member_logged_in %}
+                <div id="myAccount" class="w-100">
+                    <div class="d-flex justify-content-center">
+                        <img src="" class="profile-logo" alt="">
+                    </div>
+                    <div class="text-center mt-3">
+                        <h6 class="p-0 m-0 text-white">{{ request.session.member_name }}</h6>
+                        <small class="text-white-50 p-0 m-0">
+                            {{ role_display }} - 00{{ request.session.member_id }}
+                        </small>
+                    </div>
+                    <hr>
+                    <div class="mt-4 px-0">
+                        <!-- <a href="#" id="" class="pfpbtn btn w-100 d-block mb-2">Club/s you joined</a> -->
+                        <!-- <a href="#" id="" class="pfpbtn btn w-100 d-block mb-2">{{ user.role }}</a> -->
+                        <a href="{% url 'profile_settings' %}" id="" class="pfpbtn btn w-100 d-block mb-2">Profile</a>
+                        <a href="{% url 'logout' %}" id="" class="pfpbtn btn w-100 d-block">Logout</a>
                     </div>
                 </div>
-            </nav>
-
-            <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">                
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Member Login</h5>
-                    
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                
-                <div class="offcanvas-body d-flex flex-column">
-                    <form class="custom-form member-login-form" action="{% url 'login_from_landing' %}" method="post" role="form">
+                {% else %}
+                <form class="custom-form member-login-form" action="{% url 'login_from_landing' %}" method="post"
+                    role="form">
                     {% csrf_token %}
 
-                        <div class="member-login-form-body">
-                            <div class="mb-4">
-                                <label class="form-label mb-2" for="member-login-number">Account No.</label>
+                    <div class="member-login-form-body">
+                        <div class="mb-4">
+                            <label class="form-label mb-2" for="member-login-number">Account No.</label>
 
-                                <input type="text" name="member-login-number" id="member-login-number" class="form-control" placeholder="22015999" required>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="form-label mb-2" for="member-login-password">Password</label>
-
-                                <input type="password" name="member-login-password" id="member-login-password" pattern="[0-9a-zA-Z]{4,10}" class="form-control" placeholder="Password" required="">
-                            </div>
-
-                            <!-- <div class="form-check mb-4">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                              
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Remember me
-                                </label>
-                            </div> -->
-
-                            <div class="col-lg-5 col-md-7 col-8 mx-auto">
-                                <button type="submit" class="form-control">Login</button>
-                            </div>
-
-                            <div class="text-center my-4">
-                                <a href="#">Forgotten password?</a>
-                            </div>
-
-                            <div class="text-center my-4">
-                                <a href="{% url 'logout' %}">Logout</a>
-                            </div>
+                            <input type="text" name="member-login-number" id="member-login-number" class="form-control"
+                                placeholder="22015999" required>
                         </div>
-                    </form>
 
-                    <div class="mt-auto mb-5">
-                        <p>
-                            <strong class="text-white me-3">Any Questions?</strong>
+                        <div class="mb-4">
+                            <label class="form-label mb-2" for="member-login-password">Password</label>
 
-                            <a href="tel: 010-020-0340" class="contact-link">
-                            	010-020-0340
-                            </a>
+                            <input type="password" name="member-login-password" id="member-login-password"
+                                pattern="[0-9a-zA-Z]{4,30}" class="form-control" placeholder="Password" required="">
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <div class="col-lg-5 col-md-7 col-8 mx-auto">
+                            <button type="submit" class="form-control">Login</button>
+                        </div>
+
+                        <div class="text-center my-4">
+                            <a href="#">Forgot password?</a>
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+
+                <div class="mt-auto mb-5">
+                    <p>
+                        <strong class="text-white me-3">Any Questions?</strong>
+
+                        <a href="tel: 010-020-0340" class="contact-link">
+                            1-22-333
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="var(--secondary-color)" fill-opacity="1"
+                    d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z">
+                </path>
+            </svg>
+        </div>
+
+
+
+        <!-- global chat canvas-->
+        <div class="offcanvas offcanvas-start w-75 p-0 m-0" style="background-color: #1e3a8a;" data-bs-scroll="true"
+            tabindex="-1" id="GlobalChat" aria-labelledby="GlobalChatLabel" style="max-width: 900px;">
+
+            <div class="offcanvas-header">
+                <h4 class="offcanvas-title text-white" id="GlobalChatLabel">Global Chat</h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="d-flex flex-column flex-grow-1"
+                style="background-color: #ededed; height: 85vh; overflow: hidden;">
+                <div class="mb-2 p-3 border-bottom bg-white">
+                    <div class="text-dark fw-semibold small mb-1 d-flex justify-content-between">
+                        Pinned: Events
+                        <a href="#">Hide Pinned Events</a>
+                    </div>
+
+                    <div class="alert alert-info py-1 px-2 mb-1">
+                        <div class="small fw-bold mb-0">Club Fair – Sept 20</div>
+                        <div class="small mb-0">Visit all club booths from 10AM to 5PM in the gym.</div>
+                        <div class="small text-muted">2 hrs ago</div>
+                    </div>
+
+                    <div class="alert alert-warning py-1 px-2 mb-0">
+                        <div class="small fw-bold mb-0">Leadership Camp – Register Now</div>
+                        <div class="small mb-0">Deadline: Sept 10. Contact your club officers.</div>
+                        <div class="small text-muted">1 day ago</div>
+                    </div>
+                </div>
+
+                <div id="chatMessages" class="flex-grow-1 overflow-auto p-2 rounded mb-2" style="font-size: 0.85rem;">
+                    <!-- someones chat -->
+                    <div class="d-flex align-items-start mb-2">
+                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
+                            width="35px" class="rounded-circle me-2" alt="User Avatar">
+                        <div class="bg-white p-1 rounded shadow-sm" style="max-width: 65%;">
+                            <small class="text-muted">John Doe</small>
+                            <p class="mb-1 text-dark" style="font-size: 0.85rem;">What's up my enigma?</p>
+                            <small class="text-muted">10:00 AM</small>
+                        </div>
+                    </div>
+
+                    <!-- your chat -->
+                    <div class="d-flex align-items-start justify-content-end mb-2">
+                        <div class="text-white p-2 rounded shadow-sm"
+                            style="background-color: #29306f; max-width: 65%;">
+                            <p class="mb-1 text-white" style="font-size: 0.85rem;">HAHAHAHAHA aliw</p>
+                            <small class="text-white-50">10:02 AM</small>
+                        </div>
+                        <img src="https://static.vecteezy.com/system/resources/previews/009/734/564/non_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
+                            width="35px" class="rounded-circle ms-2 border-0" alt="Your Avatar">
+                    </div>
+                </div>
+
+
+                <form id="globalChatForm" class="d-flex align-items-center bg-white p-3 border-top">
+                    <input type="text" class="form-control me-2" placeholder="Type your message..." required>
+                    <button type="submit" class="btn text-white" style="background-color: #29306f;">
+                        <i class="bi bi-send"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+
+            <div class="section-overlay"></div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="var(--secondary-color)" fill-opacity="1"
+                    d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z">
+                </path>
+            </svg>
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-6 col-12" style="padding: 75px 0 0 75px;">
+                        <h2 class="text-white">Welcome to BCP Clubs</h2>
+
+                        <h1 class="cd-headline rotate-1">
+                            <span class="cd-words-wrapper">
+                                <b class="is-visible">Join</b>
+                                <b>Participate</b>
+                                <b>Learn</b>
+                                <b>Discover</b>
+                                <b>Train</b>
+                                <b>Compete</b>
+                            </span>
+                        </h1>
+                    </div>
+
+                    <div class="col-lg-6 col-12">
+                        <div class="ratio ratio-16x9">
+                            <iframe width="560" height="315"
+                                src="https://www.youtube.com/embed/IyZtaIV0QYc?si=f5fPt960S9csFvPu"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="#ffffff" fill-opacity="1"
+                    d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z">
+                </path>
+            </svg>
+        </section>
+
+
+        <section class="about-section" id="section_2" style="padding-top: 100px; padding-bottom: 0px;">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-12 col-12 text-center">
+                        <h2 class="mb-lg-5 mb-4">About BCP Clubs</h2>
+                    </div>
+
+                    <div class="col-lg-5 col-12 me-auto mb-4 mb-lg-0">
+                        <h1 class="mb-3">About Clubs</h1>
+
+                        <p class="lh-base">
+                            <strong>BCP CLUB</strong> — Student clubs and organizations play a vital role in holistic
+                            development by providing platforms for academic enrichment, leadership growth, cultural
+                            expression, physical wellness, and social responsibility.
+                        </p>
+
+                        <p class="lh-base">
+                            At Bestlink College of the Philippines, student organizations empower learners to explore
+                            their passions, build meaningful connections, and contribute to campus life and the
+                            community through service, creativity, and excellence in various fields.
                         </p>
                     </div>
-                </div>
 
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3D405B" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+                    <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0 mb-md-0">
+                        <div class="member-block">
+                            <div class="member-block-image-wrap">
+                                <div class="member-block-image-wrap d-flex justify-content-center">
+                                    <img src="{% static 'landing_page/images/members/sir_ian.jpg' %}"
+                                        style="height:300px; width:230px; object-fit:cover; border-radius:5%;">
+                                </div>
+
+                            </div>
+
+                            <div class="member-block-info d-flex flex-column text-center">
+                                <h4>Mr. Ian Erguiza</h4>
+                                <p>Activity Coordinator</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="member-block">
+                            <div class="member-block-image-wrap d-flex justify-content-center">
+                                <img src="{% static 'landing_page/images/members/doc_maria.jpg' %}"
+                                    style="height:300px; width:230px; object-fit:cover; border-radius:5%;">
+                            </div>
+
+                            <div class="member-block-info d-flex flex-column text-center">
+                                <h4>Dr. Maria M. Vicente</h4>
+                                <p>Founder BCP</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
+        </section>
 
-            <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
 
-                <div class="section-overlay"></div>
 
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#3D405B" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"></path></svg>
 
-                <div class="container">
-                    <div class="row">
 
-                        <div class="col-lg-6 col-12 mb-5 mb-lg-0">
-                            <h2 class="text-white">Welcome to BCP Clubs</h2>
 
-                            <h1 class="cd-headline rotate-1 text-white mb-4 pb-2">
-                                <!-- <span>Tiya is</span> -->
-                                <span class="cd-words-wrapper">
-                                    <b class="is-visible">Join a Club</b>
-                                    <b>Participate in Activities</b>
-                                    <b>Learn New Lifestyle</b>
-                                    <b>Find New Friends</b>
-                                    <b>Train</b>
-                                    <b>Compete</b>
-                                </span>
-                            </h1>
 
-                            <!-- <div class="custom-btn-group">
-                                <a href="#section_2" class="btn custom-btn smoothscroll me-3">Our Story</a>
+        <!-- club repository -->
+        <section class="membership-section" style="padding: 50px 20px;" id="section_3">
+            <div class="container">
+                <div class="row">
 
-                                <a href="#section_3" class="btn custom-btn smoothscroll">Browse Active Clubs</a>
-                            </div> -->
-                            
-                        </div>
-
-                        <div class="col-lg-6 col-12">
-                            <div class="ratio ratio-16x9">
-                                <iframe width="560" height="315" src="https://www.youtube.com/embed/IyZtaIV0QYc?si=f5fPt960S9csFvPu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                            </div>
-                        </div>
-
+                    <div class="col-lg-12 col-12 text-center mx-auto mb-lg-5 mb-4">
+                        <h2>Active Clubs</h2>
                     </div>
-                </div>
 
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#ffffff" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
-            </section>
-
-
-            <section class="about-section section-padding" id="section_2">
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-12 col-12 text-center">
-                            <h2 class="mb-lg-5 mb-4">About BCP Clubs</h2>
-                        </div>
-
-                        <div class="col-lg-5 col-12 me-auto mb-4 mb-lg-0">
-                            <h3 class="mb-3">About Clubs</h3>
-
-                            <p><strong>Since 2025</strong>, Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore nostrum, eius illum consequatur autem ab? Voluptatibus ab beatae voluptas ut!</p>
-
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, quis ad nostrum quo fugit eius?</p>
-
-                        </div>
-
-                        <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0 mb-md-0">
-                            <div class="member-block">
-                                <div class="member-block-image-wrap">
-                                    <img src="{% static 'landing_page/images/members/portrait-young-handsome-businessman-wearing-suit-standing-with-crossed-arms-with-isolated-studio-white-background.jpg' %}" class="member-block-image img-fluid" alt="">
-
-                                    <ul class="social-icon">
-                                        <li class="social-icon-item">
-                                            <a href="#" class="social-icon-link bi-twitter"></a>
-                                        </li>
-
-                                        <li class="social-icon-item">
-                                            <a href="#" class="social-icon-link bi-whatsapp"></a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="member-block-info d-flex align-items-center">
-                                    <h4>Sir Ian</h4>
-
-                                    <p class="ms-auto"> Activity Coordinator</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <div class="member-block">
-                                <div class="member-block-image-wrap">
-                                    <img src="{% static 'landing_page/images/members/successful-asian-lady-boss-red-blazer-holding-clipboard-with-documens-pen-working-looking-happy-white-background.jpg' %}" class="member-block-image img-fluid" alt="">
-
-                                    <ul class="social-icon">
-                                        <li class="social-icon-item">
-                                            <a href="#" class="social-icon-link bi-linkedin"></a>
-                                        </li>
-                                        <li class="social-icon-item">
-                                            <a href="#" class="social-icon-link bi-twitter"></a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="member-block-info d-flex align-items-center">
-                                    <h4>Someone</h4>
-
-                                    <p class="ms-auto">Position</p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
-
-           
-
-              
-
-            
-            <!-- club repository -->
-            <section class="membership-section section-padding" id="section_3">
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-12 col-12 text-center mx-auto mb-lg-5 mb-4">
-                            <h2><span>Active</span> Clubs</h2>
-                        </div>
-
-                        <div class="col-lg-6 col-12 mb-3 mb-lg-0">
-                            <form action="{% url 'register_club' %}">
+                    <div class="col-lg-6 col-12 mb-3 mb-lg-0">
+                        <form action="{% url 'register_club' %}">
                             {% csrf_token %}
 
-                                <h4 class="mb-4 pb-lg-2 text-center">Club Directory</h4>
-    
-                                    <div class="table-responsive" style="max-height: 535px; overflow-y: auto; border-radius: 10px;">
-                                        <table class="table text-center">
-                                            <thead style="position: sticky; top: 0; z-index: 1; background: white;">
-                                                <tr>
-                                                    <th style="width: 34%;">Name</th>
-                                                    
-                                                    <th style="width: 22%;">Campus</th>
-                                                    
-                                                    <th style="width: 22%;">Accepting?</th>
-                                                    
-                                                    <th style="width: 22%;">Competing?</th>
-                                                </tr>
-                                            </thead>
-                                      
-                                            <!-- This is the only applicable for the next steps in this UI -->
-                                            <!-- backend iteration in here should happen instead -->
+                            <h4 class="mb-4 pb-lg-2 text-center">Club Directory</h4>
 
-                                            <tbody id="clubs-tbody">
-                                                <tr><td colspan="4">Loading clubs...</td></tr>
-                                            </tbody>
-                                         
-                                        </table>
-                                    </div>
-                                    
-                                    <button name="action" value="club_directory" class="form-control">Register Club</button>
+                            <div class="table-responsive"
+                                style="max-height: 400px; overflow-y: auto; border-radius: 10px;">
+                                <!--scrollbar-width:none; -ms-overflow-style:none;-->
+                                <table class="table text-center table-hover">
+                                    <thead style="position: sticky; top: 0; z-index: 1; background: white;">
+                                        <tr>
+                                            <th style="width: 15%;">Acronym</th>
 
-                            </form>
-                        </div>
+                                            <th style="width: 20%;">Program</th>
 
-                        <!-- club view -->
-                        <div class="col-lg-5 col-12 mx-auto" id="club_view">
-                            <h4 class="mb-4 pb-lg-2 text-center">Please join us!</h4>
-                        
-                            <form action="{% url 'individual_club' %}" method="post" class="custom-form membership-form shadow-lg" role="form">
-                                {% csrf_token %}
-                           
-                                    
-                                <div class="card border-0 mb-4">
-                                        <img src="{% static 'landing_page/images/members/portrait-young-handsome-businessman-wearing-suit-standing-with-crossed-arms-with-isolated-studio-white-background.jpg' %}"
-                                            class="card-img-top rounded-4 shadow" alt="Club Image"
-                                            style="height: 250px; width: 100%; object-fit: cover;">
+                                            <th style="width: 15%;">Year Level</th>
 
-                                        <div class="card-body">
-                                            <!-- <h5 class="card-title fw-bold text-center">Club Name</h5> -->
-                                            <h5 id="club-name" class="card-title fw-bold text-center">Club Name</h5>
+                                            <th style="width: 10%;">Active Status</th>
+                                        </tr>
+                                    </thead>
 
-                                            <p class="card-text text-muted" style="max-height: 7em; overflow-y: auto;">
-                                                This is a brief description about the selected club, including its purpose and activities.
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati voluptatum iste facere nisi dolorum doloribus atque assumenda expedita, voluptatibus consequuntur hic ut necessitatibus rerum placeat alias, temporibus asperiores odit dolore sit aliquam. Quisquam nihil cum deleniti fugiat atque sapiente vel ducimus nam! Totam perferendis, quas suscipit cumque odit fuga quis?
-                                            </p>
+                                    <!-- This is the only applicable for the next steps in this UI -->
+                                    <!-- backend iteration in here should happen instead -->
 
-                                        </div>
-                                    </div>
-                                
-                                    <!-- <button type="submit" class="form-control">Visit</button> -->
-                                    <button type="submit" name="action" value="visit" class="form-control">Visit</button>
-                                </div>
-                            </form>
-                        </div>
+                                    <!-- <tbody id="clubs-tbody">
+                                                <tr><td colspan="4">Loading clubs...</td></tr> 
+                                            </tbody> -->
+
+                                    <tbody id="clubs-tbody">
+                                        {% include 'club_repository/ajax_fetch_all_clubs.html' %}
+                                    </tbody>
+
+
+                                </table>
+                            </div>
+
+                            <!-- hide button for each role -->
+                            {% if request.session.member_role == 0 or request.session.member_role == 4 %}
+                            <button name="action" value="club_directory" class="form-control apply">Club
+                                Application</button>
+                            {% endif %}
+                            {% if request.session.member_role == 3 or request.session.member_role == 4 %}
+                            <a href="{% url 'get_club_application' %}" class="form-control apply">Review Club</a>
+                            {% endif %}
+                        </form>
                     </div>
+
+
+
+                    <!-- club view -->
+                    <div class="col-lg-6 col-12 mx-auto" id="club_view">
+                        <h4 class="mb-4 pb-lg-2 text-center" id="join_text">Please join us!</h4>
+
+                        <form action="{% url 'individual_club' %}" method="post"
+                            class="custom-form membership-form shadow-lg" role="form"
+                            style="padding: 8px; box-shadow: none; border: none;">
+                            {% csrf_token %}
+
+
+                            <div class="card mb-4" style="border-radius: 10%;">
+                                <img id="club-image" src="{% static 'landing_page/images/fishing.jpg' %}"
+                                    class="card-img-top rounded-4 shadow" alt="Club Banner"
+                                    style="height: 203px; width: 100%; object-fit: contain;">
+
+
+                                <div class="card-body"
+                                    style="height: 170px; overflow-y: auto; scrollbar-width:none; -ms-overflow-style:none;">
+                                    <!-- <h5 class="card-title fw-bold text-center">Club Name</h5> -->
+                                    <h5 id="club-name" class="card-title fw-bold text-center">Select Club</h5>
+
+                                    <p id="club-description" class="card-text text-muted">
+                                        ! No club selected. <br><br>
+                                        This is a brief description about the selected club, including its purpose and
+                                        activities.
+                                    </p>
+
+                                </div>
+                            </div>
+
+                            <!-- <button type="submit" class="form-control">Visit</button> -->
+                            <!-- <button type="submit" name="action" value="visit" class="form-control">Visit</button> -->
+                            <input type="hidden" id="selected-club-id" name="club_id" value="">
+                            <button type="submit" class="form-control visit">Visit</button>
+                    </div>
+                    </form>
                 </div>
-              
-                <script src="{% static 'clubs/static/js/fetch_and_change.js' %}"></script>
+            </div>
+            </div>
+
+            <script>
+                // list all available club in db
+                window.addEventListener('DOMContentLoaded', () => {
+                    const tbody = document.getElementById('clubs-tbody');
+                    tbody.innerHTML = '<tr><td colspan="4">Loading clubs...</td></tr>';
+
+                    fetch("{% url 'ajax_fetch_all_clubs' %}")
+                        .then(response => response.text())
+                        .then(html => {
+                            tbody.innerHTML = html;
+                        })
+                        .catch(err => {
+                            console.error('Failed to load clubs:', err);
+                            tbody.innerHTML = '<tr><td colspan="4">Failed to load clubs.</td></tr>';
+                        });
+                });
+
+                // handle clicks
+                document.addEventListener("click", function (e) {
+                    const row = e.target.closest(".club-row");
+                    if (!row) return;
+
+                    const id = row.getAttribute("data-id");
+                    const name = row.getAttribute("data-name");
+                    const description = row.getAttribute("data-description");
+                    const banner = row.getAttribute("data-banner"); // <-- NEW
+
+                    // update preview box
+                    document.getElementById("club-name").textContent = name;
+                    document.getElementById("club-description").textContent = description;
+
+                    // update image
+                    document.getElementById("club-image").src = banner && banner.trim() !== ""
+                        ? banner
+                        : "{% static 'landing_page/images/fishing.jpg' %}";
+
+                    // update hidden input for form
+                    document.getElementById("selected-club-id").value = id;
+
+                    // scroll goto view when club is clicked in the repository
+                    const clubView = document.getElementById("club_view");
+
+                    if (window.innerWidth <= 768) {
+                        clubView.scrollIntoView({ behavior: "smooth", block: "end" });
+                    } else {
+                        document.getElementById("section_3")
+                            .scrollIntoView({ behavior: "smooth", block: "center" });
+                    }
+                });
 
 
+            </script>
+        </section>
 
-            </section>
 
+        <!-- <h4 class="text-white mb-4">Become a member</h4> -->
 
-                 <!-- <h4 class="text-white mb-4">Become a member</h4> -->
-        
-                                    <!-- <div class="form-floating">
+        <!-- <div class="form-floating">
                                         <input type="text" name="full-name" id="full-name" class="form-control" placeholder="Full Name" required="">
                                         
                                         <label for="floatingInput">Full Name</label>
@@ -397,10 +797,10 @@
                                         
                                         <label for="floatingTextarea"> Comments</label>
                                     </div> -->
-                                
 
-                  
-                    <!-- <form action="#" method="post" class="custom-form membership-form shadow-lg" role="form">
+
+
+        <!-- <form action="#" method="post" class="custom-form membership-form shadow-lg" role="form">
                         <h4 class="text-white mb-4">Become a member</h4>
 
                             <div class="form-floating">
@@ -424,149 +824,201 @@
                             <button type="submit" class="form-control">Submit</button>
                         </div>
                     </form> -->
+        <!--eventswewr-->
+        <section class="events-section section-bg section-padding" id="section_4">
+            <div class="container">
+                <div class="row">
+                    <!-- Section Title -->
+                    <div class="col-12 text-center mb-5">
+                        <h2 class="mb-4">Upcoming Events</h2>
+                        <p class="lead text-muted">Join us for exciting wellness activities this September!</p>
+                    </div>
+                </div>
 
+                <!-- Event 1: Private Golf -->
 
-            <section class="events-section section-bg section-padding" id="section_4">
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-12 col-12">
-                            <h2 class="mb-lg-3">Upcoming Events</h2>
+                <!-- <div class="row custom-block mb-4 align-items-center">
+                    <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
+                        <div
+                            class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
+                            <h6 class="custom-block-date mb-1 mb-lg-1 mb-0">1</h6>
+                            <strong class="text-white">September 2025</strong>
                         </div>
+                    </div>
 
-                        <div class="row custom-block mb-3">
-                            <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
-                                <div class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
-                                    <h6 class="custom-block-date mb-lg-1 mb-0 me-3 me-lg-0 me-md-0">24</h6>
-                                    
-                                    <strong class="text-white">Jul 2048</strong>
+                    <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
+                        <div class="custom-block-image-wrap position-relative">
+                            <a href="event-detail.html">
+                                <img src="{% static 'landing_page/images/professional-golf-player.jpg' %}"
+                                    class="custom-block-image img-fluid rounded" alt="Private Golf Activity">
+                                <i
+                                    class="custom-block-icon bi bi-link position-absolute top-50 start-50 translate-middle"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-12 order-3 order-lg-0">
+                        <div class="custom-block-info mt-2 mt-lg-0">
+                            <h5 class="events-title mb-3">
+                                <a href="event-detail.html" class="text-decoration-none">Private Golf Activities</a>
+                            </h5>
+                            <p>Enjoy a serene round of golf with personalized coaching. Perfect for individuals or small
+                                groups looking to improve their swing in a relaxed setting.</p>
+
+                            <div class="d-flex flex-wrap border-top pt-3 mt-4">
+                                <div class="me-lg-5 mb-3 mb-lg-0">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <span class="text-muted me-2">📍</span>
+                                        <span class="fw-medium">Location:</span>
+                                        <p class="mb-0 ms-1">Manila Golf Club</p>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted me-2">🎟️</span>
+                                        <span class="fw-medium">Date:</span>
+                                        <p class="mb-0 ms-1">Feb-2-2003</p>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
-                                <div class="custom-block-image-wrap">
-                                    <a href="event-detail.html">
-                                        <img src="{% static 'landing_page/images/professional-golf-player.jpg' %}" class="custom-block-image img-fluid" alt="">
-
-                                        <i class="custom-block-icon bi-link"></i>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6 col-12 order-3 order-lg-0">
-                                <div class="custom-block-info mt-2 mt-lg-0">
-                                    <a href="event-detail.html" class="events-title mb-3">Private activities</a>
-
-                                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-
-                                    <div class="d-flex flex-wrap border-top mt-4 pt-3">
-
-                                        <div class="mb-4 mb-lg-0">
-                                            <div class="d-flex flex-wrap align-items-center mb-1">
-                                                <span class="custom-block-span">Location:</span>
-
-                                                <p class="mb-0">Location</p>
+                                <div class="ms-auto">
+                                                <a href="event-detail.html" class="btn btn-primary custom-btn">Buy Ticket</a>
                                             </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
 
-                                            <div class="d-flex flex-wrap align-items-center">
-                                                <span class="custom-block-span">Ticket:</span>
+                <!-- Event 2: Group Tournament -->
+                <!-- <div class="row custom-block custom-block-bg mb-4 align-items-center">
+                    <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
+                        <div
+                            class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
+                            <h6 class="custom-block-date mb-1 mb-lg-1 mb-0">8</h6>
+                            <strong class="text-white">September 2025</strong>
+                        </div>
+                    </div>
 
-                                                <p class="mb-0">₱200</p>
-                                            </div>
-                                        </div>
+                    <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
+                        <div class="custom-block-image-wrap position-relative">
+                            <a href="event-detail.html">
+                                <img src="{% static 'landing_page/images/girl-taking-selfie-with-friends-golf-field.jpg' %}"
+                                    class="custom-block-image img-fluid rounded" alt="Group Tournament">
+                                <i
+                                    class="custom-block-icon bi bi-link position-absolute top-50 start-50 translate-middle"></i>
+                            </a>
+                        </div>
+                    </div>
 
-                                        <div class="d-flex align-items-center ms-lg-auto">
-                                            <a href="event-detail.html" class="btn custom-btn">Buy Ticket</a>
-                                        </div>
+                    <div class="col-lg-6 col-12 order-3 order-lg-0">
+                        <div class="custom-block-info mt-2 mt-lg-0">
+                            <h5 class="events-title mb-3">
+                                <a href="event-detail.html" class="text-decoration-none">Group Tournament Activities</a>
+                            </h5>
+                            <p>Compete in a friendly golf tournament or join our Arnis demo session. A great way to
+                                bond, learn, and stay active with others.</p>
+
+                            <div class="d-flex flex-wrap border-top pt-3 mt-4">
+                                <div class="me-lg-5 mb-3 mb-lg-0">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <span class="text-muted me-2">📍</span>
+                                        <span class="fw-medium">Location:</span>
+                                        <p class="mb-0 ms-1">St. Vincent School, West Avenue</p>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-muted me-2">🎟️</span>
+                                        <span class="fw-medium">Date:</span>
+                                        <p class="mb-0 ms-1">Jun-20-2004</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div> -->
 
-                        <div class="row custom-block custom-block-bg">
-                            <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
-                                <div class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
-                                    <h6 class="custom-block-date mb-lg-1 mb-0 me-3 me-lg-0 me-md-0">28</h6>
-                                    
-                                    <strong class="text-white">Jul 2048</strong>
-                                </div>
-                            </div>
+                {% if recent_announcements %}
+                {% for a in recent_announcements %}
+                <div class="row custom-block mb-4 align-items-center">
+                    <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
+                        <div
+                            class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
+                            <h6 class="custom-block-date mb-1 mb-lg-1 mb-0">{{ a.announcement_date|date:"j" }}</h6>
+                            <strong class="text-white">{{ a.start_date|date:"F j, Y" }}</strong>
+                        </div>
+                    </div>
 
-                            <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
-                                <div class="custom-block-image-wrap">
-                                    <a href="event-detail.html">
-                                        <img src="{% static 'landing_page/images/girl-taking-selfie-with-friends-golf-field.jpg' %}" class="custom-block-image img-fluid" alt="">
+                    <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
+                        <div class="custom-block-image-wrap position-relative">
+                            {% if a.image_base64 %}
+                            <img src="data:image/png;base64,{{ a.image_base64 }}"
+                                class="custom-block-image img-fluid rounded" alt="{{ a.name }}"
+                                style="height:300px; width:350px; object-fit:cover; overflow:hidden; border-radius:8px;">
+                            {% else %}
+                            <span class="text-muted">No image provided</span>
+                            {% endif %}
 
-                                        <i class="custom-block-icon bi-link"></i>
-                                    </a>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
 
-                            <div class="col-lg-6 col-12 order-3 order-lg-0">
-                                <div class="custom-block-info mt-2 mt-lg-0">
-                                    <a href="event-detail.html" class="events-title mb-3">Group tournament activities</a>
+                    <div class="col-lg-6 col-12 order-3 order-lg-0">
+                        <div class="custom-block-info mt-2 mt-lg-0">
+                            <h5 class="events-title mb-3">
+                                <span class="text-decoration-none">{{ a.name }}</span>
+                            </h5>
+                            <p>{{ a.content|truncatewords:30 }}</p>
 
-                                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-
-                                    <div class="d-flex flex-wrap border-top mt-4 pt-3">
-
-                                        <div class="mb-4 mb-lg-0">
-                                            <div class="d-flex flex-wrap align-items-center mb-1">
-                                                <span class="custom-block-span">Location:</span>
-
-                                                <p class="mb-0">Location</p>
-                                            </div>
-
-                                            <div class="d-flex flex-wrap align-items-center">
-                                                <span class="custom-block-span">Ticket:</span>
-
-                                                <p class="mb-0">200</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex align-items-center ms-lg-auto">
-                                            <a href="event-detail.html" class="btn custom-btn">Buy Ticket</a>
-                                        </div>
+                            <div class="d-flex flex-wrap border-top pt-3 mt-4">
+                                <div class="me-lg-5 mb-3 mb-lg-0">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <!-- <span class="text-muted me-2"></span> -->
+                                        <span class="fw-medium">Category:</span>
+                                        <p class="mb-0 ms-1">{{ a.get_category_display }}</p>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <!-- <span class="text-muted me-2">🎟️</span> -->
+                                        <span class="fw-medium">Date:</span>
+                                        <p class="mb-0 ms-1">
+                                            {{ a.announcement_date|date:"M-d-Y" }} - {{ a.end_date|date:"F j, Y" }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-            </section>
+                {% endfor %}
 
 
-            <section class="contact-section section-padding" id="section_5">
-                <div class="container">
-                    <div class="row">
+                {% else %}
+                <p class="text-center text-muted">No events available.</p>
+                {% endif %}
 
-                        <div >
-                            <h1>Something </h1>
-                        </div>
-
-                      
-                        </div>
-
+                <!-- Optional: View All Button -->
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <a href="{% url 'upcoming_events' %}" class="btn btn-outline-dark">View All Events</a>
+                        <!--naka black lng yan.mms-->
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+            </div>
+        </section>
+        <!--baba-->
 
-        <footer class="site-footer">
+
+
+        <!-- <footer class="site-footer">
             <div class="container">
                 <div class="row">
 
                     <div class="col-lg-6 col-12 me-auto mb-5 mb-lg-0">
                         <a class="navbar-brand d-flex align-items-center" href="index.html">
-                            <img src="{% static 'landing_page/images/logo.png' %}" class="navbar-brand-image img-fluid" alt="">
+                            <img src="{% static 'landing_page/images/logo.png' %}" class="navbar-brand-image img-fluid"
+                                alt="">
                             <span class="navbar-brand-text">
                                 BCP
                                 <small>Club System</small>
                             </span>
                         </a>
                     </div>
-<!-- 
+                    
                     <div class="col-lg-3 col-12">
                         <h5 class="site-footer-title mb-4">Join Us</h5>
 
@@ -580,9 +1032,9 @@
                             6:30 AM - 8:30 PM
                         </p>
                         <br>
-                    </div> -->
+                    </div>
 
-                        <!-- <div class="col-lg-2 col-12 ms-auto">
+                    <div class="col-lg-2 col-12 ms-auto">
                             <ul class="social-icon mt-lg-5 mt-3 mb-4">
                                 <li class="social-icon-item">
                                     <a href="#" class="social-icon-link bi-instagram"></a>
@@ -597,13 +1049,97 @@
                                 </li>
                             </ul>
                             
-                        </div> -->
+                        </div>
 
                 </div>
             </div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 180"
+                style="width:100%; height:350px; display:block;" preserveAspectRatio="none">
+                <path fill="var(--secondary-color)"
+                    d="M0,180 L0,80 C144,40 432,40 720,80 C1008,120 1296,120 1440,80 L1440,180 Z" />
+                <path fill="#E63946" d="M0,180 L0,100 C144,70 432,70 720,100 C1008,130 1296,130 1440,100 L1440,180 Z" />
+                <path fill="#F5B94A"
+                    d="M0,180 L0,130 C144,110 432,110 720,130 C1008,150 1296,150 1440,130 L1440,180 Z" />
+            </svg>
 
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#81B29A" fill-opacity="1" d="M0,224L34.3,192C68.6,160,137,96,206,90.7C274.3,85,343,139,411,144C480,149,549,107,617,122.7C685.7,139,754,213,823,240C891.4,267,960,245,1029,224C1097.1,203,1166,181,1234,160C1302.9,139,1371,117,1406,106.7L1440,96L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+        </footer> -->
+
+        <footer class="site-footer" style="padding-top: 50px; padding-bottom: 120px; position: relative;">
+            <div class="container">
+                <div class="row">
+
+                    <!-- Logo + Brand -->
+                    <div class="col-lg-2 col-12 mb-5 mb-lg-0" style="padding-top: 50px;">
+                        <a class="navbar-brand d-flex align-items-center" href="index.html">
+                            <img src="{% static 'landing_page/images/logo.png' %}" class="navbar-brand-image img-fluid"
+                                alt="">
+                            <span class="navbar-brand-text">
+                                BCP
+                                <small>Club System</small>
+                            </span>
+                        </a>
+                    </div>
+
+                    <!-- About -->
+                    <div class="col-lg-6 col-12">
+                        <h5 class="site-footer-title mb-4">About</h5>
+                        <p>
+                            BCP Club System helps students discover, join, and participate in
+                            different school clubs. Our goal is to make student life more
+                            engaging and organized.
+                        </p>
+                        <div class="mt-3">
+                            <a href="/privacy-policy" class="me-3">Privacy Policy</a>
+                            <a href="/terms-of-service" style="padding-left: 150px;">Terms of Service</a>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Contact + Policies -->
+                    <div class="col-lg-4 col-12">
+                        <h5 class="site-footer-title mb-4">Contact</h5>
+                        <p>Email: <a href="mailto:clubs@bcp.edu.ph">clubs@bcp.edu.ph</a></p>
+                        <p>Phone: <a href="tel:+6321234567">+63 2 123 4567</a></p>
+
+
+                        <!-- Social Icons -->
+                        <ul class="social-icon mt-4 d-flex">
+                            <li class="social-icon-item me-3">
+                                <a href="#" class="social-icon-link bi-facebook"></a>
+                            </li>
+                            <li class="social-icon-item me-3">
+                                <a href="#" class="social-icon-link bi-instagram"></a>
+                            </li>
+                            <li class="social-icon-item">
+                                <a href="#" class="social-icon-link bi-youtube"></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- Copyright -->
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <p class="copyright-text">Copyright © 2025 |
+                            <a rel="nofollow" target="_blank"> Bestlink College of The Phillipines</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wave SVG at Bottom -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 180"
+                style="width:100%; height:150px; position:absolute; bottom:0; left:0;" preserveAspectRatio="none">
+                <path fill="var(--secondary-color)"
+                    d="M0,180 L0,80 C144,40 432,40 720,80 C1008,120 1296,120 1440,80 L1440,180 Z" />
+                <path fill="#E63946" d="M0,180 L0,100 C144,70 432,70 720,100 C1008,130 1296,130 1440,100 L1440,180 Z" />
+                <path fill="#F5B94A"
+                    d="M0,180 L0,130 C144,110 432,110 720,130 C1008,150 1296,150 1440,130 L1440,180 Z" />
+            </svg>
         </footer>
+
 
 
         <!-- JAVASCRIPT FILES -->
@@ -617,5 +1153,15 @@
         <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> -->
 
 
-    </body>
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+                const chatMessages = document.getElementById('chatMessages');
+                if (chatMessages) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            });
+        </script>
+
+</body>
+
 </html>

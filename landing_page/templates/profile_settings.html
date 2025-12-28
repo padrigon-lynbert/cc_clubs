@@ -1,0 +1,1437 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'landing_page/css/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'landing_page/css/templatemo-tiya-golf-club.css' %}" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: hsl(0, 0%, 90%);
+            font-family: 'DM Sans', sans-serif;
+        }
+        #inputcss {
+            min-width: 300px;
+        }
+        .profile-logo {
+            min-width: 135px;
+            min-height: 135px;
+            background: url("{% static 'images/bg03.jpg' %}") center/cover no-repeat;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .sidebar {
+            border-right: 1px solid hsla(0, 0%, 0%, 0.201);
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+            background-color: white;
+            overflow-y: auto;
+        }
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .sidebar nav ul li {
+            padding: 12px 20px;
+            margin: 5px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .sidebar nav ul li:hover {
+            background-color: aliceblue;
+        }
+        .sidebar nav ul li.active {
+            background-color: #29306F;
+            color: white;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .return-btn {
+            background-color: #29306F;
+            color: white;
+            text-decoration: none;
+            padding: 6px 16px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .return-btn:hover {
+            background-color: #1e2352;
+            color: white;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .avatar-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .avatar-preview {
+            width: 135px;
+            height: 135px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            background-size: cover;
+            background-position: center;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .form-col {
+            flex: 1;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #555;
+        }
+        .form-control, .form-select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #29306F;
+            box-shadow: 0 0 0 0.2rem rgba(41, 48, 111, 0.25);
+        }
+        .btn-primary {
+            background-color: #29306F;
+            border-color: #29306F;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #1e2352;
+            border-color: #1e2352;
+        }
+        .btn-primary:disabled {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .section-title {
+            color: #29306F;
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #29306F;
+            font-weight: 700;
+        }
+        .full-name-preview {
+            padding: 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            font-weight: 500;
+            min-height: 24px;
+        }
+        .security-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .security-card h6 {
+            color: #29306F;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .security-card h6 i {
+            font-size: 1.2rem;
+        }
+        .security-card p {
+            color: #6c757d;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .security-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .password-strength {
+            height: 5px;
+            background: #e9ecef;
+            border-radius: 3px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .strength-meter {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s, background 0.3s;
+        }
+        .strength-weak { background: #dc3545; width: 25%; }
+        .strength-medium { background: #ffc107; width: 50%; }
+        .strength-strong { background: #28a745; width: 75%; }
+        .strength-very-strong { background: #1e7e34; width: 100%; }
+        .two-factor-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .status-enabled {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+        .status-disabled {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+        .password-container {
+            position: relative;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+        }
+        .security-section-title {
+            color: #29306F;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .security-section-subtitle {
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        .security-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .security-toggle-label {
+            font-weight: 500;
+        }
+        .security-button {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .security-button-outline {
+            border: 1px solid #0d6efd;
+            color: #0d6efd;
+            background: transparent;
+        }
+        .security-button-outline:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .security-button-danger {
+            border: 1px solid #dc3545;
+            color: #dc3545;
+            background: transparent;
+        }
+        .security-button-danger:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .alert {
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .alert-success {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+            border: 1px solid #28a745;
+        }
+        .alert-error {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .security-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar (unchanged as requested) -->
+    <div class="sidebar">
+        <nav>
+            <ul>
+                <li class="active" data-target="account-section">Account</li>
+                <li data-target="security-section">Security</li>
+                <li data-target="student-info-section">Student Additional Information</li>
+            </ul>
+        </nav>
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="settings-header">
+            <h5>Account Settings</h5>
+            <a href="{% url 'home' %}" class="return-btn">
+                <i class="bi bi-arrow-left"></i> Return to Home
+            </a>
+        </div>
+        <hr>
+        <!-- Account Section -->
+        <div id="account-section" class="section active">
+            <div class="avatar-section">
+                <div id="avatarPreview" class="avatar-preview" style="background-image: url('{% static "images/bg03.jpg" %}');"></div>
+                <div>
+                    <label class="file-input-wrapper">
+                        <span class="file-input-label">Upload New Avatar</span>
+                        <input type="file" id="imageUpload" accept="image/*">
+                    </label>
+                    <small class="text-muted d-block mt-2">Recommended: JPG, PNG. Max size: 2MB</small>
+                </div>
+            </div>
+            <h4 class="section-title">Profile Information</h4>
+            <!-- LIVE FULL NAME PREVIEW -->
+            <div class="mb-4">
+                <label class="form-label">Full Name Preview</label>
+                <div id="fullNamePreview" class="full-name-preview">
+                </div>
+            </div>
+             <!-- Alert container for account section -->
+            <div id="accountAlertContainer"></div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label" for="firstName">First Name</label>
+                    <input type="text" id="firstName" class="form-control" value="Juan">
+                </div>
+                <div class="form-col">
+                    <label class="form-label" for="middleName">Middle Name</label>
+                    <input type="text" id="middleName" class="form-control" value="Dela">
+                </div>
+                <div class="form-col">
+                    <label class="form-label" for="lastName">Last Name</label>
+                    <input type="text" id="lastName" class="form-control" value="Cruz">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label" for="suffix">Suffix</label>
+                    <input type="text" id="suffix" class="form-control" value="Jr.">
+                </div>
+                <div class="form-col">
+                    <label class="form-label" for="accountNumber">Account Number</label>
+                    <input type="text" id="accountNumber" class="form-control" value="22011010" disabled>
+                </div>
+                <div class="form-col">
+                    <label class="form-label" for="roles">Role/s</label>
+                    <input type="text" id="roles" class="form-control" value="Student" disabled>
+                </div>
+            </div>
+            <h4 class="section-title">Personal Information</h4>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" id="email" class="form-control" value="22011010@bcp.edu.ph">
+                </div>
+                <div class="form-col">
+                    <label class="form-label" for="personalEmail">Personal Email</label>
+                    <input type="email" id="personalEmail" class="form-control" value="example@gmail.com">
+                </div>
+                <div class="form-col">
+                    <label class="form-label" for="contactNumber">Contact Number</label>
+                    <input type="text" id="contactNumber" class="form-control" value="09123456789">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label" for="civilStatus">Civil Status</label>
+                    <select id="civilStatus" class="form-select">
+                        <option value="single">Single</option>
+                        <option value="married">Married</option>
+                        <option value="divorced">Divorced</option>
+                        <option value="widowed">Widowed</option>
+                    </select>
+                </div>
+                <div class="form-col">
+                    <label class="form-label" for="birthday">Birthday</label>
+                    <input type="date" id="birthday" class="form-control" value="1995-05-15">
+                </div>
+            </div>
+            <div class="mt-4">
+                <button id="saveAccountChanges" class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+        <!-- Security Section -->
+        <div id="security-section" class="section">
+            <!-- Password Change Card -->
+            <div class="security-card">
+                <h6><i class="bi bi-key"></i> Password</h6>
+                <p>Update your password regularly to keep your account secure.</p>
+                 <!-- Alert container for password section -->
+                <div id="passwordAlertContainer"></div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <label class="form-label" for="currentPassword">Current Password</label>
+                        <div class="password-container">
+                            <input type="password" id="currentPassword" class="form-control" placeholder="Enter current password">
+                            <button type="button" class="password-toggle" id="toggleCurrentPassword">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-col">
+                        <label class="form-label" for="newPassword">New Password</label>
+                        <div class="password-container">
+                            <input type="password" id="newPassword" class="form-control" placeholder="Enter new password">
+                            <button type="button" class="password-toggle" id="toggleNewPassword">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-meter" id="passwordStrength"></div>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <label class="form-label" for="confirmPassword">Confirm New Password</label>
+                        <div class="password-container">
+                            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm new password">
+                            <button type="button" class="password-toggle" id="toggleConfirmPassword">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="security-actions mt-3">
+                    <button id="changePasswordBtn" class="btn btn-primary">Change Password</button>
+                </div>
+            </div>
+            <!-- Two-Factor Authentication Card -->
+            <div class="security-card">
+                <h6><i class="bi bi-shield-lock"></i> Two-Factor Authentication</h6>
+                <p>Add an extra layer of security to your account using two-factor authentication.</p>
+                 <!-- Alert container for 2FA section -->
+                <div id="twoFAAlertContainer"></div>
+                <div class="security-toggle">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="twoFactor" disabled>
+                        <label class="form-check-label" for="twoFactor">
+                            Enable Two-Factor Authentication
+                        </label>
+                    </div>
+                    <span class="two-factor-status status-disabled ms-2" id="twoFactorStatus">Disabled</span>
+                </div>
+                <div class="security-actions">
+                    <button class="btn btn-outline-primary security-button security-button-outline" id="setup2FA">Setup 2FA</button>
+                    <button class="btn btn-outline-secondary security-button security-button-outline" id="backupCodes">Backup Codes</button>
+                </div>
+            </div>
+            <!-- Login Activity Card -->
+            <div class="security-card">
+                <h6><i class="bi bi-clock-history"></i> Recent Activity</h6>
+                <p>Your last login was on May 15, 2023 at 10:30 AM from Manila, Philippines</p>
+                <div class="security-actions">
+                    <button class="btn btn-outline-primary security-button security-button-outline" id="viewActivity">View Full Activity</button>
+                    <button class="btn btn-outline-danger security-button security-button-danger" id="signOutAll">Sign Out All Devices</button>
+                </div>
+            </div>
+            <!-- Trusted Devices Card -->
+            <div class="security-card">
+                <h6><i class="bi bi-laptop"></i> Trusted Devices</h6>
+                <p>You're signed in on 3 devices. Remove access to any device you don't recognize.</p>
+                <div class="security-actions">
+                    <button class="btn btn-outline-primary security-button security-button-outline" id="manageDevices">Manage Devices</button>
+                </div>
+            </div>
+            <!-- Security Questions Card -->
+            <div class="security-card">
+                <h6><i class="bi bi-question-circle"></i> Security Questions</h6>
+                <p>Set up security questions to help recover your account.</p>
+                <div class="security-actions">
+                    <button class="btn btn-outline-primary security-button security-button-outline" id="setupSecurityQuestions">Setup Security Questions</button>
+                </div>
+            </div>
+        </div>
+        <!-- Student Additional Information Section -->
+        <div id="student-info-section" class="section">
+            <h4 class="section-title">Student Additional Information</h4>
+             <!-- Alert container for student info section -->
+            <div id="studentInfoAlertContainer"></div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label" for="studentId">Student ID</label>
+                    <input type="text" id="studentId" class="form-control" value="22011010" disabled>
+                </div>
+                <div class="form-col">
+                    <label class="form-label" for="program">Program</label>
+                    <select id="program" class="form-select">
+                        <option value="bscs">BS Computer Science</option>
+                        <option value="bsit">BS Information Technology</option>
+                        <option value="bsis">BS Information Systems</option>
+                        <option value="bsse">BS Software Engineering</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label" for="yearLevel">Year Level</label>
+                    <select id="yearLevel" class="form-select">
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                    </select>
+                </div>
+                <div class="form-col">
+                    <label class="form-label" for="section">Section</label>
+                    <input type="text" id="section" class="form-control" value="A">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="emergencyContact">Emergency Contact</label>
+                <input type="text" id="emergencyContact" class="form-control" value="09123456789">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="address">Home Address</label>
+                <textarea id="address" class="form-control" rows="3">123 Main Street, City, Country</textarea>
+            </div>
+            <div class="mt-4">
+                <button id="saveStudentInfo" class="btn btn-primary">Save Student Information</button>
+            </div>
+        </div>
+    </div>
+    <!-- JAVASCRIPT FILES -->
+    <script src="{% static 'landing_page/js/jquery.min.js' %}"></script>
+    <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'landing_page/js/jquery.sticky.js' %}"></script>
+    <script src="{% static 'landing_page/js/click-scroll.js' %}"></script>
+    <script src="{% static 'landing_page/js/animated-headline.js' %}"></script>
+    <script src="{% static 'landing_page/js/modernizr.js' %}"></script>
+    <script src="{% static 'landing_page/js/custom.js' %}"></script>
+    <script>
+        // --- Helper Functions ---
+        function showTemporaryAlert(containerId, message, isSuccess = true) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // Clear previous alerts
+
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert ${isSuccess ? 'alert-success' : 'alert-error'}`;
+            alertDiv.textContent = message;
+
+            container.appendChild(alertDiv);
+
+            // Remove alert after 3 seconds
+            setTimeout(() => {
+                if (container.contains(alertDiv)) {
+                    container.removeChild(alertDiv);
+                }
+            }, 3000);
+        }
+
+        function setLoading(button, isLoading) {
+            if (isLoading) {
+                button.classList.add('loading');
+                button.disabled = true;
+                button.textContent = 'Saving...';
+            } else {
+                button.classList.remove('loading');
+                button.disabled = false;
+                // Restore original text if needed, or keep it as is if it's a general save button
+            }
+        }
+
+        // --- Sidebar navigation (unchanged) ---
+        document.querySelectorAll('.sidebar nav ul li').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar nav ul li').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+                this.classList.add('active');
+                const target = this.getAttribute('data-target');
+                document.getElementById(target).classList.add('active');
+                const titles = {
+                    'account-section': 'Account Settings',
+                    'security-section': 'Security Settings',
+                    'student-info-section': 'Student Information'
+                };
+                document.querySelector('.settings-header h5').textContent = titles[target];
+            });
+        });
+
+        // --- Avatar upload preview (unchanged) ---
+        const imageInput = document.getElementById('imageUpload');
+        const avatarPreview = document.getElementById('avatarPreview');
+        imageInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    avatarPreview.style.backgroundImage = `url(${e.target.result})`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // --- Live Full Name Update (unchanged) ---
+        const firstName = document.getElementById('firstName');
+        const middleName = document.getElementById('middleName');
+        const lastName = document.getElementById('lastName');
+        const suffix = document.getElementById('suffix');
+        const fullNamePreview = document.getElementById('fullNamePreview');
+        function updateFullName() {
+            const first = firstName.value.trim();
+            const middle = middleName.value.trim();
+            const last = lastName.value.trim();
+            const suffixVal = suffix.value.trim();
+            let fullName = [first, middle, last].filter(part => part !== '').join(' ');
+            if (suffixVal && suffixVal !== '') {
+                fullName += ` ${suffixVal}`;
+            }
+            fullNamePreview.textContent = fullName || '—';
+        }
+        firstName.addEventListener('input', updateFullName);
+        middleName.addEventListener('input', updateFullName);
+        lastName.addEventListener('input', updateFullName);
+        suffix.addEventListener('input', updateFullName);
+        updateFullName();
+
+        // --- API Call Simulations ---
+        // Simulate a successful API call with a delay
+        function simulateApiCall(delay = 1000) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // Simulate random success/failure for demonstration
+                    if (Math.random() > 0.2) { // 80% chance of success
+                        resolve({ success: true, message: 'Operation successful' });
+                    } else {
+                        reject({ success: false, message: 'An error occurred during the operation.' });
+                    }
+                }, delay);
+            });
+        }
+
+        // --- Save Account Changes ---
+        document.getElementById('saveAccountChanges').addEventListener('click', async function() {
+            setLoading(this, true);
+            const alertContainer = document.getElementById('accountAlertContainer');
+
+            try {
+                // Collect form data
+                const formData = {
+                    firstName: firstName.value,
+                    middleName: middleName.value,
+                    lastName: lastName.value,
+                    suffix: suffix.value,
+                    email: document.getElementById('email').value,
+                    personalEmail: document.getElementById('personalEmail').value,
+                    contactNumber: document.getElementById('contactNumber').value,
+                    civilStatus: document.getElementById('civilStatus').value,
+                    birthday: document.getElementById('birthday').value
+                };
+
+                // Simulate API call
+                // const response = await fetch('/api/update-profile/', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'X-CSRFToken': getCookie('csrftoken'), // Django CSRF token
+                //     },
+                //     body: JSON.stringify(formData)
+                // });
+                // const result = await response.json();
+                const result = await simulateApiCall(1500); // Simulate 1.5s delay
+
+                if (result.success) {
+                    showTemporaryAlert('accountAlertContainer', 'Profile information updated successfully!', true);
+                } else {
+                    throw new Error(result.message || 'Failed to update profile.');
+                }
+            } catch (error) {
+                console.error('Error saving account changes:', error);
+                showTemporaryAlert('accountAlertContainer', `Error: ${error.message}`, false);
+            } finally {
+                setLoading(this, false);
+            }
+        });
+
+        // --- Save Student Information ---
+        document.getElementById('saveStudentInfo').addEventListener('click', async function() {
+            setLoading(this, true);
+            const alertContainer = document.getElementById('studentInfoAlertContainer');
+
+            try {
+                // Collect form data
+                const formData = {
+                    program: document.getElementById('program').value,
+                    yearLevel: document.getElementById('yearLevel').value,
+                    section: document.getElementById('section').value,
+                    emergencyContact: document.getElementById('emergencyContact').value,
+                    address: document.getElementById('address').value
+                };
+
+                // Simulate API call
+                // const response = await fetch('/api/update-student-info/', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'X-CSRFToken': getCookie('csrftoken'), // Django CSRF token
+                //     },
+                //     body: JSON.stringify(formData)
+                // });
+                // const result = await response.json();
+                const result = await simulateApiCall(1500); // Simulate 1.5s delay
+
+                if (result.success) {
+                    showTemporaryAlert('studentInfoAlertContainer', 'Student information updated successfully!', true);
+                } else {
+                    throw new Error(result.message || 'Failed to update student info.');
+                }
+            } catch (error) {
+                console.error('Error saving student information:', error);
+                showTemporaryAlert('studentInfoAlertContainer', `Error: ${error.message}`, false);
+            } finally {
+                setLoading(this, false);
+            }
+        });
+
+        // --- Security Section Functions ---
+        const twoFactorToggle = document.getElementById('twoFactor');
+        const twoFactorStatus = document.getElementById('twoFactorStatus');
+        const passwordStrength = document.getElementById('passwordStrength');
+        const newPasswordInput = document.getElementById('newPassword');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const currentPasswordInput = document.getElementById('currentPassword');
+        const changePasswordBtn = document.getElementById('changePasswordBtn');
+
+        // Two-Factor Authentication Toggle (Logic handled in setup modal)
+        // twoFactorToggle.addEventListener('change', function() { ... }); // Removed from here
+
+        // Password Strength Indicator (unchanged)
+        function calculatePasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            return strength;
+        }
+        newPasswordInput.addEventListener('input', function() {
+            const strength = calculatePasswordStrength(this.value);
+            passwordStrength.className = 'strength-meter';
+            if (strength === 0) {
+                passwordStrength.classList.add('strength-weak');
+            } else if (strength <= 2) {
+                passwordStrength.classList.add('strength-weak');
+            } else if (strength === 3) {
+                passwordStrength.classList.add('strength-medium');
+            } else if (strength === 4) {
+                passwordStrength.classList.add('strength-strong');
+            } else {
+                passwordStrength.classList.add('strength-very-strong');
+            }
+        });
+
+        // Change Password Function
+        changePasswordBtn.addEventListener('click', async function() {
+            if (!newPasswordInput.value) {
+                showTemporaryAlert('passwordAlertContainer', 'Please enter a new password.', false);
+                return;
+            }
+            if (newPasswordInput.value !== confirmPasswordInput.value) {
+                showTemporaryAlert('passwordAlertContainer', 'Passwords do not match.', false);
+                return;
+            }
+            if (!currentPasswordInput.value) {
+                showTemporaryAlert('passwordAlertContainer', 'Please enter your current password.', false);
+                return;
+            }
+
+            setLoading(this, true);
+            const alertContainer = document.getElementById('passwordAlertContainer');
+
+            try {
+                // Collect form data
+                const formData = {
+                    current_password: currentPasswordInput.value,
+                    new_password: newPasswordInput.value,
+                };
+
+                // Simulate API call
+                // const response = await fetch('/api/change-password/', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'X-CSRFToken': getCookie('csrftoken'), // Django CSRF token
+                //     },
+                //     body: JSON.stringify(formData)
+                // });
+                // const result = await response.json();
+                const result = await simulateApiCall(2000); // Simulate 2s delay
+
+                if (result.success) {
+                    showTemporaryAlert('passwordAlertContainer', 'Password changed successfully!', true);
+                    // Reset form inputs
+                    currentPasswordInput.value = '';
+                    newPasswordInput.value = '';
+                    confirmPasswordInput.value = '';
+                    passwordStrength.className = 'strength-meter';
+                } else {
+                    throw new Error(result.message || 'Failed to change password.');
+                }
+            } catch (error) {
+                console.error('Error changing password:', error);
+                showTemporaryAlert('passwordAlertContainer', `Error: ${error.message}`, false);
+            } finally {
+                setLoading(this, false);
+            }
+        });
+
+        // Password Toggle Functions (unchanged)
+        function setupPasswordToggle(inputId, buttonId) {
+            const input = document.getElementById(inputId);
+            const button = document.getElementById(buttonId);
+            const icon = button.querySelector('i');
+            button.addEventListener('click', function() {
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                if (type === 'password') {
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+                } else {
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+                }
+            });
+        }
+        setupPasswordToggle('currentPassword', 'toggleCurrentPassword');
+        setupPasswordToggle('newPassword', 'toggleNewPassword');
+        setupPasswordToggle('confirmPassword', 'toggleConfirmPassword');
+
+        // Enhanced Security Functions
+        function initSecurityFunctions() {
+            // Two-Factor Authentication Setup
+            document.getElementById('setup2FA').addEventListener('click', function() {
+                showTwoFactorSetupModal();
+            });
+            // Backup Codes
+            document.getElementById('backupCodes').addEventListener('click', function() {
+                generateBackupCodes();
+            });
+            // View Activity
+            document.getElementById('viewActivity').addEventListener('click', function() {
+                viewLoginActivity();
+            });
+            // Sign Out All Devices
+            document.getElementById('signOutAll').addEventListener('click', function() {
+                signOutAllDevices();
+            });
+            // Manage Devices
+            document.getElementById('manageDevices').addEventListener('click', function() {
+                manageTrustedDevices();
+            });
+            // Setup Security Questions
+            document.getElementById('setupSecurityQuestions').addEventListener('click', function() {
+                setupSecurityQuestions();
+            });
+        }
+
+        // Two-Factor Authentication Setup Modal
+        function showTwoFactorSetupModal() {
+            const modalContent = `
+                <div style="padding: 20px;">
+                    <h5>Set up Two-Factor Authentication</h5>
+                    <p>Scan the QR code with your authenticator app or enter the secret key manually.</p>
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div style="display: inline-block; background: white; padding: 15px; border: 1px solid #ddd; border-radius: 8px;">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 150 150'%3E%3Crect fill='%23000' width='150' height='150'/%3E%3Crect fill='%23fff' x='10' y='10' width='20' height='20'/%3E%3Crect fill='%23fff' x='40' y='10' width='20' height='20'/%3E%3Crect fill='%23fff' x='70' y='10' width='20' height='20'/%3E%3Crect fill='%23fff' x='10' y='40' width='20' height='20'/%3E%3Crect fill='%23fff' x='70' y='40' width='20' height='20'/%3E%3Crect fill='%23fff' x='10' y='70' width='20' height='20'/%3E%3Crect fill='%23fff' x='40' y='70' width='20' height='20'/%3E%3Crect fill='%23fff' x='70' y='70' width='20' height='20'/%3E%3C/svg%3E" alt="QR Code Placeholder" style="max-width: 100%;">
+                        </div>
+                    </div>
+                    <div style="margin: 20px 0;">
+                        <label>Secret Key:</label>
+                        <div style="background: #f8f9fa; padding: 10px; border-radius: 4px; font-family: monospace;">
+                            ABCD-EFGH-IJKL-MNOP-QRST-UVWX-YZAB-CDEF
+                        </div>
+                    </div>
+                    <div style="margin: 20px 0;">
+                        <label>Verification Code:</label>
+                        <input type="text" id="verificationCode" placeholder="Enter code from your authenticator" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                     <div id="setup2FAAlertContainer" style="margin: 10px 0;"></div> <!-- Alert container for 2FA setup -->
+                    <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                        <button id="cancel2FA" style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+                        <button id="enable2FA" style="padding: 8px 16px; background: #29306F; color: white; border: none; border-radius: 4px; cursor: pointer;">Enable 2FA</button>
+                    </div>
+                </div>
+            `;
+            const modal = document.createElement('div');
+            modal.innerHTML = modalContent;
+            modal.style.position = 'fixed';
+            modal.style.top = '50%';
+            modal.style.left = '50%';
+            modal.style.transform = 'translate(-50%, -50%)';
+            modal.style.backgroundColor = 'white';
+            modal.style.border = '1px solid #ddd';
+            modal.style.borderRadius = '8px';
+            modal.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
+            modal.style.zIndex = '1000';
+            modal.style.maxWidth = '500px';
+            modal.style.width = '90%';
+            document.body.appendChild(modal);
+
+            const enable2FABtn = document.getElementById('enable2FA');
+            const verificationCodeInput = document.getElementById('verificationCode');
+            const alertContainer = document.getElementById('setup2FAAlertContainer');
+
+            function setLoading2FA(isLoading) {
+                if (isLoading) {
+                    enable2FABtn.classList.add('loading');
+                    enable2FABtn.disabled = true;
+                    enable2FABtn.textContent = 'Enabling...';
+                } else {
+                    enable2FABtn.classList.remove('loading');
+                    enable2FABtn.disabled = false;
+                    enable2FABtn.textContent = 'Enable 2FA';
+                }
+            }
+
+            // Enable 2FA button
+            enable2FABtn.addEventListener('click', async function() {
+                const verificationCode = verificationCodeInput.value;
+                if (!verificationCode) {
+                    showTemporaryAlert('setup2FAAlertContainer', 'Please enter the verification code.', false);
+                    return;
+                }
+
+                setLoading2FA(true);
+
+                try {
+                    // Collect form data
+                    const formData = {
+                        verification_code: verificationCode,
+                        secret_key: 'ABCD-EFGH-IJKL-MNOP-QRST-UVWX-YZAB-CDEF' // This would come from the server in a real scenario
+                    };
+
+                    // Simulate API call
+                    // const response = await fetch('/api/enable-2fa/', {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json',
+                    //         'X-CSRFToken': getCookie('csrftoken'), // Django CSRF token
+                    //     },
+                    //     body: JSON.stringify(formData)
+                    // });
+                    // const result = await response.json();
+                    const result = await simulateApiCall(2500); // Simulate 2.5s delay
+
+                    if (result.success) {
+                        showTemporaryAlert('setup2FAAlertContainer', 'Two-Factor Authentication has been enabled successfully!', true);
+                        // Update UI to show 2FA is enabled
+                        twoFactorToggle.disabled = false; // Now it can be toggled if needed later
+                        twoFactorToggle.checked = true;
+                        twoFactorStatus.textContent = 'Enabled';
+                        twoFactorStatus.className = 'two-factor-status status-enabled ms-2';
+                        // Close modal after a short delay to show success
+                        setTimeout(() => {
+                            document.body.removeChild(modal);
+                        }, 2000);
+                    } else {
+                        throw new Error(result.message || 'Failed to enable 2FA.');
+                    }
+                } catch (error) {
+                    console.error('Error enabling 2FA:', error);
+                    showTemporaryAlert('setup2FAAlertContainer', `Error: ${error.message}`, false);
+                } finally {
+                    setLoading2FA(false);
+                }
+            });
+
+            // Close modal when clicking outside or cancel
+            function closeOutside(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                    document.removeEventListener('click', closeOutside);
+                }
+            }
+            document.addEventListener('click', closeOutside);
+            document.getElementById('cancel2FA').addEventListener('click', function() {
+                document.body.removeChild(modal);
+                document.removeEventListener('click', closeOutside);
+            });
+        }
+
+        // Generate Backup Codes (unchanged)
+        function generateBackupCodes() {
+            const codes = [
+                'ABC123XYZ', 'DEF456UVW', 'GHI789QRS',
+                'JKL012TUV', 'MNO345WXY', 'PQR678ZAB'
+            ];
+            const modalContent = `
+                <div style="padding: 20px;">
+                    <h5>Backup Codes</h5>
+                    <p>These codes can be used to access your account if you lose access to your authenticator app.</p>
+                    <p style="color: #dc3545; font-weight: 500;">Store these codes in a safe place!</p>
+                    <div style="margin: 20px 0;">
+                        ${codes.map(code => `<div style="background: #f8f9fa; padding: 8px; margin: 5px 0; border-radius: 4px; font-family: monospace;">${code}</div>`).join('')}
+                    </div>
+                    <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                        <button id="closeBackup" style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+                        <button id="downloadBackup" style="padding: 8px 16px; background: #29306F; color: white; border: none; border-radius: 4px; cursor: pointer;">Download</button>
+                    </div>
+                </div>
+            `;
+            const modal = document.createElement('div');
+            modal.innerHTML = modalContent;
+            modal.style.position = 'fixed';
+            modal.style.top = '50%';
+            modal.style.left = '50%';
+            modal.style.transform = 'translate(-50%, -50%)';
+            modal.style.backgroundColor = 'white';
+            modal.style.border = '1px solid #ddd';
+            modal.style.borderRadius = '8px';
+            modal.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
+            modal.style.zIndex = '1000';
+            modal.style.maxWidth = '500px';
+            modal.style.width = '90%';
+            document.body.appendChild(modal);
+            document.addEventListener('click', function closeOutside(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                    document.removeEventListener('click', closeOutside);
+                }
+            });
+            document.getElementById('closeBackup').addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+            document.getElementById('downloadBackup').addEventListener('click', function() {
+                const blob = new Blob([codes.join('\n')], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'backup_codes.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                alert('Backup codes downloaded successfully!');
+                document.body.removeChild(modal);
+            });
+        }
+
+        // View Login Activity (unchanged)
+        function viewLoginActivity() {
+            const activityData = [
+                { date: '2023-11-15', time: '10:30 AM', location: 'Manila, Philippines', device: 'Laptop', browser: 'Chrome' }
+            ]; //example 
+
+            const modalContent = `
+                <div style="padding: 20px;">
+                    <h5>Login Activity</h5>
+                    <p>Recent login activity for your account.</p>
+                    <div style="margin: 20px 0;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f8f9fa; border-bottom: 2px solid #ddd;">
+                                    <th style="padding: 8px; text-align: left;">Date & Time</th>
+                                    <th style="padding: 8px; text-align: left;">Location</th>
+                                    <th style="padding: 8px; text-align: left;">Device</th>
+                                    <th style="padding: 8px; text-align: left;">Browser</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${activityData.map(activity => `
+                                    <tr style="border-bottom: 1px solid #eee;">
+                                        <td style="padding: 8px;">${activity.date} ${activity.time}</td>
+                                        <td style="padding: 8px;">${activity.location}</td>
+                                        <td style="padding: 8px;">${activity.device}</td>
+                                        <td style="padding: 8px;">${activity.browser}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                        <button id="closeActivity" style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+                    </div>
+                </div>
+            `;
+            const modal = document.createElement('div');
+            modal.innerHTML = modalContent;
+            modal.style.position = 'fixed';
+            modal.style.top = '50%';
+            modal.style.left = '50%';
+            modal.style.transform = 'translate(-50%, -50%)';
+            modal.style.backgroundColor = 'white';
+            modal.style.border = '1px solid #ddd';
+            modal.style.borderRadius = '8px';
+            modal.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
+            modal.style.zIndex = '1000';
+            modal.style.maxWidth = '600px';
+            modal.style.width = '90%';
+            document.body.appendChild(modal);
+            document.addEventListener('click', function closeOutside(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                    document.removeEventListener('click', closeOutside);
+                }
+            });
+            document.getElementById('closeActivity').addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+        }
+
+        // Sign Out All Devices
+        function signOutAllDevices() {
+            if (confirm('Are you sure you want to sign out from all devices? This will log you out of all active sessions.')) {
+                const signOutBtn = document.getElementById('signOutAll');
+                setLoading(signOutBtn, true);
+
+                // Simulate API call
+                // fetch('/api/sign-out-all/', {
+                //     method: 'POST',
+                //     headers: {
+                //         'X-CSRFToken': getCookie('csrftoken'), // Django CSRF token
+                //     }
+                // }).then(response => response.json())
+                //   .then(result => {
+                //       if (result.success) {
+                //           showTemporaryAlert('...', 'Signed out from all devices.', true);
+                //           signOutBtn.textContent = 'Signed Out';
+                //           signOutBtn.disabled = true;
+                //           signOutBtn.style.opacity = '0.5';
+                //       } else {
+                //           throw new Error(result.message || 'Failed to sign out all devices.');
+                //       }
+                //   })
+                //   .catch(error => {
+                //       console.error('Error signing out all devices:', error);
+                //       showTemporaryAlert('...', `Error: ${error.message}`, false);
+                //   })
+                //   .finally(() => setLoading(signOutBtn, false));
+
+                // Simulate successful sign out
+                simulateApiCall(1000).then(() => {
+                    alert('You have been signed out from all devices. Please log in again.');
+                    signOutBtn.textContent = 'Signed Out';
+                    signOutBtn.disabled = true;
+                    signOutBtn.style.opacity = '0.5';
+                }).catch(error => {
+                     console.error('Error signing out all devices:', error);
+                     alert(`Error: ${error.message}`);
+                }).finally(() => setLoading(signOutBtn, false));
+            }
+        }
+        
+        // Manage Trusted Devices
+        function manageTrustedDevices() {
+            const devices = [
+                { id: 1, name: 'Chrome on Windows', location: 'Manila, Philippines', lastActive: '2 hours ago', isCurrent: true },
+                { id: 2, name: 'Safari on iPhone', location: 'Quezon City, Philippines', lastActive: '1 day ago', isCurrent: false }, //display lang`    
+                
+                { id: 3, name: 'Firefox on Linux', location: 'Makati, Philippines', lastActive: '1 week ago', isCurrent: false }
+            ];
+            const modalContent = `
+                <div style="padding: 20px;">
+                    <h5>Manage Trusted Devices</h5>
+                    <p>Review and manage devices that are currently signed into your account.</p>
+                    <div style="margin: 20px 0;">
+                        ${devices.map(device => `
+                            <div style="background: #f8f9fa; padding: 12px; margin: 10px 0; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 500;">${device.name}</div>
+                                    <div style="font-size: 0.85rem; color: #6c757d;">${device.location} • Last active: ${device.lastActive}</div>
+                                    ${device.isCurrent ? '<span style="background: #28a745; color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.75rem;">Current Device</span>' : ''}
+                                </div>
+                                <div>
+                                    <button class="remove-device" data-id="${device.id}" style="padding: 4px 8px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Remove</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                        <button id="closeDevices" style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+                    </div>
+                </div>
+            `;
+            const modal = document.createElement('div');
+            modal.innerHTML = modalContent;
+            modal.style.position = 'fixed';
+            modal.style.top = '50%';
+            modal.style.left = '50%';
+            modal.style.transform = 'translate(-50%, -50%)';
+            modal.style.backgroundColor = 'white';
+            modal.style.border = '1px solid #ddd';
+            modal.style.borderRadius = '8px';
+            modal.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
+            modal.style.zIndex = '1000';
+            modal.style.maxWidth = '600px';
+            modal.style.width = '90%';
+            document.body.appendChild(modal);
+            document.addEventListener('click', function closeOutside(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                    document.removeEventListener('click', closeOutside);
+                }
+            });
+            document.getElementById('closeDevices').addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+            document.querySelectorAll('.remove-device').forEach(button => {
+                button.addEventListener('click', function() {
+                    const deviceId = this.getAttribute('data-id');
+                    if (confirm('Are you sure you want to remove this device?')) {
+                        // Simulate removing the device
+                        alert(`Device ${deviceId} has been removed from your trusted devices.`);
+                        this.closest('div').style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Setup Security Questions (unchanged)
+        function setupSecurityQuestions() {
+            const modalContent = `
+                <div style="padding: 20px;">
+                    <h5>Setup Security Questions</h5>
+                    <p>Choose security questions to help recover your account if you forget your password.</p>
+                    <div style="margin: 20px 0;">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Question 1</label>
+                            <select id="question1" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="">Select a question</option>
+                                <option>What is your mother's maiden name?</option>
+                                <option>What was the name of your first pet?</option>
+                                <option>What is your favorite movie?</option>
+                                <option>What city were you born in?</option>
+                                <option>What is your favorite book?</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Answer 1</label>
+                            <input type="text" id="answer1" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" placeholder="Enter your answer">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Question 2</label>
+                            <select id="question2" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="">Select a question</option>
+                                <option>What is your mother's maiden name?</option>
+                                <option>What was the name of your first pet?</option>
+                                <option>What is your favorite movie?</option>
+                                <option>What city were you born in?</option>
+                                <option>What is your favorite book?</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Answer 2</label>
+                            <input type="text" id="answer2" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" placeholder="Enter your answer">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Question 3</label>
+                            <select id="question3" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                <option value="">Select a question</option>
+                                <option>What is your mother's maiden name?</option>
+                                <option>What was the name of your first pet?</option>
+                                <option>What is your favorite movie?</option>
+                                <option>What city were you born in?</option>
+                                <option>What is your favorite book?</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Answer 3</label>
+                            <input type="text" id="answer3" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" placeholder="Enter your answer">
+                        </div>
+                    </div>
+                    <div id="setupQuestionsAlertContainer" style="margin: 10px 0;"></div> <!-- Alert container for questions setup -->
+                    <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                        <button id="cancelQuestions" style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+                        <button id="saveQuestions" style="padding: 8px 16px; background: #29306F; color: white; border: none; border-radius: 4px; cursor: pointer;">Save Questions</button>
+                    </div>
+                </div>
+            `;
+            const modal = document.createElement('div');
+            modal.innerHTML = modalContent;
+            modal.style.position = 'fixed';
+            modal.style.top = '50%';
+            modal.style.left = '50%';
+            modal.style.transform = 'translate(-50%, -50%)';
+            modal.style.backgroundColor = 'white';
+            modal.style.border = '1px solid #ddd';
+            modal.style.borderRadius = '8px';
+            modal.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
+            modal.style.zIndex = '1000';
+            modal.style.maxWidth = '500px';
+            modal.style.width = '90%';
+            document.body.appendChild(modal);
+
+            const saveQuestionsBtn = document.getElementById('saveQuestions');
+            const alertContainer = document.getElementById('setupQuestionsAlertContainer');
+
+            function setLoadingQuestions(isLoading) {
+                if (isLoading) {
+                    saveQuestionsBtn.classList.add('loading');
+                    saveQuestionsBtn.disabled = true;
+                    saveQuestionsBtn.textContent = 'Saving...';
+                } else {
+                    saveQuestionsBtn.classList.remove('loading');
+                    saveQuestionsBtn.disabled = false;
+                    saveQuestionsBtn.textContent = 'Save Questions';
+                }
+            }
+
+            // Save questions button
+            saveQuestionsBtn.addEventListener('click', async function() {
+                const questions = [document.getElementById('question1'), document.getElementById('question2'), document.getElementById('question3')];
+                const answers = [document.getElementById('answer1'), document.getElementById('answer2'), document.getElementById('answer3')];
+
+                let isValid = true;
+                questions.forEach((question, index) => {
+                    if (!question.value) {
+                        isValid = false;
+                        question.style.borderColor = '#dc3545';
+                    } else {
+                        question.style.borderColor = '#ddd';
+                    }
+                });
+                answers.forEach(answer => {
+                    if (!answer.value.trim()) {
+                        isValid = false;
+                        answer.style.borderColor = '#dc3545';
+                    } else {
+                        answer.style.borderColor = '#ddd';
+                    }
+                });
+
+                if (!isValid) {
+                    showTemporaryAlert('setupQuestionsAlertContainer', 'Please fill in all questions and answers.', false);
+                    return;
+                }
+
+                setLoadingQuestions(true);
+
+                try {
+                    // Collect form data
+                    const formData = {
+                        questions: [
+                            { question: questions[0].value, answer: answers[0].value },
+                            { question: questions[1].value, answer: answers[1].value },
+                            { question: questions[2].value, answer: answers[2].value }
+                        ]
+                    };
+
+                    // Simulate API call
+                    // const response = await fetch('/api/setup-security-questions/', {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json',
+                    //         'X-CSRFToken': getCookie('csrftoken'), // Django CSRF token
+                    //     },
+                    //     body: JSON.stringify(formData)
+                    // });
+                    // const result = await response.json();
+                    const result = await simulateApiCall(1500); // Simulate 1.5s delay
+
+                    if (result.success) {
+                        showTemporaryAlert('setupQuestionsAlertContainer', 'Security questions have been set up successfully!', true);
+                        // Close modal after a short delay to show success
+                        setTimeout(() => {
+                            document.body.removeChild(modal);
+                        }, 2000);
+                    } else {
+                        throw new Error(result.message || 'Failed to setup security questions.');
+                    }
+                } catch (error) {
+                    console.error('Error setting up security questions:', error);
+                    showTemporaryAlert('setupQuestionsAlertContainer', `Error: ${error.message}`, false);
+                } finally {
+                    setLoadingQuestions(false);
+                }
+            });
+
+            // Close modal when clicking outside or cancel
+            function closeOutside(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                    document.removeEventListener('click', closeOutside);
+                }
+            }
+            document.addEventListener('click', closeOutside);
+            document.getElementById('cancelQuestions').addEventListener('click', function() {
+                document.body.removeChild(modal);
+                document.removeEventListener('click', closeOutside);
+            });
+        }
+
+        // Initialize all security functions
+        document.addEventListener('DOMContentLoaded', initSecurityFunctions);
+    </script>
+</body>
+</html>

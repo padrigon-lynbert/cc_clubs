@@ -8,9 +8,10 @@ class Users(models.Model):
     name = models.CharField(max_length=100)
     class Role(models.IntegerChoices):
         STUDENT = 0, _('Student')
-        INSTRUCTOR = 1, _('Instructor')
-        ACTIVITY_COORDINATOR = 2, _('Coordinator')
-        ADMIN = 3, _('Admin')
+        OFFICER = 1, _('Officer')
+        ADVISER = 2, _('Adviser')
+        ACTIVITY_COORDINATOR = 3, _('Coordinator')
+        ADMIN = 4, _('Admin')
 
     role = models.IntegerField(
         choices=Role.choices,

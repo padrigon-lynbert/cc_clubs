@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BCP Announcements</title>
+
+  <!-- Google Fonts: DM Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f9fbfd;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Enhanced Navbar */
+    .navbar {
+      background: #29306f;
+      color: white;
+      padding: 0.8rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(41, 48, 111, 0.18);
+    }
+
+    .return-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .navbar-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo {
+      visibility: hidden; /* Placeholder for spacing */
+    }
+
+    /* Tab Navigation */
+    .nav-tabs {
+      display: flex;
+      background: rgba(41, 48, 111, 0.3);
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 300px;
+      margin: 0 auto;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-tab {
+      flex: 1;
+      text-align: center;
+      padding: 0.8rem 0;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .nav-tab.active {
+      color: white;
+      background: #1e2555;
+      font-weight: 600;
+    }
+
+
+    /* Main Content */
+    main {
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .page-title {
+      color: #29306f;
+      font-size: 1.8rem;
+      margin: 1.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-align: center;
+    }
+
+    .page-subtitle {
+      color: #555;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Form Card */
+    .form-card {
+      background: white;
+      padding: 2.2rem;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-group {
+      margin-bottom: 1.3rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #29306f;
+      font-size: 0.95rem;
+    }
+
+    .form-control,
+    .form-select {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border: 2px solid #e0e4f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #29306f;
+      box-shadow: 0 0 0 4px rgba(41, 48, 111, 0.1);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .btn-submit,
+    .btn-update {
+      background: #29306f;
+      color: white;
+      padding: 0.9rem 2.2rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 1.05rem;
+      display: block;
+      margin: 2rem auto 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(41, 48, 111, 0.2);
+    }
+
+    .required {
+      color: #e74c3c;
+    }
+
+    .success-message {
+      text-align: center;
+      background: #d4edda;
+      color: #155724;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      font-weight: 500;
+      border: 1px solid #c3e6cb;
+      display: none;
+    }
+
+    /* History Section */
+    .history-item {
+      background: white;
+      border: 1px solid #e0e4f0;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .history-item h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.15rem;
+      color: #29306f;
+      font-weight: 600;
+    }
+
+    .history-item .meta {
+      display: flex;
+      justify-content: space-between;
+      color: #777;
+      font-size: 0.85rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .history-item .category-badge {
+      background: #e0e4f0;
+      color: #29306f;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .history-item p {
+      color: #555;
+      margin: 0.6rem 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .history-item img {
+      margin-top: 0.8rem;
+      width: 100%;
+      max-height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+      justify-content: flex-end;
+    }
+
+    .btn-edit,
+    .btn-delete {
+      padding: 0.5rem 0.9rem;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-edit {
+      background: #007bff;
+      color: white;
+    }
+
+    .btn-delete {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .empty-state {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="{% url 'create_event' club.id %}" class="return-btn" onclick="window.history.back(); return false;">
+      <i class="fas fa-arrow-left"></i> Return 
+    </a>
+    <div class="navbar-title">BCP ANNOUNCEMENT</div>
+    <div class="logo"></div> <!-- Placeholder -->
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="nav-tabs">
+    <div class="nav-tab active" data-tab="create">
+      <i class="fas fa-plus-circle"></i> Create
+    </div>
+    <div class="nav-tab" data-tab="history">
+      <i class="fas fa-history"></i> History
+    </div>
+  </div>
+
+  <main>
+    <!-- CREATE / EDIT FORM TAB -->
+    <div id="create" class="tab-content active">
+      <h2 class="page-title"><i class="fas fa-bullhorn"></i> <span id="formTitle">Create Announcement</span></h2>
+      <p class="page-subtitle">Share important updates with your club members</p>
+
+      <div class="form-card">
+        <form id="announcementForm" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" id="editId" value=""> <!-- To track editing -->
+
+          <div class="form-group">
+            <label for="title" class="form-label">
+              Title <span class="required">*</span>
+            </label>
+            <input type="text" class="form-control" id="title" name="title" required placeholder="Enter a clear and engaging title" />
+          </div>
+
+          <div class="form-group">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category">
+              <option value="0">General Announcement</option>
+              <option value="1">Upcoming Event</option>
+              <option value="2">Important Notice</option>
+              <option value="3">System Maintenance</option>
+              <option value="4">Policy Update</option>
+              <option value="5">Club Meeting</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="content" class="form-label">
+              Content <span class="required">*</span>
+            </label>
+            <textarea class="form-control" id="content" name="content" required placeholder="Write your announcement here... Be clear and concise."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="announcementDate" class="form-label">Announcement Date</label>
+            <input type="date" class="form-control" id="announcementDate" name="announcementDate" required />
+          </div>
+
+          <div class="form-group">
+            <label for="expiryDate" class="form-label">Expiry Date (Optional)</label>
+            <input type="date" class="form-control" id="expiryDate" name="expiryDate" />
+          </div>
+
+          <div class="form-group">
+            <label for="imageUpload" class="form-label">Upload Image (Optional)</label>
+            <input type="file" class="form-control" id="imageUpload" name="imageUpload" accept="image/*" />
+            <small style="color: #666; font-size: 0.85rem;">Supports JPG, PNG, GIF (max 2MB)</small>
+          </div>
+
+          <div class="form-group" id="imagePreviewContainer" style="display: none;">
+            <label class="form-label">Image Preview</label>
+            <img id="imagePreview" src="" alt="Preview" style="max-width: 100%; border-radius: 10px; margin-top: 0.5rem;">
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitButton">
+            <i class="fas fa-paper-plane"></i> Publish Announcement
+          </button>
+
+          <button type="button" class="btn-update" id="updateButton" style="display: none;" onclick="updateAnnouncement()">
+            <i class="fas fa-edit"></i> Update Announcement
+          </button>
+
+          <div class="success-message" id="successMessage">
+            ✅ Successfully saved!
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- HISTORY TAB -->
+    <div id="history" class="tab-content">
+      <h2 class="page-title"><i class="fas fa-history"></i> Announcement History</h2>
+      <p class="page-subtitle">Review and manage your announcements</p>
+      
+      <div id="historyContainer">
+        {% for a in announcements %}
+          <details>
+            <summary><strong>{{ forloop.counter }}. {{ a.name }}</strong></summary>
+            <div class="announcement-item">
+              <p>{{ a.content }}</p>
+              <small>Category: {{ a.get_category_display }} | Date: {{ a.announcement_date }}</small>
+              {% if a.image_base64 %}
+                <img src="data:image/png;base64,{{ a.image_base64 }}" style="max-width:200px;">
+              {% endif %}
+              <form action="{% url 'delete_announcement' a.id %}" method="post" style="margin-top:10px;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </div>
+          </details>
+        {% endfor %}
+        
+        
+      </div>
+    </div>
+      
+  </main>
+
+  <script>
+    // Tab Switching
+    document.querySelectorAll(".nav-tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+        tab.classList.add("active");
+        const tabId = tab.getAttribute("data-tab");
+        document.getElementById(tabId).classList.add("active");
+
+        if (tabId === "history") loadHistory();
+      });
+    });
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!-- 
+    This page is supposed to return all clubs where the logged in instructor is an instructor
+-->
+<div class="offcanvas offcanvas-start w-75 p-0 m-0" style="background-color: #1e3a8a;" data-bs-scroll="true"
+    tabindex="-1" id="clubs_student_joined" aria-labelledby="clubs_student_joined" style="max-width: 900px;">
+
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title text-white" id="clubs_student_joined">Club membership: </h4>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    </div>
+    <div class="d-flex flex-column flex-grow-1"
+        style="background-color: #ededed; height: 85vh; overflow: hidden;">
+        <div class="mb-2 p-3 border-bottom bg-white">
+            <div class="text-dark fw-semibold small mb-1 d-flex justify-content-between">
+                <!-- ! To accept/reject their request kindly go into their club and click Request Budget. <br> -->
+                
+            </div>
+            
+        </div>
+        
+        <div style="padding: 10px; height: 100%; overflow-y: scroll;">
+            <table class="table caption-top mb-0" style="border-radius:0; border-collapse:collapse;">
+            <caption>
+                <strong>Total number of clubs you've joined: {{ club_student_joined|length }}</strong> | 
+                Collection of club memberships you own, please do limit it to the number you can manage.
+            </caption>
+            <thead>
+                <tr>
+                <th style="width: 5%; padding-left: 5px;">#</th>
+                <th style="width: 30%; padding-left: 5px;">Club</th>
+                <th style="width: 20%; padding-left: 5px;">Role</th>
+                <th style="width: 25%; padding-left: 5px;">Year Level: Program</th>
+                <th style="width: 10%; padding-left: 5px;">Email</th>
+                <th style="width: 10%; padding-left: 5px;">Renewal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for club in club_student_joined %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>[{{ club.acronym }}] {{ club.club_name }}</td>
+                    <td>{{ club.role }}</td>
+                    <td>Year {{ club.year_level }}: {{ club.program }}</td>
+                    <td>{{ club.email }}</td>
+                    {% if club.is_active %}
+                        <td>Renewed</td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">
+                        Haven't joined or accepted in a club yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+               
+            </table>
+        </div>
+    </div>
+</div>

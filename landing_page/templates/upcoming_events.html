@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Upcoming Club Events</title>
+    <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<style>
+    :root {
+        --school-primary: #1e3a8a;
+        --school-secondary: #fde047;
+        --school-tertiary: #81b29a;
+    }
+
+    body {
+        background-color: #f7f7ff;
+    }
+
+    .custom-header {
+        background-color: var(--school-primary);
+        border-radius: 8px;
+    }
+
+    .custom-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    .custom-view-btn {
+        color: var(--school-primary);
+        border-color: var(--school-primary);
+    }
+
+    .custom-view-btn:hover {
+        background-color: var(--school-primary);
+        color: white;
+    }
+
+    .custom-view-btn.active {
+        background-color: var(--school-primary);
+        color: white;
+    }
+
+    .custom-badge {
+        background-color: #e9ecef;
+        color: #495057;
+        margin-right: 5px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .custom-event-card {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .custom-date-col {
+        background-color: var(--school-tertiary);
+        text-align: center;
+        line-height: 1.1;
+    }
+
+    .custom-date-col span {
+        display: block;
+    }
+
+    @media (max-width: 767.98px) {
+        .custom-date-col .display-6 {
+            font-size: 1.5rem;
+        }
+
+        .custom-date-col .h4 {
+            font-size: 1rem;
+        }
+
+        .custom-date-col .h5 {
+            font-size: 0.9rem;
+        }
+    }
+
+    .custom-club-title {
+        color: var(--school-primary);
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .custom-live-badge {
+        font-weight: 700;
+        font-size: 0.8rem;
+        padding: 0.3em 0.6em;
+        border-radius: 4px;
+    }
+
+    .custom-detail-btn {
+        background-color: var(--school-secondary);
+        color: #1e3a8a;
+        font-weight: 600;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .custom-detail-btn:hover {
+        background-color: #d1b43e;
+        color: #1e3a8a;
+    }
+
+    .custom-footer-disclaimer {
+        border-top: 1px solid #dee2e6;
+        margin-top: 3rem !important;
+    }
+</style>
+
+<body>
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-12">
+                <header class="text-center mb-5 p-3 custom-header">
+                    <h1 class="text-white mb-0">Bestlink College of The Philippines All Events</h1>
+                </header>
+                
+
+                        <a href="{% url 'home' %}" class="button">Return</a>
+                <div class="row align-items-center mb-4">
+                    <div class="col-md-5 mb-3 mb-md-0">
+                        <input type="text" class="form-control" placeholder="Search by Club Name or Event...">
+                    </div>
+                    <div class="col-md-7 d-flex justify-content-end align-items-center">
+                        <div class="filter-categories me-3 d-none d-md-flex">
+                            <span class="me-2 text-muted">Filter by Category:</span>
+                            <span class="badge rounded-pill custom-badge">Sports</span>
+                            <span class="badge rounded-pill custom-badge">Academic</span>
+                            <span class="badge rounded-pill custom-badge">Arts</span>
+                        </div>
+                        <button class="btn btn-outline-primary me-2 custom-view-btn active">List View</button>
+                        <button class="btn btn-outline-primary custom-view-btn">Calendar View</button>
+                    </div>
+                </div>
+
+                <div class="event-list">
+                    <div class="card mb-3 custom-event-card">
+                        <div class="row g-0">
+                            <div
+                                class="col-3 col-md-2 d-flex flex-column align-items-center justify-content-center text-white custom-date-col p-2 p-md-3">
+                                <span class="display-6 fw-bold">WED</span>
+                                <span class="h4">10/22</span>
+                                <span class="h5">6:00 PM - 9:00 PM</span>
+                            </div>
+                            <div class="col-9 col-md-10 p-3 position-relative">
+                                <h5 class="card-title custom-club-title">[Boxing Club]</h5>
+                                <h3 class="card-subtitle mb-2 fw-bold">Annual Program Competition</h3>
+                                <p class="card-text text-muted mb-1">Each program competes against other programs for
+                                    BCP Boxing match.</p>
+                                <p class="card-text"><small class="text-muted">Location: Annex Campus</small></p>
+                                <a href="#" class="btn btn-sm custom-detail-btn" data-bs-toggle="modal"
+                                    data-bs-target="#viewEvents">View Details</a>
+                            </div>
+
+                            <!-- modal -->
+
+                            <!-- modal -->
+                            <div class="modal fade" id="viewEvents" tabindex="-1" aria-labelledby="viewEventsLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                                    <div class="modal-content">
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h3 class="modal-title" id="viewEventsLabel">Boxing Club Annual
+                                                Championship: School Boxing Match</h3>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+
+                                        <!-- Modal Body -->
+                                        <div class="modal-body">
+                                            <h4>Event Overview</h4>
+                                            <p>Get ready for an exciting night of action, skill, and sportsmanship as
+                                                the <strong>BCP Boxing Club</strong> presents its
+                                                <strong>Annual Championship Boxing Match</strong>! Join us for an
+                                                evening filled with energy and competitive spirit as our talented
+                                                student boxers face off in the ring. This is a fantastic opportunity to
+                                                witness firsthand the hard work, dedication, and training that our
+                                                athletes have put in throughout the year.
+                                            </p>
+
+                                            <p>Whether you're a boxing enthusiast or new to the sport, this event will
+                                                keep you on the edge of your seat. Don't miss the chance to support your
+                                                fellow students and cheer for your favorite boxers!</p>
+
+                                            <h4>Event Schedule</h4>
+                                            <ul>
+                                                <li><strong>6:00 PM – 6:30 PM:</strong> <em>Opening Ceremony</em> –
+                                                    Welcome speech by the Boxing Club President, introduction to the
+                                                    event, and brief explanation of the rules and matchups. A special
+                                                    appearance by the school principal to kick off the event.</li>
+                                                <li><strong>6:30 PM – 7:15 PM:</strong> <em>First Round of Matches</em>
+                                                    – Opening bouts between beginners and novice competitors in lighter
+                                                    weight categories.</li>
+                                                <li><strong>7:15 PM – 8:00 PM:</strong> <em>Mid-Event Intermission &
+                                                        Entertainment</em> – Enjoy a highlight reel of the year's
+                                                    training sessions. Light refreshments available at the concession
+                                                    stands.</li>
+                                                <li><strong>8:00 PM – 8:45 PM:</strong> <em>Main Event Matches</em> –
+                                                    The <strong>Lightweight Championship</strong> and
+                                                    <strong>Heavyweight Championship</strong> bouts.
+                                                </li>
+                                                <li><strong>8:45 PM – 9:00 PM:</strong> <em>Closing Ceremony & Award
+                                                        Presentation</em> – The winners will be announced and awarded
+                                                    their championship belts, with special recognition for Best Boxer,
+                                                    Most Improved Boxer, and Best Sportsmanship.</li>
+                                            </ul>
+
+                                            <h4>Boxing Categories</h4>
+                                            <ul>
+                                                <li><strong>Lightweight Division:</strong> Competitors weighing up to
+                                                    60kg (132 lbs).</li>
+                                                <li><strong>Middleweight Division:</strong> Competitors weighing between
+                                                    60kg and 75kg (132–165 lbs).</li>
+                                                <li><strong>Heavyweight Division:</strong> Competitors weighing over
+                                                    75kg (165 lbs and above).</li>
+                                                <li><strong>Special Mixed Gender Match:</strong> A demonstration match
+                                                    between our female and male competitors to showcase gender equality
+                                                    in sports.</li>
+                                            </ul>
+
+                                            <h4>Ticket Information</h4>
+                                            <p><strong>Admission:</strong> The event is free for all students, staff,
+                                                and faculty members with a valid school ID. Guest tickets for
+                                                non-student family members or friends are available for a small fee of
+                                                $5.</p>
+                                            <p><strong>Concessions:</strong> Refreshments and snacks will be available
+                                                for purchase at the event. Support the Boxing Club by enjoying snacks
+                                                like popcorn, chips, and drinks.</p>
+
+                                            <h4>Health & Safety Measures</h4>
+                                            <ul>
+                                                <li>All participants will be equipped with proper safety gear, including
+                                                    headgear, mouthguards, and gloves.</li>
+                                                <li>Medical staff will be on-site for any emergencies or injuries.</li>
+                                                <li>All spectators are requested to maintain a safe distance from the
+                                                    boxing ring and adhere to the school’s code of conduct.</li>
+                                            </ul>
+
+                                            <h4>Why Attend?</h4>
+                                            <ul>
+                                                <li><strong>Support your peers:</strong> Cheer on your friends and
+                                                    classmates as they showcase their boxing skills and compete in a
+                                                    friendly but competitive environment.</li>
+                                                <li><strong>Inspiration & Motivation:</strong> Watching these athletes
+                                                    give their all will inspire you to push yourself further in your own
+                                                    pursuits.</li>
+                                                <li><strong>Exciting Entertainment:</strong> High-energy bouts,
+                                                    competitive fighters, and an unforgettable night of sports action.
+                                                </li>
+                                            </ul>
+
+                                            <h4>Important Notes</h4>
+                                            <ul>
+                                                <li><strong>Seating:</strong> Seating is available on a first-come,
+                                                    first-served basis. Arrive early to get the best seats.</li>
+                                                <li><strong>Attire:</strong> Casual schoolwear is acceptable. Please
+                                                    avoid wearing hats or oversized clothing that may obstruct your
+                                                    view.</li>
+                                                <li><strong>Social Media:</strong> Share your experience on social media
+                                                    with the hashtag <strong>#BoxingChampionship2025</strong>.</li>
+                                            </ul>
+
+                                            <h4>Contact Information</h4>
+                                            <p>For further inquiries or to learn more about the event, please contact
+                                                the Boxing Club President at <strong>bcp.edu</strong> or visit
+                                                the school’s sports department.</p>
+
+                                        </div>
+
+                                        <!-- Modal Footer -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Get Tickets</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3 custom-event-card">
+                        <div class="row g-0">
+                            <div
+                                class="col-3 col-md-2 d-flex flex-column align-items-center justify-content-center text-white custom-date-col p-2 p-md-3">
+                                <span class="display-6 fw-bold">THU</span>
+                                <span class="h4">10/23</span>
+                                <span class="h5">3:00 PM</span>
+                            </div>
+                            <div class="col-9 col-md-10 p-3">
+                                <h5 class="card-title custom-club-title">[Art Club]</h5>
+                                <h3 class="card-subtitle mb-2 fw-bold">Fall Art Exhibition</h3>
+                                <p class="card-text text-muted mb-1">View student masterpieces. Refreshments provided.
+                                </p>
+                                <p class="card-text"><small class="text-muted">Location: Library Mezzanine</small></p>
+                                <a href="#" class="btn btn-sm custom-detail-btn">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-5 p-3 custom-footer-disclaimer">
+                    <p class="mb-1 text-muted">For more information, contact the School Activities Office.</p>
+                    <p class="mb-0 text-muted fst-italic"><small>All events and times are subject to change. Please
+                            confirm details.</small></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>
