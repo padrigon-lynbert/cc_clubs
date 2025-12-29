@@ -28,3 +28,19 @@ class BudgetRequest(models.Model):
 
     class Meta:
         db_table = "budget_request"
+
+class Link(models.Model):
+    url = models.URLField(max_length=200)
+    club_id = models.ForeignKey(Clubs, on_delete=models.CASCADE)
+    class Platform(models.IntegerChoices):
+        FACEBOOK = 0, "Facebook"
+        TWITTER = 1, "Twitter/X"
+        INSTAGRAM = 2, "Instagram"
+
+    platform = models.IntegerField(
+        choices=Platform.choices,
+        default=Platform.FACEBOOK,
+    )
+
+    class Meta:
+        db_table = 'link'
