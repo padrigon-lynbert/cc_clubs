@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Link for {{ club.name }}</title>
+</head>
+<body>
+    <h1>Add New Link for {{ club.name }}</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div>
+            <label for="platform">Platform:</label><br>
+            <select id="platform" name="platform" required>
+                <option value="">Select Platform</option>
+                {% for value, label in platforms %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <br>
+        
+        <div>
+            <label for="url">URL:</label><br>
+            <input type="url" id="url" name="url" required style="width: 400px;">
+        </div>
+        
+        <br>
+        
+        <div>
+            <button type="submit">Add Link</button>
+            <a href="{% url 'display_link' club_id %}">
+                <button type="button">Cancel</button>
+            </a>
+        </div>
+    </form>
+</body>
+</html>
