@@ -5,7 +5,7 @@ from django.db import IntegrityError, transaction
 from django.http import HttpResponseNotAllowed
 from clubs.models import Clubs, MemberApplication, Memberships, Achievement
 from landing_page.models import Users
-from .models import BudgetRequest
+from .models import BudgetRequest, Link
 from .forms import MembershipApplicationForm
 from clubs.models import Announcement
 import base64
@@ -354,6 +354,72 @@ def delete_announcement(request, pk):
     announcement.delete()
     messages.success(request, "Announcement deleted.")
     return redirect(request.META.get("HTTP_REFERER", "home"))
+
+def display_link(request, club_id):
+    club = get_object_or_404(Clubs, id=club_id)
+    links = Link.objects.filter(club=club_id)
+    context = {
+        'links': links,
+        'club': club,
+        'club_id': club_id
+    }
+    return render(request, 'links.html', context)
+
+def add_link(request, club_id):
+    club = get_object_or_404(Clubs, id=club_id)
+    
+    if request.method == 'POST':
+        url = request.POST.get('url')
+        platform = request.POST.get('platform')
+        
+        if url and platform is not None:
+            Link.objects.create(
+                url=url,
+                platform=int(platform),
+                club_id=club_id
+            )
+            return redirect('display_link', club_id=club_id)
+    
+    context = {
+        'club': club,
+        'club_id': club_id,
+        'platforms': Link.Platform.choices
+    }
+    return render(request, 'add_link.html', context)
+
+def edit_link(request, link_id):
+    link = get_object_or_404(Link, id=link_id)
+    
+    if request.method == 'POST':
+        url = request.POST.get('url')
+        platform = request.POST.get('platform')
+        
+        if url and platform is not None:
+            link.url = url
+            link.platform = int(platform)
+            link.save()
+            return redirect('display_link', club_id=link.club_id)
+    
+    context = {
+        'link': link,
+        'club_id': link.club_id,
+        'platforms': Link.Platform.choices
+    }
+    return render(request, 'edit_link.html', context)
+
+def delete_link(request, link_id):
+    link = get_object_or_404(Link, id=link_id)
+    club_id = link.club_id
+    
+    if request.method == 'POST':
+        link.delete()
+        return redirect('display_link', club_id=club_id)
+    
+    context = {
+        'link': link,
+        'club_id': club_id
+    }
+    return render(request, 'delete_link.html', context)
 
 # supporting function to specify individual role inside individual dlub
 def get_role(request, club):

@@ -31,7 +31,7 @@ class BudgetRequest(models.Model):
 
 class Link(models.Model):
     url = models.URLField(max_length=200)
-    club_id = models.ForeignKey(Clubs, on_delete=models.CASCADE)
+    club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
     class Platform(models.IntegerChoices):
         FACEBOOK = 0, "Facebook"
         TWITTER = 1, "Twitter/X"
@@ -44,3 +44,6 @@ class Link(models.Model):
 
     class Meta:
         db_table = 'link'
+
+    def __str__(self):
+        return f"{self.get_platform_display()}: {self.url}"
