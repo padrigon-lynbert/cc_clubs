@@ -4,7 +4,7 @@ from .views import submit_membership_application
 from .views import budget_request 
 from .views import election_club 
 from .views import get_club_achievement, member_list, get_club_applicants, club_detail, accept_membership_application, rejecT_membership_application
-from .views import delete_announcement, create_event
+from .views import delete_announcement, create_event, display_link, edit_link, delete_link, add_link
 
 urlpatterns =[
     path('individual_club/', individual_club, name='individual_club'),
@@ -19,4 +19,8 @@ urlpatterns =[
     path('member_list/', member_list, name='member_list'),
     path('create_event/<int:club_id>/', create_event, name='create_event'),
     path("announcement/delete/<int:pk>/", delete_announcement, name="delete_announcement"),
+    path("links/<int:club_id>/", display_link, name='display_link'),
+    path('links/add/<int:club_id>/', add_link, name='add_link'),
+    path('links/edit/<int:link_id>/', edit_link, name='edit_link'),
+    path('links/delete/<int:link_id>/', delete_link, name='delete_link'),
 ]

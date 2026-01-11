@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Links for {{ club.club_name }}</title>
+</head>
+<body>
+    <h1>Links for {{ club.club_name }}</h1>
+    
+    <form action="{% url 'add_link' club_id %}" method="get">
+        <button type="submit">Add New Link</button>
+    </form>
+    
+    <br>
+    
+    {% if links %}
+        <table border="1" cellpadding="10">
+            <thead>
+                <tr>
+                    <th>Platform</th>
+                    <th>URL</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for link in links %}
+                <tr>
+                    <td>{{ link.get_platform_display }}</td>
+                    <td><a href="{{ link.url }}" target="_blank">{{ link.url }}</a></td>
+                    <td>
+                        <form action="{% url 'edit_link' link.id %}" method="get" style="display: inline;">
+                            <button type="submit">Edit</button>
+                        </form>
+                        
+                        <form action="{% url 'delete_link' link.id %}" method="get" style="display: inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No links found for this club.</p>
+    {% endif %}
+    
+    <br>
+    <a href="{% url 'club_detail' club.id %}">Back to Clubs</a>
+</body>
+</html>
