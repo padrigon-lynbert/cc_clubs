@@ -106,6 +106,8 @@ DATABASES = {
         conn_max_age=600,
         ssl_require=True
     )
+    # currently done with maintenance if db.util or err 11001 - check db
+    # settings attrib, reversal, ssl require, api independent, connection limit 20, backuplocation=do-sgp1
 }
 # DATABASES['default']['CONN_MAX_AGE'] = 60  # 1 minute reuse, then close
 DATABASES['default']['CONN_MAX_AGE'] = 0 # kill the connection after query, new connection every query (slower)
