@@ -1,24 +1,24 @@
 <?php
-// create_acc.php using PDO
-
-$host = "dpg-d3q794odl3ps73bn4jbg-a.oregon-postgres.render.com";
-$db   = "reporting_api";
-$user = "reporting_api_user";
-$pass = "NnJaaGQZdlomaoT22c5bXfZHqytGrfB2";
+$host = "dpg-d5hpka6r433s73btsgh0-a.oregon-postgres.render.com";
+$db   = "temp_api_u2s1";
+$user = "admin";
+$pass = "LGQ9jgQyhjmYP0OfQQITZJP1CTzxzP2q";
 $port = "5432";
 
-$message = "";
-
 try {
-    $conn = new PDO("pgsql:host=$host;port=$port;dbname=$db", $user, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $conn = new PDO(
+        "pgsql:host=$host;port=$port;dbname=$db",
+        $user,
+        $pass,
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+    );
 } catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+    die("DB connection failed");
 }
 
-// Handle account creation
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $role = $_POST['role'];
+    $role  = (int)$_POST['role'];
+    $email = $_POST['email'];
 
     $role_names = [
         0 => 'student',
@@ -28,92 +28,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         4 => 'admin'
     ];
 
-    $name = $role_names[$role];
-    $password = $name; // password same as name
-
-    try {
-        // Get next id from sequence
-        $stmt = $conn->query("SELECT nextval('users_id_seq') AS next_id");
-        $next_id = $stmt->fetch(PDO::FETCH_ASSOC)['next_id'];
-        $acc_no = str_pad($next_id, 4, "0", STR_PAD_LEFT);
-
-        // Insert user
-        $insert = $conn->prepare("INSERT INTO users (id, acc_no, name, password, role) VALUES (?, ?, ?, ?, ?)");
-        $insert->execute([$next_id, $acc_no, $name, $password, $role]);
-
-        // Redirect to prevent double submission
-        header("Location: " . $_SERVER['PHP_SELF'] . "?success=1&acc_no=$acc_no&name=$name&password=$password");
-        exit();
-    } catch (PDOException $e) {
-        $message = "Error creating account: " . $e->getMessage();
+    if (!isset($role_names[$role])) {
+        die("Invalid role");
     }
+
+    $name = $role_names[$role];
+    $password = $name;
+
+    $stmt = $conn->prepare(
+        "INSERT INTO users (email, name, password, role)
+         VALUES (:email, :name, :password, :role)"
+    );
+
+    $stmt->execute([
+        ':email'    => $email,
+        ':name'     => $name,
+        ':password' => $password,
+        ':role'     => $role
+    ]);
+
+    echo "Account created";
+    exit;
 }
-
-// Check success message
-if (isset($_GET['success']) && $_GET['success'] == 1) {
-    $acc_no = htmlspecialchars($_GET['acc_no']);
-    $name = htmlspecialchars($_GET['name']);
-    $password = htmlspecialchars($_GET['password']);
-    $message = "Account created successfully!<br>Acc No: $acc_no<br>Name: $name<br>Password: $password";
-}
-
-// Fetch users for table
-$stmt = $conn->query("SELECT acc_no, name FROM users ORDER BY id ASC");
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Account</title>
-</head>
-<body>
-<h2>Create New Account</h2>
-
-<form method="post">
-    <label for="role">Select Role:</label>
-    <select name="role" id="role">
-        <option value="0">Student</option>
-        <option value="1">Officer</option>
-        <option value="2">Adviser</option>
-        <option value="3">Activity Coordinator</option>
-        <option value="4">Admin</option>
-    </select>
-    <button type="submit">Create Account</button>
-</form>
-
-<h2>Users List</h2>
-<div style="max-height: 500px; overflow-y: auto; border: 1px solid #ccc;">
-    <table border="1" width="100%" cellspacing="0" cellpadding="5">
-        <thead>
-            <tr>
-                <th>Acc ID</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            if ($users) {
-                foreach ($users as $row) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['acc_no']) . "</td>";
-                    echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                    echo "</tr>";
-                }
-            } else {
-                echo "<tr><td colspan='2'>No users found.</td></tr>";
-            }
-            ?>
-        </tbody>
-    </table>
-</div>
-
-<div>
-    <?php if ($message) echo $message; ?>
-</div>
-
-<?php
-$conn = null; // close connection
-?>
-</body>
-</html>
