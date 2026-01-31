@@ -232,11 +232,11 @@
                 <form action="{% url 'login_from_landing' %}" method="post">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="member-login-number">
+                        <label for="member-login-email">
                             Email
                             <span class="required-star">*</span>
                         </label>
-                        <input type="text" name="member-login-number" id="member-login-number"
+                        <input type="text" name="member-login-email" id="member-login-email"
                             placeholder="name@example.com" required>
                     </div>
 

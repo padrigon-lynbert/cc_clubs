@@ -85,7 +85,7 @@ def login_from_landing(request):
 def login_from_landing(request):
 
     if request.method == 'POST':
-        acc_no = request.POST.get('member-login-number')
+        email = request.POST.get('member-login-email')
         password = request.POST.get('member-login-password')
 
         # api localhost
@@ -95,7 +95,7 @@ def login_from_landing(request):
         url = "https://cc-clubs-1.onrender.com/api_login.php"
 
         try:
-            res = requests.post(url, json={"acc_no": acc_no, "password": password}, timeout=10)
+            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
             api_res = res.json()
         except Exception as e:
             messages.error(request, f"API error: {e}")
