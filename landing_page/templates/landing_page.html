@@ -777,228 +777,98 @@
             </script>
         </section>
 
-
-        <!-- <h4 class="text-white mb-4">Become a member</h4> -->
-
-        <!-- <div class="form-floating">
-                                        <input type="text" name="full-name" id="full-name" class="form-control" placeholder="Full Name" required="">
-                                        
-                                        <label for="floatingInput">Full Name</label>
-                                    </div>
-        
-                                    <div class="form-floating">
-                                        <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Email address" required="">
-                                        
-                                        <label for="floatingInput">Email address</label>
-                                    </div>
-        
-                                    <div class="form-floating">
-                                        <textarea class="form-control" id="message" name="message" placeholder="Describe message here"></textarea>
-                                        
-                                        <label for="floatingTextarea"> Comments</label>
-                                    </div> -->
-
-
-
-        <!-- <form action="#" method="post" class="custom-form membership-form shadow-lg" role="form">
-                        <h4 class="text-white mb-4">Become a member</h4>
-
-                            <div class="form-floating">
-                                <input type="text" name="full-name" id="full-name" class="form-control" placeholder="Full Name" required="">
-                                
-                                <label for="floatingInput">Full Name</label>
-                            </div>
-
-                            <div class="form-floating">
-                                <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Email address" required="">
-                                
-                                <label for="floatingInput">Email address</label>
-                            </div>
-
-                            <div class="form-floating">
-                                <textarea class="form-control" id="message" name="message" placeholder="Describe message here"></textarea>
-                                
-                                <label for="floatingTextarea"> Comments</label>
-                            </div>
-
-                            <button type="submit" class="form-control">Submit</button>
-                        </div>
-                    </form> -->
-        <!--eventswewr-->
+  
+        <!--events-->
         <section class="events-section section-bg section-padding" id="section_4">
-            <div class="container">
-                <div class="row">
-                    <!-- Section Title -->
-                    <div class="col-12 text-center mb-5">
-                        <h2 class="mb-4">Upcoming Events</h2>
-                        <p class="lead text-muted">Join us for exciting wellness activities this September!</p>
-                    </div>
-                </div>
-
-                <!-- Event 1: Private Golf -->
-
-                <!-- <div class="row custom-block mb-4 align-items-center">
-                    <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
-                        <div
-                            class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
-                            <h6 class="custom-block-date mb-1 mb-lg-1 mb-0">1</h6>
-                            <strong class="text-white">September 2025</strong>
+            {% if request.session.member_logged_in %}
+                <div class="container">
+                    <div class="row">
+                        <!-- Section Title -->
+                        <div class="col-12 text-center mb-5">
+                            <h2 class="mb-4">Upcoming Events</h2>
+                            <p class="lead text-muted">Join us for exciting wellness activities this September!</p>
                         </div>
                     </div>
 
-                    <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
-                        <div class="custom-block-image-wrap position-relative">
-                            <a href="event-detail.html">
-                                <img src="{% static 'landing_page/images/professional-golf-player.jpg' %}"
-                                    class="custom-block-image img-fluid rounded" alt="Private Golf Activity">
-                                <i
-                                    class="custom-block-icon bi bi-link position-absolute top-50 start-50 translate-middle"></i>
-                            </a>
-                        </div>
-                    </div>
 
-                    <div class="col-lg-6 col-12 order-3 order-lg-0">
-                        <div class="custom-block-info mt-2 mt-lg-0">
-                            <h5 class="events-title mb-3">
-                                <a href="event-detail.html" class="text-decoration-none">Private Golf Activities</a>
-                            </h5>
-                            <p>Enjoy a serene round of golf with personalized coaching. Perfect for individuals or small
-                                groups looking to improve their swing in a relaxed setting.</p>
-
-                            <div class="d-flex flex-wrap border-top pt-3 mt-4">
-                                <div class="me-lg-5 mb-3 mb-lg-0">
-                                    <div class="d-flex align-items-center mb-1">
-                                        <span class="text-muted me-2">📍</span>
-                                        <span class="fw-medium">Location:</span>
-                                        <p class="mb-0 ms-1">Manila Golf Club</p>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <span class="text-muted me-2">🎟️</span>
-                                        <span class="fw-medium">Date:</span>
-                                        <p class="mb-0 ms-1">Feb-2-2003</p>
-                                    </div>
+                    {% if recent_announcements %}
+                        {% for a in recent_announcements %}
+                        <div class="row custom-block mb-4 align-items-center">
+                            <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
+                                <div
+                                    class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
+                                    <h6 class="custom-block-date mb-1 mb-lg-1 mb-0">{{ a.announcement_date|date:"j" }}</h6>
+                                    <strong class="text-white">{{ a.start_date|date:"F j, Y" }}</strong>
                                 </div>
+                            </div>
 
-                                <div class="ms-auto">
-                                                <a href="event-detail.html" class="btn btn-primary custom-btn">Buy Ticket</a>
+                            <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
+                                <div class="custom-block-image-wrap position-relative">
+                                    {% if a.image_base64 %}
+                                    <img src="data:image/png;base64,{{ a.image_base64 }}"
+                                        class="custom-block-image img-fluid rounded" alt="{{ a.name }}"
+                                        style="height:300px; width:350px; object-fit:cover; overflow:hidden; border-radius:8px;">
+                                    {% else %}
+                                    <span class="text-muted">No image provided</span>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12 order-3 order-lg-0">
+                                <div class="custom-block-info mt-2 mt-lg-0">
+                                    <h5 class="events-title mb-3">
+                                        <span class="text-decoration-none">{{ a.name }}</span>
+                                    </h5>
+                                    <p>{{ a.content|truncatewords:30 }}</p>
+
+                                    <div class="d-flex flex-wrap border-top pt-3 mt-4">
+                                        <div class="me-lg-5 mb-3 mb-lg-0">
+                                            <div class="d-flex align-items-center mb-1">
+                                                <!-- <span class="text-muted me-2"></span> -->
+                                                <span class="fw-medium">Category:</span>
+                                                <p class="mb-0 ms-1">{{ a.get_category_display }}</p>
                                             </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- Event 2: Group Tournament -->
-                <!-- <div class="row custom-block custom-block-bg mb-4 align-items-center">
-                    <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
-                        <div
-                            class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
-                            <h6 class="custom-block-date mb-1 mb-lg-1 mb-0">8</h6>
-                            <strong class="text-white">September 2025</strong>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
-                        <div class="custom-block-image-wrap position-relative">
-                            <a href="event-detail.html">
-                                <img src="{% static 'landing_page/images/girl-taking-selfie-with-friends-golf-field.jpg' %}"
-                                    class="custom-block-image img-fluid rounded" alt="Group Tournament">
-                                <i
-                                    class="custom-block-icon bi bi-link position-absolute top-50 start-50 translate-middle"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-12 order-3 order-lg-0">
-                        <div class="custom-block-info mt-2 mt-lg-0">
-                            <h5 class="events-title mb-3">
-                                <a href="event-detail.html" class="text-decoration-none">Group Tournament Activities</a>
-                            </h5>
-                            <p>Compete in a friendly golf tournament or join our Arnis demo session. A great way to
-                                bond, learn, and stay active with others.</p>
-
-                            <div class="d-flex flex-wrap border-top pt-3 mt-4">
-                                <div class="me-lg-5 mb-3 mb-lg-0">
-                                    <div class="d-flex align-items-center mb-1">
-                                        <span class="text-muted me-2">📍</span>
-                                        <span class="fw-medium">Location:</span>
-                                        <p class="mb-0 ms-1">St. Vincent School, West Avenue</p>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <span class="text-muted me-2">🎟️</span>
-                                        <span class="fw-medium">Date:</span>
-                                        <p class="mb-0 ms-1">Jun-20-2004</p>
+                                            <div class="d-flex align-items-center">
+                                                <!-- <span class="text-muted me-2">🎟️</span> -->
+                                                <span class="fw-medium">Date:</span>
+                                                <p class="mb-0 ms-1">
+                                                    {{ a.announcement_date|date:"M-d-Y" }} - {{ a.end_date|date:"F j, Y" }}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div> -->
+                        {% endfor %}
 
-                {% if recent_announcements %}
-                {% for a in recent_announcements %}
-                <div class="row custom-block mb-4 align-items-center">
-                    <div class="col-lg-2 col-md-4 col-12 order-2 order-md-0 order-lg-0">
-                        <div
-                            class="custom-block-date-wrap d-flex d-lg-block d-md-block align-items-center mt-3 mt-lg-0 mt-md-0">
-                            <h6 class="custom-block-date mb-1 mb-lg-1 mb-0">{{ a.announcement_date|date:"j" }}</h6>
-                            <strong class="text-white">{{ a.start_date|date:"F j, Y" }}</strong>
+                    {% else %}
+                    <p class="text-center text-muted">No events available.</p>
+                    {% endif %}
+
+                    
+                    <!-- Optional: View All Button -->
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <a href="{% url 'upcoming_events' %}" class="btn btn-outline-dark">View All Events wss</a>
+                            <!--naka black lng yan.mms-->
                         </div>
                     </div>
-
-                    <div class="col-lg-4 col-md-8 col-12 order-1 order-lg-0">
-                        <div class="custom-block-image-wrap position-relative">
-                            {% if a.image_base64 %}
-                            <img src="data:image/png;base64,{{ a.image_base64 }}"
-                                class="custom-block-image img-fluid rounded" alt="{{ a.name }}"
-                                style="height:300px; width:350px; object-fit:cover; overflow:hidden; border-radius:8px;">
-                            {% else %}
-                            <span class="text-muted">No image provided</span>
-                            {% endif %}
-
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 col-12 order-3 order-lg-0">
-                        <div class="custom-block-info mt-2 mt-lg-0">
-                            <h5 class="events-title mb-3">
-                                <span class="text-decoration-none">{{ a.name }}</span>
-                            </h5>
-                            <p>{{ a.content|truncatewords:30 }}</p>
-
-                            <div class="d-flex flex-wrap border-top pt-3 mt-4">
-                                <div class="me-lg-5 mb-3 mb-lg-0">
-                                    <div class="d-flex align-items-center mb-1">
-                                        <!-- <span class="text-muted me-2"></span> -->
-                                        <span class="fw-medium">Category:</span>
-                                        <p class="mb-0 ms-1">{{ a.get_category_display }}</p>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <!-- <span class="text-muted me-2">🎟️</span> -->
-                                        <span class="fw-medium">Date:</span>
-                                        <p class="mb-0 ms-1">
-                                            {{ a.announcement_date|date:"M-d-Y" }} - {{ a.end_date|date:"F j, Y" }}</p>
-                                    </div>
-                                </div>
-                            </div>
+                    
+                <!-- </div> -->
+                </div>
+            {% else %}
+                <!-- ----------------------- -->
+                 <div class="container">
+                    <div class="row">
+                        <!-- Section Title -->
+                        <div class="col-12 text-center mb-5">
+                            <h2 class="mb-4">Upcoming Events</h2>
+                            <p class="lead text-muted">Locked section, Please log in first to see the upcoming events.</p>
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-
-
-                {% else %}
-                <p class="text-center text-muted">No events available.</p>
-                {% endif %}
-
-                <!-- Optional: View All Button -->
-                <div class="row mt-4">
-                    <div class="col-12 text-center">
-                        <a href="{% url 'upcoming_events' %}" class="btn btn-outline-dark">View All Events</a>
-                        <!--naka black lng yan.mms-->
-                    </div>
-                </div>
-            </div>
-            </div>
+            {% endif %}
         </section>
         <!--baba-->
 

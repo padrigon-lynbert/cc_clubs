@@ -1,41 +1,55 @@
-landing page
-
-    + club registration portal 
-    -double check req if filled
-
-    + Announcements
-    -create Announcements, route
-
-individual clubs
-    + student club membership  
-    -no UI yet
-
-    club officer elections 
-    -no backend yet
-
-    + club achievement records
-    - no data to record yet
-
-    budget requests
-    check req if filled, no budget accept yet
-
-    +inter-club communication
-    - no ui, no plan yet
-
-| id | acc_no | password | name | role |
-|----+--------+---------------------+----------------------+------|
-| 1 | 0000 | student | test_student | 0 |
-| 2 | 0002 | adviser | test_adviser | 2 |
-| 3 | 0001 | officer | test_officer | 1 |
-| 4 | 0003 | activitycoordinator | activity coordinator | 3 |
-| 5 | 0004 | admin | test_admin | 4 |
-
-database:
-postgres://avnadmin:AVNS_jOLOj7KVZ9kKT-LnPSP@club-pg-padrigonlynbert-3ec9.d.aivencloud.com:23197/defaultdb?sslmode=require
-
 service's hosted site:
 https://cc-clubs.onrender.com
 
 repo:
 https://github.com/padrigon-lynbert/cc_clubs.git
+
+Revisions:
+Private announcements
+- dapat di kita ng public / guess users only
+
+Club promotion
+- guess dapat nakakakita
+
+Log-in
+- email address standard
+
+Program Specific filter for clubs
+- para maview lang pwede salihan depending on your department
+
+Club registration
+- automatically identify kung anong department belong
+
+Files upload
+- image, pdf, docs
+- required field (lagyan ng asterisk)
+
+Club rejection remark
+- specify bakit nareject
+
+If rejected
+- need ng proof bakit nireject, ilalagay kung bakit
+
+Budget request notification
+- maglagay ng notif number (ilan new notification)
+
+Club Search Bar
+- para nasesearch mga clubs
+
+Club Reports
+- monthly or weekly
+
+Activity Coordinator
+- appointment schedule
+- approve announcement
+- dapat fit sa schedule ang events
+
+Budget request 
+- student dapat gagawa ng request
+- adviser is mag a-advice lang regarding dito
+
+Remove club page
+- link lang sa page nila
+- magpapasa na lang ng data
+- club presidents for analysis
 
