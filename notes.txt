@@ -5,13 +5,13 @@ repo:
 https://github.com/padrigon-lynbert/cc_clubs.git
 
 Revisions:
-Private announcements
+Private announcements /
 - dapat di kita ng public / guess users only
 
-Club promotion
+Club promotion 
 - guess dapat nakakakita
 
-Log-in
+Log-in /
 - email address standard
 
 Program Specific filter for clubs
@@ -53,3 +53,12 @@ Remove club page
 - magpapasa na lang ng data
 - club presidents for analysis
 
+
+db host: 
+postgresql://admin:LGQ9jgQyhjmYP0OfQQITZJP1CTzxzP2q@dpg-d5hpka6r433s73btsgh0-a.oregon-postgres.render.com/temp_api_u2s1
+
+| id | email                  | name                | password            | role |
+|----+------------------------+---------------------+---------------------+------|
+| 1  | student0@gmail.com     | student0            | student0            | 0    |
+| 2  | adviser0@gmail.com     | adviser0            | adviser0            | 2    |
+| 3  | coordinator@system.com | activitycoordinator | activitycoordinator | 3    |
