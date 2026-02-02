@@ -252,7 +252,12 @@ def election_club(request, club_id):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
     
-    user = get_object_or_404(Users, id=member_id)
+    user = {
+        "id": request.session.get("member_id"),
+        "name": request.session.get("member_name"),
+        "role": request.session.get("member_role"),
+    }
+
     club = Clubs.objects.get(id=club_id)
     role = get_role(request, club)
     context = {'club': club, 'user': user, 'role': role}
@@ -265,7 +270,9 @@ def get_club_achievement(request, club_id):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
 
-    user = get_object_or_404(Users, id=member_id)
+    user = {
+        id: request.session["member_id"]
+    }
     club = get_object_or_404(Clubs, id=club_id)
     achievements = Achievement.objects.all().order_by('-date_posted')
     role = get_role(request, club)

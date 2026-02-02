@@ -8,13 +8,13 @@ Revisions:
 Private announcements /
 - dapat di kita ng public / guess users only
 
-Club promotion 
+Club promotion /
 - guess dapat nakakakita
 
 Log-in /
 - email address standard
 
-Program Specific filter for clubs
+Program Specific filter for clubs 
 - para maview lang pwede salihan depending on your department
 
 Club registration
@@ -24,10 +24,10 @@ Files upload /
 - image, pdf, docs
 - required field (lagyan ng asterisk)
 
-Club rejection remark
+Club rejection remark /
 - specify bakit nareject
 
-If rejected
+If rejected /
 - need ng proof bakit nireject, ilalagay kung bakit
 
 Budget request notification
@@ -62,3 +62,9 @@ postgresql://admin:LGQ9jgQyhjmYP0OfQQITZJP1CTzxzP2q@dpg-d5hpka6r433s73btsgh0-a.o
 | 1  | student0@gmail.com     | student0            | student0            | 0    |
 | 2  | adviser0@gmail.com     | adviser0            | adviser0            | 2    |
 | 3  | coordinator@system.com | activitycoordinator | activitycoordinator | 3    |
+
+{
+    "email": "ryzjinn@gmail.com",
+    "password": "w6tblURikcsF"
+}
+
