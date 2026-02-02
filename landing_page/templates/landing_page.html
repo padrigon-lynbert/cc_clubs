@@ -224,20 +224,13 @@
                             <a class="nav-link click-scroll" href="#section_4">Events</a>
                         </li>
 
-                        {% if request.session.member_logged_in %}
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="offcanvas" href="#GlobalChat" role="button"
-                                aria-controls="GlobalChat"><i class="bi bi-chat-dots"></i></a>
-                        </li>
-                        {% endif %}
-
                         {% if request.session.member_role == 3 %}
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="offcanvas" href="#BudgetRequest" role="button"
                                 aria-controls="BudgetRequest"><i class="bi bi-back"></i></a>
                         </li>
 
-                        {% elif request.session.member_role == 2 %}
+                        {% elif request.session.member_role == "professor" %}
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="offcanvas" href="#club_instructor" role="button"
                                 aria-controls="club_instructor"><i class="bi bi-back"></i></a>
