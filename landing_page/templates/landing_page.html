@@ -183,16 +183,16 @@
                 <div class="d-block d-lg-none order-1">
                     {% if request.session.member_role == None %}
                     <a href="{% url 'login_page' %}" class="btn custom-btn custom-border-btn">Login</a>
-                    {% elif request.session.member_role == 0 %}
+                    {% elif request.session.member_role == "Student" %}
                     <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
                         role="button" aria-controls="offcanvasExample">Student</a>
-                    {% elif request.session.member_role == 2 %}
+                    {% elif request.session.member_role == "Adviser" %}
                     <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
                         role="button" aria-controls="offcanvasExample">Adviser</a>
-                    {% elif request.session.member_role == 3 %}
+                    {% elif request.session.member_role == "Activity Coordinator" %}
                     <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
                         role="button" aria-controls="offcanvasExample">Activity Coordinator</a>
-                    {% elif request.session.member_role == 4 %}
+                    {% elif request.session.member_role == "Admin" %}
                     <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
                         role="button" aria-controls="offcanvasExample">Admin</a>
                     {% else %}
@@ -224,18 +224,18 @@
                             <a class="nav-link click-scroll" href="#section_4">Events</a>
                         </li>
 
-                        {% if request.session.member_role == 3 %}
+                        {% if request.session.member_role == "Activity Coordinator" %}
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="offcanvas" href="#BudgetRequest" role="button"
                                 aria-controls="BudgetRequest"><i class="bi bi-back"></i></a>
                         </li>
 
-                        {% elif request.session.member_role == "professor" %}
+                        {% elif request.session.member_role == "Adviser" %}
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="offcanvas" href="#club_instructor" role="button"
                                 aria-controls="club_instructor"><i class="bi bi-back"></i></a>
                         </li>
-                        {% elif request.session.member_role == 0 %}
+                        {% elif request.session.member_role == "Student" %}
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="offcanvas" href="#clubs_student_joined" role="button"
                                 aria-controls="clubs_student_joined"><i class="bi bi-back"></i></a>
@@ -311,16 +311,16 @@
                     <div class="d-none d-lg-block ms-lg-3 order-2">
                         {% if request.session.member_role == None %}
                         <a href="{% url 'login_page' %}" class="btn custom-btn custom-border-btn">Login</a>
-                        {% elif request.session.member_role == 0 %}
+                        {% elif request.session.member_role == "Student" %}
                         <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
                             role="button" aria-controls="offcanvasExample">Student</a>
-                        {% elif request.session.member_role == 2 %}
+                        {% elif request.session.member_role == "Adviser" %}
                         <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
                             role="button" aria-controls="offcanvasExample">Adviser</a>
-                        {% elif request.session.member_role == 3 %}
+                        {% elif request.session.member_role == "Activity Coordinator" %}
                         <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
                             role="button" aria-controls="offcanvasExample">Activity Coordinator</a>
-                        {% elif request.session.member_role == 4 %}
+                        {% elif request.session.member_role == "Admin" %}
                         <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
                             role="button" aria-controls="offcanvasExample">Admin</a>
                         {% else %}
@@ -662,11 +662,11 @@
                             </div>
 
                             <!-- hide button for each role -->
-                            {% if request.session.member_role == 0 or request.session.member_role == 4 %}
+                            {% if request.session.member_role == "Student" or request.session.member_role == "Admin" %}
                             <button name="action" value="club_directory" class="form-control apply">Club
                                 Application</button>
                             {% endif %}
-                            {% if request.session.member_role == 3 or request.session.member_role == 4 %}
+                            {% if request.session.member_role == "Activity Coordinator" or request.session.member_role == "Admin" %}
                             <a href="{% url 'get_club_application' %}" class="form-control apply">Review Club</a>
                             {% endif %}
                         </form>
