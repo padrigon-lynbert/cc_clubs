@@ -60,36 +60,13 @@ def home(request):
 
     return render(request, 'landing_page.html', context)
 
-
 '''
-def login_from_landing(request): 
-    if request.method == 'POST':
-        acc_no = request.POST.get('member-login-number')
-        password = request.POST.get('member-login-password')
-
-        try:
-            member = Users.objects.get(acc_no=acc_no, password=password)
-            request.session['member_logged_in'] = True
-            request.session['member_id'] = member.id
-            request.session['member_name'] = member.name
-            messages.success(request, 'Login successful')
-            return redirect('home')
-        except Users.DoesNotExist:
-            messages.error(request, 'Invalid account or password')
-            return redirect('home')
-
-    return redirect('home')
-'''
-
 # login using api
 def login_from_landing(request):
 
     if request.method == 'POST':
         email = request.POST.get('member-login-email')
         password = request.POST.get('member-login-password')
-
-        # api localhost
-        # url = "http://localhost/a_test_api/api_login.php"  # change to your PHP API URL
 
         # api live
         url = "https://cc-clubs-1.onrender.com/api_login.php"
@@ -98,7 +75,7 @@ def login_from_landing(request):
             res = requests.post(url, json={"email": email, "password": password}, timeout=10)
             api_res = res.json()
         except Exception as e:
-            messages.error(request, f"API error: {e}")
+            messages.error(request, f"API error: API took too long to respond")
             return redirect('login_page')
 
         if api_res.get("status") == "success":
@@ -113,6 +90,38 @@ def login_from_landing(request):
             messages.error(request, 'Invalid account or password')
     
     return redirect('login_page')
+'''
+
+# login using api
+def login_from_landing(request):
+
+    if request.method == 'POST':
+        email = request.POST.get('member-login-email')
+        password = request.POST.get('member-login-password')
+
+        # api live
+        url = "https://cc-clubs-1.onrender.com/endpoint_fms.php"
+
+        try:
+            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
+            api_res = res.json()
+        except Exception as e:
+            messages.error(request, f"API error: API took too long to respond")
+            return redirect('login_page')
+
+        if api_res.get("status") == "success":
+            user = api_res.get("user", {})
+            request.session['member_logged_in'] = True
+            request.session['member_id'] = user.get("id")
+            request.session['member_name'] = user.get("name")
+            request.session['member_role'] = user.get("role")
+            messages.success(request, 'Login successful')
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid account or password')
+    
+    return redirect('login_page')
+
 
 def logout(request):
     request.session.flush()
