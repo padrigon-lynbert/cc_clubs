@@ -252,7 +252,9 @@ def election_club(request, club_id):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
     
-    user = get_object_or_404(Users, id=member_id)
+    user = {
+        id: request.session["member_id"]
+    }
     club = Clubs.objects.get(id=club_id)
     role = get_role(request, club)
     context = {'club': club, 'user': user, 'role': role}
