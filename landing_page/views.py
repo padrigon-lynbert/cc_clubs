@@ -61,36 +61,7 @@ def home(request):
     return render(request, 'landing_page.html', context)
 
 '''
-# login using api
-def login_from_landing(request):
 
-    if request.method == 'POST':
-        email = request.POST.get('member-login-email')
-        password = request.POST.get('member-login-password')
-
-        # api live
-        url = "https://cc-clubs-1.onrender.com/api_login.php"
-
-        try:
-            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
-            api_res = res.json()
-        except Exception as e:
-            messages.error(request, f"API error: API took too long to respond")
-            return redirect('login_page')
-
-        if api_res.get("status") == "success":
-            user = api_res.get("user", {})
-            request.session['member_logged_in'] = True
-            request.session['member_id'] = user.get("id")
-            request.session['member_name'] = user.get("name")
-            request.session['member_role'] = user.get("role")
-            messages.success(request, 'Login successful')
-            return redirect('home')
-        else:
-            messages.error(request, 'Invalid account or password')
-    
-    return redirect('login_page')
-'''
 
 # login using api
 def login_from_landing(request):
@@ -123,6 +94,49 @@ def login_from_landing(request):
             messages.error(request, 'Invalid account or password')
     
     return redirect('login_page')
+'''
+
+
+def login_from_landing(request):
+    if request.method != 'POST':
+        return redirect('login_page')
+
+    email = request.POST.get('member-login-email', '').strip()
+    password = request.POST.get('member-login-password', '').strip()
+
+    apis = [
+        "https://cc-clubs-1.onrender.com/endpoint_fms.php",  # hashed
+        "https://cc-clubs-1.onrender.com/endpoint_rms.php"   # hashed
+    ]
+
+    user_data = None
+
+    for url in apis:
+        try:
+            # Send exactly what you type in Postman
+            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
+            api_res = res.json()
+            if api_res.get("status") == "success":
+                user_data = api_res.get("user")
+                break
+        except Exception:
+            continue
+
+    if user_data:
+        request.session['member_logged_in'] = True
+        request.session['member_id'] = user_data.get("id")
+        request.session['first_name'] = user_data.get("first_name")
+        request.session['middle_name'] = user_data.get("middle_name")
+        request.session['last_name'] = user_data.get("last_name")
+        request.session['member_role'] = user_data.get("role")
+        request.session['department'] = user_data.get("department")
+        messages.success(request, 'Login successful')
+        return redirect('home')
+    else:
+        messages.error(request, 'Invalid account or password')
+        return redirect('login_page')
+
+
 
 
 def logout(request):
