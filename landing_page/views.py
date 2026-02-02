@@ -113,7 +113,9 @@ def login_from_landing(request):
             user = api_res.get("user", {})
             request.session['member_logged_in'] = True
             request.session['member_id'] = user.get("id")
-            request.session['member_name'] = user.get("name")
+            request.session['first_name'] = user.get("first_name")
+            request.session['middle_name'] = user.get("middle_name")
+            request.session['last_name'] = user.get("last_name")
             request.session['member_role'] = user.get("role")
             messages.success(request, 'Login successful')
             return redirect('home')
