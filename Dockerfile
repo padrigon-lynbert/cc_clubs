@@ -1,8 +1,8 @@
 FROM php:8.2-cli
 
-# Install PDO PostgreSQL
-RUN apt-get update && apt-get install -y libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+# Install PDO MySQL
+RUN apt-get update && apt-get install -y default-mysql-client \
+    && docker-php-ext-install pdo pdo_mysql
 
 WORKDIR /app
 COPY . .
