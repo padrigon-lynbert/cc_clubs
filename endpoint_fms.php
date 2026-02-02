@@ -22,8 +22,13 @@ $data = json_decode(file_get_contents("php://input"), true);
 $email = $data['email'] ?? '';
 $password = $data['password'] ?? '';
 
+if (!$email || !$password) {
+    echo json_encode(["status"=>"fail","message"=>"Email and password required"]);
+    exit;
+}
+
 $stmt = $pdo->prepare("
-    SELECT id, first_name, middle_name, last_name, email, role, department, password
+    SELECT id, name, email, role, department, password
     FROM faculties
     WHERE email = :email
     LIMIT 1
@@ -32,16 +37,23 @@ $stmt->execute([":email" => $email]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($user && password_verify($password, $user['password'])) {
+
+    // split full name into first, middle, last
+    $parts = explode(" ", $user['name']);
+    $first_name = $parts[0] ?? "";
+    $last_name  = $parts[count($parts)-1] ?? "";
+    $middle_name = count($parts) > 2 ? implode(" ", array_slice($parts, 1, count($parts)-2)) : "";
+
     echo json_encode([
         "status" => "success",
         "user" => [
-            "id" => $user['id'],    
-            "first_name" => $user['first_name'],
-            "middle_name" => $user['middle_name'],
-            "last_name" => $user['last_name'],
-            "email" => $user['email'],
-            "role" => $user['role'],
-            "department" => $user['department']
+            "id"          => $user['id'],
+            "first_name"  => $first_name,
+            "middle_name" => $middle_name,
+            "last_name"   => $last_name,
+            "email"       => $user['email'],
+            "role"        => $user['role'],
+            "department"  => $user['department'] ?? null
         ]
     ]);
 } else {
