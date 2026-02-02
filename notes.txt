@@ -18,9 +18,9 @@ Program Specific filter for clubs
 - para maview lang pwede salihan depending on your department
 
 Club registration
-- automatically identify kung anong department belong
+- automatically identify kung anong department belongs
 
-Files upload
+Files upload /
 - image, pdf, docs
 - required field (lagyan ng asterisk)
 
