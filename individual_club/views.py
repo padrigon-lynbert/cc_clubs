@@ -18,7 +18,7 @@ def submit_membership_application(request, club_id):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
 
-    user = get_object_or_404(Users, id=member_id)
+    user = get_object_or_404(Users, acc_no=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     # ---- Role Restriction ----
     if user.role not in [Users.Role.STUDENT, Users.Role.ADMIN]:
@@ -61,7 +61,7 @@ def accept_membership_application(request, application_id):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
         
-    user = get_object_or_404(Users, id=member_id)
+    user = get_object_or_404(Users, acc_no=member_id)
     # ---- Role Restriction ----
     if user.role not in [Users.Role.OFFICER, Users.Role.INSTRUCTOR, Users.Role.ADMIN]:
         messages.error(request, "You are not allowed to access this page.")
@@ -94,9 +94,9 @@ def rejecT_membership_application(request, application_id):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
 
-    user = get_object_or_404(Users, id=member_id)
+    user = get_object_or_404(Users, acc_no=member_id)
     # ---- Role Restriction ----
-    if user.role not in [Users.Role.OFFICER, Users.Role.INSTRUCTOR, Users.Role.ADMIN]:
+    if user.role not in [Users.Role.OFFICER, Users.Role.ADVISER, Users.Role.ADMIN]:
         messages.error(request, "You are not allowed to access this page.")
         return redirect(reverse('home') + '#section_3')
     
@@ -145,11 +145,7 @@ def club_detail(request, club_id):
         return redirect(reverse('home') + '#section_3')
 
     # Fetch user info from session (set during login using API)
-    user = {
-        "id": request.session.get("member_id"),
-        "name": request.session.get("member_name"),
-        "role": request.session.get("member_role"),
-    }
+    user = get_object_or_404(Users, acc_no=member_id)
 
     club = get_object_or_404(Clubs, id=club_id)
     role = get_role(request, club)  # this role is changed from models to api(request.session)
@@ -164,12 +160,12 @@ def budget_request(request):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
 
-    user = get_object_or_404(Users, id=member_id)
+    user = get_object_or_404(Users, acc_no=member_id)
     club_id = request.session.get('club_id')
     club = get_object_or_404(Clubs, id=club_id)
 
     # ---- Role Restriction ---- // update
-    if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.INSTRUCTOR, Users.Role.STUDENT, Users.Role.ADMIN]:
+    if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.ADVISER, Users.Role.STUDENT, Users.Role.ADMIN]:
         messages.error(request, "You are not allowed to access this page")
         return redirect('club_detail', club_id=club_id)
 
@@ -252,11 +248,7 @@ def election_club(request, club_id):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
     
-    user = {
-        "id": request.session.get("member_id"),
-        "name": request.session.get("member_name"),
-        "role": request.session.get("member_role"),
-    }
+    user = get_object_or_404(Users, acc_no=member_id)
 
     club = Clubs.objects.get(id=club_id)
     role = get_role(request, club)
@@ -270,9 +262,7 @@ def get_club_achievement(request, club_id):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
 
-    user = {
-        id: request.session["member_id"]
-    }
+    user = Users.objects.get(acc_no=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     achievements = Achievement.objects.all().order_by('-date_posted')
     role = get_role(request, club)
@@ -290,13 +280,13 @@ def get_club_applicants(request, club_id):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
     
-    user = get_object_or_404(Users, id=member_id)
+    user = get_object_or_404(Users, acc_no=member_id)
     club = get_object_or_404(Clubs, id=club_id)
     applicants = MemberApplication.objects.filter(club=club, status=MemberApplication.Status.PENDING)
     role  = get_role(request, club)
-    if role not in ['Admin', 'Adviser', 'Chairperson']:
-        messages.error(request, "You are not allowed to access this page")
-        return redirect('club_detail', club_id=club_id)
+    # if role not in ['Student']:
+    #     messages.error(request, "You are not allowed to access this page")
+    #     return redirect('club_detail', club_id=club_id)
     
     context = {'club': club, 'applicants': applicants, 'user': user, 'role': role}
     return render(request, 'approve_member.html', context)
