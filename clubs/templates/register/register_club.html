@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -107,13 +106,12 @@
     .btn-submit {
       background: #0d6efd;
       color: #fff;
-      padding: 14px;
+      padding: 14px 22px;
       border-radius: 10px;
       border: none;
       font-weight: 600;
     }
 
-    /* Right panel */
     .info-panel {
       background: linear-gradient(160deg, #1e3a8a, #0a58ca);
       color: #fff;
@@ -133,6 +131,67 @@
         display: none;
       }
     }
+
+    /* Toast Notifications */
+.toast-wrapper {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1080;
+}
+
+.custom-toast {
+  min-width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.15);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.custom-toast.success {
+  background: #e6f4ea;
+  border-left: 6px solid #198754;
+}
+
+.custom-toast.error {
+  background: #fdecea;
+  border-left: 6px solid #dc3545;
+}
+
+.custom-toast.warning {
+  background: #fff4e5;
+  border-left: 6px solid #ffc107;
+}
+
+.custom-toast.info {
+  background: #e7f1ff;
+  border-left: 6px solid #0d6efd;
+}
+
+.toast-body {
+  color: #333;
+  padding: 14px 16px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  color: #555;
+}
+
+.toast-close:hover {
+  color: #000;
+}
+
+
   </style>
 </head>
 
@@ -151,7 +210,7 @@
 <main>
   <div class="form-card">
 
-    <!-- LEFT -->
+    <!-- FORM -->
     <form id="clubForm" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
 
@@ -163,8 +222,24 @@
         {% for field in form %}
         {% if forloop.counter <= 5 %}
         <div class="mb-3">
-          <label>{{ field.label }}{% if field.field.required %} <span class="text-danger">*</span>{% endif %}</label>
+          <label>
+            {{ field.label }}
+            {% if field.field.required %}
+              <span class="text-danger">*</span>
+            {% endif %}
+          </label>
+
           {{ field }}
+
+          {% if field.help_text %}
+            <small class="text-muted">{{ field.help_text }}</small>
+          {% endif %}
+
+          {% if field.errors %}
+            <div class="text-danger small mt-1">
+              {{ field.errors }}
+            </div>
+          {% endif %}
         </div>
         {% endif %}
         {% endfor %}
@@ -175,16 +250,37 @@
         {% for field in form %}
         {% if forloop.counter > 5 %}
         <div class="mb-3">
-          <label>{{ field.label }}{% if field.field.required %} <span class="text-danger">*</span>{% endif %}</label>
+          <label>
+            {{ field.label }}
+            {% if field.field.required %}
+              <span class="text-danger">*</span>
+            {% endif %}
+          </label>
+
           {{ field }}
+
+          {% if field.help_text %}
+            <small class="text-muted">{{ field.help_text }}</small>
+          {% endif %}
+
+          {% if field.errors %}
+            <div class="text-danger small mt-1">
+              {{ field.errors }}
+            </div>
+          {% endif %}
         </div>
         {% endif %}
         {% endfor %}
       </div>
 
       <div class="step-buttons">
-        <button type="button" class="btn btn-outline-secondary" id="prevBtn" disabled>Back</button>
-        <button type="button" class="btn btn-primary p-2 w-25" id="nextBtn"><b>Next</b></button>
+        <button type="button" class="btn btn-outline-secondary" id="prevBtn" disabled>
+          Back
+        </button>
+
+        <button type="button" class="btn btn-primary" id="nextBtn">
+          Next
+        </button>
 
         <button type="button"
                 class="btn-submit d-none"
@@ -196,7 +292,7 @@
       </div>
     </form>
 
-    <!-- RIGHT -->
+    <!-- INFO PANEL -->
     <div class="info-panel">
       <h3>Application Guidelines</h3>
       <ul>
@@ -219,11 +315,16 @@
         <button class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        Are you sure you want to submit?
+        Are you sure you want to submit your application?
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" onclick="document.getElementById('clubForm').submit()">Yes, Submit</button>
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary"
+                onclick="document.getElementById('clubForm').submit()">
+          Yes, Submit
+        </button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
       </div>
     </div>
   </div>
@@ -257,11 +358,63 @@
     }
   }
 
-  nextBtn.onclick = () => { currentStep = 2; updateStep(); };
-  prevBtn.onclick = () => { currentStep = 1; updateStep(); };
+  nextBtn.onclick = () => {
+    currentStep = 2;
+    updateStep();
+  };
+
+  prevBtn.onclick = () => {
+    currentStep = 1;
+    updateStep();
+  };
+
+  {% if form.errors %}
+    currentStep = 1;
+    {% for field in form %}
+      {% if field.errors and forloop.counter > 5 %}
+        currentStep = 2;
+      {% endif %}
+    {% endfor %}
+  {% endif %}
 
   updateStep();
 </script>
 
 </body>
+{% if messages %}
+<div class="toast-wrapper">
+  {% for message in messages %}
+    <div class="custom-toast {{ message.tags }}">
+      <div class="toast-body">
+        <span>{{ message }}</span>
+        <button type="button"
+        class="toast-close ms-3"
+        aria-label="Close">
+  &times;
+</button>
+
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+<script>
+  document.querySelectorAll('.custom-toast').forEach(toast => {
+    const closeBtn = toast.querySelector('.toast-close');
+
+    function removeToast() {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(20px)';
+      setTimeout(() => toast.remove(), 300);
+    }
+
+    // Auto close after 4s
+    setTimeout(removeToast, 4000);
+
+    // Manual close
+    closeBtn.addEventListener('click', removeToast);
+  });
+</script>
+
+
 </html>
