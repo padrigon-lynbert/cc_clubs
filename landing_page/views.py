@@ -123,6 +123,15 @@ def login_from_landing(request):
             continue
 
     if user_data:
+
+        user, created = Users.objects.update_or_create(
+        acc_no=user_data.get("id"),  # or email / account number
+        defaults={
+            "name": f"{user_data.get('first_name')} {user_data.get('last_name')}",
+            "role": map_api_role(user_data.get("role")),
+            }
+        )
+
         request.session['member_logged_in'] = True
         request.session['member_id'] = user_data.get("id")
         request.session['first_name'] = user_data.get("first_name")
@@ -131,6 +140,8 @@ def login_from_landing(request):
         request.session['member_role'] = user_data.get("role")
         request.session['department'] = user_data.get("department")
         messages.success(request, 'Login successful')
+
+        Users.objects.update_or_create(acc_no=request.session['member_id'], )
         return redirect('home')
     else:
         messages.error(request, 'Invalid account or password')
@@ -172,3 +183,17 @@ def login_page(request):
 
 def upcoming_events(request):
     return render(request, 'upcoming_events.html')
+
+def map_api_role(api_role: str) -> int:
+    role = (api_role or "").strip().lower()
+
+    if role in ["Student"]:
+        return Users.Role.STUDENT
+
+    if role in ["professor"]:
+        return Users.Role.ADVISER
+
+    if role in ["coordinator"]:
+        return Users.Role.ACTIVITY_COORDINATOR
+
+    return Users.Role.STUDENT  # safe default

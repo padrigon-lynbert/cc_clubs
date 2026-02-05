@@ -19,7 +19,7 @@ def post_registration_club(request):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
 
-    user = get_object_or_404(Users, id=member_id)
+    user = get_object_or_404(Users, acc_no=member_id)
 
     # ---- Role Restriction ----
     if user.role not in [Users.Role.STUDENT, Users.Role.OFFICER, Users.Role.ADMIN]:
@@ -34,7 +34,7 @@ def post_registration_club(request):
             applicant_id = request.session.get('member_id')
             # Save user form
             try:
-                applicant = Users.objects.get(id=applicant_id)
+                applicant = Users.objects.get(acc_no=applicant_id)
                 new_club_registration.submitted_by = applicant
                 new_club_registration.save()
                 messages.success(request, 'Successfully submitted a club application form.')

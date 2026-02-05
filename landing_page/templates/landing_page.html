@@ -662,7 +662,7 @@
                             </div>
 
                             <!-- hide button for each role -->
-                            {% if request.session.member_role == "Student" or request.session.member_role == "Admin" %}
+                            {% if request.session.member_role == "Student" or request.session.member_role == 4 %}
                             <button name="action" value="club_directory" class="form-control apply">Club
                                 Application</button>
                             {% endif %}
