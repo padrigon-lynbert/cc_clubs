@@ -628,8 +628,10 @@
                         <form action="{% url 'register_club' %}">
                             {% csrf_token %}
 
-                            <h4 class="mb-4 pb-lg-2 text-center">Club Directory</h4>
-
+                            <div class="d-flex justify-content-between mb-3">
+                                <h4 class="pb-lg-2 text-center">Club Directory</h4>
+                                <input type="text" id="club-search" class="form-control w-50" placeholder="Search Clubs">
+                            </div>
                             <div class="table-responsive"
                                 style="max-height: 400px; overflow-y: auto; border-radius: 10px;">
                                 <!--scrollbar-width:none; -ms-overflow-style:none;-->
@@ -659,6 +661,7 @@
 
 
                                 </table>
+                                <p id="no-results" class="text-center d-none">No clubs found.</p>
                             </div>
 
                             <!-- hide button for each role -->
@@ -1022,6 +1025,48 @@
                 }
             });
         </script>
+        
+        <script>
+const searchInput = document.getElementById("club-search");
+
+searchInput.addEventListener("keyup", function () {
+    const searchValue = this.value.toLowerCase();
+    const rows = document.querySelectorAll("#clubs-tbody .club-row");
+
+    rows.forEach(row => {
+        const acronym = row.children[0].textContent.toLowerCase();
+        const program = row.children[1].textContent.toLowerCase();
+        const year = row.children[2].textContent.toLowerCase();
+        const clubName = row.dataset.name.toLowerCase();
+
+        const matches =
+            acronym.includes(searchValue) ||
+            program.includes(searchValue) ||
+            year.includes(searchValue) ||
+            clubName.includes(searchValue);
+
+        row.style.display = matches ? "" : "none";
+    });
+});
+
+const noResults = document.getElementById("no-results");
+
+searchInput.addEventListener("keyup", function () {
+    const value = this.value.toLowerCase();
+    const rows = document.querySelectorAll("#clubs-tbody .club-row");
+    let visibleCount = 0;
+
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        const match = text.includes(value);
+        row.style.display = match ? "" : "none";
+        if (match) visibleCount++;
+    });
+
+    noResults.classList.toggle("d-none", visibleCount !== 0);
+});
+
+</script>
 
 </body>
 
