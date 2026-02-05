@@ -80,7 +80,7 @@ def get_club_application(request):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
 
-    user = get_object_or_404(Users, id=member_id)
+    user = get_object_or_404(Users, acc_no=member_id)
 
     # ---- Role Restriction ----
     if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.ADMIN]:
@@ -109,7 +109,7 @@ def accept_club(request, club_id):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
 
-    user = get_object_or_404(Users, id=member_id)
+    user = get_object_or_404(Users, acc_no=member_id)
     # ---- Role Restriction ----
     if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.ADMIN]:
         messages.error(request, "You are not allowed to access this page.")
@@ -155,7 +155,7 @@ def reject_club(request, club_id):
         messages.error(request, "You must be logged in to access this page")
         return redirect(reverse('home') + '#section_3')
 
-    user = get_object_or_404(Users, id=member_id)
+    user = get_object_or_404(Users, acc_no=member_id)
     # ---- Role Restriction ----
     if user.role not in [Users.Role.ACTIVITY_COORDINATOR, Users.Role.ADMIN]:
         messages.error(request, "You are not allowed to access this page.")
