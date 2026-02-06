@@ -28,10 +28,14 @@ def home(request):
     member_id = request.session.get('member_id')
     from django.db.models import Q
 
-    club_applications = ClubApplication.objects.filter(Q(status=ClubApplication.Status.REJECTED) | Q(status=ClubApplication.Status.APPROVED), submitted_by=member_id) if member_id else None
+    # user = get_object_or_404(Users, acc_no=member_id)
+    user = Users.objects.filter(acc_no=member_id).first()  # returns None if no match
 
-    club_i_am_instructor = Clubs.objects.filter(adviser=member_id) if member_id else None
-    clubs_student_joined = Clubs.objects.filter(memberships__student_id=member_id) if member_id else None
+
+    club_applications = ClubApplication.objects.filter(Q(status=ClubApplication.Status.REJECTED) | Q(status=ClubApplication.Status.APPROVED), submitted_by=user) if user else None
+
+    club_i_am_instructor = Clubs.objects.filter(adviser=user) if member_id else None
+    clubs_student_joined = Clubs.objects.filter(memberships__student_id=user) if user else None
     recent_announcements = Announcement.objects.order_by('-announcement_date')[:2]
 
     for a in recent_announcements:
@@ -47,7 +51,7 @@ def home(request):
             club.role = get_role(request, club)
             clubs_with_roles.append(club)
 
-    user_role_value = request.session.get("member_role")
+    user_role_value = map_api_role(request.session.get('member_role'))
     role_display = dict(Users.Role.choices).get(user_role_value, "Guest")
     
     context = {
@@ -106,12 +110,37 @@ def login_from_landing(request):
     if user_data:
         cache.delete(key)  # reset limiter
 
+        user, created = Users.objects.update_or_create(
+        acc_no=user_data.get("id"),  # or email / account number
+        defaults={
+            "name": f"{user_data.get('first_name')} {user_data.get('last_name')}",
+            "role": map_api_role(user_data.get("role")),
+            }
+        )
+        request.session['first_name'] = user_data.get('first_name')
+        request.session['last_name'] = user_data.get('last_name')
         request.session['member_logged_in'] = True
         request.session['member_id'] = user_data.get("id")
         request.session['member_role'] = user_data.get("role")
+    
+        import random
 
-        messages.success(request, "Login successful")
-        return redirect('home')
+        # Generate a 6-digit OTP
+        otp = random.randint(100000, 999999)
+
+        # Store OTP in cache for 5 minutes
+        cache.set(f"otp_{email}", otp, timeout=300)
+
+        # --- SEND EMAIL ---
+        send_otp_email(email, otp)
+
+        # Store temporary session info for OTP verification
+        request.session['2fa_email'] = email
+        request.session['2fa_user_data'] = user_data
+
+        # Redirect to OTP page
+        return redirect('verify_otp')
+
 
     # ---- failure ----
     cache.set(key, attempts + 1, LOCK_TIME)
@@ -134,7 +163,7 @@ def verify_otp(request):
             messages.error(request, "Invalid or expired code")
             return redirect('verify_otp')  # reload page
 
-        # OTP correct to finalize login
+        # OTP correct → finalize login
         user_data = request.session.pop('2fa_user_data', None)
 
         request.session['member_logged_in'] = True
@@ -148,8 +177,9 @@ def verify_otp(request):
         messages.success(request, "Login successful")
         return redirect('home')
 
-    # GET request → show form
+    # GET request → show OTP form
     return render(request, 'otp.html')
+
 
 
 # test for tracing
@@ -225,7 +255,6 @@ def debug_login(request):
 '''
 
 
-
 def logout(request):
     request.session.flush()
     connections.close_all() # drop all db connection from this session immediately
@@ -274,6 +303,15 @@ def map_api_role(api_role: str) -> int:
 
     return Users.Role.STUDENT  # safe default
 
+def render_notification(request, application_id):
+    application = ClubApplication.objects.filter(id=application_id)
+    context = {'application': application}
+    return render(request, "notifications/notification.html", context)
 
+from django.core.mail import send_mail
+from django.conf import settings
 
-
+def send_otp_email(email, otp):
+    subject = "Clubs: Your OTP Code"
+    message = f"Your one-time password (OTP) is: {otp}. It expires in 5 minutes."
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])

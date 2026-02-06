@@ -2,15 +2,17 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
 from django.db import IntegrityError, transaction
-from django.http import HttpResponseNotAllowed
+from django.http import HttpResponseNotAllowed, JsonResponse
 from clubs.models import Clubs, MemberApplication, Memberships, Achievement
 from landing_page.models import Users
 from .models import BudgetRequest, Link
 from .forms import MembershipApplicationForm, AchievementForm
 from clubs.models import Announcement
-import base64
+import base64, os
 from datetime import datetime
-
+from google import genai
+from google.genai import types
+from dotenv import load_dotenv
 
 def submit_membership_application(request, club_id):
     member_id = request.session.get('member_id')
@@ -63,7 +65,8 @@ def accept_membership_application(request, application_id):
         
     user = get_object_or_404(Users, acc_no=member_id)
     # ---- Role Restriction ----
-    if user.role not in [Users.Role.OFFICER, Users.Role.INSTRUCTOR, Users.Role.ADMIN]:
+    user = get_object_or_404(Users, acc_no=member_id)
+    if not Memberships.objects.filter(student=user, is_officer=True):
         messages.error(request, "You are not allowed to access this page.")
         return redirect(reverse('home') + '#section_3')
 
@@ -89,29 +92,35 @@ def accept_membership_application(request, application_id):
     return redirect('club_applicants', club_id=member_application.club.id)
 
 def rejecT_membership_application(request, application_id):
-    member_id = request.session.get('member_id')
-    if not member_id:
-        messages.error(request, "You must be logged in to access this page")
-        return redirect(reverse('home') + '#section_3')
-
-    user = get_object_or_404(Users, acc_no=member_id)
-    # ---- Role Restriction ----
-    if user.role not in [Users.Role.OFFICER, Users.Role.ADVISER, Users.Role.ADMIN]:
-        messages.error(request, "You are not allowed to access this page.")
-        return redirect(reverse('home') + '#section_3')
-    
     if request.method != 'POST':
         return HttpResponseNotAllowed(['POST'])
-    
+
+    member_id = request.session.get('member_id')
+    if not member_id:
+        messages.error(request, "You must be logged in")
+        return redirect('home')
+
+    user = get_object_or_404(Users, acc_no=member_id)
+    if user.role not in [Users.Role.OFFICER, Users.Role.ADVISER, Users.Role.ACTIVITY_COORDINATOR]:
+        messages.error(request, "You are not allowed to reject applications")
+        return redirect('home')
+
     member_application = get_object_or_404(MemberApplication, id=application_id)
+    rejection_reason = request.POST.get('rejection_reason', '').strip()
+
     try:
         with transaction.atomic():
             member_application.status = MemberApplication.Status.REJECTED
+            member_application.rejection_reason = rejection_reason
             member_application.save()
-            messages.warning(request, f'Rejected membership application of {member_application.student.name}')
+            messages.success(
+                request,
+                f"Rejected {member_application.student.name}'s application"
+                + (f": {rejection_reason}" if rejection_reason else "")
+            )
     except Exception as e:
-        messages.error(request, f'Something went wrong: {str(e)}')
-    
+        messages.error(request, f"Error rejecting application: {str(e)}")
+
     return redirect('club_applicants', club_id=member_application.club.id)
 
 def member_list(request):
@@ -139,18 +148,35 @@ def individual_club(request):
 
 # for individual club to carry id in the url
 def club_detail(request, club_id):
-    member_id = request.session.get('member_id')
-    if not member_id:
-        messages.error(request, "You must be logged in to access this page")
-        return redirect(reverse('home') + '#section_3')
-
-    # Fetch user info from session (set during login using API)
-    user = get_object_or_404(Users, acc_no=member_id)
-
     club = get_object_or_404(Clubs, id=club_id)
-    role = get_role(request, club)  # this role is changed from models to api(request.session)
 
-    context = {"club": club, "user": user, "role": role}
+    member_id = request.session.get('member_id')
+    is_member = False
+    has_pending_application = False
+
+    if member_id:
+        user = get_object_or_404(Users, acc_no=member_id)
+
+        is_member = Memberships.objects.filter(
+            student=user,
+            club=club
+        ).exists()
+
+        has_pending_application = MemberApplication.objects.filter(
+            student=user,
+            club=club,
+            status=MemberApplication.Status.PENDING
+        ).exists()
+
+        total_members = Memberships.objects.filter(id=club_id).count()
+
+    context = {
+        "club": club,
+        "is_member": is_member,
+        "has_pending_application": has_pending_application,
+        "total_members": total_members,
+    }
+
     return render(request, "individual_club.html", context)
 
 
@@ -282,14 +308,31 @@ def get_club_applicants(request, club_id):
     
     user = get_object_or_404(Users, acc_no=member_id)
     club = get_object_or_404(Clubs, id=club_id)
-    applicants = MemberApplication.objects.filter(club=club, status=MemberApplication.Status.PENDING)
-    role  = get_role(request, club)
-    # if role not in ['Student']:
-    #     messages.error(request, "You are not allowed to access this page")
-    #     return redirect('club_detail', club_id=club_id)
-    
-    context = {'club': club, 'applicants': applicants, 'user': user, 'role': role}
+
+    # All applications for this club
+    applicants = MemberApplication.objects.filter(club=club)
+
+    # Counts for cards
+    pending_count = applicants.filter(status=MemberApplication.Status.PENDING).count()
+    approved_count = applicants.filter(status=MemberApplication.Status.APPROVED).count()
+    rejected_count = applicants.filter(status=MemberApplication.Status.REJECTED).count()
+    total_count = applicants.count()
+
+    role = get_role(request, club)
+
+    context = {
+        'club': club,
+        'applicants': applicants,
+        'user': user,
+        'role': role,
+        'pending_count': pending_count,
+        'approved_count': approved_count,
+        'rejected_count': rejected_count,
+        'total_count': total_count
+    }
+
     return render(request, 'approve_member.html', context)
+
 
 # create event view ------------------------------------
 # una gawa ka ng function (def) para sa event, i return mo yung .html file na gusto mong buksan kapag pinindot mo yung tag. 
@@ -423,7 +466,7 @@ def achievement_create(request, club_id):
     club = get_object_or_404(Clubs, id=club_id)
     
     if request.method == 'POST':
-        form = AchievementForm(request.POST)
+        form = AchievementForm(request.POST, request.FILES)
         if form.is_valid():
             achievement = form.save(commit=False)
             achievement.club = club
@@ -446,7 +489,8 @@ def achievement_update(request, club_id, achievement_id):
     achievement = get_object_or_404(Achievement, pk=achievement_id, club=club)
     
     if request.method == 'POST':
-        form = AchievementForm(request.POST, instance=achievement)
+        # Include request.FILES to handle the image
+        form = AchievementForm(request.POST, request.FILES, instance=achievement)
         if form.is_valid():
             form.save()
             messages.success(request, 'Achievement updated successfully!')
@@ -461,6 +505,7 @@ def achievement_update(request, club_id, achievement_id):
         'action': 'Update',
     }
     return render(request, 'achievements/achievement_form.html', context)
+
 
 
 def achievement_delete(request, club_id, achievement_id):
@@ -502,3 +547,55 @@ def get_role(request, club):
         return "Activity Coordinator"
 
     return "Visitor"
+
+def analyze_club(request, club_id):
+    club = Clubs.objects.get(id=club_id)
+    achievements = Achievement.objects.filter(club=club)
+    members = Memberships.objects.filter(club=club_id).count()
+    achievement_data = list(achievements.values('title', 'details', 'club', 'date_posted'))
+    pending, rejected, approved = [
+                                    BudgetRequest.objects.filter(club=club, status=BudgetRequest.Status.PENDING).count(), 
+                                    BudgetRequest.objects.filter(club=club, status=BudgetRequest.Status.REJECTED).count(),
+                                    BudgetRequest.objects.filter(club=club, status=BudgetRequest.Status.APPROVED).count(),
+                                ]
+
+    information = {
+        'name': club.club_name,
+        'achievements': achievement_data,
+        'member_count': members,
+        'total_achievements': achievements.count(),
+        'pending_budget_request': pending,
+        'rejected_budget_request': rejected,
+        'approved_budget_request': approved,
+    }
+    analyzed_data = generate_analysis(information)
+
+    return JsonResponse({
+        "analysis": analyzed_data
+    })
+
+def generate_analysis(club_info):
+    load_dotenv()
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+    client = genai.Client(api_key=GEMINI_API_KEY)
+
+    club_info_str = f"""
+    Club Name: {club_info['name']}
+    Member Count: {club_info['member_count']}
+    Total Achievements: {club_info['total_achievements']}
+    Achievements: {club_info['achievements']}
+    Pending Budget Requests: {club_info['pending_budget_request']}
+    Rejected Budget Requests: {club_info['rejected_budget_request']}
+    Approved Budget Requests: {club_info['approved_budget_request']}
+    """
+
+    generation_config = types.GenerateContentConfig(
+        max_output_tokens=1000,
+        temperature=0.7
+    )
+    response = client.models.generate_content(
+        model="gemma-3-27b-it",
+        contents=f"Analyze this club performance data concisely in paragraph:\n\n{club_info_str}",
+        config=generation_config,
+    )
+    return response.text;

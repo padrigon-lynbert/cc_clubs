@@ -43,7 +43,7 @@ class MembershipApplicationForm(forms.ModelForm):
 class AchievementForm(forms.ModelForm):
     class Meta:
         model = Achievement
-        fields = ['title', 'details']
+        fields = ['title', 'details', 'image']
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -55,8 +55,12 @@ class AchievementForm(forms.ModelForm):
                 'placeholder': 'Enter achievement details (optional)',
                 'rows': 4,
             }),
+            'image': forms.ClearableFileInput(attrs={
+                'class': 'form-control',
+            }),
         }
         labels = {
             'title': 'Achievement Title',
             'details': 'Details',
+            'image': 'Achievement Image (optional, max: 2MB)',
         }
