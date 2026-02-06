@@ -62,6 +62,7 @@ def home(request):
 
 '''
 
+'''
 
 def login_from_landing(request):
     if request.method != 'POST':
@@ -112,74 +113,74 @@ def login_from_landing(request):
     else:
         messages.error(request, 'Invalid account or password')
         return redirect('login_page')
-'''
-# test
-from django.http import JsonResponse
-@csrf_exempt
-def login_from_landing(request):
-    if request.method != 'POST':
-        return JsonResponse({"error": "not post"})
+# # test
+# from django.http import JsonResponse
+# @csrf_exempt
+# def login_from_landing(request):
+#     if request.method != 'POST':
+#         return JsonResponse({"error": "not post"})
 
-    email = request.POST.get('member-login-email', '').strip()
-    password = request.POST.get('member-login-password', '').strip()
+#     email = request.POST.get('member-login-email', '').strip()
+#     password = request.POST.get('member-login-password', '').strip()
 
-    apis = [
-        "https://cc-clubs-1.onrender.com/endpoint_fms.php",
-        "https://cc-clubs-1.onrender.com/endpoint_rms.php"
-    ]
+#     apis = [
+#         "https://cc-clubs-1.onrender.com/endpoint_fms.php",
+#         "https://cc-clubs-1.onrender.com/endpoint_rms.php"
+#     ]
 
-    user_data = None
+#     user_data = None
 
-    for url in apis:
-        try:
-            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
-            api_res = res.json()
-            if api_res.get("status") == "success":
-                user_data = api_res.get("user")
-                break
-        except Exception:
-            continue
+#     for url in apis:
+#         try:
+#             res = requests.post(url, json={"email": email, "password": password}, timeout=10)
+#             api_res = res.json()
+#             if api_res.get("status") == "success":
+#                 user_data = api_res.get("user")
+#                 break
+#         except Exception:
+#             continue
 
-    return JsonResponse({
-        "email": email,
-        "password": password,
-        "api_user_data": user_data,
-    })
+#     return JsonResponse({
+#         "email": email,
+#         "password": password,
+#         "api_user_data": user_data,
+#     })
 
-# tracer
-@csrf_exempt
-def debug_login(request):
-    if request.method != 'POST':
-        return JsonResponse({"error": "not post"}, status=405)
+# # tracer
+# @csrf_exempt
+# def debug_login(request):
+#     if request.method != 'POST':
+#         return JsonResponse({"error": "not post"})
 
-    # get POST data (form-data)
-    email = request.POST.get('member-login-email', '').strip()
-    password = request.POST.get('member-login-password', '').strip()
+#     # get POST data from form
+#     email = request.POST.get('member-login-email', '').strip()
+#     password = request.POST.get('member-login-password', '').strip()
 
-    # list of APIs to try
-    apis = [
-        "https://cc-clubs-1.onrender.com/endpoint_fms.php",
-        "https://cc-clubs-1.onrender.com/endpoint_rms.php"
-    ]
+#     # APIs to call
+#     apis = [
+#         "https://cc-clubs-1.onrender.com/endpoint_fms.php",
+#         "https://cc-clubs-1.onrender.com/endpoint_rms.php"
+#     ]
 
-    user_data = None
+#     user_data = None
 
-    for url in apis:
-        try:
-            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
-            api_res = res.json()
-            if api_res.get("status") == "success":
-                user_data = api_res.get("user")
-                break
-        except Exception:
-            continue
+#     # try each API until success
+#     for url in apis:
+#         try:
+#             res = requests.post(url, json={"email": email, "password": password}, timeout=10)
+#             api_res = res.json()
+#             if api_res.get("status") == "success":
+#                 user_data = api_res.get("user")
+#                 break
+#         except Exception:
+#             continue
 
-    # return JSON
-    return JsonResponse({
-        "email": email,
-        "password": password,
-        "api_user_data": user_data,
-    })
+#     # return JSON exactly like original login
+#     return JsonResponse({
+#         "email": email,
+#         "password": password,
+#         "api_user_data": user_data,
+#     })
 
 
 
