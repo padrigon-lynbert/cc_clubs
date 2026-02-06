@@ -502,3 +502,32 @@ def get_role(request, club):
         return "Activity Coordinator"
 
     return "Visitor"
+
+def club_detail(request, club_id):
+    club = get_object_or_404(Clubs, id=club_id)
+
+    member_id = request.session.get('member_id')
+    is_member = False
+    has_pending_application = False
+
+    if member_id:
+        user = get_object_or_404(Users, acc_no=member_id)
+
+        is_member = Memberships.objects.filter(
+            student=user,
+            club=club
+        ).exists()
+
+        has_pending_application = MemberApplication.objects.filter(
+            student=user,
+            club=club,
+            status=MemberApplication.Status.PENDING
+        ).exists()
+
+    context = {
+        "club": club,
+        "is_member": is_member,
+        "has_pending_application": has_pending_application,
+    }
+
+    return render(request, "individual_club.html", context)

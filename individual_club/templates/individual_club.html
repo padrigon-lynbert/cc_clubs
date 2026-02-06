@@ -502,12 +502,15 @@
 
     <!-- Main Content -->
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+      
+{% if has_pending_application %}
       <div class="border rounded px-3 py-2 mb-2 text-center" style="background-color: hsla(45, 100%, 85%, 0.707);">
         <p class="m-0">Your Membership Request is still pending. Hang tight — we're reviewing it as soon as possible.
         </p>
       </div>
-      <small class="text-success">(remove)mag pop-up kapag nag submit ng request, mawawala if approved or
-        declined</small>
+{% endif %}
+
       <div class="club-card">
         <div class="club-banner"></div>
         <div class="club-header">
@@ -816,9 +819,25 @@
       <!--hanggang dito lang-->
 
 
-      <div class="apply-button-container">
-        <a href="{% url 'submit_membership_application' club.id %}" class="btn btn-apply">Apply Now</a>
-      </div>
+      {% if not is_member and not has_pending_application %}
+  <div class="apply-button-container">
+    <a href="{% url 'submit_membership_application' club.id %}"
+       class="btn btn-apply">
+      Apply Now
+    </a>
+  </div>
+
+{% elif is_member %}
+  <p class="already-member">
+    You are already a member of this club 🎉
+  </p>
+
+{% elif has_pending_application %}
+  <p class="pending-application">
+    You already have a pending application ⏳
+  </p>
+{% endif %}
+
 
 
       <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
