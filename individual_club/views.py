@@ -449,7 +449,7 @@ def achievement_create(request, club_id):
     club = get_object_or_404(Clubs, id=club_id)
     
     if request.method == 'POST':
-        form = AchievementForm(request.POST)
+        form = AchievementForm(request.POST, request.FILES)
         if form.is_valid():
             achievement = form.save(commit=False)
             achievement.club = club
@@ -472,7 +472,8 @@ def achievement_update(request, club_id, achievement_id):
     achievement = get_object_or_404(Achievement, pk=achievement_id, club=club)
     
     if request.method == 'POST':
-        form = AchievementForm(request.POST, instance=achievement)
+        # Include request.FILES to handle the image
+        form = AchievementForm(request.POST, request.FILES, instance=achievement)
         if form.is_valid():
             form.save()
             messages.success(request, 'Achievement updated successfully!')
@@ -487,6 +488,7 @@ def achievement_update(request, club_id, achievement_id):
         'action': 'Update',
     }
     return render(request, 'achievements/achievement_form.html', context)
+
 
 
 def achievement_delete(request, club_id, achievement_id):

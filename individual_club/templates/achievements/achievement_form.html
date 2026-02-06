@@ -13,7 +13,7 @@
                 </h4>
             </div>
             <div class="card-body">
-                <form method="post" novalidate>
+                <form method="post" enctype="multipart/form-data" novalidate>
                     {% csrf_token %}
                     
                     <div class="mb-3">
@@ -42,6 +42,18 @@
                         {% endif %}
                         <div class="form-text">Optional - Provide additional details about this achievement</div>
                     </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.image.id_for_label }}" class="form-label">
+                            {{ form.image.label }}
+                        </label>
+                        {{ form.image }}
+                        {% if form.image.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.image.errors }}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Optional - Upload an image related to this achievement (max: 2MB)</div>
 
                     {% if form.non_field_errors %}
                         <div class="alert alert-danger">
