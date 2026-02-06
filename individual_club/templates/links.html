@@ -1,51 +1,278 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Links for {{ club.club_name }}</title>
+    <meta name="viewport" content="width=`vice-width, initial-scale=1.0">
+    <title>Club Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link href="{% static 'landing_page/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css  ">
+
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: #495057;
+        }
+
+        /* Sidebar - Fixed Width, Sticky */
+        .sidebar {
+            background: linear-gradient(135deg, #29306f, #1e255a);
+            color: white;
+            width: 240px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar .logo h1 {
+            padding: 20px;
+            font-size: 1.4rem;
+            margin: 0;
+            color: #ffea00;
+            text-align: center;
+            font-weight: 700;
+            border-bottom: 2px solid #ffd60a;
+            letter-spacing: 0.5px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #29306f;
+            background: transparent;
+            border: 1px solid #29306f;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+            background-color: #29306f;
+            color: white !important;
+            box-shadow: 0 2px 6px rgba(41, 48, 111, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Nav Links - No Hover Effects */
+        .sidebar .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #ddd;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        .sidebar .nav-link.active {
+            background-color: rgba(255, 234, 0, 0.15);
+            color: #ffea00;
+            border-left-color: #ffea00;
+            font-weight: bold;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 12px;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+            opacity: 0.9;
+        }
+
+        /* Stats Cards */
+        .stats-card {
+
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: #fff;
+
+        }
+
+        .stats-card h6 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Sidebar Footer */
+        .sidebar-footer {
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .sidebar-footer .stats-card-return .return {
+            text-decoration: none;
+            color: white;
+            padding: 0;
+        }
+
+        .sidebar-footer .stats-card-return:hover {
+            background: #3355eb;
+        }
+
+        .sidebar-footer .stats-card-return {
+            background-color: #29306f;
+            padding: 10px 20px 6px 10px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #fff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 240px;
+            padding: 30px;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+    </style>
+
+
 </head>
+
+
 <body>
-    <h1>Links for {{ club.club_name }}</h1>
-    
-    <form action="{% url 'add_link' club_id %}" method="get">
-        <button type="submit">Add New Link</button>
-    </form>
-    
-    <br>
-    
-    {% if links %}
-        <table border="1" cellpadding="10">
-            <thead>
-                <tr>
-                    <th>Platform</th>
-                    <th>URL</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
+    <div class="container-fluid" style="padding-left: 50px;">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <!-- Logo / Club Acronym -->
+                <div class="logo">
+                    <h1>{{ club.acronym }}</h1>
+                </div>
+
+                <!-- Navigation -->
+                <div class="sidebar-content">
+                    <ul class="nav flex-column">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'club_detail' club.id %}">
+                                <i class="fa-solid fa-house"></i>
+                                <span>Home</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'election_club' club.id %}">
+                                <i class="fas fa-users"></i>
+                                <span>Officer Election</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'club_achievement' club.id %}">
+                                <i class="fas fa-trophy"></i>
+                                <span>Achievements</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <i class="fas fa-link"></i>
+                                <span>Useful Links</span>
+                            </a>
+                        </li>
+
+                        <hr>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'budget_request' %}">
+                                <i class="fas fa-wallet"></i>
+                                <span>Budget Request</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'club_applicants' club.id %}">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Applicants</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'create_event' club.id %}">
+                                <i class="fas fa-bullhorn"></i>
+                                <span>Create Event</span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <!-- Footer -->
+                    <div class="sidebar-footer">
+                        <div class="stats-card-return">
+                            <a class="return" href="{% url 'home' %}">
+                                ← Return to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Links for {{ club.club_name }}</h1>
+                <a href="{% url 'add_link' club_id %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add New Link
+                </a>
+            </div>
+
+            {% if links %}
+            <div class="row g-4">
                 {% for link in links %}
-                <tr>
-                    <td>{{ link.get_platform_display }}</td>
-                    <td><a href="{{ link.url }}" target="_blank">{{ link.url }}</a></td>
-                    <td>
-                        <form action="{% url 'edit_link' link.id %}" method="get" style="display: inline;">
-                            <button type="submit">Edit</button>
-                        </form>
-                        
-                        <form action="{% url 'delete_link' link.id %}" method="get" style="display: inline;">
-                            <button type="submit">Delete</button>
-                        </form>
-                    </td>
-                </tr>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ link.get_platform_display }}</h5>
+                            <p class="card-text text-truncate" style="max-width: 100%;">
+                                <a href="{{ link.url }}" target="_blank">{{ link.url }}</a>
+                            </p>
+                            <div class="mt-auto d-flex justify-content-between">
+                                <a href="{% url 'edit_link' link.id %}" class="btn btn-sm btn-outline-warning">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a href="{% url 'delete_link' link.id %}" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash-alt"></i> Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No links found for this club.</p>
-    {% endif %}
-    
-    <br>
-    <a href="{% url 'club_detail' club.id %}">Back to Clubs</a>
+            </div>
+            {% else %}
+            <div class="alert alert-info" role="alert">
+                No links found for this club. Click "Add New Link" to create one.
+            </div>
+            {% endif %}
+        </main>
+
+        <script src="{% static 'landing_page/js/bootstrap.bundle.min.js' %}"></script>
 </body>
+
 </html>
