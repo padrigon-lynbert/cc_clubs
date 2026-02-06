@@ -2,15 +2,17 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse
 from django.db import IntegrityError, transaction
-from django.http import HttpResponseNotAllowed
+from django.http import HttpResponseNotAllowed, JsonResponse
 from clubs.models import Clubs, MemberApplication, Memberships, Achievement
 from landing_page.models import Users
 from .models import BudgetRequest, Link
 from .forms import MembershipApplicationForm, AchievementForm
 from clubs.models import Announcement
-import base64
+import base64, os
 from datetime import datetime
-
+from google import genai
+from google.genai import types
+from dotenv import load_dotenv
 
 def submit_membership_application(request, club_id):
     member_id = request.session.get('member_id')
@@ -502,3 +504,55 @@ def get_role(request, club):
         return "Activity Coordinator"
 
     return "Visitor"
+
+def analyze_club(request, club_id):
+    club = Clubs.objects.get(id=club_id)
+    achievements = Achievement.objects.filter(club=club)
+    members = Memberships.objects.filter(club=club_id).count()
+    print(achievements)
+    achievement_data = list(achievements.values('title', 'details', 'club', 'date_posted'))
+    pending, rejected, approved = [
+                                    BudgetRequest.objects.filter(club=club, status=BudgetRequest.Status.PENDING).count(), 
+                                    BudgetRequest.objects.filter(club=club, status=BudgetRequest.Status.REJECTED).count(),
+                                    BudgetRequest.objects.filter(club=club, status=BudgetRequest.Status.APPROVED).count(),
+                                ]
+
+    information = {
+        'name': club.club_name,
+        'achievements': achievement_data,
+        'member_count': members,
+        'total_achievements': achievements.count(),
+        'pending_budget_request': pending,
+        'rejected_budget_request': rejected,
+        'approved_budget_request': approved,
+    }
+    analyzed_data = generate_analysis(information)
+
+    return JsonResponse({
+        "analysis": analyzed_data
+    })
+
+def generate_analysis(club_info):
+    load_dotenv()
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+    client = genai.Client(api_key=GEMINI_API_KEY)
+
+    club_info_str = f"""
+    Club Name: {club_info['name']}
+    Member Count: {club_info['member_count']}
+    Total Achievements: {club_info['total_achievements']}
+    Achievements: {club_info['achievements']}
+    Pending Budget Requests: {club_info['pending_budget_request']}
+    Rejected Budget Requests: {club_info['rejected_budget_request']}
+    Approved Budget Requests: {club_info['approved_budget_request']}
+    """
+    response = client.models.generate_content(
+        model="gemini-3-flash-preview",
+        contents=club_info_str,
+        config=types.GenerateContentConfig(
+            system_instruction='You are a professional club performance analyzer, you do it on concise paragraph format',
+            max_output_tokens=1000,
+            temperature=0.3,
+        ),
+    )
+    return response.text
