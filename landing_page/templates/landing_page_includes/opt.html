@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Code</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<h2>Two-Factor Verification</h2>
+<p>We sent a 6-digit code to your email. Enter it below.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <input
+        type="text"
+        name="otp"
+        placeholder="6-digit code"
+        inputmode="numeric"
+        pattern="[0-9]{6}"
+        maxlength="6"
+        required
+        autofocus
+    >
+    <br><br>
+    <button type="submit">Verify</button>
+</form>
+
+</body>
+</html>

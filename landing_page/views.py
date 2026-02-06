@@ -8,7 +8,7 @@ from django.urls import reverse
 from individual_club.models import BudgetRequest, Users, Clubs
 from clubs.models import Announcement, ClubApplication
 import base64, requests
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.core.cache import cache
 from django.views.decorators.csrf import csrf_exempt
 
@@ -40,7 +40,6 @@ def home(request):
         else:
             a.image_base64 = None
 
-
      # add role to each club object
     clubs_with_roles = []
     if clubs_student_joined:
@@ -61,9 +60,6 @@ def home(request):
     }
 
     return render(request, 'landing_page.html', context)
-
-
-
 
 @csrf_exempt
 def login_from_landing(request):
@@ -122,59 +118,39 @@ def login_from_landing(request):
     messages.error(request, "Invalid account or password")
     return redirect('login_page')
 
+@csrf_exempt
+def verify_otp(request):
+    if request.method == 'POST':
+        code = request.POST.get('otp', '').strip()
+        email = request.session.get('2fa_email')
 
-# login no limiter
-'''
-def login_from_landing(request):
-    if request.method != 'POST':
-        return redirect('login_page')
+        if not email:
+            messages.error(request, "Session expired. Please log in again.")
+            return redirect('login_page')
 
-    email = request.POST.get('member-login-email', '').strip()
-    password = request.POST.get('member-login-password', '').strip()
+        cached_otp = cache.get(f"otp_{email}")
 
-    apis = [
-        "https://cc-clubs-1.onrender.com/endpoint_fms.php",  # hashed
-        "https://cc-clubs-1.onrender.com/endpoint_rms.php"   # hashed
-    ]
+        if not cached_otp or str(cached_otp) != str(code):
+            messages.error(request, "Invalid or expired code")
+            return redirect('verify_otp')  # reload page
 
-    user_data = None
-
-    for url in apis:
-        try:
-            # Send exactly what you type in Postman
-            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
-            api_res = res.json()
-            if api_res.get("status") == "success":
-                user_data = api_res.get("user")
-                break
-        except Exception:
-            continue
-
-    if user_data:
-
-        user, created = Users.objects.update_or_create(
-        acc_no=user_data.get("id"),  # or email / account number
-        defaults={
-            "name": f"{user_data.get('first_name')} {user_data.get('last_name')}",
-            "role": map_api_role(user_data.get("role")),
-            }
-        )
+        # OTP correct to finalize login
+        user_data = request.session.pop('2fa_user_data', None)
 
         request.session['member_logged_in'] = True
         request.session['member_id'] = user_data.get("id")
-        request.session['first_name'] = user_data.get("first_name")
-        request.session['middle_name'] = user_data.get("middle_name")
-        request.session['last_name'] = user_data.get("last_name")
         request.session['member_role'] = user_data.get("role")
-        request.session['department'] = user_data.get("department")
-        messages.success(request, 'Login successful')
 
-        Users.objects.update_or_create(acc_no=request.session['member_id'], )
+        # Clear OTP from cache
+        cache.delete(f"otp_{email}")
+        request.session.pop('2fa_email', None)
+
+        messages.success(request, "Login successful")
         return redirect('home')
-    else:
-        messages.error(request, 'Invalid account or password')
-        return redirect('login_page')
-'''
+
+    # GET request → show form
+    return render(request, 'otp.html')
+
 
 # test for tracing
 '''
@@ -297,3 +273,7 @@ def map_api_role(api_role: str) -> int:
         return Users.Role.ACTIVITY_COORDINATOR
 
     return Users.Role.STUDENT  # safe default
+
+
+
+
