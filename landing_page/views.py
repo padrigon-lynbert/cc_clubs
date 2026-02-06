@@ -117,7 +117,8 @@ def login_from_landing(request):
             "role": map_api_role(user_data.get("role")),
             }
         )
-
+        request.session['first_name'] = user_data.get('first_name')
+        request.session['last_name'] = user_data.get('last_name')
         request.session['member_logged_in'] = True
         request.session['member_id'] = user_data.get("id")
         request.session['member_role'] = user_data.get("role")
