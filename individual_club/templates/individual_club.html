@@ -678,7 +678,7 @@
         </div>
       </div>
 
-      <button type="button" id="analyzeBtn">Analyze Club</button>
+      <button type="button" id="analyzeBtn">Analyze Club Performance</button>
       <div id="analysisResult"></div>
 
       <!-- ✅ STYLES FOR HOVER EFFECTS -->
@@ -819,6 +819,7 @@
         }
 
         document.getElementById("analyzeBtn").addEventListener("click", function () {
+            document.getElementById("analysisResult").innerText = "Generating analysis...";
             fetch("{% url 'analyze_club' club.id %}")
             .then(res => res.json())
             .then(data => {
