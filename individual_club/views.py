@@ -6,7 +6,7 @@ from django.http import HttpResponseNotAllowed
 from clubs.models import Clubs, MemberApplication, Memberships, Achievement
 from landing_page.models import Users
 from .models import BudgetRequest, Link
-from .forms import MembershipApplicationForm
+from .forms import MembershipApplicationForm, AchievementForm
 from clubs.models import Announcement
 import base64
 from datetime import datetime
@@ -264,7 +264,7 @@ def get_club_achievement(request, club_id):
 
     user = Users.objects.get(acc_no=member_id)
     club = get_object_or_404(Clubs, id=club_id)
-    achievements = Achievement.objects.all().order_by('-date_posted')
+    achievements = Achievement.objects.filter(club=club).order_by('-date_posted')
     role = get_role(request, club)
     context = {
         'club': club,
@@ -417,6 +417,67 @@ def delete_link(request, link_id):
         'club_id': club_id
     }
     return render(request, 'delete_link.html', context)
+
+def achievement_create(request, club_id):
+    """Create a new achievement for a specific club"""
+    club = get_object_or_404(Clubs, id=club_id)
+    
+    if request.method == 'POST':
+        form = AchievementForm(request.POST)
+        if form.is_valid():
+            achievement = form.save(commit=False)
+            achievement.club = club
+            achievement.save()
+            messages.success(request, 'Achievement created successfully!')
+            return redirect('club_achievement', club_id=club.id)
+    else:
+        form = AchievementForm()
+    
+    context = {
+        'form': form,
+        'club': club,
+        'action': 'Create',
+    }
+    return render(request, 'achievements/achievement_form.html', context)
+
+def achievement_update(request, club_id, achievement_id):
+    """Update an existing achievement"""
+    club = get_object_or_404(Clubs, pk=club_id)
+    achievement = get_object_or_404(Achievement, pk=achievement_id, club=club)
+    
+    if request.method == 'POST':
+        form = AchievementForm(request.POST, instance=achievement)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Achievement updated successfully!')
+            return redirect('club_achievement', club_id=club.id)
+    else:
+        form = AchievementForm(instance=achievement)
+    
+    context = {
+        'form': form,
+        'club': club,
+        'achievement': achievement,
+        'action': 'Update',
+    }
+    return render(request, 'achievements/achievement_form.html', context)
+
+
+def achievement_delete(request, club_id, achievement_id):
+    """Delete an achievement"""
+    club = get_object_or_404(Clubs, pk=club_id)
+    achievement = get_object_or_404(Achievement, pk=achievement_id, club=club)
+    
+    if request.method == 'POST':
+        achievement.delete()
+        messages.success(request, 'Achievement deleted successfully!')
+        return redirect('club_achievement', club_id=club.id)
+    
+    context = {
+        'club': club,
+        'achievement': achievement,
+    }
+    return render(request, 'achievements/achievement_confirm_delete.html', context)
 
 # supporting function to specify individual role inside individual dlub
 def get_role(request, club):
