@@ -199,6 +199,7 @@ class Achievement(models.Model):
     details = models.TextField(blank=True, null=True)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='achievements/', blank=True, null=True)
 
     def __str__(self):
         return f'{self.club.club_name} achieves {self.title}'

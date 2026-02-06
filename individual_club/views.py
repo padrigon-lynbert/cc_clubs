@@ -448,7 +448,7 @@ def achievement_create(request, club_id):
     club = get_object_or_404(Clubs, id=club_id)
     
     if request.method == 'POST':
-        form = AchievementForm(request.POST)
+        form = AchievementForm(request.POST, request.FILES)
         if form.is_valid():
             achievement = form.save(commit=False)
             achievement.club = club
