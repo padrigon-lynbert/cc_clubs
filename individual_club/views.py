@@ -532,7 +532,6 @@ def analyze_club(request, club_id):
     club = Clubs.objects.get(id=club_id)
     achievements = Achievement.objects.filter(club=club)
     members = Memberships.objects.filter(club=club_id).count()
-    print(achievements)
     achievement_data = list(achievements.values('title', 'details', 'club', 'date_posted'))
     pending, rejected, approved = [
                                     BudgetRequest.objects.filter(club=club, status=BudgetRequest.Status.PENDING).count(), 
@@ -569,13 +568,14 @@ def generate_analysis(club_info):
     Rejected Budget Requests: {club_info['rejected_budget_request']}
     Approved Budget Requests: {club_info['approved_budget_request']}
     """
-    response = client.models.generate_content(
-        model="gemini-3-flash-preview",
-        contents=club_info_str,
-        config=types.GenerateContentConfig(
-            system_instruction='You are a professional club performance analyzer, you do it on concise paragraph format',
-            max_output_tokens=1000,
-            temperature=0.3,
-        ),
+
+    generation_config = types.GenerateContentConfig(
+        max_output_tokens=1000,
+        temperature=0.7
     )
-    return response.text
+    response = client.models.generate_content(
+        model="gemma-3-27b-it",
+        contents=f"Analyze this club performance data concisely in paragraph:\n\n{club_info_str}",
+        config=generation_config,
+    )
+    return response.text;
