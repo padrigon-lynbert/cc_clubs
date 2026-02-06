@@ -3,7 +3,7 @@ from .views import individual_club
 from .views import submit_membership_application
 from .views import budget_request 
 from .views import election_club 
-from .views import get_club_achievement, member_list, get_club_applicants, club_detail, accept_membership_application, rejecT_membership_application
+from .views import get_club_achievement, member_list, get_club_applicants, club_detail, accept_membership_application, rejecT_membership_application, achievement_create, achievement_update, achievement_delete
 from .views import delete_announcement, create_event, display_link, edit_link, delete_link, add_link
 
 urlpatterns =[
@@ -23,4 +23,10 @@ urlpatterns =[
     path('links/add/<int:club_id>/', add_link, name='add_link'),
     path('links/edit/<int:link_id>/', edit_link, name='edit_link'),
     path('links/delete/<int:link_id>/', delete_link, name='delete_link'),
+    # Create achievement for a specific club
+    path('<int:club_id>/achievements/create/', achievement_create, name='achievement_create'),
+    # Update achievement
+    path('<int:club_id>/achievements/<int:achievement_id>/update/', achievement_update, name='achievement_update'),
+    # Delete achievement
+    path('<int:club_id>/achievements/<int:achievement_id>/delete/', achievement_delete, name='achievement_delete'),
 ]

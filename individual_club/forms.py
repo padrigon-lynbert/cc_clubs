@@ -1,6 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from landing_page.models import Users
+from clubs.models import Achievement
 from clubs.models import MemberApplication
 
 class MembershipApplicationForm(forms.ModelForm):
@@ -38,3 +39,24 @@ class MembershipApplicationForm(forms.ModelForm):
                 raise ValidationError(f'Your file size {round(cor.size / mb, 2)} MB exceeds 2MB.')
         
         return cor
+    
+class AchievementForm(forms.ModelForm):
+    class Meta:
+        model = Achievement
+        fields = ['title', 'details']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter achievement title',
+                'maxlength': '50',
+            }),
+            'details': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter achievement details (optional)',
+                'rows': 4,
+            }),
+        }
+        labels = {
+            'title': 'Achievement Title',
+            'details': 'Details',
+        }
