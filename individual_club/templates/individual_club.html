@@ -505,7 +505,7 @@
 
 
       {% if has_pending_application %}
-      <div class="border rounded px-3 py-2 mb-2 text-center" style="background-color: hsla(45, 100%, 85%, 0.707);">
+      <div class="border rounded px-3 py-2 mb-2 text-center" style="background-color: hsla(55, 100%, 58%, 0.846);">
         <p class="m-0">Your Membership Request is still pending. Hang tight — we're reviewing it as soon as possible.
         </p>
       </div>
@@ -567,8 +567,37 @@
               <div class="memberslist my-3 mx-1 d-flex flex-row overflow-auto gap-3 pb-2" style="min-height: 180px;">
                 {% for officer in officers %}
                 <div class="member-card text-center" style="min-width: 130px;">
-                  <!-- Namw -->
-                  <h6 class="m-0" style="font-size: 0.95rem; color: var(--primary);">{{ officer.student.name }}</h6>
+                  <!-- Officer Photo or Initials Badge -->
+                  <div class="position-relative d-flex justify-content-center mb-2">
+                    {% if officer.photo %}
+                    <img src="{{ officer.photo.url }}" alt="{{ officer.name }}" class="rounded-circle"
+                      style="width: 60px; height: 60px; object-fit: cover; border: 3px solid #29306f;">
+                    {% else %}
+                    <div class="rounded-circle d-flex align-items-center justify-content-center text-white"
+                      style="width: 60px; height: 60px; background-color: #29306f; font-weight: bold; font-size: 1.1rem;">
+                      {{ officer.name|first|upper }}
+                    </div>
+                    {% endif %}
+                  </div>
+
+                  <!-- Name and Position -->
+                  <h6 class="m-0" style="font-size: 0.95rem; color: var(--primary);">{{ officer.name }}</h6>
+                  <small class="text-muted" style="font-size: 0.85rem;">{{ officer.position }}</small>
+
+                  <!-- Role Badges -->
+                  {% if officer.is_president %}
+                  <div class="mt-1">
+                    <span class="badge bg-primary rounded-pill px-2 py-1" style="font-size: 0.7rem;">
+                      <i class="fas fa-crown"></i> Pres
+                    </span>
+                  </div>
+                  {% elif officer.is_vice_president %}
+                  <div class="mt-1">
+                    <span class="badge bg-info rounded-pill px-2 py-1" style="font-size: 0.7rem;">
+                      VP
+                    </span>
+                  </div>
+                  {% endif %}
                 </div>
                 {% empty %}
                 <p class="text-muted">No officers assigned yet.</p>
@@ -808,16 +837,6 @@
           Apply Now
         </a>
       </div>
-
-      {% elif is_member %}
-      <p class="already-member">
-        You are already a member of this club 🎉
-      </p>
-
-      {% elif has_pending_application %}
-      <p class="pending-application">
-        You already have a pending application ⏳
-      </p>
       {% endif %}
 
 
