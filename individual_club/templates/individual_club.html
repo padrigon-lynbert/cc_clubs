@@ -505,7 +505,7 @@
 
 
       {% if has_pending_application %}
-      <div class="border rounded px-3 py-2 mb-2 text-center" style="background-color: hsla(45, 100%, 85%, 0.707);">
+      <div class="border rounded px-3 py-2 mb-2 text-center" style="background-color: hsla(53, 100%, 50%, 0.781);">
         <p class="m-0">Your Membership Request is still pending. Hang tight — we're reviewing it as soon as possible.
         </p>
       </div>
@@ -837,16 +837,6 @@
           Apply Now
         </a>
       </div>
-
-      {% elif is_member %}
-      <p class="already-member">
-        You are already a member of this club 🎉
-      </p>
-
-      {% elif has_pending_application %}
-      <p class="pending-application">
-        You already have a pending application ⏳
-      </p>
       {% endif %}
 
 
