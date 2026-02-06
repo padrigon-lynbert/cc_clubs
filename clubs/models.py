@@ -82,21 +82,7 @@ class Memberships(models.Model):
     student = models.ForeignKey(Users, on_delete=models.CASCADE)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
     date_joined = models.DateField(auto_now_add=True)
-
-    class Role(models.IntegerChoices):
-        MEMBER = 0, _('Member'),
-        REPRESENTATIVE = 1, ('Representative')
-        PUBLIC_RELATION_OFFICER = 2, ('Public Relation Officer')
-        AUDITOR = 3, ('Auditor')
-        TREASURER = 4, ('Treasurer')
-        SECRETARY = 5, ('Secretary')
-        CHAIRPERSON = 6, ('Chairperson')
-
-    role = models.IntegerField(
-        choices=Role.choices,
-        default=Role.MEMBER,
-        verbose_name='Role'
-    )
+    is_officer = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.student.name} - {self.club.club_name}'
