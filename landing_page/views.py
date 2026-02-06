@@ -28,10 +28,12 @@ def home(request):
     member_id = request.session.get('member_id')
     from django.db.models import Q
 
-    club_applications = ClubApplication.objects.filter(Q(status=ClubApplication.Status.REJECTED) | Q(status=ClubApplication.Status.APPROVED), submitted_by=member_id) if member_id else None
+    user = get_object_or_404(Users, acc_no=member_id)
 
-    club_i_am_instructor = Clubs.objects.filter(adviser=member_id) if member_id else None
-    clubs_student_joined = Clubs.objects.filter(memberships__student_id=member_id) if member_id else None
+    club_applications = ClubApplication.objects.filter(Q(status=ClubApplication.Status.REJECTED) | Q(status=ClubApplication.Status.APPROVED), submitted_by=user) if user else None
+
+    club_i_am_instructor = Clubs.objects.filter(adviser=user) if member_id else None
+    clubs_student_joined = Clubs.objects.filter(memberships__student_id=user) if user else None
     recent_announcements = Announcement.objects.order_by('-announcement_date')[:2]
 
     for a in recent_announcements:
@@ -48,7 +50,7 @@ def home(request):
             club.role = get_role(request, club)
             clubs_with_roles.append(club)
 
-    user_role_value = request.session.get("member_role")
+    user_role_value = map_api_role(request.session.get('member_role'))
     role_display = dict(Users.Role.choices).get(user_role_value, "Guest")
     
     context = {
