@@ -8,13 +8,15 @@ from django.urls import reverse
 from individual_club.models import BudgetRequest, Users, Clubs
 from clubs.models import Announcement, ClubApplication
 import base64, requests
+from django.shortcuts import redirect
+from django.core.cache import cache
+from django.views.decorators.csrf import csrf_exempt
 
 from individual_club.views import get_role
 
 # Create your views here.
 
 # termporary bypass input in low tier browsers
-from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def terms_and_conditions(request):
     if request.method == 'POST' and request.POST.get('agree') == 'on':
@@ -61,11 +63,7 @@ def home(request):
     return render(request, 'landing_page.html', context)
 
 
-import requests
-from django.shortcuts import redirect
-from django.contrib import messages
-from django.core.cache import cache
-from django.views.decorators.csrf import csrf_exempt
+
 
 @csrf_exempt
 def login_from_landing(request):
