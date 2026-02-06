@@ -110,6 +110,14 @@ def login_from_landing(request):
     if user_data:
         cache.delete(key)  # reset limiter
 
+        user, created = Users.objects.update_or_create(
+        acc_no=user_data.get("id"),  # or email / account number
+        defaults={
+            "name": f"{user_data.get('first_name')} {user_data.get('last_name')}",
+            "role": map_api_role(user_data.get("role")),
+            }
+        )
+
         request.session['member_logged_in'] = True
         request.session['member_id'] = user_data.get("id")
         request.session['member_role'] = user_data.get("role")
