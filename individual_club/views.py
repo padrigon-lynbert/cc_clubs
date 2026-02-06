@@ -91,29 +91,35 @@ def accept_membership_application(request, application_id):
     return redirect('club_applicants', club_id=member_application.club.id)
 
 def rejecT_membership_application(request, application_id):
-    member_id = request.session.get('member_id')
-    if not member_id:
-        messages.error(request, "You must be logged in to access this page")
-        return redirect(reverse('home') + '#section_3')
-
-    user = get_object_or_404(Users, acc_no=member_id)
-    # ---- Role Restriction ----
-    if user.role not in [Users.Role.OFFICER, Users.Role.ADVISER, Users.Role.ADMIN]:
-        messages.error(request, "You are not allowed to access this page.")
-        return redirect(reverse('home') + '#section_3')
-    
     if request.method != 'POST':
         return HttpResponseNotAllowed(['POST'])
-    
+
+    member_id = request.session.get('member_id')
+    if not member_id:
+        messages.error(request, "You must be logged in")
+        return redirect('home')
+
+    user = get_object_or_404(Users, acc_no=member_id)
+    if user.role not in [Users.Role.OFFICER, Users.Role.ADVISER, Users.Role.ACTIVITY_COORDINATOR]:
+        messages.error(request, "You are not allowed to reject applications")
+        return redirect('home')
+
     member_application = get_object_or_404(MemberApplication, id=application_id)
+    rejection_reason = request.POST.get('rejection_reason', '').strip()
+
     try:
         with transaction.atomic():
             member_application.status = MemberApplication.Status.REJECTED
+            member_application.rejection_reason = rejection_reason
             member_application.save()
-            messages.warning(request, f'Rejected membership application of {member_application.student.name}')
+            messages.success(
+                request,
+                f"Rejected {member_application.student.name}'s application"
+                + (f": {rejection_reason}" if rejection_reason else "")
+            )
     except Exception as e:
-        messages.error(request, f'Something went wrong: {str(e)}')
-    
+        messages.error(request, f"Error rejecting application: {str(e)}")
+
     return redirect('club_applicants', club_id=member_application.club.id)
 
 def member_list(request):
@@ -284,14 +290,31 @@ def get_club_applicants(request, club_id):
     
     user = get_object_or_404(Users, acc_no=member_id)
     club = get_object_or_404(Clubs, id=club_id)
-    applicants = MemberApplication.objects.filter(club=club, status=MemberApplication.Status.PENDING)
-    role  = get_role(request, club)
-    # if role not in ['Student']:
-    #     messages.error(request, "You are not allowed to access this page")
-    #     return redirect('club_detail', club_id=club_id)
-    
-    context = {'club': club, 'applicants': applicants, 'user': user, 'role': role}
+
+    # All applications for this club
+    applicants = MemberApplication.objects.filter(club=club)
+
+    # Counts for cards
+    pending_count = applicants.filter(status=MemberApplication.Status.PENDING).count()
+    approved_count = applicants.filter(status=MemberApplication.Status.APPROVED).count()
+    rejected_count = applicants.filter(status=MemberApplication.Status.REJECTED).count()
+    total_count = applicants.count()
+
+    role = get_role(request, club)
+
+    context = {
+        'club': club,
+        'applicants': applicants,
+        'user': user,
+        'role': role,
+        'pending_count': pending_count,
+        'approved_count': approved_count,
+        'rejected_count': rejected_count,
+        'total_count': total_count
+    }
+
     return render(request, 'approve_member.html', context)
+
 
 # create event view ------------------------------------
 # una gawa ka ng function (def) para sa event, i return mo yung .html file na gusto mong buksan kapag pinindot mo yung tag. 

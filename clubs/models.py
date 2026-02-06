@@ -52,7 +52,18 @@ class MemberApplication(models.Model):
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
     certificate_of_recognition = models.FileField(upload_to='membership_applications/cor/')
     date_submitted = models.DateField(auto_now_add=True)
-    response_text = models.TextField(max_length=255, null=True, blank=True, help_text='Optional: Anything you would like to know about the club?')
+    response_text = models.TextField(
+        max_length=255, null=True, blank=True,
+        help_text='Optional: Anything you would like to know about the club?'
+    )
+
+    # NEW field for rejection reason
+    rejection_reason = models.TextField(
+        null=True,
+        blank=True,
+        help_text='Reason why the membership application was rejected'
+    )
+
     class Status(models.IntegerChoices):
         PENDING = 0, _('Pending')
         APPROVED = 1, _('Approved')
@@ -66,7 +77,7 @@ class MemberApplication(models.Model):
 
     def __str__(self):
         return f'{self.student.name} wants to apply to {self.club.club_name}'
-    
+
     class Meta:
         db_table = 'member_application'
         ordering = ['-date_submitted']
@@ -75,8 +86,9 @@ class MemberApplication(models.Model):
                 fields=['student', 'club'],
                 condition=Q(status=0),
                 name='unique_pending_applications'
-                )
-            ]
+            )
+        ]
+
 
 class Memberships(models.Model):
     student = models.ForeignKey(Users, on_delete=models.CASCADE)
