@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Debug</title>
+    <style>
+        body { font-family: monospace; background:#111; color:#0f0; padding:20px; }
+        pre { white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h2>DEBUG LOGIN DATA</h2>
+
+    {% if error %}
+    <pre>{{ error }}</pre>
+    {% else %}
+    <h3>POST DATA</h3>
+    <pre>{{ post }}</pre>
+
+    <h3>Email</h3>
+    <pre>{{ email }}</pre>
+
+    <h3>Password</h3>
+    <pre>{{ password }}</pre>
+
+    <h3>API USER DATA</h3>
+    <pre>{{ api_user_data }}</pre>
+
+    <h3>API TRACE</h3>
+    <pre>{{ api_trace }}</pre>
+    {% endif %}
+</body>
+</html>

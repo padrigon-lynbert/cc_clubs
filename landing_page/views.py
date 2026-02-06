@@ -63,40 +63,6 @@ def home(request):
 '''
 
 
-# login using api
-def login_from_landing(request):
-
-    if request.method == 'POST':
-        email = request.POST.get('member-login-email')
-        password = request.POST.get('member-login-password')
-
-        # api live
-        url = "https://cc-clubs-1.onrender.com/endpoint_fms.php"
-
-        try:
-            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
-            api_res = res.json()
-        except Exception as e:
-            messages.error(request, f"API error: API took too long to respond")
-            return redirect('login_page')
-
-        if api_res.get("status") == "success":
-            user = api_res.get("user", {})
-            request.session['member_logged_in'] = True
-            request.session['member_id'] = user.get("id")
-            request.session['first_name'] = user.get("first_name")
-            request.session['middle_name'] = user.get("middle_name")
-            request.session['last_name'] = user.get("last_name")
-            request.session['member_role'] = user.get("role")
-            messages.success(request, 'Login successful')
-            return redirect('home')
-        else:
-            messages.error(request, 'Invalid account or password')
-    
-    return redirect('login_page')
-'''
-
-
 def login_from_landing(request):
     if request.method != 'POST':
         return redirect('login_page')
@@ -146,6 +112,74 @@ def login_from_landing(request):
     else:
         messages.error(request, 'Invalid account or password')
         return redirect('login_page')
+'''
+# test
+from django.http import JsonResponse
+@csrf_exempt
+def login_from_landing(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "not post"})
+
+    email = request.POST.get('member-login-email', '').strip()
+    password = request.POST.get('member-login-password', '').strip()
+
+    apis = [
+        "https://cc-clubs-1.onrender.com/endpoint_fms.php",
+        "https://cc-clubs-1.onrender.com/endpoint_rms.php"
+    ]
+
+    user_data = None
+
+    for url in apis:
+        try:
+            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
+            api_res = res.json()
+            if api_res.get("status") == "success":
+                user_data = api_res.get("user")
+                break
+        except Exception:
+            continue
+
+    return JsonResponse({
+        "email": email,
+        "password": password,
+        "api_user_data": user_data,
+    })
+
+# tracer
+@csrf_exempt
+def debug_login(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "not post"}, status=405)
+
+    # get POST data (form-data)
+    email = request.POST.get('member-login-email', '').strip()
+    password = request.POST.get('member-login-password', '').strip()
+
+    # list of APIs to try
+    apis = [
+        "https://cc-clubs-1.onrender.com/endpoint_fms.php",
+        "https://cc-clubs-1.onrender.com/endpoint_rms.php"
+    ]
+
+    user_data = None
+
+    for url in apis:
+        try:
+            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
+            api_res = res.json()
+            if api_res.get("status") == "success":
+                user_data = api_res.get("user")
+                break
+        except Exception:
+            continue
+
+    # return JSON
+    return JsonResponse({
+        "email": email,
+        "password": password,
+        "api_user_data": user_data,
+    })
 
 
 
