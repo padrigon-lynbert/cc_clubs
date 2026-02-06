@@ -139,7 +139,7 @@ def accept_club(request, club_id):
             Memberships.objects.get_or_create(
                 student=club_application.submitted_by,
                 club=club,
-                role=Memberships.Role.CHAIRPERSON,
+                is_officer=True,
             )
 
     except IntegrityError as e:
