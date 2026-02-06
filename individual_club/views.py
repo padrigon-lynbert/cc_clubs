@@ -65,7 +65,7 @@ def accept_membership_application(request, application_id):
         
     user = get_object_or_404(Users, acc_no=member_id)
     # ---- Role Restriction ----
-    if user.role not in [Users.Role.OFFICER, Users.Role.INSTRUCTOR, Users.Role.ADMIN]:
+    if user.role not in [Users.Role.OFFICER, Users.Role.ADVISER, Users.Role.ADMIN]:
         messages.error(request, "You are not allowed to access this page.")
         return redirect(reverse('home') + '#section_3')
 
