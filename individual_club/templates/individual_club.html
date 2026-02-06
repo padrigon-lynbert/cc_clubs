@@ -675,6 +675,9 @@
         </div>
       </div>
 
+      <button type="button" id="analyzeBtn">Analyze Club</button>
+      <div id="analysisResult"></div>
+
       <!-- ✅ STYLES FOR HOVER EFFECTS -->
       <style>
         .member-card {
@@ -811,6 +814,15 @@
           div.textContent = text;
           return div.innerHTML;
         }
+
+        document.getElementById("analyzeBtn").addEventListener("click", function () {
+            fetch("{% url 'analyze_club' club.id %}")
+            .then(res => res.json())
+            .then(data => {
+               document.getElementById("analysisResult").innerText = data.analysis;
+            })
+            .catch(err => console.error(err));
+          });
       </script>
 
       <!--hanggang dito lang-->
