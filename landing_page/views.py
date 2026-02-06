@@ -308,3 +308,8 @@ def map_api_role(api_role: str) -> int:
         return Users.Role.ACTIVITY_COORDINATOR
 
     return Users.Role.STUDENT  # safe default
+
+def render_notification(request, application_id):
+    application = ClubApplication.objects.filter(id=application_id)
+    context = {'application': application}
+    return render(request, "notifications/notification.html", context)

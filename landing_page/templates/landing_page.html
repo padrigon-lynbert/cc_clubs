@@ -259,12 +259,9 @@
                                     <li class="notification-item text-center unread">
                                         <a href="#" class="btn border-0">
                                             <div class="notification-content">
-                                                <p>Your Club Application <strong>{{ club_application.club_name }}</strong> has been <strong>{{ club_application.get_status_display }}</strong> <br>Check
+                                                <p>Your Club Application <a href="{% url 'render_notification' club_application.id %}">{{ club_application.club_name }} has been {{ club_application.get_status_display }} <br>Check
                                                     for
-                                                    more details.</p>
-                                                <div class="text-start">
-                                                    <span class="time">2 mins ago</span>
-                                                </div>
+                                                    more details.</a></p>
                                             </div>
                                         </a>
                                     </li>

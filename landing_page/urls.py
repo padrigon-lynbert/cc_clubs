@@ -3,7 +3,7 @@ from .views import terms_and_conditions, home # landing page
 # from .views import bridge # view club
 from .views import login_from_landing, logout # session
 from .views import global_announcements, profile_settings #individual pages with functions
-from .views import login_page, upcoming_events
+from .views import login_page, upcoming_events, render_notification
 # from .views import debug_login
 
 
@@ -18,4 +18,5 @@ urlpatterns = [
     path('login_page' , login_page, name='login_page'),
     path('upcoming_events', upcoming_events, name='upcoming_events'),
     # path('debug_login', debug_login, name='debug_login'),
+    path('notification/<int:application_id>/', render_notification, name="render_notification"),
 ]

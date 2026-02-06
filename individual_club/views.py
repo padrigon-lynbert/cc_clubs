@@ -168,10 +168,13 @@ def club_detail(request, club_id):
             status=MemberApplication.Status.PENDING
         ).exists()
 
+        total_members = Memberships.objects.filter(id=club_id).count()
+
     context = {
         "club": club,
         "is_member": is_member,
         "has_pending_application": has_pending_application,
+        "total_members": total_members,
     }
 
     return render(request, "individual_club.html", context)
