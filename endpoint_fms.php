@@ -2,9 +2,9 @@
 header('Content-Type: application/json');
 
 $host = "153.92.15.81";
-$db   = "u514031374_sisreg";
-$user = "u514031374_sisreg";
-$pass = "sisregP@55w0rd";
+$db   = "u514031374_fms3";
+$user = "u514031374_fms3";
+$pass = "fms3P@55w0rd";
 
 try {
     $pdo = new PDO(
@@ -27,26 +27,22 @@ if (!$email || !$password) {
     exit;
 }
 
-// fetch user with department from masterlist table
 $stmt = $pdo->prepare("
-    SELECT u.id, u.name, u.email, u.role, u.password,
-           m.Course AS department
-    FROM users u
-    LEFT JOIN masterlist m ON u.id = m.StudentID
-    WHERE u.email = :email
-    ORDER BY m.AcademicYear DESC, m.Semester DESC
+    SELECT id, name, email, role, department, password
+    FROM faculties
+    WHERE email = :email
     LIMIT 1
 ");
 $stmt->execute([":email" => $email]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($user && $password === $user['password']) { // plain text
+if ($user && password_verify($password, $user['password'])) {
 
-    // split full name
+    // split full name into first, middle, last
     $parts = explode(" ", $user['name']);
     $first_name = $parts[0] ?? "";
     $last_name  = $parts[count($parts)-1] ?? "";
-    $middle_name = count($parts) > 2 ? implode(" ", array_slice($parts,1,count($parts)-2)) : "";
+    $middle_name = count($parts) > 2 ? implode(" ", array_slice($parts, 1, count($parts)-2)) : "";
 
     echo json_encode([
         "status" => "success",
@@ -57,7 +53,7 @@ if ($user && $password === $user['password']) { // plain text
             "last_name"   => $last_name,
             "email"       => $user['email'],
             "role"        => $user['role'],
-            "department"  => "test"
+            "department"  => $user['department'] ?? null
         ]
     ]);
 } else {
