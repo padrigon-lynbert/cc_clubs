@@ -505,31 +505,54 @@ def get_role(request, club):
 
     return "Visitor"
 
-def club_detail(request, club_id):
-    club = get_object_or_404(Clubs, id=club_id)
+def analyze_club(request, club_id):
+    club = Clubs.objects.get(id=club_id)
+    achievements = Achievement.objects.filter(club=club)
+    members = Memberships.objects.filter(club=club_id).count()
+    print(achievements)
+    achievement_data = list(achievements.values('title', 'details', 'club', 'date_posted'))
+    pending, rejected, approved = [
+                                    BudgetRequest.objects.filter(club=club, status=BudgetRequest.Status.PENDING).count(), 
+                                    BudgetRequest.objects.filter(club=club, status=BudgetRequest.Status.REJECTED).count(),
+                                    BudgetRequest.objects.filter(club=club, status=BudgetRequest.Status.APPROVED).count(),
+                                ]
 
-    member_id = request.session.get('member_id')
-    is_member = False
-    has_pending_application = False
-
-    if member_id:
-        user = get_object_or_404(Users, acc_no=member_id)
-
-        is_member = Memberships.objects.filter(
-            student=user,
-            club=club
-        ).exists()
-
-        has_pending_application = MemberApplication.objects.filter(
-            student=user,
-            club=club,
-            status=MemberApplication.Status.PENDING
-        ).exists()
-
-    context = {
-        "club": club,
-        "is_member": is_member,
-        "has_pending_application": has_pending_application,
+    information = {
+        'name': club.club_name,
+        'achievements': achievement_data,
+        'member_count': members,
+        'total_achievements': achievements.count(),
+        'pending_budget_request': pending,
+        'rejected_budget_request': rejected,
+        'approved_budget_request': approved,
     }
+    analyzed_data = generate_analysis(information)
 
-    return render(request, "individual_club.html", context)
+    return JsonResponse({
+        "analysis": analyzed_data
+    })
+
+def generate_analysis(club_info):
+    load_dotenv()
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+    client = genai.Client(api_key=GEMINI_API_KEY)
+
+    club_info_str = f"""
+    Club Name: {club_info['name']}
+    Member Count: {club_info['member_count']}
+    Total Achievements: {club_info['total_achievements']}
+    Achievements: {club_info['achievements']}
+    Pending Budget Requests: {club_info['pending_budget_request']}
+    Rejected Budget Requests: {club_info['rejected_budget_request']}
+    Approved Budget Requests: {club_info['approved_budget_request']}
+    """
+    response = client.models.generate_content(
+        model="gemini-3-flash-preview",
+        contents=club_info_str,
+        config=types.GenerateContentConfig(
+            system_instruction='You are a professional club performance analyzer, you do it on concise paragraph format',
+            max_output_tokens=1000,
+            temperature=0.3,
+        ),
+    )
+    return response.text
