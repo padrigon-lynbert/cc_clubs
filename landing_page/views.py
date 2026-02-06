@@ -60,10 +60,73 @@ def home(request):
 
     return render(request, 'landing_page.html', context)
 
-'''
 
-'''
+import requests
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.core.cache import cache
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
+def login_from_landing(request):
+    if request.method != 'POST':
+        return redirect('login_page')
+
+    email = request.POST.get('member-login-email', '').strip()
+    password = request.POST.get('member-login-password', '').strip()
+
+    # ---- limiter ----
+    MAX_ATTEMPTS = 4
+    LOCK_TIME = 15 * 60  # seconds
+
+    key = f"login_attempts_{email}"
+    attempts = cache.get(key, 0)
+
+    if attempts >= MAX_ATTEMPTS:
+        messages.error(request, "Too many attempts. Try again later.")
+        return redirect('login_page')
+
+    # ---- auth APIs ----
+    apis = [
+        "https://cc-clubs-1.onrender.com/endpoint_fms.php",
+        "https://cc-clubs-1.onrender.com/endpoint_rms.php"
+    ]
+
+    user_data = None
+
+    for url in apis:
+        try:
+            res = requests.post(
+                url,
+                json={"email": email, "password": password},
+                timeout=10
+            )
+            api_res = res.json()
+            if api_res.get("status") == "success":
+                user_data = api_res.get("user")
+                break
+        except Exception:
+            pass
+
+    # ---- success ----
+    if user_data:
+        cache.delete(key)  # reset limiter
+
+        request.session['member_logged_in'] = True
+        request.session['member_id'] = user_data.get("id")
+        request.session['member_role'] = user_data.get("role")
+
+        messages.success(request, "Login successful")
+        return redirect('home')
+
+    # ---- failure ----
+    cache.set(key, attempts + 1, LOCK_TIME)
+    messages.error(request, "Invalid account or password")
+    return redirect('login_page')
+
+
+# login no limiter
+'''
 def login_from_landing(request):
     if request.method != 'POST':
         return redirect('login_page')
@@ -113,75 +176,79 @@ def login_from_landing(request):
     else:
         messages.error(request, 'Invalid account or password')
         return redirect('login_page')
-# # test
-# from django.http import JsonResponse
-# @csrf_exempt
-# def login_from_landing(request):
-#     if request.method != 'POST':
-#         return JsonResponse({"error": "not post"})
+'''
 
-#     email = request.POST.get('member-login-email', '').strip()
-#     password = request.POST.get('member-login-password', '').strip()
+# test for tracing
+'''
+from django.http import JsonResponse
+@csrf_exempt
+def login_from_landing(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "not post"})
 
-#     apis = [
-#         "https://cc-clubs-1.onrender.com/endpoint_fms.php",
-#         "https://cc-clubs-1.onrender.com/endpoint_rms.php"
-#     ]
+    email = request.POST.get('member-login-email', '').strip()
+    password = request.POST.get('member-login-password', '').strip()
 
-#     user_data = None
+    apis = [
+        "https://cc-clubs-1.onrender.com/endpoint_fms.php",
+        "https://cc-clubs-1.onrender.com/endpoint_rms.php"
+    ]
 
-#     for url in apis:
-#         try:
-#             res = requests.post(url, json={"email": email, "password": password}, timeout=10)
-#             api_res = res.json()
-#             if api_res.get("status") == "success":
-#                 user_data = api_res.get("user")
-#                 break
-#         except Exception:
-#             continue
+    user_data = None
 
-#     return JsonResponse({
-#         "email": email,
-#         "password": password,
-#         "api_user_data": user_data,
-#     })
+    for url in apis:
+        try:
+            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
+            api_res = res.json()
+            if api_res.get("status") == "success":
+                user_data = api_res.get("user")
+                break
+        except Exception:
+            continue
 
-# # tracer
-# @csrf_exempt
-# def debug_login(request):
-#     if request.method != 'POST':
-#         return JsonResponse({"error": "not post"})
+    return JsonResponse({
+        "email": email,
+        "password": password,
+        "api_user_data": user_data,
+    })
 
-#     # get POST data from form
-#     email = request.POST.get('member-login-email', '').strip()
-#     password = request.POST.get('member-login-password', '').strip()
+# tracer
+@csrf_exempt
+def debug_login(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "not post"})
 
-#     # APIs to call
-#     apis = [
-#         "https://cc-clubs-1.onrender.com/endpoint_fms.php",
-#         "https://cc-clubs-1.onrender.com/endpoint_rms.php"
-#     ]
+    # get POST data from form
+    email = request.POST.get('member-login-email', '').strip()
+    password = request.POST.get('member-login-password', '').strip()
 
-#     user_data = None
+    # APIs to call
+    apis = [
+        "https://cc-clubs-1.onrender.com/endpoint_fms.php",
+        "https://cc-clubs-1.onrender.com/endpoint_rms.php"
+    ]
 
-#     # try each API until success
-#     for url in apis:
-#         try:
-#             res = requests.post(url, json={"email": email, "password": password}, timeout=10)
-#             api_res = res.json()
-#             if api_res.get("status") == "success":
-#                 user_data = api_res.get("user")
-#                 break
-#         except Exception:
-#             continue
+    user_data = None
 
-#     # return JSON exactly like original login
-#     return JsonResponse({
-#         "email": email,
-#         "password": password,
-#         "api_user_data": user_data,
-#     })
+    # try each API until success
+    for url in apis:
+        try:
+            res = requests.post(url, json={"email": email, "password": password}, timeout=10)
+            api_res = res.json()
+            if api_res.get("status") == "success":
+                user_data = api_res.get("user")
+                break
+        except Exception:
+            continue
 
+    # return JSON exactly like original login
+    return JsonResponse({
+        "email": email,
+        "password": password,
+        "api_user_data": user_data,
+    })
+
+'''
 
 
 
