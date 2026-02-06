@@ -27,19 +27,22 @@ if (!$email || !$password) {
     exit;
 }
 
-// join with personalinfo to get CurrentCourse
+// fetch user with department from masterlist table
 $stmt = $pdo->prepare("
     SELECT u.id, u.name, u.email, u.role, u.password,
-           p.CurrentCourse
+           p.CurrentCourse AS department
     FROM users u
-    LEFT JOIN personalinfo p ON u.PersonalID = p.PersonalID
+    LEFT JOIN personalinfo p ON u.StudentID = p.StudentID
     WHERE u.email = :email
     LIMIT 1
 ");
+
+
+
 $stmt->execute([":email" => $email]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($user && $password === $user['password']) {
+if ($user && $password === $user['password']) { // plain password
 
     // split full name
     $parts = explode(" ", $user['name']);
@@ -56,7 +59,7 @@ if ($user && $password === $user['password']) {
             "last_name"   => $last_name,
             "email"       => $user['email'],
             "role"        => $user['role'],
-            "department"  => $user['CurrentCourse'] ?? null
+            "department"  => $user['department'] ?? null
         ]
     ]);
 } else {
