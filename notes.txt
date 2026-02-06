@@ -63,8 +63,15 @@ postgresql://admin:LGQ9jgQyhjmYP0OfQQITZJP1CTzxzP2q@dpg-d5hpka6r433s73btsgh0-a.o
 | 2  | adviser0@gmail.com     | adviser0            | adviser0            | 2    |
 | 3  | coordinator@system.com | activitycoordinator | activitycoordinator | 3    |
 
-{
+{ prof
     "email": "ryzjinn@gmail.com",
-    "password": "w6tblURikcsF"
+    "password": "Emman123"
 }
 
+coor
+shozuabadenis@gmail.com
+Emman12344321
+
+student
+padrigonlynbert@gmail.com
+test123
