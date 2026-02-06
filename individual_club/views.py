@@ -156,9 +156,10 @@ def club_detail(request, club_id):
     # Fetch user info from session (set during login using API)
     user = get_object_or_404(Users, acc_no=member_id)
     club = get_object_or_404(Clubs, id=club_id)
+    total_members = Memberships.objects.filter(club=club).count()
     officers = Memberships.objects.filter(club=club, is_officer=True)
     print(officers)
-    context = {"club": club, "user": user, "officers": officers}
+    context = {"club": club, "user": user, "officers": officers, "total_members": total_members}
     return render(request, "individual_club.html", context)
 
 
