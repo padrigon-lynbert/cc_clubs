@@ -176,8 +176,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Session
 LOGIN_URL = reverse_lazy('home')
 
+# uncomment for testing otp
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# (for testing)
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" 
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = 587
@@ -187,7 +187,7 @@ LOGIN_URL = reverse_lazy('home')
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-# use this to use in real sending
+# use this to use in real sending, comment for testing
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 EMAIL_HOST = "smtp-relay.brevo.com"
