@@ -129,7 +129,7 @@ def login_from_landing(request):
         otp = random.randint(100000, 999999)
 
         # Store OTP in cache for 5 minutes
-        cache.set(f"otp_{email}", otp, timeout=300)
+        cache.set(f"otp_{email}", otp, timeout=120) #2 minutes otp
 
         # --- SEND EMAIL ---
         send_otp_email(email, otp)
@@ -158,6 +158,7 @@ def verify_otp(request):
             return redirect('login_page')
 
         cached_otp = cache.get(f"otp_{email}")
+        
 
         if not cached_otp or str(cached_otp) != str(code):
             messages.error(request, "Invalid or expired code")
@@ -313,5 +314,5 @@ from django.conf import settings
 
 def send_otp_email(email, otp):
     subject = "Clubs: Your OTP Code"
-    message = f"Your one-time password (OTP) is: {otp}. It expires in 5 minutes."
+    message = f"Your one-time password (OTP) is: {otp}. It expires in 2 minutes."
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email])

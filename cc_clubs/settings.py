@@ -177,24 +177,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = reverse_lazy('home')
 
 # uncomment for testing otp
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" 
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'nanname5164@gmail.com'
-# EMAIL_HOST_PASSWORD = 'zkxv idyt uxbx bpci'
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'nanname5164@gmail.com'
+EMAIL_HOST_PASSWORD = 'zkxv idyt uxbx bpci'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # use this to use in real sending, comment for testing
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-EMAIL_HOST = "smtp-relay.brevo.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+# EMAIL_HOST = "smtp-relay.brevo.com"
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = "a1c709001@smtp-brevo.com"
-EMAIL_HOST_PASSWORD = "jAybIZEBv1VJwRnL"
+# EMAIL_HOST_USER = "a1c709001@smtp-brevo.com"
+# EMAIL_HOST_PASSWORD = "jAybIZEBv1VJwRnL"
 
-DEFAULT_FROM_EMAIL = "nanname5164@gmail.com"
+# DEFAULT_FROM_EMAIL = "nanname5164@gmail.com"
