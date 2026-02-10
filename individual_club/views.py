@@ -53,7 +53,7 @@ def submit_membership_application(request, club_id):
     else:
         form = MembershipApplicationForm()
 
-    context = {'form': form, 'club': club}
+    context = {'form': form, 'club': club, 'user': user}
     
     return render(request, 'register/apply_club.html', context)
 

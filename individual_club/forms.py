@@ -13,7 +13,7 @@ class MembershipApplicationForm(forms.ModelForm):
         ]
 
         labels = {
-            'certificate_of_recognition': 'Certificate of Recognition (max: 2mb)',
+            'certificate_of_recognition': 'Certificate of Registration (max: 2mb)',
             'response_text': 'Reason to join club (optional)',
         }
 
@@ -30,6 +30,9 @@ class MembershipApplicationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['certificate_of_recognition'].required = True
+        for field_name, field in self.fields.items():
+            if field.required:
+                field.label = f"{field.label} <span class='text-danger'>*</span>"
 
     def clean_certificate_of_recognition(self):
         cor = self.cleaned_data.get('certificate_of_recognition')
