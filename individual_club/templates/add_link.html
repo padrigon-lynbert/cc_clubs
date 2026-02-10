@@ -120,7 +120,7 @@
                 <div class="form-group">
                     <label for="platform">Platform</label>
                     <select id="platform" name="platform" required>
-                        <option value="">Select a platform</option>
+                        <option value="" disabled selected>Select a platform</option>
                         {% for value, label in platforms %}
                             <option value="{{ value }}">{{ label }}</option>
                         {% endfor %}

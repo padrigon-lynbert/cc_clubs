@@ -19,6 +19,16 @@
     data-name="{{ club.club_name }}" 
     data-description="{{ club.description|default:'No description yet.' }}"
     data-banner="{% if club.banner %}{{ club.banner.url }}{% endif %}">
+    <td>
+    {% for link in club.link_set.all %}
+        <a href="{{ link.url }}" target="_blank">
+            {{ link.get_platform_display }}
+        </a><br>
+    {% empty %}
+        —
+    {% endfor %}
+</td>
+
     <td>{{ club.acronym }}</td>
     <td>{{ club.program.course_code }}</td>
     <td>{{ club.get_year_level_display }}</td>

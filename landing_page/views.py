@@ -145,7 +145,7 @@ def login_from_landing(request):
     # ---- failure ----
     cache.set(key, attempts + 1, LOCK_TIME)
     messages.error(request, "Invalid account or password")
-    return redirect('login_page')
+    return redirect('login_page', {"otpvar": otp})
 
 @csrf_exempt
 def verify_otp(request):

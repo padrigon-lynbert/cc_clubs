@@ -242,6 +242,8 @@
                         </li>
                         {% endif %}
 
+                        
+                        {% if request.session.member_logged_in %}
                         <li class="nav-item" style="position: relative;">
                             <a class="nav-link button" id="notificationBell" role="button">
                                 <i class="bi bi-bell-fill"></i>
@@ -259,9 +261,12 @@
                                     <li class="notification-item text-center unread">
                                         <a href="#" class="btn border-0">
                                             <div class="notification-content">
-                                                <p>Your Club Application <a href="{% url 'render_notification' club_application.id %}">{{ club_application.club_name }} has been {{ club_application.get_status_display }} <br>Check
+                                                <p>Your Club Application <strong>{{ club_application.club_name }}</strong> has been <strong>{{ club_application.get_status_display }}</strong> <br>Check
                                                     for
-                                                    more details.</a></p>
+                                                    more details.</p>
+                                                <div class="text-start">
+                                                    <span class="time">2 mins ago</span>
+                                                </div>
                                             </div>
                                         </a>
                                     </li>
@@ -269,6 +274,7 @@
                             {% endfor %}
                             </div>
                         </li>
+                        {% endif %}
                     </ul>
 
                     <script>
@@ -619,7 +625,7 @@
                         <h2>Active Clubs</h2>
                     </div>
 
-                    <div class="col-lg-6 col-12 mb-3 mb-lg-0">
+                    <div class="col-lg-7 col-12 mb-3 mb-lg-0">
                         <form action="{% url 'register_club' %}">
                             {% csrf_token %}
 
@@ -633,6 +639,8 @@
                                 <table class="table text-center table-hover">
                                     <thead style="position: sticky; top: 0; z-index: 1; background: white;">
                                         <tr>
+                                            <th style="width: 15%;">Links</th>
+
                                             <th style="width: 15%;">Acronym</th>
 
                                             <th style="width: 20%;">Program</th>
@@ -658,7 +666,6 @@
                                 </table>
                                 <p id="no-results" class="text-center d-none">No clubs found.</p>
                             </div>
-                            <p style="color: red;">! Only join 4 clubs max at your own risk. Obligatory in your own program.</p>
 
                             <!-- hide button for each role -->
                             {% if request.session.member_role == "Student" or request.session.member_role == 4 %}
@@ -674,7 +681,7 @@
 
 
                     <!-- club view -->
-                    <div class="col-lg-6 col-12 mx-auto" id="club_view">
+                    <div class="col-lg-5 col-12 mx-auto" id="club_view">
                         <h4 class="mb-4 pb-lg-2 text-center" id="join_text">Please join us!</h4>
 
                         <form action="{% url 'individual_club' %}" method="post"
@@ -717,7 +724,7 @@
                 // list all available club in db
                 window.addEventListener('DOMContentLoaded', () => {
                     const tbody = document.getElementById('clubs-tbody');
-                    tbody.innerHTML = '<tr><td colspan="4">Loading clubs...</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5">Loading clubs...</td></tr>';
 
                     fetch("{% url 'ajax_fetch_all_clubs' %}")
                         .then(response => response.text())
