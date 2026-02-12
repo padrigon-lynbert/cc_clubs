@@ -2,28 +2,300 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Verify Code</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Code</title>
+    <style>
+        :root {
+            --primary: #29306f;
+            --light: #f9fbfd;
+            --gray-light: #e0e4f0;
+            --gray: #666;
+            --text: #333;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+            --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, var(--light) 100%);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        p {
+            color: var(--gray);
+            max-width: 450px;
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        form {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            border-radius: 16px;
+            padding: 2.2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        form:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: -1rem;
+            margin-bottom: 1rem;
+            height: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .error-message.show {
+            opacity: 1;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 16px 12px;
+            font-size: 1.8rem;
+            letter-spacing: 8px;
+            text-align: center;
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            background-color: var(--light);
+            color: var(--text);
+            margin-bottom: 1.2rem;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(41, 48, 111, 0.15);
+            background-color: white;
+        }
+
+        input[type="text"].invalid {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15);
+        }
+
+        input[type="text"].valid {
+            border-color: var(--success);
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.15);
+        }
+
+        input[type="text"]:placeholder-shown {
+            letter-spacing: normal;
+            color: var(--gray);
+            font-size: 1.1rem;
+            font-weight: normal;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            letter-spacing: 0.5px;
+        }
+
+        button:hover:not(:disabled) {
+            background: #22285a;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(41, 48, 111, 0.3);
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            form {
+                padding: 1.8rem;
+                border-radius: 14px;
+            }
+            h2 {
+                font-size: 1.6rem;
+            }
+            p {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            input[type="text"] {
+                font-size: 1.65rem;
+                padding: 14px 10px;
+                margin-bottom: 1rem;
+            }
+            button {
+                padding: 15px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <h2>Two-Factor Verification</h2>
+    <p>We sent a 6-digit code to your email. Enter it below.</p>
 
-<h2>Two-Factor Verification</h2>
-<p>We sent a 6-digit code to your email. Enter it below.</p>
+    <form id="otp-form" method="post">
+        {% csrf_token %}
+        <div class="error-message" id="error-message"></div>
+        <input
+            type="text"
+            id="otp-input"
+            name="otp"
+            placeholder="6-digit code"
+            inputmode="numeric"
+            pattern="[0-9]{6}"
+            maxlength="6"
+            required
+            autofocus
+        >
+        <br><br>
+        <button type="submit" id="verify-btn">Verify</button>
+    </form>
 
-<form method="post">
-    {% csrf_token %}
-    <input
-        type="text"
-        name="otp"
-        placeholder="6-digit code"
-        inputmode="numeric"
-        pattern="[0-9]{6}"
-        maxlength="6"
-        required
-        autofocus
-    >
-    <br><br>
-    <button type="submit">Verify</button>
-</form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('otp-form');
+            const input = document.getElementById('otp-input');
+            const errorMessage = document.getElementById('error-message');
+            const verifyBtn = document.getElementById('verify-btn');
+
+           
+            input.addEventListener('input', function() {
+                const value = input.value.trim();
+                
+                
+                input.value = value.replace(/\D/g, '');
+                
+               
+                if (value.length === 6) {
+                    input.classList.remove('invalid');
+                    input.classList.add('valid');
+                    verifyBtn.disabled = false;
+                    errorMessage.classList.remove('show');
+                } else if (value.length > 0 && value.length !== 6) {
+                    input.classList.remove('valid');
+                    input.classList.add('invalid');
+                    verifyBtn.disabled = true;
+                } else {
+                    input.classList.remove('invalid', 'valid');
+                    verifyBtn.disabled = true;
+                }
+            });
+
+           
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const code = input.value.trim();
+                
+            
+                if (!code || code.length !== 6 || !/^\d{6}$/.test(code)) {
+                    showError('Please enter a valid 6-digit code');
+                    input.classList.add('invalid', 'shake');
+                    setTimeout(() => input.classList.remove('shake'), 500);
+                    return;
+                }
+
+            
+                validateCode(code);
+            });
+
+            function validateCode(code) {
+             
+                verifyBtn.disabled = true;
+                verifyBtn.textContent = 'Verifying...';
+                
+                
+                setTimeout(() => {
+                   
+                    const validCodes = ['123456', '654321'];
+                    
+                    if (validCodes.includes(code)) {
+                       
+                        alert('Verification successful!');
+                      
+                    } else {
+                        // validatorr 
+                        showError('Invalid verification code. Please try again.');
+                        input.classList.add('invalid', 'shake');
+                        setTimeout(() => input.classList.remove('shake'), 500);
+                    }
+                    
+               
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = 'Verify';
+                }, 1500);
+            }
+
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.classList.add('show');
+            }
+        });
+    </script>
 </body>
 </html>
