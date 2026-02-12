@@ -339,7 +339,7 @@
                                 </thead>
 
                                 <tbody>
-                                    {% for req in budget_request %}
+                                    {% for req in budget_request|slice:"10" %}
                                     <tr>
                                         <!-- <td class="fw-semibold">#{{ req.id }}</td> -->
 
@@ -391,7 +391,8 @@
                                             {% else %}
                                                 {% if req.status == 2 and req.reject_reason %}
                                                     <div class="d-flex justify-content-center">
-                                                        <small><a href="#" class="text-decoration-none">View Reject Reason</a></small>
+                                                        <small><a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewRejectModal{{ req.id }}">
+                                                            View Reject Reason</a></small>
                                                     </div>
                                                 {% elif req.status == 1 %}
                                                     <div class="d-flex justify-content-center">
@@ -399,7 +400,68 @@
                                                     </div>
                                                 {% endif %}
                                             {% endif %}
+                                            
                                         </td>
+                                        <!-- View Reject Reason Modal -->
+<div class="modal fade" id="viewRejectModal{{ req.id }}" tabindex="-1" aria-labelledby="viewRejectModalLabel{{ req.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-sm">
+            <div class="modal-header text-white d-flex justify-content-center" style="background-color: var(--primary);">
+                <h3 class="modal-title" id="viewRejectModalLabel{{ req.id }}">
+                    "{{ req.title }}"
+                </h3>
+            </div>
+            <div class="modal-body p-4">
+                <!-- Budget Request Card -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            
+                            <div class="col-md-4">
+                                <h6 class="fw-bold">Requester</h6>
+                                <p class="mb-0">{{ req.requester }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <h6 class="fw-bold">Status</h6>
+                                {% if req.status == 0 %}
+                                    <span class="badge bg-warning text-dark px-3 py-2">Pending</span>
+                                {% elif req.status == 1 %}
+                                    <span class="badge bg-success px-3 py-2">Approved</span>
+                                {% elif req.status == 2 %}
+                                    <span class="badge bg-danger px-3 py-2">Rejected</span>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <h6 class="fw-bold">Date Submitted</h6>
+                                <p class="mb-0 text-muted">{{ req.created_at|date:"F j, Y, g:i A" }}</p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <h6 class="fw-bold">Budget RequestPurpose</h6>
+                            <p class="mb-0">{{ req.purpose }}</p>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <h6 class="fw-bold">Amount</h6>
+                                <p class="mb-0 text-primary fw-bold">₱{{ req.amount }} <small>({{ req.amount_words }})</small></p>
+                            </div>
+                        </div>
+                        {% if req.status == 2 and req.reject_reason %}
+                        <div class="mb-3">
+                            <h6 class="fw-bold text-danger">Reason for Rejection</h6>
+                            <p class="mb-0 ms-3"><i>"{{ req.reject_reason }}"</i></p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
                                         <!-- Approve Modal -->
                                         <div class="modal fade"
                                             id="approveModal{{ req.id }}"
@@ -407,7 +469,7 @@
                                             aria-labelledby="approveModalLabel{{ req.id }}"
                                             aria-hidden="true">
                                             <div
-                                                class="modal-dialog modal-dialog-centered">
+                                                class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div
                                                         class="modal-header">
@@ -459,7 +521,7 @@
 
                                         <!-- Reject Modal -->
                                         <div class="modal fade" id="rejectModal{{ req.id }}" tabindex="-1" aria-labelledby="rejectModalLabel{{ req.id }}" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="rejectModalLabel{{ req.id }}">Confirm Rejection</h5>
@@ -505,12 +567,7 @@
                 </div>
 
                 <!-- Footer Buttons -->
-                <div class="d-flex justify-content-between mt-4">
-                    <button class="btn btn-outline-secondary rounded-pill"
-                        onclick="window.location.href='{% url 'club_detail' club.id %}'">
-                        ← Return
-                    </button>
-
+                <div class="d-flex justify-content-end mt-4">
                     <button class="btn btn-primary rounded-pill">
                         Total Requests: {{ budget_request|length }}
                     </button>
