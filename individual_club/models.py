@@ -7,11 +7,12 @@ from django.utils import timezone
 # Create your models here.
 
 class BudgetRequest(models.Model):
-    title = models.CharField(max_length=255, default='Not Specified')  # just store name as text
+    title = models.CharField(max_length=255, default='Not Specified')
     purpose = models.CharField(max_length=255)
     club = models.ForeignKey(Clubs, on_delete=models.CASCADE)
-    requester = models.CharField(max_length=255)  # just store name as text
-    amount = models.CharField(max_length=20) # fuck this error decimal can't handle commas I'm storing this as text
+    requester = models.CharField(max_length=255)
+
+    amount = models.CharField(max_length=20)  # (we'll improve this below)
 
     class Status(models.IntegerChoices):
         PENDING = 0, "Pending"
@@ -25,6 +26,9 @@ class BudgetRequest(models.Model):
 
     amount_words = models.CharField(max_length=255)
     created_at = models.DateTimeField(default=timezone.now)
+
+    # ✅ NEW FIELD
+    reject_reason = models.TextField(null=True, blank=True)
 
     class Meta:
         db_table = "budget_request"

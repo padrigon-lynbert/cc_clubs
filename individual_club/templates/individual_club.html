@@ -832,7 +832,7 @@
       <!--hanggang dito lang-->
 
 
-      {% if not is_member and not has_pending_application and member_role == 'coordinator' %} <!-- remove na lang if need ng apply button sa coordinator role -->
+      {% if not is_member and not has_pending_application and not member_role == 'coordinator' %} <!-- remove na lang if need ng apply button sa coordinator role -->
       <div class="apply-button-container">
         <a href="{% url 'submit_membership_application' club.id %}" class="btn btn-apply">
           Apply Now

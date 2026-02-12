@@ -206,18 +206,39 @@ def budget_request(request):
         if request.method == "POST":
             req_id = request.POST.get("request_id")
             new_status = request.POST.get("status")
+            reject_reason = request.POST.get("reject_reason")
+
             if req_id and new_status in [
                 str(BudgetRequest.Status.PENDING),
                 str(BudgetRequest.Status.APPROVED),
                 str(BudgetRequest.Status.REJECTED)
             ]:
+
                 req = get_object_or_404(BudgetRequest, id=req_id, club=club)
-                req.status = int(new_status)
+
+                new_status = int(new_status)
+
+                # If rejecting, require reason
+                if new_status == BudgetRequest.Status.REJECTED:
+                    if not reject_reason:
+                        messages.error(request, "Reject reason is required.")
+                        return redirect("budget_request")
+
+                    req.reject_reason = reject_reason
+
+                else:
+                    # Clear reason if approving
+                    req.reject_reason = None
+
+                req.status = new_status
                 req.save()
+
                 messages.success(request, "Request updated successfully")
                 return redirect("budget_request")
 
-        budget_request = BudgetRequest.objects.filter(club=club)
+
+        budget_request = BudgetRequest.objects.filter(club=club).order_by('status', '-created_at')
+
         pending_count = budget_request.filter(status=BudgetRequest.Status.PENDING).count()
         approved_count = budget_request.filter(status=BudgetRequest.Status.APPROVED).count()
         rejected_count = budget_request.filter(status=BudgetRequest.Status.REJECTED).count()
