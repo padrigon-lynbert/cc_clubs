@@ -345,7 +345,10 @@
 
                                         <td>
                                             <div class="fw-semibold">{{ req.title }}</div>
-                                            <small class="text-muted">{{ req.purpose }}</small>
+                                            <small class="text-muted">
+                                                <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#purposeModal{{ req.id }}"> 
+                                                    View Purpose </a>
+                                            </small>
                                         </td>
 
                                         <td>{{ req.requester }}</td>
@@ -382,11 +385,11 @@
                                         <td class="text-end">
                                             {% if req.status == 0 %}
                                             <div class="d-flex justify-content-end gap-2">
-                                                <button type="button" class="btn btn-success btn-action" data-bs-toggle="modal" data-bs-target="#approveModal{{ req.id }}">
-                                                    Approve
+                                                <button type="button" class="btn btn-success btn-action p-2" data-bs-toggle="modal" data-bs-target="#approveModal{{ req.id }}">
+                                                    <small class="">Approve</small>
                                                 </button>
-                                                <button type="button" class="btn btn-danger btn-action" data-bs-toggle="modal" data-bs-target="#rejectModal{{ req.id }}">
-                                                    Reject
+                                                <button type="button" class="btn btn-danger btn-action p-2" data-bs-toggle="modal" data-bs-target="#rejectModal{{ req.id }}">
+                                                    <small>Reject</small>
                                                 </button>
                                             {% else %}
                                                 {% if req.status == 2 and req.reject_reason %}
@@ -402,6 +405,24 @@
                                             {% endif %}
                                             
                                         </td>
+
+                                        <!-- Modal -->
+<div class="modal fade" id="purposeModal{{ req.id }}" tabindex="-1" aria-labelledby="purposeModalLabel{{ req.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="purposeModalLabel{{ req.id }}">Budget Request Purpose</h5>
+      </div>
+      <div class="modal-body">
+         <i class="ms-4">"{{ req.purpose }}"</i>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
                                         <!-- View Reject Reason Modal -->
 <div class="modal fade" id="viewRejectModal{{ req.id }}" tabindex="-1" aria-labelledby="viewRejectModalLabel{{ req.id }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
