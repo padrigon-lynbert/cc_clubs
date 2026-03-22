@@ -597,7 +597,7 @@ def analyze_club(request, club_id):
 
 def generate_analysis(club_info):
     load_dotenv()
-    GEMINI_API_KEY = "AIzaSyB_8NpbotzB7uaXC_D1sEyOg_QJRJPcPIE"
+    GEMINI_API_KEY = "AIzaSyBNI6xTvB4GrLZpEUlE40xN8yYl0hnyt2g"
     client = genai.Client(api_key=GEMINI_API_KEY)
 
     club_info_str = f"""
